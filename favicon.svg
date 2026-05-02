@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <!-- Dark rounded background -->
+  <rect width="160" height="160" rx="36" fill="#050F0E"/>
+
+  <!-- U shape: left pillar -->
+  <rect x="20" y="22" width="13" height="78" rx="6.5" fill="#2ECC96"/>
+  <!-- U shape: right pillar -->
+  <rect x="127" y="22" width="13" height="78" rx="6.5" fill="#2ECC96"/>
+  <!-- U curve (bottom arc) -->
+  <path d="M20 90 Q80 155 140 90" fill="none" stroke="#2ECC96" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- Bar chart: 5 ascending bars -->
+  <rect x="35" y="92" width="13" height="18" rx="4" fill="#1a9e72"/>
+  <rect x="52" y="74" width="13" height="36" rx="4" fill="#1a9e72"/>
+  <rect x="69" y="56" width="13" height="54" rx="4" fill="#1a9e72"/>
+  <rect x="86" y="38" width="13" height="72" rx="4" fill="#2ECC96"/>
+  <rect x="103" y="22" width="13" height="88" rx="4" fill="#2ECC96"/>
+
+  <!-- Trend line -->
+  <polyline points="41,90 58,72 75,54 92,36 109,22" fill="none" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Arrowhead at top of trend line -->
+  <polygon points="109,14 101,26 117,26" fill="white"/>
+</svg>
