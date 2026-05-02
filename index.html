@@ -85,28 +85,33 @@ nav {
   align-items: center;
 }
 .hero-text { position: relative; z-index: 1; }
+.hero-app-icon {
+  width: 108px; height: 108px; border-radius: 26px;
+  margin-bottom: 28px;
+  box-shadow: 0 12px 48px rgba(45,212,191,0.25);
+}
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--accent-pale); border: 1px solid var(--border);
-  border-radius: 50px; padding: 6px 16px;
-  font-size: 13px; font-weight: 600; color: var(--accent);
-  margin-bottom: 28px; letter-spacing: 0.3px;
+  border-radius: 50px; padding: 7px 18px;
+  font-size: 14px; font-weight: 600; color: var(--accent);
+  margin-bottom: 24px; letter-spacing: 0.3px;
 }
 .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
 .hero-title {
-  font-size: clamp(52px, 6vw, 88px);
+  font-size: clamp(64px, 7vw, 96px);
   font-weight: 900; line-height: 0.95;
   letter-spacing: -3px; color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .hero-title .accent { color: var(--accent); }
 .hero-tagline {
-  font-size: clamp(28px, 3vw, 42px); font-weight: 700;
+  font-size: clamp(32px, 3.5vw, 52px); font-weight: 700;
   color: var(--text-secondary); letter-spacing: -1px; margin-bottom: 28px;
 }
 .hero-desc {
-  font-size: 17px; font-weight: 400; color: var(--text-secondary);
-  line-height: 1.65; max-width: 440px; margin-bottom: 44px;
+  font-size: 19px; font-weight: 400; color: var(--text-secondary);
+  line-height: 1.7; max-width: 480px; margin-bottom: 44px;
 }
 .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .btn-primary {
@@ -495,6 +500,7 @@ footer {
   <div class="hero-bg-glow"></div>
   <div class="hero-inner">
     <div class="hero-text">
+      <img src="uploads/AppIcon.png" alt="ucm" class="hero-app-icon reveal">
       <div class="hero-badge reveal">Now available on the App Store</div>
       <h1 class="hero-title reveal reveal-delay-1"><span class="accent">ucm</span></h1>
       <p class="hero-tagline reveal reveal-delay-2">U Can Manage.</p>
