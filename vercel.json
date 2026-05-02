@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "ucm-thothi-developers-projects.vercel.app" }],
+      "destination": "https://ucm.thothi.app/$1",
+      "permanent": true
+    }
+  ]
+}
