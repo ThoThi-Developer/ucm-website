@@ -434,6 +434,82 @@ footer {
 .footer-links a:hover { color: var(--accent); }
 .footer-copy { font-size: 13px; color: var(--text-tertiary); }
 
+/* ── FEATURE CAROUSEL ── */
+.carousel-outer {
+  position: relative;
+  margin: 52px -40px 0;
+  padding: 0 40px;
+}
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 12px 0 28px;
+  cursor: grab;
+}
+.carousel-track:active { cursor: grabbing; }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-card {
+  flex: 0 0 272px;
+  scroll-snap-align: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  transition: border-color .2s, transform .2s;
+}
+.carousel-card:hover { border-color: rgba(45,212,191,0.4); transform: translateY(-3px); }
+.carousel-card-icon { font-size: 34px; line-height: 1; margin-bottom: 14px; }
+.carousel-tier {
+  display: inline-block;
+  font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 50px; margin-bottom: 12px;
+}
+.carousel-tier.free {
+  background: rgba(255,255,255,0.06); color: var(--text-tertiary);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.carousel-tier.pro {
+  background: rgba(251,191,36,0.12); color: #FBBF24;
+  border: 1px solid rgba(251,191,36,0.25);
+}
+.carousel-card-title {
+  font-size: 17px; font-weight: 800; color: var(--text-primary);
+  letter-spacing: -0.4px; margin-bottom: 8px;
+}
+.carousel-card-desc {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.65;
+}
+.carousel-nav {
+  display: flex; justify-content: center; align-items: center;
+  gap: 16px; margin-top: 8px;
+}
+.carousel-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text-secondary); font-size: 20px; line-height: 1;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s, color .2s; flex-shrink: 0;
+}
+.carousel-btn:hover { background: var(--surface-alt); border-color: var(--accent); color: var(--accent); }
+.carousel-dots { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
+.carousel-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-tertiary); border: none; cursor: pointer;
+  padding: 0; transition: background .25s, width .25s, border-radius .25s;
+}
+.carousel-dot.active { background: var(--accent); width: 20px; border-radius: 3px; }
+@media (max-width: 900px) {
+  .carousel-outer { margin: 40px -20px 0; padding: 0 20px; }
+}
+@media (max-width: 540px) {
+  .carousel-card { flex: 0 0 240px; }
+  .carousel-outer { margin: 32px -16px 0; padding: 0 16px; }
+}
+
 /* ── ANIMATIONS ── */
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -813,6 +889,7 @@ footer {
       <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name">Insights & Net Worth</div><div class="detail-desc">Beautiful monthly breakdowns, savings rate, and net worth history.</div></div>
       <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name">Monthly Review</div><div class="detail-desc">A shareable financial report — income, expenses, biggest categories.</div></div>
       <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name">Smart Notifications</div><div class="detail-desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
+      <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name">Budget History</div><div class="detail-desc">Compare spending month by month. See where you improved, where you overspent, and how your habits are evolving.</div></div>
       <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name">Discretionary Income</div><div class="detail-desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
       <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name">Milestones &amp; Achievements</div><div class="detail-desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
       <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name">Face ID / Touch ID</div><div class="detail-desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
@@ -823,51 +900,170 @@ footer {
 </section>
 
 <!-- TUTORIAL -->
-<section style="background:var(--bg);padding:100px 40px" id="tutorial">
+<section style="background:var(--bg);padding:100px 40px;overflow:hidden" id="tutorial">
   <div class="section-inner">
     <div class="reveal"><p class="section-label" style="text-align:center">Tutorial</p></div>
-    <h2 class="section-title reveal" style="text-align:center">Free to start.<br>$4.99 to unlock everything.</h2>
-    <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px">Start with the essentials — no credit card, no account. When you're ready for the full picture, Pro is a single one-time purchase.</p>
+    <h2 class="section-title reveal" style="text-align:center">Every feature,<br>explained.</h2>
+    <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px">Swipe through all 18 features — free and Pro — to see exactly what ucm can do for you.</p>
+  </div>
 
-    <div class="tutorial-grid reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:52px auto 0">
+  <!-- Carousel track — bleeds past section-inner -->
+  <div class="carousel-outer reveal">
+    <div class="carousel-track" id="featureCarousel">
 
-      <!-- Free card -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 28px">
-        <p style="font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:20px">Free</p>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Expense &amp; income tracking</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Monthly budgets per category</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Budget rollover savings</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Import from bank CSV</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Transaction history &amp; search</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Home screen widget</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">iCloud sync · No account needed</span></div>
-        </div>
-        <a href="https://apps.apple.com/app/id6765532626" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px;padding:13px 20px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;color:var(--text-primary);text-decoration:none;transition:all .2s" target="_blank" rel="noopener">Download Free</a>
+      <!-- 1. Quick Entry -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">⚡️</div>
+        <span class="carousel-tier free">Free</span>
+        <h3 class="carousel-card-title">Quick Entry</h3>
+        <p class="carousel-card-desc">Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.</p>
       </div>
 
-      <!-- Pro card -->
-      <div style="background:var(--surface);border:1px solid var(--accent);border-radius:20px;padding:32px 28px;box-shadow:0 0 40px rgba(45,212,191,0.1);position:relative">
-        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#050F0E;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 16px;border-radius:50px">Pro — $4.99 once</div>
-        <p style="font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;margin-top:6px">Everything in Free, plus</p>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Smart notifications</strong> — weekly recap, mid-month</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Full insights</strong> — charts, savings rate, trends</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Monthly review reports</strong> — shareable</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Savings goals</strong> with progress rings</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Recurring transactions</strong> auto-generated</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Subscription audit</strong> — catch forgotten charges</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Discretionary income</strong> — see what's truly free to spend</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Receipt scanning</strong> — on-device, private</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Credit card tracking</strong> &amp; due alerts</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Net worth tracking</strong> month by month</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Split transactions</strong> across categories</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Milestones &amp; achievements</strong> — gamified financial habits</span></div>
-        </div>
-        <a href="https://apps.apple.com/app/id6765532626" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px;padding:13px 20px;background:var(--accent);border-radius:12px;font-size:14px;font-weight:700;color:#050F0E;text-decoration:none;transition:all .2s" target="_blank" rel="noopener">Get Pro — $4.99</a>
-        <p style="font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:12px">YNAB costs $109/year. This is $4.99. Once.</p>
+      <!-- 2. Monthly Budgets -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🎯</div>
+        <span class="carousel-tier free">Free</span>
+        <h3 class="carousel-card-title">Monthly Budgets</h3>
+        <p class="carousel-card-desc">Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.</p>
       </div>
 
+      <!-- 3. Budget Rollover -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">💰</div>
+        <span class="carousel-tier free">Free</span>
+        <h3 class="carousel-card-title">Budget Rollover</h3>
+        <p class="carousel-card-desc">Unspent budget rolls forward automatically every month. Your discipline builds real, visible savings without lifting a finger.</p>
+      </div>
+
+      <!-- 4. Bank CSV Import -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">📥</div>
+        <span class="carousel-tier free">Free</span>
+        <h3 class="carousel-card-title">Bank CSV Import</h3>
+        <p class="carousel-card-desc">Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.</p>
+      </div>
+
+      <!-- 5. Transaction History -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🔍</div>
+        <span class="carousel-tier free">Free</span>
+        <h3 class="carousel-card-title">Transaction History</h3>
+        <p class="carousel-card-desc">Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.</p>
+      </div>
+
+      <!-- 6. Widget -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">📱</div>
+        <span class="carousel-tier free">Free</span>
+        <h3 class="carousel-card-title">Home Screen Widget</h3>
+        <p class="carousel-card-desc">See your balance and budget status without opening the app. Available in small, medium, and large for your home screen and lock screen.</p>
+      </div>
+
+      <!-- 7. Smart Notifications -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🔔</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Smart Notifications</h3>
+        <p class="carousel-card-desc">Weekly spending recap every Monday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.</p>
+      </div>
+
+      <!-- 8. Full Insights -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">📊</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Full Insights</h3>
+        <p class="carousel-card-desc">Monthly charts, savings rate, needs-vs-wants analysis, and spending trends over time. Your complete financial picture in one scroll.</p>
+      </div>
+
+      <!-- 9. Monthly Review -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">📋</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Monthly Review</h3>
+        <p class="carousel-card-desc">A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.</p>
+      </div>
+
+      <!-- 10. Savings Goals -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🏆</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Savings Goals</h3>
+        <p class="carousel-card-desc">Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
+      </div>
+
+      <!-- 11. Recurring Transactions -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🔁</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Recurring Transactions</h3>
+        <p class="carousel-card-desc">Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.</p>
+      </div>
+
+      <!-- 12. Subscription Audit -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🕵️</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Subscription Audit</h3>
+        <p class="carousel-card-desc">Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide.</p>
+      </div>
+
+      <!-- 13. Discretionary Income -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">💡</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Discretionary Income</h3>
+        <p class="carousel-card-desc">After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.</p>
+      </div>
+
+      <!-- 14. Receipt Scanning -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🧾</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Receipt Scanning</h3>
+        <p class="carousel-card-desc">Point your camera at any receipt. On-device vision reads the vendor, amount, and date — pre-fills the entry form instantly. Completely private, never uploaded.</p>
+      </div>
+
+      <!-- 15. Credit Card Tracking -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">💳</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Credit Card Tracking</h3>
+        <p class="carousel-card-desc">Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment so you never pay a late fee again.</p>
+      </div>
+
+      <!-- 16. Net Worth -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">📈</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Net Worth Tracking</h3>
+        <p class="carousel-card-desc">Log assets and liabilities. Watch your net worth grow month by month with a clean historical chart that shows exactly where you started.</p>
+      </div>
+
+      <!-- 17. Split Transactions -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">✂️</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Split Transactions</h3>
+        <p class="carousel-card-desc">One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.</p>
+      </div>
+
+      <!-- 18. Milestones -->
+      <div class="carousel-card">
+        <div class="carousel-card-icon">🎖️</div>
+        <span class="carousel-tier pro">Pro</span>
+        <h3 class="carousel-card-title">Milestones &amp; Achievements</h3>
+        <p class="carousel-card-desc">Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Nav: prev · dots · next -->
+  <div class="section-inner">
+    <div class="carousel-nav reveal">
+      <button class="carousel-btn" id="carouselPrev" aria-label="Previous feature">‹</button>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-btn" id="carouselNext" aria-label="Next feature">›</button>
     </div>
   </div>
 </section>
@@ -1035,6 +1231,59 @@ footer {
 </footer>
 
 <script>
+// Feature carousel
+(function () {
+  const track = document.getElementById('featureCarousel');
+  const dotsEl = document.getElementById('carouselDots');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.carousel-card'));
+  const total = cards.length;
+
+  // Build dots
+  cards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Feature ' + (i + 1));
+    dot.addEventListener('click', () => scrollTo(i));
+    dotsEl.appendChild(dot);
+  });
+
+  function cardStep() { return cards[0].offsetWidth + 20; }
+
+  function scrollTo(i) {
+    track.scrollTo({ left: i * cardStep(), behavior: 'smooth' });
+  }
+
+  function syncDots() {
+    const idx = Math.round(track.scrollLeft / cardStep());
+    dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  track.addEventListener('scroll', syncDots, { passive: true });
+  prevBtn.addEventListener('click', () => track.scrollBy({ left: -cardStep(), behavior: 'smooth' }));
+  nextBtn.addEventListener('click', () => track.scrollBy({ left: cardStep(), behavior: 'smooth' }));
+
+  // Keyboard: left/right arrows when carousel is focused
+  track.setAttribute('tabindex', '0');
+  track.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({ left: -cardStep(), behavior: 'smooth' }); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: cardStep(), behavior: 'smooth' }); }
+  });
+
+  // Mouse drag
+  let isDragging = false, dragStartX = 0, dragScrollLeft = 0;
+  track.addEventListener('mousedown', e => { isDragging = true; dragStartX = e.pageX - track.offsetLeft; dragScrollLeft = track.scrollLeft; track.style.cursor = 'grabbing'; });
+  window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
+  track.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    track.scrollLeft = dragScrollLeft - (e.pageX - track.offsetLeft - dragStartX);
+  });
+})();
+
 // Intersection Observer for scroll animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
