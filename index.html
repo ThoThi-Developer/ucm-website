@@ -330,28 +330,57 @@ section { padding: 100px 40px; }
 
 /* ── PRICING ── */
 .pricing { background: var(--surface); text-align: center; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1060px;
+  margin: 60px auto 0;
+  align-items: start;
+}
 .pricing-card {
-  max-width: 480px; margin: 60px auto 0;
   background: var(--bg); border-radius: 24px;
   border: 1px solid var(--border);
-  padding: 52px 48px;
-  box-shadow: 0 0 80px rgba(45,212,191,0.1);
+  padding: 40px 36px;
   position: relative;
+  text-align: left;
+  transition: transform .25s ease, box-shadow .25s ease;
 }
+.pricing-card:hover { transform: translateY(-4px); }
+.pricing-card.pro {
+  border-color: var(--accent);
+  box-shadow: 0 0 60px rgba(45,212,191,0.14);
+}
+.pricing-card.future {
+  opacity: 0.55;
+  border-style: dashed;
+  cursor: default;
+}
+.pricing-card.future:hover { transform: none; }
 .pricing-badge {
-  position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+  display: inline-block;
   background: var(--accent); color: #050F0E;
-  font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-  padding: 6px 20px; border-radius: 50px;
+  font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 50px; margin-bottom: 24px;
 }
-.pricing-price { font-size: 80px; font-weight: 900; letter-spacing: -4px; color: var(--text-primary); line-height: 1; }
-.pricing-price sup { font-size: 32px; letter-spacing: -1px; vertical-align: super; font-weight: 700; color: var(--accent); }
-.pricing-period { font-size: 16px; color: var(--text-secondary); margin-top: 8px; margin-bottom: 12px; font-weight: 500; }
-.pricing-forever { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 36px; }
-.pricing-features { text-align: left; margin-bottom: 36px; }
-.pricing-feature { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; font-size: 15px; color: var(--text-secondary); }
+.pricing-badge.future-badge {
+  background: var(--surface-alt); color: var(--text-tertiary);
+  border: 1px solid var(--border);
+}
+.pricing-plan { font-size: 22px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; }
+.pricing-tagline { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.5; }
+.pricing-price { font-size: 64px; font-weight: 900; letter-spacing: -3px; color: var(--text-primary); line-height: 1; }
+.pricing-price sup { font-size: 28px; letter-spacing: -1px; vertical-align: super; font-weight: 700; color: var(--accent); }
+.pricing-price.free-price { font-size: 48px; color: var(--text-secondary); }
+.pricing-period { font-size: 14px; color: var(--text-secondary); margin-top: 6px; margin-bottom: 10px; font-weight: 500; }
+.pricing-forever { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 28px; }
+.pricing-features { text-align: left; margin-bottom: 28px; }
+.pricing-feature { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); }
 .pricing-feature-check { color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-.compare-note { margin-top: 20px; font-size: 13px; color: var(--text-tertiary); }
+.pricing-feature-x { color: var(--text-tertiary); flex-shrink: 0; margin-top: 1px; }
+.pricing-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.pricing-section-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 14px; margin-top: 4px; }
+.compare-note { margin-top: 16px; font-size: 13px; color: var(--text-tertiary); text-align: center; }
 .compare-note strong { color: var(--negative); }
 
 /* ── DOWNLOAD CTA ── */
@@ -461,8 +490,9 @@ footer {
   .hero-title { letter-spacing: -2px; }
   .hero-stats { gap: 16px; flex-wrap: wrap; justify-content: center; }
   .details-grid { grid-template-columns: 1fr; }
-  .pricing-card { padding: 36px 20px; }
-  .pricing-price { font-size: 64px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
+  .pricing-card { padding: 36px 24px; }
+  .pricing-price { font-size: 52px; }
   .phones-wrapper .phone-frame.main { width: 180px; }
   .btn-primary { font-size: 15px; padding: 14px 22px; }
   .btn-secondary { font-size: 14px; padding: 14px 20px; }
@@ -486,6 +516,7 @@ footer {
   </a>
   <div class="nav-links">
     <a href="#features">Features</a>
+    <a href="#tutorial">Tutorial</a>
     <a href="#privacy">Privacy</a>
     <a href="#pricing">Pricing</a>
   </div>
@@ -764,20 +795,70 @@ footer {
 <section class="details">
   <div class="section-inner">
     <div class="reveal"><p class="section-label">Everything it does</p></div>
-    <h2 class="section-title reveal">Every feature.<br>All included.</h2>
+    <h2 class="section-title reveal">Every feature.<br>Built for real life.</h2>
     <div class="details-grid reveal" style="margin-top:52px">
       <div class="detail-item"><div class="detail-icon">💰</div><div class="detail-name">Smart Budget Tracking</div><div class="detail-desc">Log income and expenses instantly with a beautiful quick-entry UI.</div></div>
       <div class="detail-item"><div class="detail-icon">🔄</div><div class="detail-name">Rollover Budgets</div><div class="detail-desc">Unspent budget carries forward month to month automatically.</div></div>
+      <div class="detail-item"><div class="detail-icon">📥</div><div class="detail-name">Bank CSV Import</div><div class="detail-desc">Import months of history from any bank export in seconds — auto-detects columns, shows a preview before importing.</div></div>
       <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name">Split Transactions</div><div class="detail-desc">Divide any transaction across multiple categories with a live tracker.</div></div>
       <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name">Recurring Transactions</div><div class="detail-desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name">Subscription Audit</div><div class="detail-desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through.</div></div>
       <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name">Receipt Scanner</div><div class="detail-desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
-      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name">Credit Card Management</div><div class="detail-desc">Track multiple cards, due dates, and balances at a glance.</div></div>
+      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name">Credit Card Tracking</div><div class="detail-desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment.</div></div>
       <div class="detail-item"><div class="detail-icon">🎯</div><div class="detail-name">Savings Goals</div><div class="detail-desc">Set targets with deadlines and watch progress rings fill up.</div></div>
       <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name">Insights & Net Worth</div><div class="detail-desc">Beautiful monthly breakdowns, savings rate, and net worth history.</div></div>
       <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name">Monthly Review</div><div class="detail-desc">A shareable financial report — income, expenses, biggest categories.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name">Smart Notifications</div><div class="detail-desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
       <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name">Face ID / Touch ID</div><div class="detail-desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
       <div class="detail-item"><div class="detail-icon">☁️</div><div class="detail-name">iCloud Sync</div><div class="detail-desc">Seamless sync across iPhone and iPad — no account needed.</div></div>
       <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name">CSV Export</div><div class="detail-desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TUTORIAL -->
+<section style="background:var(--bg);padding:100px 40px" id="tutorial">
+  <div class="section-inner">
+    <div class="reveal"><p class="section-label" style="text-align:center">Tutorial</p></div>
+    <h2 class="section-title reveal" style="text-align:center">Free to start.<br>$4.99 to unlock everything.</h2>
+    <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px">Start with the essentials — no credit card, no account. When you're ready for the full picture, Pro is a single one-time purchase.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:52px auto 0" class="reveal">
+
+      <!-- Free card -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 28px">
+        <p style="font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:20px">Free</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Expense &amp; income tracking</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Monthly budgets per category</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Budget rollover savings</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Import from bank CSV</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Transaction history &amp; search</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">Home screen widget</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-secondary)">iCloud sync · No account needed</span></div>
+        </div>
+        <a href="https://apps.apple.com/app/id6765532626" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px;padding:13px 20px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:700;color:var(--text-primary);text-decoration:none;transition:all .2s" target="_blank" rel="noopener">Download Free</a>
+      </div>
+
+      <!-- Pro card -->
+      <div style="background:var(--surface);border:1px solid var(--accent);border-radius:20px;padding:32px 28px;box-shadow:0 0 40px rgba(45,212,191,0.1);position:relative">
+        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#050F0E;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 16px;border-radius:50px">Pro — $4.99 once</div>
+        <p style="font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;margin-top:6px">Everything in Free, plus</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Receipt scanning</strong> — on-device, private</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Savings goals</strong> with progress rings</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Full insights</strong> — charts, savings rate, trends</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Net worth tracking</strong></span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Credit card tracking</strong> &amp; due alerts</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Subscription audit</strong></span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Split &amp; recurring</strong> transactions</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Monthly review</strong> reports</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Smart notifications</strong> — weekly recap, mid-month</span></div>
+        </div>
+        <a href="https://apps.apple.com/app/id6765532626" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px;padding:13px 20px;background:var(--accent);border-radius:12px;font-size:14px;font-weight:700;color:#050F0E;text-decoration:none;transition:all .2s" target="_blank" rel="noopener">Get Pro — $4.99</a>
+        <p style="font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:12px">YNAB costs $109/year. This is $4.99. Once.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -804,24 +885,88 @@ footer {
 <section class="pricing" id="pricing">
   <div class="section-inner">
     <div class="reveal"><p class="section-label" style="text-align:center">Pricing</p></div>
-    <h2 class="section-title reveal" style="text-align:center">Pay once.<br>Use forever.</h2>
-    <p class="section-sub reveal" style="margin:0 auto;text-align:center">No subscription. No renewal. No "premium tier." Every feature, always, for everyone who downloads ucm.</p>
+    <h2 class="section-title reveal" style="text-align:center">Simple pricing.<br>No subscription.</h2>
+    <p class="section-sub reveal" style="margin:0 auto;text-align:center">Start free. Unlock everything for the price of a coffee. No renewal. No hidden fees. Ever.</p>
 
-    <div class="pricing-card reveal">
-      <div class="pricing-badge">One-time purchase</div>
-      <div class="pricing-price"><sup>$</sup>4<span style="font-size:48px;letter-spacing:-2px">.99</span></div>
-      <p class="pricing-period">one-time · no subscription</p>
-      <p class="pricing-forever">Pay once. Yours forever. ✓</p>
-      <div class="pricing-features">
-        <div class="pricing-feature"><span class="pricing-feature-check">✓</span> All 12+ features included</div>
-        <div class="pricing-feature"><span class="pricing-feature-check">✓</span> iPhone + iPad support</div>
-        <div class="pricing-feature"><span class="pricing-feature-check">✓</span> iCloud sync across all devices</div>
-        <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Receipt scanning</div>
-        <div class="pricing-feature"><span class="pricing-feature-check">✓</span> All future updates included</div>
-        <div class="pricing-feature"><span class="pricing-feature-check">✓</span> No account. No tracking. No ads.</div>
+    <div class="pricing-grid">
+
+      <!-- FREE -->
+      <div class="pricing-card reveal">
+        <div class="pricing-badge" style="background:var(--surface-alt);color:var(--text-secondary);border:1px solid var(--border)">Free</div>
+        <p class="pricing-plan">Free</p>
+        <p class="pricing-tagline">Everything you need to start taking control of your money — no card required.</p>
+        <div class="pricing-price free-price">$0</div>
+        <p class="pricing-period">always free</p>
+        <p class="pricing-forever" style="color:var(--text-tertiary)">No credit card · No account</p>
+
+        <div class="pricing-features">
+          <p class="pricing-section-label">Included</p>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Expense &amp; income tracking</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Monthly budgets per category</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Budget rollover savings</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Full transaction history</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Search, filter &amp; bulk delete</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Import from bank CSV</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Home screen &amp; lock screen widget</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> iCloud sync across devices</div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> No account. No tracking. No ads.</div>
+        </div>
+
+        <a href="https://apps.apple.com/app/id6765532626" class="btn-secondary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener">Download Free</a>
       </div>
-      <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center" target="_blank" rel="noopener">Download on the App Store</a>
-      <p class="compare-note">YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm is $4.99. Once.</p>
+
+      <!-- PRO -->
+      <div class="pricing-card pro reveal reveal-delay-1">
+        <div class="pricing-badge">Most popular</div>
+        <p class="pricing-plan">Pro</p>
+        <p class="pricing-tagline">The full picture. Every feature. One payment — yours for life.</p>
+        <div class="pricing-price"><sup>$</sup>4<span style="font-size:42px;letter-spacing:-2px">.99</span></div>
+        <p class="pricing-period">one-time · no subscription</p>
+        <p class="pricing-forever">Pay once. Yours forever. ✓</p>
+
+        <div class="pricing-features">
+          <p class="pricing-section-label">Everything in Free, plus</p>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Receipt scanning</strong> — point, scan, done</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Savings goals</strong> with progress rings</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Full insights</strong> — charts, savings rate, trends</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Net worth tracking</strong> month by month</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Monthly review reports</strong> — shareable</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Credit card tracking</strong> &amp; due date alerts</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Subscription audit</strong> — catch forgotten charges</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Split transactions</strong> across categories</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Recurring transactions</strong> auto-generated</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">50/30/20 guardrails</strong> &amp; milestones</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Smart notifications</strong> — weekly recap, mid-month check-in</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">CSV export</strong> for Excel, Numbers, QuickBooks</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> All future updates included</div>
+        </div>
+
+        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener">Get Pro — $4.99</a>
+        <p class="compare-note">YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.</p>
+      </div>
+
+      <!-- UCM CONNECT — COMING SOON -->
+      <div class="pricing-card future reveal reveal-delay-2">
+        <div class="pricing-badge future-badge">Coming soon</div>
+        <p class="pricing-plan" style="color:var(--text-secondary)">ucm Connect</p>
+        <p class="pricing-tagline">The next evolution — bank connections, real-time sync, and automatic transaction import. No manual entry, ever.</p>
+        <div class="pricing-price free-price" style="font-size:32px;color:var(--text-tertiary)">Coming soon</div>
+        <p class="pricing-period" style="margin-bottom:28px">price TBD</p>
+
+        <div class="pricing-features">
+          <p class="pricing-section-label">Planned features</p>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Automatic bank transaction import</div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Real-time balance sync</div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Smart auto-categorisation</div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Multi-currency accounts</div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Everything in Pro included</div>
+        </div>
+
+        <div style="width:100%;padding:14px;border:1px dashed var(--border);border-radius:14px;text-align:center;font-size:14px;color:var(--text-tertiary);font-weight:600">
+          Join the waitlist — coming in 2026
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -871,6 +1016,7 @@ footer {
       <a href="/privacy">Privacy Policy</a>
       <a href="mailto:developer@thothi.com.br">Support</a>
       <a href="#features">Features</a>
+      <a href="#tutorial">Tutorial</a>
       <a href="#pricing">Pricing</a>
     </div>
     <p class="footer-copy">© 2026 ucm. All rights reserved.</p>
