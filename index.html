@@ -483,6 +483,10 @@ footer {
   .footer-links { justify-content: center; }
 }
 
+@media (max-width: 640px) {
+  .tutorial-grid { grid-template-columns: 1fr !important; }
+}
+
 @media (max-width: 540px) {
   nav { padding: 0 16px; }
   section { padding: 56px 16px; }
@@ -809,6 +813,8 @@ footer {
       <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name">Insights & Net Worth</div><div class="detail-desc">Beautiful monthly breakdowns, savings rate, and net worth history.</div></div>
       <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name">Monthly Review</div><div class="detail-desc">A shareable financial report — income, expenses, biggest categories.</div></div>
       <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name">Smart Notifications</div><div class="detail-desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
+      <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name">Discretionary Income</div><div class="detail-desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
+      <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name">Milestones &amp; Achievements</div><div class="detail-desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
       <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name">Face ID / Touch ID</div><div class="detail-desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
       <div class="detail-item"><div class="detail-icon">☁️</div><div class="detail-name">iCloud Sync</div><div class="detail-desc">Seamless sync across iPhone and iPad — no account needed.</div></div>
       <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name">CSV Export</div><div class="detail-desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
@@ -823,7 +829,7 @@ footer {
     <h2 class="section-title reveal" style="text-align:center">Free to start.<br>$4.99 to unlock everything.</h2>
     <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px">Start with the essentials — no credit card, no account. When you're ready for the full picture, Pro is a single one-time purchase.</p>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:52px auto 0" class="reveal">
+    <div class="tutorial-grid reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:800px;margin:52px auto 0">
 
       <!-- Free card -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px 28px">
@@ -845,15 +851,18 @@ footer {
         <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--accent);color:#050F0E;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 16px;border-radius:50px">Pro — $4.99 once</div>
         <p style="font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;margin-top:6px">Everything in Free, plus</p>
         <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Receipt scanning</strong> — on-device, private</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Savings goals</strong> with progress rings</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Full insights</strong> — charts, savings rate, trends</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Net worth tracking</strong></span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Credit card tracking</strong> &amp; due alerts</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Subscription audit</strong></span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Split &amp; recurring</strong> transactions</span></div>
-          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Monthly review</strong> reports</span></div>
           <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Smart notifications</strong> — weekly recap, mid-month</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Full insights</strong> — charts, savings rate, trends</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Monthly review reports</strong> — shareable</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Savings goals</strong> with progress rings</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Recurring transactions</strong> auto-generated</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Subscription audit</strong> — catch forgotten charges</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Discretionary income</strong> — see what's truly free to spend</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Receipt scanning</strong> — on-device, private</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Credit card tracking</strong> &amp; due alerts</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Net worth tracking</strong> month by month</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Split transactions</strong> across categories</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent);font-weight:700;flex-shrink:0">✓</span><span style="font-size:14px;color:var(--text-primary)"><strong>Milestones &amp; achievements</strong> — gamified financial habits</span></div>
         </div>
         <a href="https://apps.apple.com/app/id6765532626" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:28px;padding:13px 20px;background:var(--accent);border-radius:12px;font-size:14px;font-weight:700;color:#050F0E;text-decoration:none;transition:all .2s" target="_blank" rel="noopener">Get Pro — $4.99</a>
         <p style="font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:12px">YNAB costs $109/year. This is $4.99. Once.</p>
@@ -926,17 +935,19 @@ footer {
 
         <div class="pricing-features">
           <p class="pricing-section-label">Everything in Free, plus</p>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Receipt scanning</strong> — point, scan, done</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Savings goals</strong> with progress rings</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Full insights</strong> — charts, savings rate, trends</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Net worth tracking</strong> month by month</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Monthly review reports</strong> — shareable</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Credit card tracking</strong> &amp; due date alerts</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Subscription audit</strong> — catch forgotten charges</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Split transactions</strong> across categories</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Recurring transactions</strong> auto-generated</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">50/30/20 guardrails</strong> &amp; milestones</span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Smart notifications</strong> — weekly recap, mid-month check-in</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Full insights</strong> — charts, savings rate, trends</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Monthly review reports</strong> — shareable</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Savings goals</strong> with progress rings</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Recurring transactions</strong> auto-generated</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Subscription audit</strong> — catch forgotten charges</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Discretionary income</strong> — see what's truly free to spend</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Receipt scanning</strong> — point, scan, done</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Credit card tracking</strong> &amp; due date alerts</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Net worth tracking</strong> month by month</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Split transactions</strong> across categories</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Milestones &amp; achievements</strong> — gamified financial habits</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">50/30/20 guardrails</strong></span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">CSV export</strong> for Excel, Numbers, QuickBooks</span></div>
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span> All future updates included</div>
         </div>
