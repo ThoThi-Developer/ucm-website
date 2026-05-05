@@ -1258,13 +1258,21 @@ footer {
   }
 
   function syncDots() {
-    const idx = Math.round(track.scrollLeft / cardStep());
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const atEnd = track.scrollLeft >= maxScroll - 4;
+    const idx = atEnd ? total - 1 : Math.round(track.scrollLeft / cardStep());
     dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    prevBtn.style.opacity = track.scrollLeft < 4 ? '0.3' : '1';
+    nextBtn.style.opacity = atEnd ? '0.3' : '1';
+    prevBtn.disabled = track.scrollLeft < 4;
+    nextBtn.disabled = atEnd;
   }
 
   track.addEventListener('scroll', syncDots, { passive: true });
   prevBtn.addEventListener('click', () => track.scrollBy({ left: -cardStep(), behavior: 'smooth' }));
   nextBtn.addEventListener('click', () => track.scrollBy({ left: cardStep(), behavior: 'smooth' }));
+  // Run once on load so buttons reflect initial state
+  setTimeout(syncDots, 100);
 
   // Keyboard: left/right arrows when carousel is focused
   track.setAttribute('tabindex', '0');
