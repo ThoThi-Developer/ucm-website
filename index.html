@@ -7,6 +7,11 @@
 <link rel="icon" type="image/png" href="uploads/AppIcon.png?v=2">
 <link rel="apple-touch-icon" href="uploads/AppIcon.png">
 <title>ucm — U Can Manage</title>
+<meta name="description" content="The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.">
+<meta property="og:title" content="ucm — U Can Manage">
+<meta property="og:description" content="Budget smart. Live better. iOS personal finance — no subscription, no tracking.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ucm.thothi.app">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -57,6 +62,23 @@ nav {
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-secondary); text-decoration: none; transition: color .2s; }
 .nav-links a:hover { color: var(--accent); }
+.nav-end { display: flex; align-items: center; gap: 12px; }
+.lang-toggle {
+  display: inline-flex; gap: 2px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 50px; padding: 3px;
+}
+.lang-toggle button {
+  background: transparent; border: none;
+  color: var(--text-tertiary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px; font-weight: 700;
+  padding: 5px 11px; border-radius: 50px;
+  cursor: pointer; transition: background .2s, color .2s;
+  line-height: 1;
+}
+.lang-toggle button.active { background: var(--accent); color: var(--bg); }
+.lang-toggle button:not(.active):hover { color: var(--text-primary); }
 .nav-cta {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--accent); color: #050F0E;
@@ -597,15 +619,21 @@ footer {
     <span>ucm</span>
   </a>
   <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#tutorial">Tutorial</a>
-    <a href="#privacy">Privacy</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#features" data-i18n="nav.features">Features</a>
+    <a href="#tutorial" data-i18n="nav.tutorial">Tutorial</a>
+    <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
+    <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
   </div>
-  <a href="#download" class="nav-cta">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="#050F0E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Download
-  </a>
+  <div class="nav-end">
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang-btn="en" class="active">EN</button>
+      <button type="button" data-lang-btn="pt-BR">PT</button>
+    </div>
+    <a href="#download" class="nav-cta">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="#050F0E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="nav.download">Download</span>
+    </a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -614,31 +642,31 @@ footer {
   <div class="hero-inner">
     <div class="hero-text">
       <img src="uploads/AppIcon.png" alt="ucm" class="hero-app-icon reveal">
-      <div class="hero-badge reveal">Now available on the App Store</div>
+      <div class="hero-badge reveal" data-i18n="hero.badge">Now available on the App Store</div>
       <h1 class="hero-title reveal reveal-delay-1"><span class="accent">ucm</span></h1>
-      <p class="hero-tagline reveal reveal-delay-2">U Can Manage.</p>
-      <p class="hero-desc reveal reveal-delay-3">The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.</p>
+      <p class="hero-tagline reveal reveal-delay-2" data-i18n="hero.tagline">U Can Manage.</p>
+      <p class="hero-desc reveal reveal-delay-3" data-i18n="hero.desc">The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.</p>
       <div class="hero-actions reveal reveal-delay-4">
         <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1v11M5 8l4 4 4-4M2 15h14" stroke="#050F0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download on the App Store
+          <span data-i18n="hero.cta_download">Download on the App Store</span>
         </a>
-        <a href="#features" class="btn-secondary">See features →</a>
+        <a href="#features" class="btn-secondary" data-i18n="hero.cta_features">See features →</a>
       </div>
       <div class="hero-stats reveal reveal-delay-4">
         <div>
-          <div class="hero-stat-val">$0/mo</div>
-          <div class="hero-stat-label">No subscription</div>
+          <div class="hero-stat-val" data-i18n="hero.stat1_val">$0/mo</div>
+          <div class="hero-stat-label" data-i18n="hero.stat1_label">No subscription</div>
         </div>
         <div style="width:1px;background:var(--border)"></div>
         <div>
           <div class="hero-stat-val">0</div>
-          <div class="hero-stat-label">Data sold</div>
+          <div class="hero-stat-label" data-i18n="hero.stat2_label">Data sold</div>
         </div>
         <div style="width:1px;background:var(--border)"></div>
         <div>
           <div class="hero-stat-val">∞</div>
-          <div class="hero-stat-label">Devices synced</div>
+          <div class="hero-stat-label" data-i18n="hero.stat3_label">Devices synced</div>
         </div>
       </div>
     </div>
@@ -666,36 +694,36 @@ footer {
 <!-- PROBLEM -->
 <section class="problem">
   <div class="section-inner">
-    <div class="reveal"><p class="section-label">The Problem</p></div>
-    <h2 class="section-title reveal">Most budgeting apps<br>get it wrong.</h2>
-    <p class="section-sub reveal">Too bloated, too expensive, or too basic. ucm was designed for real people who just want to know where their money is going — without a finance degree or a monthly bill.</p>
+    <div class="reveal"><p class="section-label" data-i18n="problem.label">The Problem</p></div>
+    <h2 class="section-title reveal" data-i18n="problem.title">Most budgeting apps<br>get it wrong.</h2>
+    <p class="section-sub reveal" data-i18n="problem.sub">Too bloated, too expensive, or too basic. ucm was designed for real people who just want to know where their money is going — without a finance degree or a monthly bill.</p>
 
     <div class="problem-grid reveal" style="margin-top:52px">
       <div class="problem-col them">
-        <div class="problem-col-label">Old-school apps</div>
-        <div class="problem-item"><div class="problem-item-icon">💸</div><div class="problem-item-text">$10–$15/month subscriptions that never end</div></div>
-        <div class="problem-item"><div class="problem-item-icon">🔐</div><div class="problem-item-text">Require account creation and bank linking</div></div>
-        <div class="problem-item"><div class="problem-item-icon">📊</div><div class="problem-item-text">Overwhelming dashboards full of noise</div></div>
-        <div class="problem-item"><div class="problem-item-icon">🌐</div><div class="problem-item-text">Your data stored on their servers, forever</div></div>
-        <div class="problem-item"><div class="problem-item-icon">🐢</div><div class="problem-item-text">Built for web first, bolted onto iOS</div></div>
+        <div class="problem-col-label" data-i18n="problem.them_label">Old-school apps</div>
+        <div class="problem-item"><div class="problem-item-icon">💸</div><div class="problem-item-text" data-i18n="problem.them_1">$10–$15/month subscriptions that never end</div></div>
+        <div class="problem-item"><div class="problem-item-icon">🔐</div><div class="problem-item-text" data-i18n="problem.them_2">Require account creation and bank linking</div></div>
+        <div class="problem-item"><div class="problem-item-icon">📊</div><div class="problem-item-text" data-i18n="problem.them_3">Overwhelming dashboards full of noise</div></div>
+        <div class="problem-item"><div class="problem-item-icon">🌐</div><div class="problem-item-text" data-i18n="problem.them_4">Your data stored on their servers, forever</div></div>
+        <div class="problem-item"><div class="problem-item-icon">🐢</div><div class="problem-item-text" data-i18n="problem.them_5">Built for web first, bolted onto iOS</div></div>
       </div>
 
       <div class="problem-col ucm">
-        <div class="problem-col-label">ucm</div>
-        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text">One purchase. Yours forever. No recurring fees.</div></div>
-        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text">Zero account required — open and go</div></div>
-        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text">Clean, focused UI that shows what matters</div></div>
-        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text">On-device storage, synced via your iCloud</div></div>
-        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text">Native SwiftUI — built for iPhone and iPad</div></div>
+        <div class="problem-col-label" data-i18n="problem.ucm_label">ucm</div>
+        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text" data-i18n="problem.ucm_1">One purchase. Yours forever. No recurring fees.</div></div>
+        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text" data-i18n="problem.ucm_2">Zero account required — open and go</div></div>
+        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text" data-i18n="problem.ucm_3">Clean, focused UI that shows what matters</div></div>
+        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text" data-i18n="problem.ucm_4">On-device storage, synced via your iCloud</div></div>
+        <div class="problem-item"><div class="problem-item-icon" style="color:var(--positive)">✓</div><div class="problem-item-text" data-i18n="problem.ucm_5">Native SwiftUI — built for iPhone and iPad</div></div>
       </div>
 
       <div class="problem-col wall" style="background:var(--surface)">
-        <div class="problem-col-label">Spreadsheets</div>
-        <div class="problem-item"><div class="problem-item-icon">😅</div><div class="problem-item-text">Free, but you do all the work manually</div></div>
-        <div class="problem-item"><div class="problem-item-icon">📝</div><div class="problem-item-text">No structure, no categories, no automation</div></div>
-        <div class="problem-item"><div class="problem-item-icon">📱</div><div class="problem-item-text">Terrible on mobile</div></div>
-        <div class="problem-item"><div class="problem-item-icon">🔔</div><div class="problem-item-text">No reminders, no recurring entries</div></div>
-        <div class="problem-item"><div class="problem-item-icon">😞</div><div class="problem-item-text">Usually abandoned within a week</div></div>
+        <div class="problem-col-label" data-i18n="problem.wall_label">Spreadsheets</div>
+        <div class="problem-item"><div class="problem-item-icon">😅</div><div class="problem-item-text" data-i18n="problem.wall_1">Free, but you do all the work manually</div></div>
+        <div class="problem-item"><div class="problem-item-icon">📝</div><div class="problem-item-text" data-i18n="problem.wall_2">No structure, no categories, no automation</div></div>
+        <div class="problem-item"><div class="problem-item-icon">📱</div><div class="problem-item-text" data-i18n="problem.wall_3">Terrible on mobile</div></div>
+        <div class="problem-item"><div class="problem-item-icon">🔔</div><div class="problem-item-text" data-i18n="problem.wall_4">No reminders, no recurring entries</div></div>
+        <div class="problem-item"><div class="problem-item-icon">😞</div><div class="problem-item-text" data-i18n="problem.wall_5">Usually abandoned within a week</div></div>
       </div>
     </div>
   </div>
@@ -704,19 +732,19 @@ footer {
 <!-- FEATURES -->
 <section class="features" id="features">
   <div class="section-inner">
-    <div class="reveal"><p class="section-label">Features</p></div>
-    <h2 class="section-title reveal">Everything you need.<br>Nothing you don't.</h2>
+    <div class="reveal"><p class="section-label" data-i18n="features.label">Features</p></div>
+    <h2 class="section-title reveal" data-i18n="features.title">Everything you need.<br>Nothing you don't.</h2>
 
     <!-- Feature 1: Smart Budget Tracking -->
     <div class="feature-row" style="margin-top:72px">
       <div class="reveal">
-        <p class="feature-eyebrow">Budget Tracking</p>
-        <h3 class="feature-title">Log expenses in seconds.</h3>
-        <p class="feature-desc">A full-screen quick-entry interface with a custom numpad, category chips, and one-tap save. Adding a transaction feels faster than opening your wallet.</p>
+        <p class="feature-eyebrow" data-i18n="feat1.eyebrow">Budget Tracking</p>
+        <h3 class="feature-title" data-i18n="feat1.title">Log expenses in seconds.</h3>
+        <p class="feature-desc" data-i18n="feat1.desc">A full-screen quick-entry interface with a custom numpad, category chips, and one-tap save. Adding a transaction feels faster than opening your wallet.</p>
         <div class="feature-pills">
-          <span class="pill">Custom numpad</span>
-          <span class="pill">Category chips</span>
-          <span class="pill">One-tap save</span>
+          <span class="pill" data-i18n="feat1.pill1">Custom numpad</span>
+          <span class="pill" data-i18n="feat1.pill2">Category chips</span>
+          <span class="pill" data-i18n="feat1.pill3">One-tap save</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
@@ -731,13 +759,13 @@ footer {
     <!-- Feature 2: Budget Planning -->
     <div class="feature-row reverse">
       <div class="reveal">
-        <p class="feature-eyebrow">Budget Planning</p>
-        <h3 class="feature-title">Rollover budgets that actually save you money.</h3>
-        <p class="feature-desc">Set monthly budgets per category. Unspent money doesn't disappear — it rolls over. Your discipline builds real savings automatically.</p>
+        <p class="feature-eyebrow" data-i18n="feat2.eyebrow">Budget Planning</p>
+        <h3 class="feature-title" data-i18n="feat2.title">Rollover budgets that actually save you money.</h3>
+        <p class="feature-desc" data-i18n="feat2.desc">Set monthly budgets per category. Unspent money doesn't disappear — it rolls over. Your discipline builds real savings automatically.</p>
         <div class="feature-pills">
-          <span class="pill">Monthly budgets</span>
-          <span class="pill">Rollover savings</span>
-          <span class="pill">Category breakdown</span>
+          <span class="pill" data-i18n="feat2.pill1">Monthly budgets</span>
+          <span class="pill" data-i18n="feat2.pill2">Rollover savings</span>
+          <span class="pill" data-i18n="feat2.pill3">Category breakdown</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
@@ -752,13 +780,13 @@ footer {
     <!-- Feature 3: Insights -->
     <div class="feature-row">
       <div class="reveal">
-        <p class="feature-eyebrow">Insights & Net Worth</p>
-        <h3 class="feature-title">Beautiful charts. Zero overwhelm.</h3>
-        <p class="feature-desc">Monthly spending breakdowns, needs vs. wants analysis, net worth snapshots, and savings rate tracking. See your full financial picture in one scroll.</p>
+        <p class="feature-eyebrow" data-i18n="feat3.eyebrow">Insights &amp; Net Worth</p>
+        <h3 class="feature-title" data-i18n="feat3.title">Beautiful charts. Zero overwhelm.</h3>
+        <p class="feature-desc" data-i18n="feat3.desc">Monthly spending breakdowns, needs vs. wants analysis, net worth snapshots, and savings rate tracking. See your full financial picture in one scroll.</p>
         <div class="feature-pills">
-          <span class="pill">Spending pace</span>
-          <span class="pill">Net worth</span>
-          <span class="pill">Savings rate</span>
+          <span class="pill" data-i18n="feat3.pill1">Spending pace</span>
+          <span class="pill" data-i18n="feat3.pill2">Net worth</span>
+          <span class="pill" data-i18n="feat3.pill3">Savings rate</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
@@ -773,13 +801,13 @@ footer {
     <!-- Feature 4: Where money went -->
     <div class="feature-row reverse">
       <div class="reveal">
-        <p class="feature-eyebrow">Monthly Review</p>
-        <h3 class="feature-title">Know exactly where your money went.</h3>
-        <p class="feature-desc">A beautifully designed monthly financial report — income, expenses, biggest categories, savings rate. All in one screen, ready to share.</p>
+        <p class="feature-eyebrow" data-i18n="feat4.eyebrow">Monthly Review</p>
+        <h3 class="feature-title" data-i18n="feat4.title">Know exactly where your money went.</h3>
+        <p class="feature-desc" data-i18n="feat4.desc">A beautifully designed monthly financial report — income, expenses, biggest categories, savings rate. All in one screen, ready to share.</p>
         <div class="feature-pills">
-          <span class="pill">Donut chart</span>
-          <span class="pill">Top categories</span>
-          <span class="pill">Shareable report</span>
+          <span class="pill" data-i18n="feat4.pill1">Donut chart</span>
+          <span class="pill" data-i18n="feat4.pill2">Top categories</span>
+          <span class="pill" data-i18n="feat4.pill3">Shareable report</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
@@ -794,13 +822,13 @@ footer {
     <!-- Feature 5: Goals -->
     <div class="feature-row">
       <div class="reveal">
-        <p class="feature-eyebrow">Savings Goals</p>
-        <h3 class="feature-title">Watch your goals come to life.</h3>
-        <p class="feature-desc">Create goals with targets and deadlines. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
+        <p class="feature-eyebrow" data-i18n="feat5.eyebrow">Savings Goals</p>
+        <h3 class="feature-title" data-i18n="feat5.title">Watch your goals come to life.</h3>
+        <p class="feature-desc" data-i18n="feat5.desc">Create goals with targets and deadlines. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
         <div class="feature-pills">
-          <span class="pill">Progress rings</span>
-          <span class="pill">Target dates</span>
-          <span class="pill">Flexible contributions</span>
+          <span class="pill" data-i18n="feat5.pill1">Progress rings</span>
+          <span class="pill" data-i18n="feat5.pill2">Target dates</span>
+          <span class="pill" data-i18n="feat5.pill3">Flexible contributions</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
@@ -815,13 +843,13 @@ footer {
     <!-- Feature 6: Receipt Scanner -->
     <div class="feature-row reverse">
       <div class="reveal">
-        <p class="feature-eyebrow">Receipt Scanner</p>
-        <h3 class="feature-title">Point. Scan. Done.</h3>
-        <p class="feature-desc">Point your camera at any receipt. On-device scanning reads the vendor, amount, date, and suggests the right category — all pre-filled and ready to save. No typing needed. Completely private.</p>
+        <p class="feature-eyebrow" data-i18n="feat6.eyebrow">Receipt Scanner</p>
+        <h3 class="feature-title" data-i18n="feat6.title">Point. Scan. Done.</h3>
+        <p class="feature-desc" data-i18n="feat6.desc">Point your camera at any receipt. On-device scanning reads the vendor, amount, date, and suggests the right category — all pre-filled and ready to save. No typing needed. Completely private.</p>
         <div class="feature-pills">
-          <span class="pill">On-device</span>
-          <span class="pill">Auto category</span>
-          <span class="pill">Instant entry</span>
+          <span class="pill" data-i18n="feat6.pill1">On-device</span>
+          <span class="pill" data-i18n="feat6.pill2">Auto category</span>
+          <span class="pill" data-i18n="feat6.pill3">Instant entry</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
@@ -835,35 +863,35 @@ footer {
     <!-- Feature 7: Split & Recurring -->
     <div class="feature-row">
       <div class="reveal">
-        <p class="feature-eyebrow">Split & Recurring</p>
-        <h3 class="feature-title">One night out. Three categories. Zero hassle.</h3>
-        <p class="feature-desc">Split any transaction across multiple categories with a live balance tracker. And for rent, Netflix, gym — set up recurring transactions once and ucm handles the rest every month.</p>
+        <p class="feature-eyebrow" data-i18n="feat7.eyebrow">Split &amp; Recurring</p>
+        <h3 class="feature-title" data-i18n="feat7.title">One night out. Three categories. Zero hassle.</h3>
+        <p class="feature-desc" data-i18n="feat7.desc">Split any transaction across multiple categories with a live balance tracker. And for rent, Netflix, gym — set up recurring transactions once and ucm handles the rest every month.</p>
         <div class="feature-pills">
-          <span class="pill">Split transactions</span>
-          <span class="pill">Live balance</span>
-          <span class="pill">Recurring entries</span>
+          <span class="pill" data-i18n="feat7.pill1">Split transactions</span>
+          <span class="pill" data-i18n="feat7.pill2">Live balance</span>
+          <span class="pill" data-i18n="feat7.pill3">Recurring entries</span>
         </div>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
         <div style="width:260px">
           <div class="feature-card-demo">
-            <div class="demo-card-title">Split Transaction</div>
-            <div style="font-size:22px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;margin-bottom:16px">$142.00 <span style="font-size:14px;color:var(--text-tertiary);font-weight:400">dinner</span></div>
+            <div class="demo-card-title" data-i18n="feat7.demo_title">Split Transaction</div>
+            <div style="font-size:22px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;margin-bottom:16px">$142.00 <span style="font-size:14px;color:var(--text-tertiary);font-weight:400" data-i18n="feat7.demo_label">dinner</span></div>
             <div class="demo-row">
-              <div class="demo-row-left"><div class="demo-icon">🍽️</div><div><div class="demo-label">Dining Out</div></div></div>
+              <div class="demo-row-left"><div class="demo-icon">🍽️</div><div><div class="demo-label" data-i18n="feat7.demo_cat1">Dining Out</div></div></div>
               <div class="demo-amount neg">-$80.00</div>
             </div>
             <div class="demo-row">
-              <div class="demo-row-left"><div class="demo-icon">🎉</div><div><div class="demo-label">Entertainment</div></div></div>
+              <div class="demo-row-left"><div class="demo-icon">🎉</div><div><div class="demo-label" data-i18n="feat7.demo_cat2">Entertainment</div></div></div>
               <div class="demo-amount neg">-$42.00</div>
             </div>
             <div class="demo-row" style="border-bottom:none">
-              <div class="demo-row-left"><div class="demo-icon">🎁</div><div><div class="demo-label">Gifts</div></div></div>
+              <div class="demo-row-left"><div class="demo-icon">🎁</div><div><div class="demo-label" data-i18n="feat7.demo_cat3">Gifts</div></div></div>
               <div class="demo-amount neg">-$20.00</div>
             </div>
             <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:10px 14px">
-              <span style="font-size:13px;font-weight:600;color:var(--positive)">✓ Balanced</span>
-              <span style="font-size:13px;font-weight:700;color:var(--positive)">$0.00 left</span>
+              <span style="font-size:13px;font-weight:600;color:var(--positive)" data-i18n="feat7.demo_balanced">✓ Balanced</span>
+              <span style="font-size:13px;font-weight:700;color:var(--positive)" data-i18n="feat7.demo_left">$0.00 left</span>
             </div>
           </div>
         </div>
@@ -876,27 +904,27 @@ footer {
 <!-- DETAILS GRID -->
 <section class="details">
   <div class="section-inner">
-    <div class="reveal"><p class="section-label">Everything it does</p></div>
-    <h2 class="section-title reveal">Every feature.<br>Built for real life.</h2>
+    <div class="reveal"><p class="section-label" data-i18n="details.label">Everything it does</p></div>
+    <h2 class="section-title reveal" data-i18n="details.title">Every feature.<br>Built for real life.</h2>
     <div class="details-grid reveal" style="margin-top:52px">
-      <div class="detail-item"><div class="detail-icon">💰</div><div class="detail-name">Smart Budget Tracking</div><div class="detail-desc">Log income and expenses instantly with a beautiful quick-entry UI.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔄</div><div class="detail-name">Rollover Budgets</div><div class="detail-desc">Unspent budget carries forward month to month automatically.</div></div>
-      <div class="detail-item"><div class="detail-icon">📥</div><div class="detail-name">Bank CSV Import</div><div class="detail-desc">Import months of history from any bank export in seconds — auto-detects columns, shows a preview before importing.</div></div>
-      <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name">Split Transactions</div><div class="detail-desc">Divide any transaction across multiple categories with a live tracker.</div></div>
-      <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name">Recurring Transactions</div><div class="detail-desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name">Subscription Audit</div><div class="detail-desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through.</div></div>
-      <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name">Receipt Scanner</div><div class="detail-desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
-      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name">Credit Card Tracking</div><div class="detail-desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment.</div></div>
-      <div class="detail-item"><div class="detail-icon">🎯</div><div class="detail-name">Savings Goals</div><div class="detail-desc">Set targets with deadlines and watch progress rings fill up.</div></div>
-      <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name">Insights & Net Worth</div><div class="detail-desc">Beautiful monthly breakdowns, savings rate, and net worth history.</div></div>
-      <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name">Monthly Review</div><div class="detail-desc">A shareable financial report — income, expenses, biggest categories.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name">Smart Notifications</div><div class="detail-desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
-      <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name">Budget History</div><div class="detail-desc">Compare spending month by month. See where you improved, where you overspent, and how your habits are evolving.</div></div>
-      <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name">Discretionary Income</div><div class="detail-desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
-      <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name">Milestones &amp; Achievements</div><div class="detail-desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name">Face ID / Touch ID</div><div class="detail-desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
-      <div class="detail-item"><div class="detail-icon">☁️</div><div class="detail-name">iCloud Sync</div><div class="detail-desc">Seamless sync across iPhone and iPad — no account needed.</div></div>
-      <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name">CSV Export</div><div class="detail-desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
+      <div class="detail-item"><div class="detail-icon">💰</div><div class="detail-name" data-i18n="det1.name">Smart Budget Tracking</div><div class="detail-desc" data-i18n="det1.desc">Log income and expenses instantly with a beautiful quick-entry UI.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔄</div><div class="detail-name" data-i18n="det2.name">Rollover Budgets</div><div class="detail-desc" data-i18n="det2.desc">Unspent budget carries forward month to month automatically.</div></div>
+      <div class="detail-item"><div class="detail-icon">📥</div><div class="detail-name" data-i18n="det3.name">Bank CSV Import</div><div class="detail-desc" data-i18n="det3.desc">Import months of history from any bank export in seconds — auto-detects columns, shows a preview before importing.</div></div>
+      <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name" data-i18n="det4.name">Split Transactions</div><div class="detail-desc" data-i18n="det4.desc">Divide any transaction across multiple categories with a live tracker.</div></div>
+      <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name" data-i18n="det5.name">Recurring Transactions</div><div class="detail-desc" data-i18n="det5.desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name" data-i18n="det6.name">Subscription Audit</div><div class="detail-desc" data-i18n="det6.desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through.</div></div>
+      <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name" data-i18n="det7.name">Receipt Scanner</div><div class="detail-desc" data-i18n="det7.desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
+      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name" data-i18n="det8.name">Credit Card Tracking</div><div class="detail-desc" data-i18n="det8.desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment.</div></div>
+      <div class="detail-item"><div class="detail-icon">🎯</div><div class="detail-name" data-i18n="det9.name">Savings Goals</div><div class="detail-desc" data-i18n="det9.desc">Set targets with deadlines and watch progress rings fill up.</div></div>
+      <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name" data-i18n="det10.name">Insights &amp; Net Worth</div><div class="detail-desc" data-i18n="det10.desc">Beautiful monthly breakdowns, savings rate, and net worth history.</div></div>
+      <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name" data-i18n="det11.name">Monthly Review</div><div class="detail-desc" data-i18n="det11.desc">A shareable financial report — income, expenses, biggest categories.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name" data-i18n="det12.name">Smart Notifications</div><div class="detail-desc" data-i18n="det12.desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
+      <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name" data-i18n="det13.name">Budget History</div><div class="detail-desc" data-i18n="det13.desc">Compare spending month by month. See where you improved, where you overspent, and how your habits are evolving.</div></div>
+      <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name" data-i18n="det14.name">Discretionary Income</div><div class="detail-desc" data-i18n="det14.desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
+      <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name" data-i18n="det15.name">Milestones &amp; Achievements</div><div class="detail-desc" data-i18n="det15.desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name" data-i18n="det16.name">Face ID / Touch ID</div><div class="detail-desc" data-i18n="det16.desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
+      <div class="detail-item"><div class="detail-icon">☁️</div><div class="detail-name" data-i18n="det17.name">iCloud Sync</div><div class="detail-desc" data-i18n="det17.desc">Seamless sync across iPhone and iPad — no account needed.</div></div>
+      <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name" data-i18n="det18.name">CSV Export</div><div class="detail-desc" data-i18n="det18.desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
     </div>
   </div>
 </section>
@@ -904,9 +932,9 @@ footer {
 <!-- TUTORIAL -->
 <section style="background:var(--bg);padding:100px 40px;overflow:hidden" id="tutorial">
   <div class="section-inner">
-    <div class="reveal"><p class="section-label" style="text-align:center">Tutorial</p></div>
-    <h2 class="section-title reveal" style="text-align:center">Every feature,<br>explained.</h2>
-    <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px">Swipe through all 18 features — free and Pro — to see exactly what ucm can do for you.</p>
+    <div class="reveal"><p class="section-label" style="text-align:center" data-i18n="tutorial.label">Tutorial</p></div>
+    <h2 class="section-title reveal" style="text-align:center" data-i18n="tutorial.title">Every feature,<br>explained.</h2>
+    <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px" data-i18n="tutorial.sub">Swipe through all 18 features — free and Pro — to see exactly what ucm can do for you.</p>
   </div>
 
   <!-- Carousel track — bleeds past section-inner -->
@@ -916,145 +944,145 @@ footer {
       <!-- 1. Quick Entry -->
       <div class="carousel-card">
         <div class="carousel-card-icon">⚡️</div>
-        <span class="carousel-tier free">Free</span>
-        <h3 class="carousel-card-title">Quick Entry</h3>
-        <p class="carousel-card-desc">Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.</p>
+        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
+        <h3 class="carousel-card-title" data-i18n="car1.title">Quick Entry</h3>
+        <p class="carousel-card-desc" data-i18n="car1.desc">Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.</p>
       </div>
 
       <!-- 2. Monthly Budgets -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🎯</div>
-        <span class="carousel-tier free">Free</span>
-        <h3 class="carousel-card-title">Monthly Budgets</h3>
-        <p class="carousel-card-desc">Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.</p>
+        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
+        <h3 class="carousel-card-title" data-i18n="car2.title">Monthly Budgets</h3>
+        <p class="carousel-card-desc" data-i18n="car2.desc">Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.</p>
       </div>
 
       <!-- 3. Budget Rollover -->
       <div class="carousel-card">
         <div class="carousel-card-icon">💰</div>
-        <span class="carousel-tier free">Free</span>
-        <h3 class="carousel-card-title">Budget Rollover</h3>
-        <p class="carousel-card-desc">Unspent budget rolls forward automatically every month. Your discipline builds real, visible savings without lifting a finger.</p>
+        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
+        <h3 class="carousel-card-title" data-i18n="car3.title">Budget Rollover</h3>
+        <p class="carousel-card-desc" data-i18n="car3.desc">Unspent budget rolls forward automatically every month. Your discipline builds real, visible savings without lifting a finger.</p>
       </div>
 
       <!-- 4. Bank CSV Import -->
       <div class="carousel-card">
         <div class="carousel-card-icon">📥</div>
-        <span class="carousel-tier free">Free</span>
-        <h3 class="carousel-card-title">Bank CSV Import</h3>
-        <p class="carousel-card-desc">Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.</p>
+        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
+        <h3 class="carousel-card-title" data-i18n="car4.title">Bank CSV Import</h3>
+        <p class="carousel-card-desc" data-i18n="car4.desc">Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.</p>
       </div>
 
       <!-- 5. Transaction History -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🔍</div>
-        <span class="carousel-tier free">Free</span>
-        <h3 class="carousel-card-title">Transaction History</h3>
-        <p class="carousel-card-desc">Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.</p>
+        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
+        <h3 class="carousel-card-title" data-i18n="car5.title">Transaction History</h3>
+        <p class="carousel-card-desc" data-i18n="car5.desc">Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.</p>
       </div>
 
       <!-- 6. Widget -->
       <div class="carousel-card">
         <div class="carousel-card-icon">📱</div>
-        <span class="carousel-tier free">Free</span>
-        <h3 class="carousel-card-title">Home Screen Widget</h3>
-        <p class="carousel-card-desc">See your balance and budget status without opening the app. Available in small, medium, and large for your home screen and lock screen.</p>
+        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
+        <h3 class="carousel-card-title" data-i18n="car6.title">Home Screen Widget</h3>
+        <p class="carousel-card-desc" data-i18n="car6.desc">See your balance and budget status without opening the app. Available in small, medium, and large for your home screen and lock screen.</p>
       </div>
 
       <!-- 7. Smart Notifications -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🔔</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Smart Notifications</h3>
-        <p class="carousel-card-desc">Weekly spending recap every Monday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car7.title">Smart Notifications</h3>
+        <p class="carousel-card-desc" data-i18n="car7.desc">Weekly spending recap every Monday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.</p>
       </div>
 
       <!-- 8. Full Insights -->
       <div class="carousel-card">
         <div class="carousel-card-icon">📊</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Full Insights</h3>
-        <p class="carousel-card-desc">Monthly charts, savings rate, needs-vs-wants analysis, and spending trends over time. Your complete financial picture in one scroll.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car8.title">Full Insights</h3>
+        <p class="carousel-card-desc" data-i18n="car8.desc">Monthly charts, savings rate, needs-vs-wants analysis, and spending trends over time. Your complete financial picture in one scroll.</p>
       </div>
 
       <!-- 9. Monthly Review -->
       <div class="carousel-card">
         <div class="carousel-card-icon">📋</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Monthly Review</h3>
-        <p class="carousel-card-desc">A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car9.title">Monthly Review</h3>
+        <p class="carousel-card-desc" data-i18n="car9.desc">A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.</p>
       </div>
 
       <!-- 10. Savings Goals -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🏆</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Savings Goals</h3>
-        <p class="carousel-card-desc">Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car10.title">Savings Goals</h3>
+        <p class="carousel-card-desc" data-i18n="car10.desc">Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
       </div>
 
       <!-- 11. Recurring Transactions -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🔁</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Recurring Transactions</h3>
-        <p class="carousel-card-desc">Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car11.title">Recurring Transactions</h3>
+        <p class="carousel-card-desc" data-i18n="car11.desc">Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.</p>
       </div>
 
       <!-- 12. Subscription Audit -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🕵️</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Subscription Audit</h3>
-        <p class="carousel-card-desc">Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car12.title">Subscription Audit</h3>
+        <p class="carousel-card-desc" data-i18n="car12.desc">Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide.</p>
       </div>
 
       <!-- 13. Discretionary Income -->
       <div class="carousel-card">
         <div class="carousel-card-icon">💡</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Discretionary Income</h3>
-        <p class="carousel-card-desc">After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car13.title">Discretionary Income</h3>
+        <p class="carousel-card-desc" data-i18n="car13.desc">After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.</p>
       </div>
 
       <!-- 14. Receipt Scanning -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🧾</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Receipt Scanning</h3>
-        <p class="carousel-card-desc">Point your camera at any receipt. On-device vision reads the vendor, amount, and date — pre-fills the entry form instantly. Completely private, never uploaded.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car14.title">Receipt Scanning</h3>
+        <p class="carousel-card-desc" data-i18n="car14.desc">Point your camera at any receipt. On-device vision reads the vendor, amount, and date — pre-fills the entry form instantly. Completely private, never uploaded.</p>
       </div>
 
       <!-- 15. Credit Card Tracking -->
       <div class="carousel-card">
         <div class="carousel-card-icon">💳</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Credit Card Tracking</h3>
-        <p class="carousel-card-desc">Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment so you never pay a late fee again.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car15.title">Credit Card Tracking</h3>
+        <p class="carousel-card-desc" data-i18n="car15.desc">Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment so you never pay a late fee again.</p>
       </div>
 
       <!-- 16. Net Worth -->
       <div class="carousel-card">
         <div class="carousel-card-icon">📈</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Net Worth Tracking</h3>
-        <p class="carousel-card-desc">Log assets and liabilities. Watch your net worth grow month by month with a clean historical chart that shows exactly where you started.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car16.title">Net Worth Tracking</h3>
+        <p class="carousel-card-desc" data-i18n="car16.desc">Log assets and liabilities. Watch your net worth grow month by month with a clean historical chart that shows exactly where you started.</p>
       </div>
 
       <!-- 17. Split Transactions -->
       <div class="carousel-card">
         <div class="carousel-card-icon">✂️</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Split Transactions</h3>
-        <p class="carousel-card-desc">One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car17.title">Split Transactions</h3>
+        <p class="carousel-card-desc" data-i18n="car17.desc">One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.</p>
       </div>
 
       <!-- 18. Milestones -->
       <div class="carousel-card">
         <div class="carousel-card-icon">🎖️</div>
-        <span class="carousel-tier pro">Pro</span>
-        <h3 class="carousel-card-title">Milestones &amp; Achievements</h3>
-        <p class="carousel-card-desc">Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.</p>
+        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
+        <h3 class="carousel-card-title" data-i18n="car18.title">Milestones &amp; Achievements</h3>
+        <p class="carousel-card-desc" data-i18n="car18.desc">Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.</p>
       </div>
 
     </div>
@@ -1075,15 +1103,15 @@ footer {
   <div class="privacy-glow"></div>
   <div class="section-inner" style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
     <div class="privacy-icon reveal">🔐</div>
-    <div class="reveal"><p class="section-label" style="text-align:center">Privacy Promise</p></div>
-    <h2 class="privacy-title reveal">Your data never<br>leaves your devices.</h2>
-    <p class="privacy-desc reveal">No account. No ads. No tracking. No server. Your finances belong to you — and only you. Protected by Apple's encryption, on your own iCloud.</p>
+    <div class="reveal"><p class="section-label" style="text-align:center" data-i18n="priv.label">Privacy Promise</p></div>
+    <h2 class="privacy-title reveal" data-i18n="priv.title">Your data never<br>leaves your devices.</h2>
+    <p class="privacy-desc reveal" data-i18n="priv.desc">No account. No ads. No tracking. No server. Your finances belong to you — and only you. Protected by Apple's encryption, on your own iCloud.</p>
     <div class="privacy-pillars reveal">
-      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div>No account required</div>
-      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div>Zero data collection</div>
-      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div>No ads. Ever.</div>
-      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div>iCloud encrypted</div>
-      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div>No server. No tracking.</div>
+      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div><span data-i18n="priv.pillar1">No account required</span></div>
+      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div><span data-i18n="priv.pillar2">Zero data collection</span></div>
+      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div><span data-i18n="priv.pillar3">No ads. Ever.</span></div>
+      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div><span data-i18n="priv.pillar4">iCloud encrypted</span></div>
+      <div class="privacy-pillar"><div class="privacy-pillar-dot"></div><span data-i18n="priv.pillar5">No server. No tracking.</span></div>
     </div>
   </div>
 </section>
@@ -1091,87 +1119,87 @@ footer {
 <!-- PRICING -->
 <section class="pricing" id="pricing">
   <div class="section-inner">
-    <div class="reveal"><p class="section-label" style="text-align:center">Pricing</p></div>
-    <h2 class="section-title reveal" style="text-align:center">Simple pricing.<br>No subscription.</h2>
-    <p class="section-sub reveal" style="margin:0 auto;text-align:center">Start free. Unlock everything for the price of a coffee. No renewal. No hidden fees. Ever.</p>
+    <div class="reveal"><p class="section-label" style="text-align:center" data-i18n="price.label">Pricing</p></div>
+    <h2 class="section-title reveal" style="text-align:center" data-i18n="price.title">Simple pricing.<br>No subscription.</h2>
+    <p class="section-sub reveal" style="margin:0 auto;text-align:center" data-i18n="price.sub">Start free. Unlock everything for the price of a coffee. No renewal. No hidden fees. Ever.</p>
 
     <div class="pricing-grid">
 
       <!-- FREE -->
       <div class="pricing-card reveal">
-        <div class="pricing-badge" style="background:var(--surface-alt);color:var(--text-secondary);border:1px solid var(--border)">Free</div>
-        <p class="pricing-plan">Free</p>
-        <p class="pricing-tagline">Everything you need to start taking control of your money — no card required.</p>
+        <div class="pricing-badge" style="background:var(--surface-alt);color:var(--text-secondary);border:1px solid var(--border)" data-i18n="price.free_badge">Free</div>
+        <p class="pricing-plan" data-i18n="price.free_plan">Free</p>
+        <p class="pricing-tagline" data-i18n="price.free_tagline">Everything you need to start taking control of your money — no card required.</p>
         <div class="pricing-price free-price">$0</div>
-        <p class="pricing-period">always free</p>
-        <p class="pricing-forever" style="color:var(--text-tertiary)">No credit card · No account</p>
+        <p class="pricing-period" data-i18n="price.free_period">always free</p>
+        <p class="pricing-forever" style="color:var(--text-tertiary)" data-i18n="price.free_disclaimer">No credit card · No account</p>
 
         <div class="pricing-features">
-          <p class="pricing-section-label">Included</p>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Expense &amp; income tracking</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Monthly budgets per category</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Budget rollover savings</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Full transaction history</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Search, filter &amp; bulk delete</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Import from bank CSV</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> Home screen &amp; lock screen widget</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> iCloud sync across devices</div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> No account. No tracking. No ads.</div>
+          <p class="pricing-section-label" data-i18n="price.free_label">Included</p>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f1">Expense &amp; income tracking</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f2">Monthly budgets per category</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f3">Budget rollover savings</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f4">Full transaction history</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f5">Search, filter &amp; bulk delete</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f6">Import from bank CSV</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f7">Home screen &amp; lock screen widget</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f8">iCloud sync across devices</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f9">No account. No tracking. No ads.</span></div>
         </div>
 
-        <a href="https://apps.apple.com/app/id6765532626" class="btn-secondary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener">Download Free</a>
+        <a href="https://apps.apple.com/app/id6765532626" class="btn-secondary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" data-i18n="price.free_cta">Download Free</a>
       </div>
 
       <!-- PRO -->
       <div class="pricing-card pro reveal reveal-delay-1">
-        <div class="pricing-badge">Most popular</div>
-        <p class="pricing-plan">Pro</p>
-        <p class="pricing-tagline">The full picture. Every feature. One payment — yours for life.</p>
+        <div class="pricing-badge" data-i18n="price.pro_badge">Most popular</div>
+        <p class="pricing-plan" data-i18n="price.pro_plan">Pro</p>
+        <p class="pricing-tagline" data-i18n="price.pro_tagline">The full picture. Every feature. One payment — yours for life.</p>
         <div class="pricing-price"><sup>$</sup>4<span style="font-size:42px;letter-spacing:-2px">.99</span></div>
-        <p class="pricing-period">one-time · no subscription</p>
-        <p class="pricing-forever">Pay once. Yours forever. ✓</p>
+        <p class="pricing-period" data-i18n="price.pro_period">one-time · no subscription</p>
+        <p class="pricing-forever" data-i18n="price.pro_forever">Pay once. Yours forever. ✓</p>
 
         <div class="pricing-features">
-          <p class="pricing-section-label">Everything in Free, plus</p>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Smart notifications</strong> — weekly recap, mid-month check-in</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Full insights</strong> — charts, savings rate, trends</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Monthly review reports</strong> — shareable</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Savings goals</strong> with progress rings</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Recurring transactions</strong> auto-generated</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Subscription audit</strong> — catch forgotten charges</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Discretionary income</strong> — see what's truly free to spend</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Receipt scanning</strong> — point, scan, done</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Credit card tracking</strong> &amp; due date alerts</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Net worth tracking</strong> month by month</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Split transactions</strong> across categories</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">Milestones &amp; achievements</strong> — gamified financial habits</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">50/30/20 guardrails</strong></span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span><strong style="color:var(--text-primary)">CSV export</strong> for Excel, Numbers, QuickBooks</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> All future updates included</div>
+          <p class="pricing-section-label" data-i18n="price.pro_label">Everything in Free, plus</p>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f1"><strong style="color:var(--text-primary)">Smart notifications</strong> — weekly recap, mid-month check-in</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f2"><strong style="color:var(--text-primary)">Full insights</strong> — charts, savings rate, trends</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f3"><strong style="color:var(--text-primary)">Monthly review reports</strong> — shareable</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f4"><strong style="color:var(--text-primary)">Savings goals</strong> with progress rings</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f5"><strong style="color:var(--text-primary)">Recurring transactions</strong> auto-generated</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f6"><strong style="color:var(--text-primary)">Subscription audit</strong> — catch forgotten charges</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f7"><strong style="color:var(--text-primary)">Discretionary income</strong> — see what's truly free to spend</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f8"><strong style="color:var(--text-primary)">Receipt scanning</strong> — point, scan, done</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f9"><strong style="color:var(--text-primary)">Credit card tracking</strong> &amp; due date alerts</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f10"><strong style="color:var(--text-primary)">Net worth tracking</strong> month by month</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f11"><strong style="color:var(--text-primary)">Split transactions</strong> across categories</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f12"><strong style="color:var(--text-primary)">Milestones &amp; achievements</strong> — gamified financial habits</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f13"><strong style="color:var(--text-primary)">50/30/20 guardrails</strong></span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f14"><strong style="color:var(--text-primary)">CSV export</strong> for Excel, Numbers, QuickBooks</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f15">All future updates included</span></div>
         </div>
 
-        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener">Get Pro — $4.99</a>
-        <p class="compare-note">YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.</p>
+        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" data-i18n="price.pro_cta">Get Pro — $4.99</a>
+        <p class="compare-note" data-i18n="price.compare">YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.</p>
       </div>
 
       <!-- UCM CONNECT — COMING SOON -->
       <div class="pricing-card future reveal reveal-delay-2">
-        <div class="pricing-badge future-badge">Coming soon</div>
-        <p class="pricing-plan" style="color:var(--text-secondary)">ucm Connect</p>
-        <p class="pricing-tagline">The next evolution — bank connections, real-time sync, and automatic transaction import. No manual entry, ever.</p>
-        <div class="pricing-price free-price" style="font-size:32px;color:var(--text-tertiary)">Coming soon</div>
-        <p class="pricing-period" style="margin-bottom:28px">price TBD</p>
+        <div class="pricing-badge future-badge" data-i18n="price.fut_badge">Coming soon</div>
+        <p class="pricing-plan" style="color:var(--text-secondary)" data-i18n="price.fut_plan">ucm Connect</p>
+        <p class="pricing-tagline" data-i18n="price.fut_tagline">The next evolution — bank connections, real-time sync, and automatic transaction import. No manual entry, ever.</p>
+        <div class="pricing-price free-price" style="font-size:32px;color:var(--text-tertiary)" data-i18n="price.fut_price">Coming soon</div>
+        <p class="pricing-period" style="margin-bottom:28px" data-i18n="price.fut_period">price TBD</p>
 
         <div class="pricing-features">
-          <p class="pricing-section-label">Planned features</p>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Automatic bank transaction import</div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Real-time balance sync</div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Smart auto-categorisation</div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Multi-currency accounts</div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> Everything in Pro included</div>
+          <p class="pricing-section-label" data-i18n="price.fut_label">Planned features</p>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f1">Automatic bank transaction import</span></div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f2">Real-time balance sync</span></div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f3">Smart auto-categorisation</span></div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f4">Multi-currency accounts</span></div>
+          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f5">Everything in Pro included</span></div>
         </div>
 
-        <div style="width:100%;padding:14px;border:1px dashed var(--border);border-radius:14px;text-align:center;font-size:14px;color:var(--text-tertiary);font-weight:600">
+        <div style="width:100%;padding:14px;border:1px dashed var(--border);border-radius:14px;text-align:center;font-size:14px;color:var(--text-tertiary);font-weight:600" data-i18n="price.fut_waitlist">
           Join the waitlist — coming in 2026
         </div>
       </div>
@@ -1184,14 +1212,14 @@ footer {
 <section class="download" id="download">
   <div class="download-glow"></div>
   <div style="position:relative;z-index:1">
-    <h2 class="download-title reveal">Start managing<br>your money today.</h2>
-    <p class="download-sub reveal">Join people who finally feel in control of their finances — without the stress, the subscription, or the spreadsheet.</p>
+    <h2 class="download-title reveal" data-i18n="dl.title">Start managing<br>your money today.</h2>
+    <p class="download-sub reveal" data-i18n="dl.sub">Join people who finally feel in control of their finances — without the stress, the subscription, or the spreadsheet.</p>
     <div class="reveal reveal-delay-1">
       <a href="https://apps.apple.com/app/id6765532626" class="appstore-badge" target="_blank" rel="noopener">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5c-.02-2.8 2.27-4.15 2.37-4.22-1.3-1.9-3.31-2.15-4.02-2.18-1.71-.17-3.35 1.01-4.22 1.01-.87 0-2.2-.99-3.62-.96-1.86.03-3.58 1.09-4.54 2.74-1.94 3.36-.5 8.33 1.39 11.06.93 1.34 2.02 2.83 3.46 2.78 1.4-.06 1.92-.9 3.61-.9 1.68 0 2.16.9 3.63.87 1.5-.02 2.44-1.35 3.35-2.7 1.06-1.54 1.5-3.04 1.52-3.12-.03-.02-2.91-1.12-2.93-4.38zm-2.74-8.05c.77-.94 1.3-2.24 1.15-3.55-1.12.05-2.47.74-3.27 1.68-.72.83-1.35 2.16-1.18 3.43 1.25.1 2.52-.63 3.3-1.56z" fill="#050F0E"/></svg>
         <div>
-          <div class="appstore-badge-text-small">Download on the</div>
-          <div class="appstore-badge-text-big">App Store</div>
+          <div class="appstore-badge-text-small" data-i18n="dl.badge_small">Download on the</div>
+          <div class="appstore-badge-text-big" data-i18n="dl.badge_big">App Store</div>
         </div>
       </a>
     </div>
@@ -1222,18 +1250,386 @@ footer {
       <span>ucm</span>
     </div>
     <div class="footer-links">
-      <a href="/privacy">Privacy Policy</a>
-      <a href="mailto:developer@thothi.com.br">Support</a>
-      <a href="#features">Features</a>
-      <a href="#tutorial">Tutorial</a>
-      <a href="#pricing">Pricing</a>
+      <a href="/privacy" data-i18n="foot.privacy">Privacy Policy</a>
+      <a href="mailto:developer@thothi.com.br" data-i18n="foot.support">Support</a>
+      <a href="#features" data-i18n="foot.features">Features</a>
+      <a href="#tutorial" data-i18n="foot.tutorial">Tutorial</a>
+      <a href="#pricing" data-i18n="foot.pricing">Pricing</a>
     </div>
-    <p class="footer-copy">© 2026 ucm. All rights reserved.</p>
+    <p class="footer-copy" data-i18n="foot.copy">© 2026 ucm. All rights reserved.</p>
   </div>
 </footer>
 
 <script>
-// Feature carousel
+// ─── i18n ────────────────────────────────────────────────────────────────
+const TRANSLATIONS = {
+  en: {
+    "nav.features": "Features", "nav.tutorial": "Tutorial", "nav.privacy": "Privacy", "nav.pricing": "Pricing", "nav.download": "Download",
+
+    "hero.badge": "Now available on the App Store",
+    "hero.tagline": "U Can Manage.",
+    "hero.desc": "The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.",
+    "hero.cta_download": "Download on the App Store",
+    "hero.cta_features": "See features →",
+    "hero.stat1_val": "$0/mo", "hero.stat1_label": "No subscription",
+    "hero.stat2_label": "Data sold",
+    "hero.stat3_label": "Devices synced",
+
+    "problem.label": "The Problem",
+    "problem.title": "Most budgeting apps<br>get it wrong.",
+    "problem.sub": "Too bloated, too expensive, or too basic. ucm was designed for real people who just want to know where their money is going — without a finance degree or a monthly bill.",
+    "problem.them_label": "Old-school apps",
+    "problem.them_1": "$10–$15/month subscriptions that never end",
+    "problem.them_2": "Require account creation and bank linking",
+    "problem.them_3": "Overwhelming dashboards full of noise",
+    "problem.them_4": "Your data stored on their servers, forever",
+    "problem.them_5": "Built for web first, bolted onto iOS",
+    "problem.ucm_label": "ucm",
+    "problem.ucm_1": "One purchase. Yours forever. No recurring fees.",
+    "problem.ucm_2": "Zero account required — open and go",
+    "problem.ucm_3": "Clean, focused UI that shows what matters",
+    "problem.ucm_4": "On-device storage, synced via your iCloud",
+    "problem.ucm_5": "Native SwiftUI — built for iPhone and iPad",
+    "problem.wall_label": "Spreadsheets",
+    "problem.wall_1": "Free, but you do all the work manually",
+    "problem.wall_2": "No structure, no categories, no automation",
+    "problem.wall_3": "Terrible on mobile",
+    "problem.wall_4": "No reminders, no recurring entries",
+    "problem.wall_5": "Usually abandoned within a week",
+
+    "features.label": "Features",
+    "features.title": "Everything you need.<br>Nothing you don't.",
+
+    "feat1.eyebrow": "Budget Tracking",
+    "feat1.title": "Log expenses in seconds.",
+    "feat1.desc": "A full-screen quick-entry interface with a custom numpad, category chips, and one-tap save. Adding a transaction feels faster than opening your wallet.",
+    "feat1.pill1": "Custom numpad", "feat1.pill2": "Category chips", "feat1.pill3": "One-tap save",
+
+    "feat2.eyebrow": "Budget Planning",
+    "feat2.title": "Rollover budgets that actually save you money.",
+    "feat2.desc": "Set monthly budgets per category. Unspent money doesn't disappear — it rolls over. Your discipline builds real savings automatically.",
+    "feat2.pill1": "Monthly budgets", "feat2.pill2": "Rollover savings", "feat2.pill3": "Category breakdown",
+
+    "feat3.eyebrow": "Insights &amp; Net Worth",
+    "feat3.title": "Beautiful charts. Zero overwhelm.",
+    "feat3.desc": "Monthly spending breakdowns, needs vs. wants analysis, net worth snapshots, and savings rate tracking. See your full financial picture in one scroll.",
+    "feat3.pill1": "Spending pace", "feat3.pill2": "Net worth", "feat3.pill3": "Savings rate",
+
+    "feat4.eyebrow": "Monthly Review",
+    "feat4.title": "Know exactly where your money went.",
+    "feat4.desc": "A beautifully designed monthly financial report — income, expenses, biggest categories, savings rate. All in one screen, ready to share.",
+    "feat4.pill1": "Donut chart", "feat4.pill2": "Top categories", "feat4.pill3": "Shareable report",
+
+    "feat5.eyebrow": "Savings Goals",
+    "feat5.title": "Watch your goals come to life.",
+    "feat5.desc": "Create goals with targets and deadlines. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.",
+    "feat5.pill1": "Progress rings", "feat5.pill2": "Target dates", "feat5.pill3": "Flexible contributions",
+
+    "feat6.eyebrow": "Receipt Scanner",
+    "feat6.title": "Point. Scan. Done.",
+    "feat6.desc": "Point your camera at any receipt. On-device scanning reads the vendor, amount, date, and suggests the right category — all pre-filled and ready to save. No typing needed. Completely private.",
+    "feat6.pill1": "On-device", "feat6.pill2": "Auto category", "feat6.pill3": "Instant entry",
+
+    "feat7.eyebrow": "Split &amp; Recurring",
+    "feat7.title": "One night out. Three categories. Zero hassle.",
+    "feat7.desc": "Split any transaction across multiple categories with a live balance tracker. And for rent, Netflix, gym — set up recurring transactions once and ucm handles the rest every month.",
+    "feat7.pill1": "Split transactions", "feat7.pill2": "Live balance", "feat7.pill3": "Recurring entries",
+    "feat7.demo_title": "Split Transaction", "feat7.demo_label": "dinner",
+    "feat7.demo_cat1": "Dining Out", "feat7.demo_cat2": "Entertainment", "feat7.demo_cat3": "Gifts",
+    "feat7.demo_balanced": "✓ Balanced", "feat7.demo_left": "$0.00 left",
+
+    "details.label": "Everything it does",
+    "details.title": "Every feature.<br>Built for real life.",
+    "det1.name": "Smart Budget Tracking", "det1.desc": "Log income and expenses instantly with a beautiful quick-entry UI.",
+    "det2.name": "Rollover Budgets", "det2.desc": "Unspent budget carries forward month to month automatically.",
+    "det3.name": "Bank CSV Import", "det3.desc": "Import months of history from any bank export in seconds — auto-detects columns, shows a preview before importing.",
+    "det4.name": "Split Transactions", "det4.desc": "Divide any transaction across multiple categories with a live tracker.",
+    "det5.name": "Recurring Transactions", "det5.desc": "Log rent, subscriptions, and bills once — ucm repeats them for you.",
+    "det6.name": "Subscription Audit", "det6.desc": "See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through.",
+    "det7.name": "Receipt Scanner", "det7.desc": "On-device scanning reads your receipts and pre-fills every field. Completely private.",
+    "det8.name": "Credit Card Tracking", "det8.desc": "Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment.",
+    "det9.name": "Savings Goals", "det9.desc": "Set targets with deadlines and watch progress rings fill up.",
+    "det10.name": "Insights &amp; Net Worth", "det10.desc": "Beautiful monthly breakdowns, savings rate, and net worth history.",
+    "det11.name": "Monthly Review", "det11.desc": "A shareable financial report — income, expenses, biggest categories.",
+    "det12.name": "Smart Notifications", "det12.desc": "Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.",
+    "det13.name": "Budget History", "det13.desc": "Compare spending month by month. See where you improved, where you overspent, and how your habits are evolving.",
+    "det14.name": "Discretionary Income", "det14.desc": "After bills and budgets, see exactly what's truly free to spend — no guesswork.",
+    "det15.name": "Milestones &amp; Achievements", "det15.desc": "Gamified financial habits — earn milestones as you hit savings targets and spending streaks.",
+    "det16.name": "Face ID / Touch ID", "det16.desc": "Lock the app with biometrics. Auto-locks when you leave.",
+    "det17.name": "iCloud Sync", "det17.desc": "Seamless sync across iPhone and iPad — no account needed.",
+    "det18.name": "CSV Export", "det18.desc": "Export your full history in standard or QuickBooks-compatible format.",
+
+    "tutorial.label": "Tutorial",
+    "tutorial.title": "Every feature,<br>explained.",
+    "tutorial.sub": "Swipe through all 18 features — free and Pro — to see exactly what ucm can do for you.",
+    "tier.free": "Free", "tier.pro": "Pro",
+    "car1.title": "Quick Entry", "car1.desc": "Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.",
+    "car2.title": "Monthly Budgets", "car2.desc": "Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.",
+    "car3.title": "Budget Rollover", "car3.desc": "Unspent budget rolls forward automatically every month. Your discipline builds real, visible savings without lifting a finger.",
+    "car4.title": "Bank CSV Import", "car4.desc": "Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.",
+    "car5.title": "Transaction History", "car5.desc": "Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.",
+    "car6.title": "Home Screen Widget", "car6.desc": "See your balance and budget status without opening the app. Available in small, medium, and large for your home screen and lock screen.",
+    "car7.title": "Smart Notifications", "car7.desc": "Weekly spending recap every Monday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.",
+    "car8.title": "Full Insights", "car8.desc": "Monthly charts, savings rate, needs-vs-wants analysis, and spending trends over time. Your complete financial picture in one scroll.",
+    "car9.title": "Monthly Review", "car9.desc": "A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.",
+    "car10.title": "Savings Goals", "car10.desc": "Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.",
+    "car11.title": "Recurring Transactions", "car11.desc": "Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.",
+    "car12.title": "Subscription Audit", "car12.desc": "Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide.",
+    "car13.title": "Discretionary Income", "car13.desc": "After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.",
+    "car14.title": "Receipt Scanning", "car14.desc": "Point your camera at any receipt. On-device vision reads the vendor, amount, and date — pre-fills the entry form instantly. Completely private, never uploaded.",
+    "car15.title": "Credit Card Tracking", "car15.desc": "Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment so you never pay a late fee again.",
+    "car16.title": "Net Worth Tracking", "car16.desc": "Log assets and liabilities. Watch your net worth grow month by month with a clean historical chart that shows exactly where you started.",
+    "car17.title": "Split Transactions", "car17.desc": "One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.",
+    "car18.title": "Milestones &amp; Achievements", "car18.desc": "Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.",
+
+    "priv.label": "Privacy Promise",
+    "priv.title": "Your data never<br>leaves your devices.",
+    "priv.desc": "No account. No ads. No tracking. No server. Your finances belong to you — and only you. Protected by Apple's encryption, on your own iCloud.",
+    "priv.pillar1": "No account required", "priv.pillar2": "Zero data collection", "priv.pillar3": "No ads. Ever.", "priv.pillar4": "iCloud encrypted", "priv.pillar5": "No server. No tracking.",
+
+    "price.label": "Pricing",
+    "price.title": "Simple pricing.<br>No subscription.",
+    "price.sub": "Start free. Unlock everything for the price of a coffee. No renewal. No hidden fees. Ever.",
+    "price.free_badge": "Free", "price.free_plan": "Free",
+    "price.free_tagline": "Everything you need to start taking control of your money — no card required.",
+    "price.free_period": "always free", "price.free_disclaimer": "No credit card · No account",
+    "price.free_label": "Included",
+    "price.free_f1": "Expense &amp; income tracking", "price.free_f2": "Monthly budgets per category", "price.free_f3": "Budget rollover savings", "price.free_f4": "Full transaction history", "price.free_f5": "Search, filter &amp; bulk delete", "price.free_f6": "Import from bank CSV", "price.free_f7": "Home screen &amp; lock screen widget", "price.free_f8": "iCloud sync across devices", "price.free_f9": "No account. No tracking. No ads.",
+    "price.free_cta": "Download Free",
+    "price.pro_badge": "Most popular", "price.pro_plan": "Pro",
+    "price.pro_tagline": "The full picture. Every feature. One payment — yours for life.",
+    "price.pro_period": "one-time · no subscription", "price.pro_forever": "Pay once. Yours forever. ✓",
+    "price.pro_label": "Everything in Free, plus",
+    "price.pro_f1": "<strong style=\"color:var(--text-primary)\">Smart notifications</strong> — weekly recap, mid-month check-in",
+    "price.pro_f2": "<strong style=\"color:var(--text-primary)\">Full insights</strong> — charts, savings rate, trends",
+    "price.pro_f3": "<strong style=\"color:var(--text-primary)\">Monthly review reports</strong> — shareable",
+    "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Savings goals</strong> with progress rings",
+    "price.pro_f5": "<strong style=\"color:var(--text-primary)\">Recurring transactions</strong> auto-generated",
+    "price.pro_f6": "<strong style=\"color:var(--text-primary)\">Subscription audit</strong> — catch forgotten charges",
+    "price.pro_f7": "<strong style=\"color:var(--text-primary)\">Discretionary income</strong> — see what's truly free to spend",
+    "price.pro_f8": "<strong style=\"color:var(--text-primary)\">Receipt scanning</strong> — point, scan, done",
+    "price.pro_f9": "<strong style=\"color:var(--text-primary)\">Credit card tracking</strong> &amp; due date alerts",
+    "price.pro_f10": "<strong style=\"color:var(--text-primary)\">Net worth tracking</strong> month by month",
+    "price.pro_f11": "<strong style=\"color:var(--text-primary)\">Split transactions</strong> across categories",
+    "price.pro_f12": "<strong style=\"color:var(--text-primary)\">Milestones &amp; achievements</strong> — gamified financial habits",
+    "price.pro_f13": "<strong style=\"color:var(--text-primary)\">50/30/20 guardrails</strong>",
+    "price.pro_f14": "<strong style=\"color:var(--text-primary)\">CSV export</strong> for Excel, Numbers, QuickBooks",
+    "price.pro_f15": "All future updates included",
+    "price.pro_cta": "Get Pro — $4.99",
+    "price.compare": "YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.",
+    "price.fut_badge": "Coming soon", "price.fut_plan": "ucm Connect",
+    "price.fut_tagline": "The next evolution — bank connections, real-time sync, and automatic transaction import. No manual entry, ever.",
+    "price.fut_price": "Coming soon", "price.fut_period": "price TBD",
+    "price.fut_label": "Planned features",
+    "price.fut_f1": "Automatic bank transaction import", "price.fut_f2": "Real-time balance sync", "price.fut_f3": "Smart auto-categorisation", "price.fut_f4": "Multi-currency accounts", "price.fut_f5": "Everything in Pro included",
+    "price.fut_waitlist": "Join the waitlist — coming in 2026",
+
+    "dl.title": "Start managing<br>your money today.",
+    "dl.sub": "Join people who finally feel in control of their finances — without the stress, the subscription, or the spreadsheet.",
+    "dl.badge_small": "Download on the", "dl.badge_big": "App Store",
+
+    "foot.privacy": "Privacy Policy", "foot.support": "Support", "foot.features": "Features", "foot.tutorial": "Tutorial", "foot.pricing": "Pricing",
+    "foot.copy": "© 2026 ucm. All rights reserved."
+  },
+
+  "pt-BR": {
+    "nav.features": "Recursos", "nav.tutorial": "Tutorial", "nav.privacy": "Privacidade", "nav.pricing": "Planos", "nav.download": "Baixar",
+
+    "hero.badge": "Já disponível na App Store",
+    "hero.tagline": "Você Consegue Gerenciar.",
+    "hero.desc": "O aplicativo iOS de finanças pessoais que torna o orçamento simples. Sem assinatura. Sem conta. Sem rastreamento. Apenas o seu dinheiro, organizado com clareza.",
+    "hero.cta_download": "Baixar na App Store",
+    "hero.cta_features": "Ver recursos →",
+    "hero.stat1_val": "Grátis", "hero.stat1_label": "Sem assinatura",
+    "hero.stat2_label": "Dados vendidos",
+    "hero.stat3_label": "Dispositivos sincronizados",
+
+    "problem.label": "O Problema",
+    "problem.title": "A maioria dos apps de orçamento<br>erra a mão.",
+    "problem.sub": "Inchados, caros ou básicos demais. O ucm foi desenhado para pessoas reais que só querem saber para onde vai o dinheiro — sem precisar de um diploma em finanças ou de uma mensalidade.",
+    "problem.them_label": "Apps tradicionais",
+    "problem.them_1": "Assinaturas de R$50–R$80/mês que nunca acabam",
+    "problem.them_2": "Exigem criação de conta e conexão com banco",
+    "problem.them_3": "Painéis sobrecarregados, cheios de ruído",
+    "problem.them_4": "Seus dados nos servidores deles, para sempre",
+    "problem.them_5": "Feitos para web e adaptados ao iOS",
+    "problem.ucm_label": "ucm",
+    "problem.ucm_1": "Uma compra. Seu para sempre. Sem mensalidade.",
+    "problem.ucm_2": "Nenhuma conta — abriu, começou",
+    "problem.ucm_3": "Interface limpa que mostra o que importa",
+    "problem.ucm_4": "Armazenamento no dispositivo, sincronizado pelo seu iCloud",
+    "problem.ucm_5": "SwiftUI nativo — feito para iPhone e iPad",
+    "problem.wall_label": "Planilhas",
+    "problem.wall_1": "Grátis, mas você faz tudo manualmente",
+    "problem.wall_2": "Sem estrutura, sem categorias, sem automação",
+    "problem.wall_3": "Péssimas no celular",
+    "problem.wall_4": "Sem lembretes, sem lançamentos recorrentes",
+    "problem.wall_5": "Geralmente abandonadas em menos de uma semana",
+
+    "features.label": "Recursos",
+    "features.title": "Tudo que você precisa.<br>Nada que você não precisa.",
+
+    "feat1.eyebrow": "Controle de Gastos",
+    "feat1.title": "Registre despesas em segundos.",
+    "feat1.desc": "Tela cheia de lançamento rápido com teclado numérico próprio, chips de categoria e um toque para salvar. Adicionar uma transação é mais rápido do que abrir a carteira.",
+    "feat1.pill1": "Teclado próprio", "feat1.pill2": "Chips de categoria", "feat1.pill3": "Um toque para salvar",
+
+    "feat2.eyebrow": "Planejamento de Orçamento",
+    "feat2.title": "Orçamentos que de fato fazem você economizar.",
+    "feat2.desc": "Defina orçamentos mensais por categoria. O que sobra não desaparece — acumula para o próximo mês. Sua disciplina vira poupança real, automaticamente.",
+    "feat2.pill1": "Orçamentos mensais", "feat2.pill2": "Acúmulo de saldo", "feat2.pill3": "Detalhamento por categoria",
+
+    "feat3.eyebrow": "Insights e Patrimônio",
+    "feat3.title": "Gráficos bonitos. Zero confusão.",
+    "feat3.desc": "Detalhamento mensal de gastos, análise de necessidades vs. desejos, evolução do patrimônio líquido e acompanhamento da taxa de poupança. Veja o panorama completo em uma rolagem.",
+    "feat3.pill1": "Ritmo de gastos", "feat3.pill2": "Patrimônio líquido", "feat3.pill3": "Taxa de poupança",
+
+    "feat4.eyebrow": "Revisão Mensal",
+    "feat4.title": "Saiba exatamente para onde foi seu dinheiro.",
+    "feat4.desc": "Um relatório financeiro mensal lindo — renda, despesas, principais categorias, taxa de poupança. Tudo em uma tela, pronto para compartilhar.",
+    "feat4.pill1": "Gráfico de rosca", "feat4.pill2": "Principais categorias", "feat4.pill3": "Relatório compartilhável",
+
+    "feat5.eyebrow": "Metas de Poupança",
+    "feat5.title": "Veja suas metas ganharem vida.",
+    "feat5.desc": "Crie metas com valores e prazos. Adicione ou retire fundos a qualquer momento. Um anel de progresso se preenche conforme você avança — motivação visível.",
+    "feat5.pill1": "Anéis de progresso", "feat5.pill2": "Datas-alvo", "feat5.pill3": "Contribuições flexíveis",
+
+    "feat6.eyebrow": "Leitura de Recibos",
+    "feat6.title": "Aponte. Escaneie. Pronto.",
+    "feat6.desc": "Aponte sua câmera para qualquer recibo. A leitura no próprio dispositivo identifica estabelecimento, valor, data e sugere a categoria certa — tudo pré-preenchido. Sem digitar. Totalmente privado.",
+    "feat6.pill1": "No dispositivo", "feat6.pill2": "Categoria automática", "feat6.pill3": "Lançamento instantâneo",
+
+    "feat7.eyebrow": "Divisão e Recorrência",
+    "feat7.title": "Uma noite. Três categorias. Zero trabalho.",
+    "feat7.desc": "Divida qualquer transação entre várias categorias com um rastreador de saldo ao vivo. E para aluguel, Netflix, academia — configure uma recorrência uma vez e o ucm cuida do resto todo mês.",
+    "feat7.pill1": "Divisão de transações", "feat7.pill2": "Saldo ao vivo", "feat7.pill3": "Lançamentos recorrentes",
+    "feat7.demo_title": "Divisão de Transação", "feat7.demo_label": "jantar",
+    "feat7.demo_cat1": "Alimentação fora", "feat7.demo_cat2": "Lazer", "feat7.demo_cat3": "Presentes",
+    "feat7.demo_balanced": "✓ Equilibrado", "feat7.demo_left": "Sobra $0,00",
+
+    "details.label": "Tudo que ele faz",
+    "details.title": "Cada recurso.<br>Feito para a vida real.",
+    "det1.name": "Controle Inteligente de Gastos", "det1.desc": "Registre receitas e despesas instantaneamente com uma interface de lançamento rápido.",
+    "det2.name": "Orçamento Acumulativo", "det2.desc": "O saldo não gasto é transferido automaticamente para o mês seguinte.",
+    "det3.name": "Importação CSV de Banco", "det3.desc": "Importe meses de histórico de qualquer extrato bancário em segundos — detecta colunas automaticamente e mostra prévia antes de importar.",
+    "det4.name": "Divisão de Transações", "det4.desc": "Divida qualquer transação entre múltiplas categorias com rastreador ao vivo.",
+    "det5.name": "Transações Recorrentes", "det5.desc": "Registre aluguel, assinaturas e contas uma vez — o ucm repete para você.",
+    "det6.name": "Auditoria de Assinaturas", "det6.desc": "Veja toda despesa recorrente com totais mensais e anuais. Marca cobranças não vistas há mais de 60 dias para nada passar despercebido.",
+    "det7.name": "Leitor de Recibos", "det7.desc": "Leitura no dispositivo identifica seus recibos e pré-preenche todos os campos. Totalmente privado.",
+    "det8.name": "Controle de Cartões", "det8.desc": "Acompanhe múltiplos cartões, vencimentos e saldos. Receba um lembrete 5 dias antes de cada pagamento.",
+    "det9.name": "Metas de Poupança", "det9.desc": "Defina metas com prazos e veja os anéis de progresso se preencherem.",
+    "det10.name": "Insights e Patrimônio", "det10.desc": "Resumos mensais lindos, taxa de poupança e histórico de patrimônio líquido.",
+    "det11.name": "Revisão Mensal", "det11.desc": "Um relatório financeiro compartilhável — renda, despesas, principais categorias.",
+    "det12.name": "Notificações Inteligentes", "det12.desc": "Alertas de limite de orçamento, resumo semanal de gastos, check-in no meio do mês e lembretes de vencimento de cartão — tudo personalizado com seus dados.",
+    "det13.name": "Histórico de Orçamento", "det13.desc": "Compare gastos mês a mês. Veja onde melhorou, onde gastou demais e como seus hábitos estão evoluindo.",
+    "det14.name": "Renda Disponível", "det14.desc": "Após contas e orçamentos, veja exatamente o que está livre para gastar — sem adivinhação.",
+    "det15.name": "Conquistas e Marcos", "det15.desc": "Hábitos financeiros gamificados — ganhe marcos ao bater metas de poupança e sequências de gastos.",
+    "det16.name": "Face ID / Touch ID", "det16.desc": "Bloqueie o app com biometria. Bloqueia automaticamente quando você sai.",
+    "det17.name": "Sincronização iCloud", "det17.desc": "Sincronização perfeita entre iPhone e iPad — sem conta necessária.",
+    "det18.name": "Exportação CSV", "det18.desc": "Exporte seu histórico completo em formato padrão ou compatível com QuickBooks.",
+
+    "tutorial.label": "Tutorial",
+    "tutorial.title": "Cada recurso,<br>explicado.",
+    "tutorial.sub": "Deslize pelos 18 recursos — gratuitos e Pro — e veja exatamente o que o ucm faz por você.",
+    "tier.free": "Grátis", "tier.pro": "Pro",
+    "car1.title": "Lançamento Rápido", "car1.desc": "Tela cheia com teclado numérico próprio e chips de categoria. Registrar uma transação leva menos de 5 segundos — mais rápido que abrir a carteira.",
+    "car2.title": "Orçamentos Mensais", "car2.desc": "Defina um limite de gasto por categoria todo mês. Acompanhe o progresso em tempo real e saiba exatamente quando está perto do limite.",
+    "car3.title": "Acúmulo de Saldo", "car3.desc": "O orçamento não gasto é transferido automaticamente todo mês. Sua disciplina constrói uma poupança real e visível sem esforço.",
+    "car4.title": "Importação CSV de Banco", "car4.desc": "Exporte um extrato do seu banco e importe em segundos. O ucm detecta colunas automaticamente, mostra uma prévia e deixa você escolher quais linhas manter.",
+    "car5.title": "Histórico de Transações", "car5.desc": "Busque, filtre por categoria ou intervalo de datas e exclua em massa. Seu histórico financeiro completo a um toque.",
+    "car6.title": "Widget na Tela Inicial", "car6.desc": "Veja seu saldo e o status do orçamento sem abrir o app. Disponível em tamanho pequeno, médio e grande para tela inicial e tela de bloqueio.",
+    "car7.title": "Notificações Inteligentes", "car7.desc": "Resumo semanal de gastos toda segunda, check-in de orçamento no dia 15 e lembretes de vencimento de cartão — tudo feito com seus dados reais.",
+    "car8.title": "Insights Completos", "car8.desc": "Gráficos mensais, taxa de poupança, análise de necessidades vs. desejos e tendências de gasto ao longo do tempo. Seu panorama financeiro completo em uma rolagem.",
+    "car9.title": "Revisão Mensal", "car9.desc": "Um relatório lindo com renda, despesas, principais categorias e sua taxa de poupança. Toque em compartilhar e envie para qualquer lugar.",
+    "car10.title": "Metas de Poupança", "car10.desc": "Crie metas com valor e prazo. Adicione ou retire fundos a qualquer momento. Um anel de progresso se preenche conforme você avança — motivação visível.",
+    "car11.title": "Transações Recorrentes", "car11.desc": "Configure aluguel, Netflix, academia ou qualquer conta regular uma vez. O ucm gera o lançamento todo mês — nada escapa.",
+    "car12.title": "Auditoria de Assinaturas", "car12.desc": "Toda cobrança recorrente, totais mensais e anuais em uma só tela. Marca automaticamente qualquer cobrança não vista há mais de 60 dias para assinaturas esquecidas não se esconderem.",
+    "car13.title": "Renda Disponível", "car13.desc": "Após contas, orçamentos e contribuições para poupança — veja exatamente o que está livre para gastar. Sem adivinhação. Sem surpresas no meio do mês.",
+    "car14.title": "Leitura de Recibos", "car14.desc": "Aponte sua câmera para qualquer recibo. A leitura no dispositivo identifica estabelecimento, valor e data — pré-preenche o lançamento instantaneamente. Totalmente privado, nunca enviado.",
+    "car15.title": "Controle de Cartões", "car15.desc": "Acompanhe múltiplos cartões, saldos atuais e vencimentos. Receba um lembrete 5 dias antes de cada pagamento para nunca mais pagar multa por atraso.",
+    "car16.title": "Patrimônio Líquido", "car16.desc": "Registre ativos e passivos. Veja seu patrimônio líquido crescer mês a mês com um gráfico histórico limpo que mostra exatamente onde você começou.",
+    "car17.title": "Divisão de Transações", "car17.desc": "Um jantar, três categorias. Divida qualquer despesa entre várias contas com um rastreador de saldo ao vivo que confirma que tudo soma zero.",
+    "car18.title": "Conquistas e Marcos", "car18.desc": "Ganhe marcos ao bater metas de poupança, criar sequências sem gastos e atingir objetivos financeiros. Hábitos gamificados que realmente permanecem a longo prazo.",
+
+    "priv.label": "Promessa de Privacidade",
+    "priv.title": "Seus dados nunca<br>saem dos seus dispositivos.",
+    "priv.desc": "Sem conta. Sem anúncios. Sem rastreamento. Sem servidor. Suas finanças pertencem a você — e somente a você. Protegidas pela criptografia da Apple, no seu próprio iCloud.",
+    "priv.pillar1": "Sem conta necessária", "priv.pillar2": "Zero coleta de dados", "priv.pillar3": "Sem anúncios. Nunca.", "priv.pillar4": "Criptografado pelo iCloud", "priv.pillar5": "Sem servidor. Sem rastreamento.",
+
+    "price.label": "Planos",
+    "price.title": "Preço simples.<br>Sem assinatura.",
+    "price.sub": "Comece grátis. Desbloqueie tudo pelo preço de um café. Sem renovação. Sem taxas escondidas. Nunca.",
+    "price.free_badge": "Grátis", "price.free_plan": "Grátis",
+    "price.free_tagline": "Tudo que você precisa para começar a controlar seu dinheiro — sem cartão de crédito.",
+    "price.free_period": "sempre grátis", "price.free_disclaimer": "Sem cartão · Sem conta",
+    "price.free_label": "Incluído",
+    "price.free_f1": "Controle de receitas e despesas", "price.free_f2": "Orçamentos mensais por categoria", "price.free_f3": "Acúmulo do saldo de orçamento", "price.free_f4": "Histórico completo de transações", "price.free_f5": "Busca, filtro e exclusão em massa", "price.free_f6": "Importação de CSV de banco", "price.free_f7": "Widget de tela inicial e bloqueio", "price.free_f8": "Sincronização iCloud entre dispositivos", "price.free_f9": "Sem conta. Sem rastreamento. Sem anúncios.",
+    "price.free_cta": "Baixar Grátis",
+    "price.pro_badge": "Mais popular", "price.pro_plan": "Pro",
+    "price.pro_tagline": "O panorama completo. Todos os recursos. Um pagamento — seu para sempre.",
+    "price.pro_period": "pagamento único · sem assinatura", "price.pro_forever": "Pague uma vez. Seu para sempre. ✓",
+    "price.pro_label": "Tudo do Grátis, mais",
+    "price.pro_f1": "<strong style=\"color:var(--text-primary)\">Notificações inteligentes</strong> — resumo semanal, check-in no meio do mês",
+    "price.pro_f2": "<strong style=\"color:var(--text-primary)\">Insights completos</strong> — gráficos, taxa de poupança, tendências",
+    "price.pro_f3": "<strong style=\"color:var(--text-primary)\">Relatórios mensais</strong> — compartilháveis",
+    "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Metas de poupança</strong> com anéis de progresso",
+    "price.pro_f5": "<strong style=\"color:var(--text-primary)\">Transações recorrentes</strong> geradas automaticamente",
+    "price.pro_f6": "<strong style=\"color:var(--text-primary)\">Auditoria de assinaturas</strong> — pegue cobranças esquecidas",
+    "price.pro_f7": "<strong style=\"color:var(--text-primary)\">Renda disponível</strong> — veja o que está realmente livre para gastar",
+    "price.pro_f8": "<strong style=\"color:var(--text-primary)\">Leitura de recibos</strong> — aponte, escaneie, pronto",
+    "price.pro_f9": "<strong style=\"color:var(--text-primary)\">Controle de cartões</strong> e alertas de vencimento",
+    "price.pro_f10": "<strong style=\"color:var(--text-primary)\">Patrimônio líquido</strong> mês a mês",
+    "price.pro_f11": "<strong style=\"color:var(--text-primary)\">Divisão de transações</strong> entre categorias",
+    "price.pro_f12": "<strong style=\"color:var(--text-primary)\">Conquistas e marcos</strong> — hábitos financeiros gamificados",
+    "price.pro_f13": "<strong style=\"color:var(--text-primary)\">Diretrizes 50/30/20</strong>",
+    "price.pro_f14": "<strong style=\"color:var(--text-primary)\">Exportação CSV</strong> para Excel, Numbers, QuickBooks",
+    "price.pro_f15": "Todas as atualizações futuras incluídas",
+    "price.pro_cta": "Comprar Pro — $4.99",
+    "price.compare": "YNAB cobra <strong>$109/ano</strong>. Copilot cobra <strong>$95/ano</strong>. ucm Pro é $4.99. Uma vez.",
+    "price.fut_badge": "Em breve", "price.fut_plan": "ucm Connect",
+    "price.fut_tagline": "A próxima evolução — conexão bancária, sincronização em tempo real e importação automática de transações. Sem lançamento manual, nunca mais.",
+    "price.fut_price": "Em breve", "price.fut_period": "preço a definir",
+    "price.fut_label": "Recursos planejados",
+    "price.fut_f1": "Importação automática de transações bancárias", "price.fut_f2": "Sincronização de saldo em tempo real", "price.fut_f3": "Categorização automática inteligente", "price.fut_f4": "Contas em múltiplas moedas", "price.fut_f5": "Tudo do Pro incluído",
+    "price.fut_waitlist": "Entre na lista de espera — em 2026",
+
+    "dl.title": "Comece a gerenciar<br>seu dinheiro hoje.",
+    "dl.sub": "Junte-se a quem finalmente sente que controla as próprias finanças — sem o estresse, a assinatura ou a planilha.",
+    "dl.badge_small": "Baixe na", "dl.badge_big": "App Store",
+
+    "foot.privacy": "Política de Privacidade", "foot.support": "Suporte", "foot.features": "Recursos", "foot.tutorial": "Tutorial", "foot.pricing": "Planos",
+    "foot.copy": "© 2026 ucm. Todos os direitos reservados."
+  }
+};
+
+function applyLang(lang) {
+  if (!TRANSLATIONS[lang]) return;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const val = TRANSLATIONS[lang][key];
+    if (val != null) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.langBtn === lang);
+  });
+  try { localStorage.setItem('ucm.site.lang', lang); } catch (e) {}
+}
+
+(function () {
+  let initial = 'en';
+  try {
+    const stored = localStorage.getItem('ucm.site.lang');
+    if (stored === 'en' || stored === 'pt-BR') initial = stored;
+    else if ((navigator.language || '').toLowerCase().startsWith('pt')) initial = 'pt-BR';
+  } catch (e) {}
+  applyLang(initial);
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.langBtn));
+  });
+})();
+
+// ─── Feature carousel ────────────────────────────────────────────────────
 (function () {
   const track = document.getElementById('featureCarousel');
   const dotsEl = document.getElementById('carouselDots');
