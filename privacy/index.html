@@ -22,6 +22,38 @@
       border-bottom: 1px solid #1a2e2b;
     }
 
+    .lang-toggle {
+      display: inline-flex;
+      gap: 4px;
+      background: #0C1A18;
+      border: 1px solid #1a2e2b;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+
+    .lang-toggle button {
+      background: transparent;
+      color: #888;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+
+    .lang-toggle button.active {
+      background: #2DD4BF;
+      color: #050F0E;
+    }
+
+    .lang-toggle button:not(.active):hover {
+      color: #e8e8e8;
+    }
+
     header h1 {
       font-size: 2rem;
       font-weight: 700;
@@ -76,116 +108,277 @@
 
     a { color: #2DD4BF; text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    [data-lang] { display: none; }
+    [data-lang].active { display: block; }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Privacy Policy</h1>
-    <p>Last updated: April 2026</p>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" class="active">English</button>
+      <button type="button" data-set-lang="pt-BR">Português</button>
+    </div>
+
+    <div data-lang="en" class="active">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: April 2026</p>
+    </div>
+    <div data-lang="pt-BR">
+      <h1>Política de Privacidade</h1>
+      <p>Última atualização: abril de 2026</p>
+    </div>
   </header>
 
   <main>
 
-    <div class="highlight">
-      <strong>Short version:</strong> Your financial data never leaves your devices.
-      We do not collect, store, or share any personal information.
+    <!-- ─────────────────────────  ENGLISH  ───────────────────────── -->
+    <div data-lang="en" class="active">
+
+      <div class="highlight">
+        <strong>Short version:</strong> Your financial data never leaves your devices.
+        We do not collect, store, or share any personal information.
+      </div>
+
+      <section>
+        <h2>1. What data the app stores</h2>
+        <p>
+          ucm allows you to record personal financial transactions, set budgets,
+          and track spending. All of this information is stored <strong>exclusively on
+          your device</strong> using Apple's SwiftData framework.
+        </p>
+        <p>
+          If you choose to enable iCloud sync, your data is synced between your own
+          Apple devices through your personal iCloud account using Apple's CloudKit.
+          We have no access to your iCloud data. Apple's privacy policy governs
+          iCloud storage.
+        </p>
+      </section>
+
+      <section>
+        <h2>2. Data we do not collect</h2>
+        <p>We do not collect:</p>
+        <ul>
+          <li>Names, email addresses, or any contact information</li>
+          <li>Financial amounts, categories, or transaction history</li>
+          <li>Device identifiers or advertising IDs</li>
+          <li>Location data</li>
+          <li>Usage analytics or crash reports</li>
+        </ul>
+        <p>There are no accounts, no logins, and no sign-up of any kind.</p>
+      </section>
+
+      <section>
+        <h2>3. AI Receipt Scanning</h2>
+        <p>
+          ucm includes an optional AI-powered receipt scanner. If you choose to use
+          this feature by entering your own OpenAI API key, receipt images are sent
+          directly from your device to OpenAI's API for processing. Your API key is
+          stored locally on your device and is never shared with us. Please review
+          <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI's privacy policy</a>
+          for how they handle image data.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. Third-party SDKs and frameworks</h2>
+        <p>
+          The app uses no third-party analytics, advertising, or tracking SDKs.
+          It uses only Apple's first-party frameworks (SwiftUI, SwiftData, StoreKit, CloudKit).
+        </p>
+      </section>
+
+      <section>
+        <h2>5. Purchases</h2>
+        <p>
+          ucm offers a one-time in-app purchase to unlock Pro features.
+          All purchases are processed by Apple through the App Store.
+          We do not handle or store any payment information.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. Data deletion</h2>
+        <p>
+          Because all data is stored on your device (and optionally in your own
+          iCloud account), you can delete all app data at any time by uninstalling
+          the app. No data remains on any server after deletion because no data was
+          ever sent to ours.
+        </p>
+      </section>
+
+      <section>
+        <h2>7. Children's privacy</h2>
+        <p>
+          The app does not knowingly collect any data from anyone,
+          including children under the age of 13.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Changes to this policy</h2>
+        <p>
+          If we ever add features that collect data, this policy will be updated
+          before that feature ships and you will be notified within the app.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Contact</h2>
+        <p>
+          Questions about this privacy policy?<br />
+          Email us at <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>
+        </p>
+      </section>
+
     </div>
 
-    <section>
-      <h2>1. What data the app stores</h2>
-      <p>
-        ucm allows you to record personal financial transactions, set budgets,
-        and track spending. All of this information is stored <strong>exclusively on
-        your device</strong> using Apple's SwiftData framework.
-      </p>
-      <p>
-        If you choose to enable iCloud sync, your data is synced between your own
-        Apple devices through your personal iCloud account using Apple's CloudKit.
-        We have no access to your iCloud data. Apple's privacy policy governs
-        iCloud storage.
-      </p>
-    </section>
+    <!-- ────────────────────────  PORTUGUÊS  ──────────────────────── -->
+    <div data-lang="pt-BR">
 
-    <section>
-      <h2>2. Data we do not collect</h2>
-      <p>We do not collect:</p>
-      <ul>
-        <li>Names, email addresses, or any contact information</li>
-        <li>Financial amounts, categories, or transaction history</li>
-        <li>Device identifiers or advertising IDs</li>
-        <li>Location data</li>
-        <li>Usage analytics or crash reports</li>
-      </ul>
-      <p>There are no accounts, no logins, and no sign-up of any kind.</p>
-    </section>
+      <div class="highlight">
+        <strong>Resumo:</strong> Seus dados financeiros nunca saem dos seus dispositivos.
+        Não coletamos, armazenamos ou compartilhamos nenhuma informação pessoal.
+      </div>
 
-    <section>
-      <h2>3. Receipt Scanning</h2>
-      <p>
-        ucm includes a Smart Scan receipt scanner powered entirely by Apple's
-        on-device Vision framework. Receipt images are processed locally on your
-        device and are never transmitted to any external server. No internet
-        connection is required to use this feature.
-      </p>
-    </section>
+      <section>
+        <h2>1. Quais dados o aplicativo armazena</h2>
+        <p>
+          O ucm permite registrar transações financeiras pessoais, definir orçamentos
+          e acompanhar seus gastos. Todas essas informações são armazenadas
+          <strong>exclusivamente no seu dispositivo</strong>, utilizando o framework
+          SwiftData da Apple.
+        </p>
+        <p>
+          Se você optar por ativar a sincronização com o iCloud, seus dados são
+          sincronizados entre os seus próprios dispositivos Apple através da sua
+          conta pessoal do iCloud, usando o CloudKit da Apple. Não temos acesso aos
+          seus dados no iCloud. A política de privacidade da Apple rege o
+          armazenamento no iCloud.
+        </p>
+      </section>
 
-    <section>
-      <h2>4. Third-party SDKs and frameworks</h2>
-      <p>
-        The app uses no third-party analytics, advertising, or tracking SDKs.
-        It uses only Apple's first-party frameworks (SwiftUI, SwiftData, StoreKit, CloudKit).
-      </p>
-    </section>
+      <section>
+        <h2>2. Dados que não coletamos</h2>
+        <p>Não coletamos:</p>
+        <ul>
+          <li>Nomes, e-mails ou qualquer informação de contato</li>
+          <li>Valores financeiros, categorias ou histórico de transações</li>
+          <li>Identificadores de dispositivo ou IDs de publicidade</li>
+          <li>Dados de localização</li>
+          <li>Análises de uso ou relatórios de falha</li>
+        </ul>
+        <p>Não há contas, logins ou cadastros de nenhum tipo.</p>
+      </section>
 
-    <section>
-      <h2>5. Purchases</h2>
-      <p>
-        ucm offers a one-time in-app purchase to unlock Pro features.
-        All purchases are processed by Apple through the App Store.
-        We do not handle or store any payment information.
-      </p>
-    </section>
+      <section>
+        <h2>3. Leitura de recibos com IA</h2>
+        <p>
+          O ucm inclui um leitor opcional de recibos com inteligência artificial.
+          Se você decidir usar esse recurso inserindo sua própria chave de API da
+          OpenAI, as imagens dos recibos são enviadas diretamente do seu dispositivo
+          para a API da OpenAI para processamento. Sua chave de API é armazenada
+          localmente no seu dispositivo e nunca é compartilhada conosco. Consulte a
+          <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">política de privacidade da OpenAI</a>
+          para entender como eles tratam imagens.
+        </p>
+      </section>
 
-    <section>
-      <h2>6. Data deletion</h2>
-      <p>
-        Because all data is stored on your device (and optionally in your own
-        iCloud account), you can delete all app data at any time by uninstalling
-        the app. No data remains on any server after deletion because no data was
-        ever sent to ours.
-      </p>
-    </section>
+      <section>
+        <h2>4. SDKs e frameworks de terceiros</h2>
+        <p>
+          O aplicativo não utiliza nenhum SDK de análise, publicidade ou
+          rastreamento de terceiros. Apenas frameworks oficiais da Apple
+          (SwiftUI, SwiftData, StoreKit, CloudKit) são utilizados.
+        </p>
+      </section>
 
-    <section>
-      <h2>7. Children's privacy</h2>
-      <p>
-        The app does not knowingly collect any data from anyone,
-        including children under the age of 13.
-      </p>
-    </section>
+      <section>
+        <h2>5. Compras</h2>
+        <p>
+          O ucm oferece uma compra única dentro do aplicativo para desbloquear os
+          recursos Pro. Todas as compras são processadas pela Apple através da
+          App Store. Não manuseamos nem armazenamos nenhuma informação de pagamento.
+        </p>
+      </section>
 
-    <section>
-      <h2>8. Changes to this policy</h2>
-      <p>
-        If we ever add features that collect data, this policy will be updated
-        before that feature ships and you will be notified within the app.
-      </p>
-    </section>
+      <section>
+        <h2>6. Exclusão de dados</h2>
+        <p>
+          Como todos os dados ficam armazenados no seu dispositivo (e, opcionalmente,
+          na sua própria conta do iCloud), você pode excluir todos os dados do
+          aplicativo a qualquer momento desinstalando-o. Nenhum dado permanece em
+          servidores após a exclusão, pois nenhum dado foi enviado aos nossos.
+        </p>
+      </section>
 
-    <section>
-      <h2>9. Contact</h2>
-      <p>
-        Questions about this privacy policy?<br />
-        Email us at <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>
-      </p>
-    </section>
+      <section>
+        <h2>7. Privacidade infantil</h2>
+        <p>
+          O aplicativo não coleta intencionalmente dados de ninguém, incluindo
+          crianças menores de 13 anos.
+        </p>
+      </section>
+
+      <section>
+        <h2>8. Alterações nesta política</h2>
+        <p>
+          Caso passemos a oferecer recursos que coletem dados, esta política será
+          atualizada antes do lançamento desse recurso e você será notificado dentro
+          do aplicativo.
+        </p>
+      </section>
+
+      <section>
+        <h2>9. Contato</h2>
+        <p>
+          Dúvidas sobre esta política de privacidade?<br />
+          Envie um e-mail para <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>
+        </p>
+      </section>
+
+    </div>
 
   </main>
 
   <footer>
-    <p>© 2026 ucm. All rights reserved.</p>
+    <p>© 2026 ucm. <span data-lang="en" class="active">All rights reserved.</span><span data-lang="pt-BR">Todos os direitos reservados.</span></p>
   </footer>
+
+  <script>
+    (function () {
+      const buttons = document.querySelectorAll('[data-set-lang]');
+      const blocks  = document.querySelectorAll('[data-lang]');
+
+      function setLang(lang) {
+        document.documentElement.lang = lang;
+        buttons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.setLang === lang);
+        });
+        blocks.forEach(el => {
+          el.classList.toggle('active', el.dataset.lang === lang);
+        });
+        try { localStorage.setItem('ucm.privacy.lang', lang); } catch (e) {}
+      }
+
+      // Initial language: stored preference → browser language → English
+      let initial = 'en';
+      try {
+        const stored = localStorage.getItem('ucm.privacy.lang');
+        if (stored === 'en' || stored === 'pt-BR') {
+          initial = stored;
+        } else if ((navigator.language || '').toLowerCase().startsWith('pt')) {
+          initial = 'pt-BR';
+        }
+      } catch (e) {}
+      setLang(initial);
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.dataset.setLang));
+      });
+    })();
+  </script>
 
 </body>
 </html>
