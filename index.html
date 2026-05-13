@@ -1122,6 +1122,7 @@ footer {
     <div class="reveal"><p class="section-label" style="text-align:center" data-i18n="price.label">Pricing</p></div>
     <h2 class="section-title reveal" style="text-align:center" data-i18n="price.title">Simple pricing.<br>No subscription.</h2>
     <p class="section-sub reveal" style="margin:0 auto;text-align:center" data-i18n="price.sub">Start free. Unlock everything for the price of a coffee. No renewal. No hidden fees. Ever.</p>
+    <p class="reveal" style="margin:8px auto 0;text-align:center;font-size:13px;color:var(--text-tertiary)" data-i18n="price.currency_disclaimer">Prices shown are in US Dollars.</p>
 
     <div class="pricing-grid">
 
@@ -1155,7 +1156,7 @@ footer {
         <div class="pricing-badge" data-i18n="price.pro_badge">Most popular</div>
         <p class="pricing-plan" data-i18n="price.pro_plan">Pro</p>
         <p class="pricing-tagline" data-i18n="price.pro_tagline">The full picture. Every feature. One payment — yours for life.</p>
-        <div class="pricing-price"><sup>$</sup>4<span style="font-size:42px;letter-spacing:-2px">.99</span></div>
+        <div class="pricing-price"><sup data-i18n="price.pro_currency">$</sup>4<span style="font-size:42px;letter-spacing:-2px">.99</span></div>
         <p class="pricing-period" data-i18n="price.pro_period">one-time · no subscription</p>
         <p class="pricing-forever" data-i18n="price.pro_forever">Pay once. Yours forever. ✓</p>
 
@@ -1415,6 +1416,8 @@ const TRANSLATIONS = {
     "price.pro_f13": "<strong style=\"color:var(--text-primary)\">50/30/20 guardrails</strong>",
     "price.pro_f14": "<strong style=\"color:var(--text-primary)\">CSV export</strong> for Excel, Numbers, QuickBooks",
     "price.pro_f15": "All future updates included",
+    "price.pro_currency": "$",
+    "price.currency_disclaimer": "Prices shown are in US Dollars.",
     "price.pro_cta": "Get Pro — $4.99",
     "price.compare": "YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.",
     "price.fut_badge": "Coming soon", "price.fut_plan": "ucm Connect",
@@ -1584,8 +1587,10 @@ const TRANSLATIONS = {
     "price.pro_f13": "<strong style=\"color:var(--text-primary)\">Diretrizes 50/30/20</strong>",
     "price.pro_f14": "<strong style=\"color:var(--text-primary)\">Exportação CSV</strong> para Excel, Numbers, QuickBooks",
     "price.pro_f15": "Todas as atualizações futuras incluídas",
-    "price.pro_cta": "Comprar Pro — $4.99",
-    "price.compare": "YNAB cobra <strong>$109/ano</strong>. Copilot cobra <strong>$95/ano</strong>. ucm Pro é $4.99. Uma vez.",
+    "price.pro_currency": "US$",
+    "price.currency_disclaimer": "Os preços exibidos são em dólares americanos.",
+    "price.pro_cta": "Comprar Pro — US$4.99",
+    "price.compare": "YNAB cobra <strong>US$109/ano</strong>. Copilot cobra <strong>US$95/ano</strong>. ucm Pro é US$4.99. Uma vez.",
     "price.fut_badge": "Em breve", "price.fut_plan": "ucm Connect",
     "price.fut_tagline": "A próxima evolução — conexão bancária, sincronização em tempo real e importação automática de transações. Sem lançamento manual, nunca mais.",
     "price.fut_price": "Em breve", "price.fut_period": "preço a definir",
