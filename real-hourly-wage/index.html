@@ -39,21 +39,30 @@
   a { color: var(--accent); }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
-  /* Nav */
   nav {
-    border-bottom: 1px solid var(--border); padding: 18px 0;
+    border-bottom: 1px solid var(--border); padding: 16px 0;
     position: sticky; top: 0; background: rgba(5,15,14,0.85);
     backdrop-filter: blur(12px); z-index: 10;
   }
   nav .wrap { display: flex; justify-content: space-between; align-items: center; }
   .logo { font-weight: 900; font-size: 20px; color: var(--accent); text-decoration: none; }
+  .nav-right { display: flex; align-items: center; gap: 14px; }
+  .lang-toggle {
+    display: flex; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+  }
+  .lang-toggle button {
+    border: none; background: transparent; color: var(--text-secondary);
+    font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+    padding: 6px 10px;
+  }
+  .lang-toggle button.active { background: var(--accent); color: var(--bg); }
   .nav-cta {
     font-size: 14px; font-weight: 700; text-decoration: none; color: var(--bg);
     background: var(--accent); padding: 9px 16px; border-radius: 10px;
   }
 
-  /* Hero */
-  header { padding: 80px 0 56px; text-align: center; }
+  header { padding: 78px 0 54px; text-align: center; }
   .eyebrow {
     font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
     color: var(--accent); margin-bottom: 18px;
@@ -64,7 +73,6 @@
   }
   .lede { font-size: 19px; color: var(--text-secondary); }
 
-  /* Big number callout */
   .callout {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 20px; padding: 40px; text-align: center; margin: 12px 0 8px;
@@ -75,7 +83,6 @@
   }
   .callout-cap { font-size: 15px; color: var(--text-secondary); margin-top: 10px; }
 
-  /* Content */
   section { padding: 36px 0; }
   h2 {
     font-size: 28px; font-weight: 800; letter-spacing: -0.5px;
@@ -100,13 +107,12 @@
   }
   .example-row:last-child { border-bottom: none; }
   .example-label { font-size: 15px; color: var(--text-secondary); }
-  .example-val { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .example-val { font-size: 16px; font-weight: 700; color: var(--text-primary); text-align: right; }
   .example-val.hours { color: var(--accent); }
 
   ul { margin: 0 0 16px 20px; }
   li { font-size: 17px; color: var(--text-secondary); margin-bottom: 8px; }
 
-  /* CTA */
   .cta {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 20px; padding: 40px; text-align: center; margin: 24px 0 60px;
@@ -130,86 +136,92 @@
 <nav>
   <div class="wrap">
     <a href="/" class="logo">ucm</a>
-    <a href="https://apps.apple.com/app/id6765532626" class="nav-cta" target="_blank" rel="noopener">Get the app</a>
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang-btn="en" class="active">EN</button>
+        <button type="button" data-lang-btn="pt-BR">PT</button>
+      </div>
+      <a href="https://apps.apple.com/app/id6765532626" class="nav-cta" target="_blank" rel="noopener" data-i18n="rhw.nav_cta">Get the app</a>
+    </div>
   </div>
 </nav>
 
 <header>
   <div class="wrap">
-    <p class="eyebrow">Real Hourly Wage</p>
-    <h1>What is an hour of your life actually worth?</h1>
-    <p class="lede">Not your salary divided by 40. Your <strong>real</strong> hourly wage — after taxes, commute, and the time work quietly takes from your day.</p>
+    <p class="eyebrow" data-i18n="rhw.eyebrow">Real Hourly Wage</p>
+    <h1 data-i18n="rhw.h1">What is an hour of your life actually worth?</h1>
+    <p class="lede" data-i18n="rhw.lede">Not your salary divided by 40. Your <strong>real</strong> hourly wage — after taxes, commute, and the time work quietly takes from your day.</p>
   </div>
 </header>
 
 <div class="wrap">
 
   <div class="callout">
-    <div class="callout-num">3.2 hrs</div>
-    <div class="callout-cap">What a $100 purchase really costs someone earning a $31/hr real wage</div>
+    <div class="callout-num" data-i18n="rhw.callout_num">5.3 hrs</div>
+    <div class="callout-cap" data-i18n="rhw.callout_cap">What a $100 purchase really costs someone earning a $19/hr real wage</div>
   </div>
 
   <section>
-    <h2>The idea</h2>
-    <p>The concept comes from <a href="https://en.wikipedia.org/wiki/Your_Money_or_Your_Life_(book)" target="_blank" rel="noopener"><em>Your Money or Your Life</em></a> — the bestselling book by Vicki Robin and Joe Dominguez that reshaped how millions think about money.</p>
-    <p>Its core insight: money is something you trade <strong>your life energy</strong> for. Every dollar you earn cost you a slice of time you'll never get back. So the honest way to judge a purchase isn't "can I afford it?" — it's <strong>"is this worth the hours of my life it costs?"</strong></p>
+    <h2 data-i18n="rhw.s1_h2">The idea</h2>
+    <p data-i18n="rhw.s1_p1">The concept comes from <a href="https://en.wikipedia.org/wiki/Your_Money_or_Your_Life_(book)" target="_blank" rel="noopener"><em>Your Money or Your Life</em></a> — the bestselling book by Vicki Robin and Joe Dominguez that reshaped how millions think about money.</p>
+    <p data-i18n="rhw.s1_p2">Its core insight: money is something you trade <strong>your life energy</strong> for. Every dollar you earn cost you a slice of time you'll never get back. So the honest way to judge a purchase isn't "can I afford it?" — it's <strong>"is this worth the hours of my life it costs?"</strong></p>
   </section>
 
   <section>
-    <h2>Why your "hourly wage" is a lie</h2>
-    <p>Say you earn $60,000 a year and work 40 hours a week. That looks like about $29/hour. But that number ignores almost everything:</p>
+    <h2 data-i18n="rhw.s2_h2">Why your "hourly wage" is a lie</h2>
+    <p data-i18n="rhw.s2_p1">Say you earn $60,000 a year and work 40 hours a week. That looks like about $29/hour. But that number ignores almost everything:</p>
     <ul>
-      <li><strong>Taxes</strong> — you never see a chunk of that salary.</li>
-      <li><strong>Commute</strong> — unpaid time you only spend because of the job.</li>
-      <li><strong>Prep</strong> — getting ready, decompressing, work that follows you home.</li>
-      <li><strong>Job-related spending</strong> — the costs that exist only because you work.</li>
+      <li data-i18n="rhw.s2_li1"><strong>Taxes</strong> — you never see a chunk of that salary.</li>
+      <li data-i18n="rhw.s2_li2"><strong>Commute</strong> — unpaid time you only spend because of the job.</li>
+      <li data-i18n="rhw.s2_li3"><strong>Prep</strong> — getting ready, decompressing, work that follows you home.</li>
+      <li data-i18n="rhw.s2_li4"><strong>Job-related spending</strong> — the costs that exist only because you work.</li>
     </ul>
-    <p>Once you subtract the money and add back the time, the real number is often <strong>30–50% lower</strong> than the wage on your contract.</p>
+    <p data-i18n="rhw.s2_p2">Once you subtract the money and add back the time, the real number is often <strong>30–50% lower</strong> than the wage on your contract.</p>
   </section>
 
   <section>
-    <h2>The calculation</h2>
-    <div class="formula">
+    <h2 data-i18n="rhw.s3_h2">The calculation</h2>
+    <div class="formula" data-i18n="rhw.s3_formula">
       Real hourly wage = <span>take-home pay</span> ÷ <span>all the hours work really costs you</span>
     </div>
-    <p>Here's a worked example:</p>
+    <p data-i18n="rhw.s3_p1">Here's a worked example:</p>
     <div class="example">
-      <div class="example-row"><span class="example-label">Annual take-home pay</span><span class="example-val">$52,000</span></div>
-      <div class="example-row"><span class="example-label">Hours worked + commute + prep, per week</span><span class="example-val">~48 hrs</span></div>
-      <div class="example-row"><span class="example-label">Annual life-hours given to work</span><span class="example-val">~2,496 hrs</span></div>
-      <div class="example-row"><span class="example-label">Real hourly wage</span><span class="example-val hours">≈ $20.83 / hr</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s3_r1l">Annual take-home pay</span><span class="example-val" data-i18n="rhw.s3_r1v">$48,000</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s3_r2l">Hours worked + commute + prep, per week</span><span class="example-val" data-i18n="rhw.s3_r2v">~48 hrs</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s3_r3l">Annual life-hours given to work</span><span class="example-val" data-i18n="rhw.s3_r3v">~2,496 hrs</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s3_r4l">Real hourly wage</span><span class="example-val hours" data-i18n="rhw.s3_r4v">≈ $19.23 / hr</span></div>
     </div>
-    <p>That $29/hour on paper? It's really closer to <strong>$21</strong> — the true price of an hour of this person's life.</p>
+    <p data-i18n="rhw.s3_p2">That $29/hour on paper? It's really closer to <strong>$19</strong> — the true price of an hour of this person's life.</p>
   </section>
 
   <section>
-    <h2>What changes when you see it</h2>
-    <p>Once an expense is priced in hours, decisions get clearer — instantly and without willpower:</p>
+    <h2 data-i18n="rhw.s4_h2">What changes when you see it</h2>
+    <p data-i18n="rhw.s4_p1">Once an expense is priced in hours, decisions get clearer — instantly and without willpower:</p>
     <div class="example">
-      <div class="example-row"><span class="example-label">$12 lunch out</span><span class="example-val hours">~35 min of your life</span></div>
-      <div class="example-row"><span class="example-label">$100 impulse buy</span><span class="example-val hours">~4.8 hours</span></div>
-      <div class="example-row"><span class="example-label">$1,200 weekend trip</span><span class="example-val hours">~58 hours — a week and a half of work</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s4_r1l">$15 lunch out</span><span class="example-val hours" data-i18n="rhw.s4_r1v">~47 min of your life</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s4_r2l">$100 impulse buy</span><span class="example-val hours" data-i18n="rhw.s4_r2v">~5.3 hours</span></div>
+      <div class="example-row"><span class="example-label" data-i18n="rhw.s4_r3l">$1,200 weekend trip</span><span class="example-val hours" data-i18n="rhw.s4_r3v">~63 hours — a week and a half of work</span></div>
     </div>
-    <p>Nothing here tells you to stop spending. It just makes the trade <strong>honest</strong>. Some things are absolutely worth the hours. Many quietly aren't — and you only notice once you can see it.</p>
+    <p data-i18n="rhw.s4_p2">Nothing here tells you to stop spending. It just makes the trade <strong>honest</strong>. Some things are absolutely worth the hours. Many quietly aren't — and you only notice once you can see it.</p>
   </section>
 
   <section>
-    <h2>ucm does the math for you</h2>
-    <p>ucm is an iOS personal finance app that builds your real hourly wage from your own numbers — then shows it everywhere it matters. It's the single most behavior-shifting metric in personal finance, and ucm is the only budget app that puts it front and centre.</p>
-    <p>No subscription. No account. No tracking. Just your money — and your time — finally seen clearly.</p>
+    <h2 data-i18n="rhw.s5_h2">ucm does the math for you</h2>
+    <p data-i18n="rhw.s5_p1">ucm is an iOS personal finance app that builds your real hourly wage from your own numbers — then shows it everywhere it matters. It's the single most behavior-shifting metric in personal finance, and ucm is the only budget app that puts it front and centre.</p>
+    <p data-i18n="rhw.s5_p2">No subscription. No account. No tracking. Just your money — and your time — finally seen clearly.</p>
   </section>
 
   <div class="cta">
-    <h2>See what your time is worth.</h2>
-    <p>Download ucm and get your real hourly wage in minutes.</p>
-    <a href="https://apps.apple.com/app/id6765532626" class="btn" target="_blank" rel="noopener">Download on the App Store</a>
+    <h2 data-i18n="rhw.cta_h2">See what your time is worth.</h2>
+    <p data-i18n="rhw.cta_p">Download ucm and get your real hourly wage in minutes.</p>
+    <a href="https://apps.apple.com/app/id6765532626" class="btn" target="_blank" rel="noopener" data-i18n="rhw.cta_btn">Download on the App Store</a>
   </div>
 
 </div>
 
 <footer>
   <div class="wrap">
-    <a href="/">← Back to ucm</a>
+    <a href="/" data-i18n="rhw.footer_back">← Back to ucm</a>
   </div>
 </footer>
 
@@ -223,6 +235,127 @@
   "publisher": { "@type": "Organization", "name": "ucm" },
   "mainEntityOfPage": "https://ucm.thothi.app/real-hourly-wage"
 }
+</script>
+
+<script>
+const RHW_T = {
+  "en": {
+    "rhw.nav_cta": "Get the app",
+    "rhw.eyebrow": "Real Hourly Wage",
+    "rhw.h1": "What is an hour of your life actually worth?",
+    "rhw.lede": "Not your salary divided by 40. Your <strong>real</strong> hourly wage — after taxes, commute, and the time work quietly takes from your day.",
+    "rhw.callout_num": "5.3 hrs",
+    "rhw.callout_cap": "What a $100 purchase really costs someone earning a $19/hr real wage",
+    "rhw.s1_h2": "The idea",
+    "rhw.s1_p1": "The concept comes from <a href=\"https://en.wikipedia.org/wiki/Your_Money_or_Your_Life_(book)\" target=\"_blank\" rel=\"noopener\"><em>Your Money or Your Life</em></a> — the bestselling book by Vicki Robin and Joe Dominguez that reshaped how millions think about money.",
+    "rhw.s1_p2": "Its core insight: money is something you trade <strong>your life energy</strong> for. Every dollar you earn cost you a slice of time you'll never get back. So the honest way to judge a purchase isn't \"can I afford it?\" — it's <strong>\"is this worth the hours of my life it costs?\"</strong>",
+    "rhw.s2_h2": "Why your \"hourly wage\" is a lie",
+    "rhw.s2_p1": "Say you earn $60,000 a year and work 40 hours a week. That looks like about $29/hour. But that number ignores almost everything:",
+    "rhw.s2_li1": "<strong>Taxes</strong> — you never see a chunk of that salary.",
+    "rhw.s2_li2": "<strong>Commute</strong> — unpaid time you only spend because of the job.",
+    "rhw.s2_li3": "<strong>Prep</strong> — getting ready, decompressing, work that follows you home.",
+    "rhw.s2_li4": "<strong>Job-related spending</strong> — the costs that exist only because you work.",
+    "rhw.s2_p2": "Once you subtract the money and add back the time, the real number is often <strong>30–50% lower</strong> than the wage on your contract.",
+    "rhw.s3_h2": "The calculation",
+    "rhw.s3_formula": "Real hourly wage = <span>take-home pay</span> ÷ <span>all the hours work really costs you</span>",
+    "rhw.s3_p1": "Here's a worked example:",
+    "rhw.s3_r1l": "Annual take-home pay",
+    "rhw.s3_r1v": "$48,000",
+    "rhw.s3_r2l": "Hours worked + commute + prep, per week",
+    "rhw.s3_r2v": "~48 hrs",
+    "rhw.s3_r3l": "Annual life-hours given to work",
+    "rhw.s3_r3v": "~2,496 hrs",
+    "rhw.s3_r4l": "Real hourly wage",
+    "rhw.s3_r4v": "≈ $19.23 / hr",
+    "rhw.s3_p2": "That $29/hour on paper? It's really closer to <strong>$19</strong> — the true price of an hour of this person's life.",
+    "rhw.s4_h2": "What changes when you see it",
+    "rhw.s4_p1": "Once an expense is priced in hours, decisions get clearer — instantly and without willpower:",
+    "rhw.s4_r1l": "$15 lunch out",
+    "rhw.s4_r1v": "~47 min of your life",
+    "rhw.s4_r2l": "$100 impulse buy",
+    "rhw.s4_r2v": "~5.3 hours",
+    "rhw.s4_r3l": "$1,200 weekend trip",
+    "rhw.s4_r3v": "~63 hours — a week and a half of work",
+    "rhw.s4_p2": "Nothing here tells you to stop spending. It just makes the trade <strong>honest</strong>. Some things are absolutely worth the hours. Many quietly aren't — and you only notice once you can see it.",
+    "rhw.s5_h2": "ucm does the math for you",
+    "rhw.s5_p1": "ucm is an iOS personal finance app that builds your real hourly wage from your own numbers — then shows it everywhere it matters. It's the single most behavior-shifting metric in personal finance, and ucm is the only budget app that puts it front and centre.",
+    "rhw.s5_p2": "No subscription. No account. No tracking. Just your money — and your time — finally seen clearly.",
+    "rhw.cta_h2": "See what your time is worth.",
+    "rhw.cta_p": "Download ucm and get your real hourly wage in minutes.",
+    "rhw.cta_btn": "Download on the App Store",
+    "rhw.footer_back": "← Back to ucm"
+  },
+  "pt-BR": {
+    "rhw.nav_cta": "Baixar o app",
+    "rhw.eyebrow": "Salário Real por Hora",
+    "rhw.h1": "Quanto vale, de verdade, uma hora da sua vida?",
+    "rhw.lede": "Não é o seu salário dividido por 40. É o seu salário <strong>real</strong> por hora — depois de impostos, deslocamento e o tempo que o trabalho tira do seu dia sem você perceber.",
+    "rhw.callout_num": "5 horas",
+    "rhw.callout_cap": "O que uma compra de R$ 100 realmente custa para quem tem um salário real de R$ 20/hora",
+    "rhw.s1_h2": "A ideia",
+    "rhw.s1_p1": "O conceito vem de <a href=\"https://en.wikipedia.org/wiki/Your_Money_or_Your_Life_(book)\" target=\"_blank\" rel=\"noopener\"><em>Your Money or Your Life</em></a> — o livro best-seller de Vicki Robin e Joe Dominguez que mudou a forma como milhões de pessoas pensam sobre dinheiro.",
+    "rhw.s1_p2": "A ideia central: dinheiro é algo que você troca pela <strong>sua energia de vida</strong>. Cada real que você ganha custou um pedaço de tempo que você nunca vai recuperar. Então a forma honesta de avaliar uma compra não é \"eu posso pagar?\" — é <strong>\"isso vale as horas da minha vida que custa?\"</strong>",
+    "rhw.s2_h2": "Por que o seu \"salário por hora\" é uma mentira",
+    "rhw.s2_p1": "Digamos que você ganhe R$ 60.000 por ano e trabalhe 40 horas por semana. Parece dar cerca de R$ 29/hora. Mas esse número ignora quase tudo:",
+    "rhw.s2_li1": "<strong>Impostos e descontos</strong> — você nunca vê uma parte desse salário.",
+    "rhw.s2_li2": "<strong>Deslocamento</strong> — tempo não pago que você só gasta por causa do trabalho.",
+    "rhw.s2_li3": "<strong>Preparo</strong> — se arrumar, desacelerar, o trabalho que te segue para casa.",
+    "rhw.s2_li4": "<strong>Gastos por causa do trabalho</strong> — custos que só existem porque você trabalha.",
+    "rhw.s2_p2": "Quando você subtrai o dinheiro e soma de volta o tempo, o número real costuma ser <strong>30–50% menor</strong> que o salário do seu contrato.",
+    "rhw.s3_h2": "O cálculo",
+    "rhw.s3_formula": "Salário real por hora = <span>valor líquido recebido</span> ÷ <span>todas as horas que o trabalho realmente custa</span>",
+    "rhw.s3_p1": "Veja um exemplo prático:",
+    "rhw.s3_r1l": "Valor líquido anual recebido",
+    "rhw.s3_r1v": "R$ 50.000",
+    "rhw.s3_r2l": "Horas trabalhadas + deslocamento + preparo, por semana",
+    "rhw.s3_r2v": "~48 h",
+    "rhw.s3_r3l": "Horas de vida entregues ao trabalho por ano",
+    "rhw.s3_r3v": "~2.496 h",
+    "rhw.s3_r4l": "Salário real por hora",
+    "rhw.s3_r4v": "≈ R$ 20,03 / h",
+    "rhw.s3_p2": "Aqueles R$ 29/hora no papel? Na real, estão mais perto de <strong>R$ 20</strong> — o preço verdadeiro de uma hora da vida dessa pessoa.",
+    "rhw.s4_h2": "O que muda quando você enxerga isso",
+    "rhw.s4_p1": "Quando uma despesa tem preço em horas, as decisões ficam claras — na hora e sem força de vontade:",
+    "rhw.s4_r1l": "Almoço fora de R$ 40",
+    "rhw.s4_r1v": "~2 horas da sua vida",
+    "rhw.s4_r2l": "Compra por impulso de R$ 200",
+    "rhw.s4_r2v": "~10 horas",
+    "rhw.s4_r3l": "Viagem de fim de semana de R$ 2.000",
+    "rhw.s4_r3v": "~100 horas — mais de duas semanas de trabalho",
+    "rhw.s4_p2": "Nada aqui te diz para parar de gastar. Só torna a troca <strong>honesta</strong>. Algumas coisas valem totalmente as horas. Muitas, silenciosamente, não valem — e você só percebe quando consegue ver.",
+    "rhw.s5_h2": "O ucm faz a conta por você",
+    "rhw.s5_p1": "O ucm é um app de finanças pessoais para iOS que monta o seu salário real por hora a partir dos seus próprios números — e mostra ele em todo lugar que importa. É a métrica que mais muda comportamento em finanças pessoais, e o ucm é o único app de orçamento que a coloca em destaque.",
+    "rhw.s5_p2": "Sem assinatura. Sem conta. Sem rastreamento. Apenas o seu dinheiro — e o seu tempo — finalmente vistos com clareza.",
+    "rhw.cta_h2": "Veja quanto vale o seu tempo.",
+    "rhw.cta_p": "Baixe o ucm e descubra seu salário real por hora em minutos.",
+    "rhw.cta_btn": "Baixar na App Store",
+    "rhw.footer_back": "← Voltar para o ucm"
+  }
+};
+function rhwApplyLang(lang) {
+  if (!RHW_T[lang]) return;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var v = RHW_T[lang][el.dataset.i18n];
+    if (v != null) el.innerHTML = v;
+  });
+  document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
+    btn.classList.toggle('active', btn.dataset.langBtn === lang);
+  });
+  try { localStorage.setItem('ucm.site.lang', lang); } catch (e) {}
+}
+(function () {
+  var initial = 'en';
+  try {
+    var stored = localStorage.getItem('ucm.site.lang');
+    if (stored === 'en' || stored === 'pt-BR') initial = stored;
+    else if ((navigator.language || '').toLowerCase().startsWith('pt')) initial = 'pt-BR';
+  } catch (e) {}
+  rhwApplyLang(initial);
+  document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
+    btn.addEventListener('click', function () { rhwApplyLang(btn.dataset.langBtn); });
+  });
+})();
 </script>
 
 </body>
