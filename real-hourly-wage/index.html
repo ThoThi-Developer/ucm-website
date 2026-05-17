@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="apple-touch-icon" href="/uploads/AppIcon.png">
+<title>Real Hourly Wage — What Your Time Is Actually Worth | ucm</title>
+<meta name="description" content="Your real hourly wage is what you actually earn per hour of your life — after taxes, commute, and prep time. Learn how to calculate it and see every expense in hours, not dollars.">
+<link rel="canonical" href="https://ucm.thothi.app/real-hourly-wage">
+<meta property="og:title" content="Real Hourly Wage — What Your Time Is Actually Worth">
+<meta property="og:description" content="See every expense in hours of your life, not just dollars. The single most behavior-changing number in personal finance.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ucm.thothi.app/real-hourly-wage">
+<meta property="og:site_name" content="ucm">
+<meta property="og:image" content="https://ucm.thothi.app/uploads/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Real Hourly Wage — What Your Time Is Actually Worth">
+<meta name="twitter:description" content="See every expense in hours of your life, not just dollars.">
+<meta name="twitter:image" content="https://ucm.thothi.app/uploads/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050F0E; --surface: #0C1A18; --surface-alt: #112320;
+    --accent: #2DD4BF;
+    --text-primary: rgba(255,255,255,0.93);
+    --text-secondary: rgba(255,255,255,0.55);
+    --text-tertiary: rgba(255,255,255,0.30);
+    --border: rgba(45,212,191,0.16);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Outfit', -apple-system, sans-serif; background: var(--bg);
+    color: var(--text-primary); -webkit-font-smoothing: antialiased; line-height: 1.6;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  /* Nav */
+  nav {
+    border-bottom: 1px solid var(--border); padding: 18px 0;
+    position: sticky; top: 0; background: rgba(5,15,14,0.85);
+    backdrop-filter: blur(12px); z-index: 10;
+  }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-weight: 900; font-size: 20px; color: var(--accent); text-decoration: none; }
+  .nav-cta {
+    font-size: 14px; font-weight: 700; text-decoration: none; color: var(--bg);
+    background: var(--accent); padding: 9px 16px; border-radius: 10px;
+  }
+
+  /* Hero */
+  header { padding: 80px 0 56px; text-align: center; }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(34px, 6vw, 56px); font-weight: 900; line-height: 1.08;
+    letter-spacing: -1.5px; margin-bottom: 20px;
+  }
+  .lede { font-size: 19px; color: var(--text-secondary); }
+
+  /* Big number callout */
+  .callout {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 40px; text-align: center; margin: 12px 0 8px;
+  }
+  .callout-num {
+    font-size: 72px; font-weight: 900; letter-spacing: -2px; color: var(--accent);
+    line-height: 1;
+  }
+  .callout-cap { font-size: 15px; color: var(--text-secondary); margin-top: 10px; }
+
+  /* Content */
+  section { padding: 36px 0; }
+  h2 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.5px;
+    margin-bottom: 14px; line-height: 1.2;
+  }
+  p { font-size: 17px; color: var(--text-secondary); margin-bottom: 16px; }
+  p strong { color: var(--text-primary); }
+
+  .formula {
+    background: var(--surface-alt); border-radius: 14px; padding: 22px 24px;
+    font-size: 16px; color: var(--text-primary); margin: 8px 0 20px; font-weight: 600;
+  }
+  .formula span { color: var(--accent); }
+
+  .example {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 26px; margin: 8px 0 20px;
+  }
+  .example-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0; border-bottom: 1px solid var(--border); gap: 16px;
+  }
+  .example-row:last-child { border-bottom: none; }
+  .example-label { font-size: 15px; color: var(--text-secondary); }
+  .example-val { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .example-val.hours { color: var(--accent); }
+
+  ul { margin: 0 0 16px 20px; }
+  li { font-size: 17px; color: var(--text-secondary); margin-bottom: 8px; }
+
+  /* CTA */
+  .cta {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 40px; text-align: center; margin: 24px 0 60px;
+  }
+  .cta h2 { margin-bottom: 10px; }
+  .cta p { margin-bottom: 22px; }
+  .btn {
+    display: inline-block; background: var(--accent); color: var(--bg);
+    font-weight: 800; font-size: 16px; text-decoration: none;
+    padding: 14px 28px; border-radius: 12px;
+  }
+  footer {
+    border-top: 1px solid var(--border); padding: 30px 0;
+    text-align: center; font-size: 14px; color: var(--text-tertiary);
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo">ucm</a>
+    <a href="https://apps.apple.com/app/id6765532626" class="nav-cta" target="_blank" rel="noopener">Get the app</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Real Hourly Wage</p>
+    <h1>What is an hour of your life actually worth?</h1>
+    <p class="lede">Not your salary divided by 40. Your <strong>real</strong> hourly wage — after taxes, commute, and the time work quietly takes from your day.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="callout">
+    <div class="callout-num">3.2 hrs</div>
+    <div class="callout-cap">What a $100 purchase really costs someone earning a $31/hr real wage</div>
+  </div>
+
+  <section>
+    <h2>The idea</h2>
+    <p>The concept comes from <a href="https://en.wikipedia.org/wiki/Your_Money_or_Your_Life_(book)" target="_blank" rel="noopener"><em>Your Money or Your Life</em></a> — the bestselling book by Vicki Robin and Joe Dominguez that reshaped how millions think about money.</p>
+    <p>Its core insight: money is something you trade <strong>your life energy</strong> for. Every dollar you earn cost you a slice of time you'll never get back. So the honest way to judge a purchase isn't "can I afford it?" — it's <strong>"is this worth the hours of my life it costs?"</strong></p>
+  </section>
+
+  <section>
+    <h2>Why your "hourly wage" is a lie</h2>
+    <p>Say you earn $60,000 a year and work 40 hours a week. That looks like about $29/hour. But that number ignores almost everything:</p>
+    <ul>
+      <li><strong>Taxes</strong> — you never see a chunk of that salary.</li>
+      <li><strong>Commute</strong> — unpaid time you only spend because of the job.</li>
+      <li><strong>Prep</strong> — getting ready, decompressing, work that follows you home.</li>
+      <li><strong>Job-related spending</strong> — the costs that exist only because you work.</li>
+    </ul>
+    <p>Once you subtract the money and add back the time, the real number is often <strong>30–50% lower</strong> than the wage on your contract.</p>
+  </section>
+
+  <section>
+    <h2>The calculation</h2>
+    <div class="formula">
+      Real hourly wage = <span>take-home pay</span> ÷ <span>all the hours work really costs you</span>
+    </div>
+    <p>Here's a worked example:</p>
+    <div class="example">
+      <div class="example-row"><span class="example-label">Annual take-home pay</span><span class="example-val">$52,000</span></div>
+      <div class="example-row"><span class="example-label">Hours worked + commute + prep, per week</span><span class="example-val">~48 hrs</span></div>
+      <div class="example-row"><span class="example-label">Annual life-hours given to work</span><span class="example-val">~2,496 hrs</span></div>
+      <div class="example-row"><span class="example-label">Real hourly wage</span><span class="example-val hours">≈ $20.83 / hr</span></div>
+    </div>
+    <p>That $29/hour on paper? It's really closer to <strong>$21</strong> — the true price of an hour of this person's life.</p>
+  </section>
+
+  <section>
+    <h2>What changes when you see it</h2>
+    <p>Once an expense is priced in hours, decisions get clearer — instantly and without willpower:</p>
+    <div class="example">
+      <div class="example-row"><span class="example-label">$12 lunch out</span><span class="example-val hours">~35 min of your life</span></div>
+      <div class="example-row"><span class="example-label">$100 impulse buy</span><span class="example-val hours">~4.8 hours</span></div>
+      <div class="example-row"><span class="example-label">$1,200 weekend trip</span><span class="example-val hours">~58 hours — a week and a half of work</span></div>
+    </div>
+    <p>Nothing here tells you to stop spending. It just makes the trade <strong>honest</strong>. Some things are absolutely worth the hours. Many quietly aren't — and you only notice once you can see it.</p>
+  </section>
+
+  <section>
+    <h2>ucm does the math for you</h2>
+    <p>ucm is an iOS personal finance app that builds your real hourly wage from your own numbers — then shows it everywhere it matters. It's the single most behavior-shifting metric in personal finance, and ucm is the only budget app that puts it front and centre.</p>
+    <p>No subscription. No account. No tracking. Just your money — and your time — finally seen clearly.</p>
+  </section>
+
+  <div class="cta">
+    <h2>See what your time is worth.</h2>
+    <p>Download ucm and get your real hourly wage in minutes.</p>
+    <a href="https://apps.apple.com/app/id6765532626" class="btn" target="_blank" rel="noopener">Download on the App Store</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <a href="/">← Back to ucm</a>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Real Hourly Wage — What Your Time Is Actually Worth",
+  "description": "Your real hourly wage is what you actually earn per hour of your life — after taxes, commute, and prep time. Learn how to calculate it and see every expense in hours.",
+  "author": { "@type": "Organization", "name": "ucm" },
+  "publisher": { "@type": "Organization", "name": "ucm" },
+  "mainEntityOfPage": "https://ucm.thothi.app/real-hourly-wage"
+}
+</script>
+
+</body>
+</html>

@@ -12,6 +12,15 @@
 <meta property="og:description" content="Budget smart. Live better. iOS personal finance — no subscription, no tracking.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ucm.thothi.app">
+<meta property="og:site_name" content="ucm">
+<meta property="og:image" content="https://ucm.thothi.app/uploads/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ucm — U Can Manage">
+<meta name="twitter:description" content="Budget smart. Live better. iOS personal finance — no subscription, no tracking.">
+<meta name="twitter:image" content="https://ucm.thothi.app/uploads/og-card.png">
+<link rel="canonical" href="https://ucm.thothi.app/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -254,6 +263,43 @@ section { padding: 100px 40px; }
   line-height: 1.65; max-width: 560px;
 }
 
+/* ── FAQ ── */
+.faq { background: var(--bg); }
+.faq-list { max-width: 720px; margin: 52px auto 0; display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+}
+.faq-item summary {
+  list-style: none; cursor: pointer; padding: 22px 24px;
+  font-size: 16px; font-weight: 700; color: var(--text-primary);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+"; font-size: 22px; font-weight: 400; color: var(--accent);
+  flex-shrink: 0; transition: transform 0.2s ease; line-height: 1;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-answer {
+  padding: 0 24px 22px; font-size: 15px; line-height: 1.7;
+  color: var(--text-secondary);
+}
+.faq-answer a { color: var(--accent); }
+
+/* ── BR band (PT-only) ── */
+.br-band { background: var(--surface-alt); }
+.br-band-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  max-width: 720px; margin: 40px auto 0;
+}
+.br-band-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 15px; color: var(--text-secondary); line-height: 1.5;
+}
+.br-band-check { color: var(--accent); font-weight: 800; flex-shrink: 0; }
+@media (max-width: 640px) { .br-band-grid { grid-template-columns: 1fr; } }
+
 /* ── PROBLEM ── */
 .problem { background: var(--surface); }
 .problem-grid {
@@ -431,6 +477,7 @@ section { padding: 100px 40px; }
 .pricing-tagline { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.5; }
 .pricing-price { font-size: 64px; font-weight: 900; letter-spacing: -3px; color: var(--text-primary); line-height: 1; }
 .pricing-price sup { font-size: 28px; letter-spacing: -1px; vertical-align: super; font-weight: 700; color: var(--accent); }
+.pricing-price .pp-cents { font-size: 42px; letter-spacing: -2px; }
 .pricing-price.free-price { font-size: 48px; color: var(--text-secondary); }
 .pricing-period { font-size: 14px; color: var(--text-secondary); margin-top: 6px; margin-bottom: 10px; font-weight: 500; }
 .pricing-forever { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 28px; }
@@ -661,6 +708,7 @@ footer {
     <a href="#tutorial" data-i18n="nav.tutorial">Tutorial</a>
     <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
     <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+    <a href="#faq" data-i18n="nav.faq">FAQ</a>
   </div>
   <div class="nav-end">
     <div class="lang-toggle" role="group" aria-label="Language">
@@ -684,7 +732,7 @@ footer {
       <h1 class="hero-title reveal reveal-delay-1"><span class="accent">ucm</span></h1>
       <p class="hero-tagline reveal reveal-delay-2" data-i18n="hero.tagline">U Can Manage.</p>
       <p class="hero-desc reveal reveal-delay-3" data-i18n="hero.desc">The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.</p>
-      <p class="hero-diff reveal reveal-delay-3" data-i18n="hero.diff" style="margin-top:10px;font-size:14px;color:var(--accent);font-weight:600;letter-spacing:0.2px">The only budget app with a Real Hourly Wage.</p>
+      <p class="hero-diff reveal reveal-delay-3" data-i18n="hero.diff" style="margin-top:16px;font-size:18px;color:var(--accent);font-weight:700;letter-spacing:0.1px;line-height:1.45">The only budget app that shows what you spend in hours of your life.</p>
       <div class="hero-actions reveal reveal-delay-4">
         <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1v11M5 8l4 4 4-4M2 15h14" stroke="#050F0E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -726,6 +774,21 @@ footer {
         <div class="phone-screen"><img src="uploads/INSIGHTS_HERO.PNG" alt="Insights screen"></div>
         <div class="phone-glow"></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- BR BAND — shown only on the PT-BR site -->
+<section class="br-band" data-lang-only="pt-BR" style="display:none">
+  <div class="section-inner" style="text-align:center">
+    <p class="section-label">Feito pro Brasil</p>
+    <h2 class="section-title">Tudo que o brasileiro<br>precisa. Sem assinatura.</h2>
+    <p class="section-sub" style="margin:0 auto">Outros apps cobram mensalidade e foram pensados pra fora. O ucm foi feito pra realidade do dinheiro no Brasil.</p>
+    <div class="br-band-grid">
+      <div class="br-band-item"><span class="br-band-check">✓</span><span>Pix como categoria de pagamento nativa</span></div>
+      <div class="br-band-item"><span class="br-band-check">✓</span><span>13º salário já pré-configurado</span></div>
+      <div class="br-band-item"><span class="br-band-check">✓</span><span>Importação de extrato — Nubank, Itaú, Inter, Bradesco</span></div>
+      <div class="br-band-item"><span class="br-band-check">✓</span><span>Compras parceladas tratadas mês a mês</span></div>
     </div>
   </div>
 </section>
@@ -849,6 +912,7 @@ footer {
           <span class="pill" data-i18n="feat35.pill2">Behavior change</span>
           <span class="pill" data-i18n="feat35.pill3">Unique to ucm</span>
         </div>
+        <a href="/real-hourly-wage" class="feature-link" data-i18n="feat35.link" style="display:inline-block;margin-top:18px;color:var(--accent);font-weight:700;font-size:15px;text-decoration:none">How the Real Hourly Wage works →</a>
       </div>
       <div class="feature-phone reveal reveal-delay-1">
         <div class="phone-frame">
@@ -1236,7 +1300,7 @@ footer {
         <div class="pricing-badge" data-i18n="price.pro_badge">Most popular</div>
         <p class="pricing-plan" data-i18n="price.pro_plan">Pro</p>
         <p class="pricing-tagline" data-i18n="price.pro_tagline">The full picture. Every feature. One payment — yours for life.</p>
-        <div class="pricing-price"><sup data-i18n="price.pro_currency">$</sup>4<span style="font-size:42px;letter-spacing:-2px">.99</span></div>
+        <div class="pricing-price" id="proPrice"><sup>$</sup>4<span class="pp-cents">.99</span></div>
         <p class="pricing-period" data-i18n="price.pro_period">one-time · no subscription</p>
         <p class="pricing-forever" data-i18n="price.pro_forever">Pay once. Yours forever. ✓</p>
 
@@ -1288,6 +1352,60 @@ footer {
     </div>
   </div>
 </section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center"><p class="section-label" data-i18n="faq.label">FAQ</p></div>
+    <h2 class="section-title reveal" style="text-align:center" data-i18n="faq.title">Questions, answered.</h2>
+    <div class="faq-list reveal reveal-delay-1">
+      <details class="faq-item">
+        <summary data-i18n="faq.q1">Is it really a one-time purchase?</summary>
+        <div class="faq-answer" data-i18n="faq.a1">Yes. Pay once, own it forever — and that includes every future Pro feature we ship. No subscription, no upsell later.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq.q2">What happens if you stop developing the app?</summary>
+        <div class="faq-answer" data-i18n="faq.a2">The app keeps working. ucm runs entirely on your device — your data lives in your own iCloud, not our servers, so nothing depends on us staying online.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq.q3">Why is it so cheap?</summary>
+        <div class="faq-answer" data-i18n="faq.a3">Because there's no server to pay for and no investors to satisfy. Other apps charge $10–15 every month forever. ucm is a one-time price — you're paying for software, not renting it.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq.q4">Can I get a refund?</summary>
+        <div class="faq-answer" data-i18n="faq.a4">Yes — refunds are handled by Apple through the standard App Store process, typically within 14 days of purchase.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq.q5">Is my data really private?</summary>
+        <div class="faq-answer" data-i18n="faq.a5">Completely. ucm has no account, no login, and no analytics tracking you. Your finances never touch our servers. See the <a href="#privacy">privacy details</a> above.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq.q6">Will I lose my data if I switch devices?</summary>
+        <div class="faq-answer" data-i18n="faq.a6">No. ucm syncs through your private iCloud account, so your data follows you across iPhone and iPad automatically — encrypted, and only visible to you.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq.q7">Is there an Android version?</summary>
+        <div class="faq-answer" data-i18n="faq.a7">Not yet — ucm is built iOS-first to take full advantage of the platform. An Android version is being considered for the future.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is it really a one-time purchase?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pay once, own it forever — and that includes every future Pro feature we ship. No subscription, no upsell later."}},
+    {"@type":"Question","name":"What happens if you stop developing the app?","acceptedAnswer":{"@type":"Answer","text":"The app keeps working. ucm runs entirely on your device — your data lives in your own iCloud, not our servers."}},
+    {"@type":"Question","name":"Why is it so cheap?","acceptedAnswer":{"@type":"Answer","text":"There's no server to pay for and no investors to satisfy. ucm is a one-time price — you're paying for software, not renting it."}},
+    {"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — refunds are handled by Apple through the standard App Store process, typically within 14 days of purchase."}},
+    {"@type":"Question","name":"Is my data really private?","acceptedAnswer":{"@type":"Answer","text":"Completely. ucm has no account, no login, and no analytics. Your finances never touch our servers."}},
+    {"@type":"Question","name":"Will I lose my data if I switch devices?","acceptedAnswer":{"@type":"Answer","text":"No. ucm syncs through your private iCloud account across iPhone and iPad automatically."}},
+    {"@type":"Question","name":"Is there an Android version?","acceptedAnswer":{"@type":"Answer","text":"Not yet — ucm is built iOS-first. An Android version is being considered for the future."}}
+  ]
+}
+</script>
 
 <!-- DOWNLOAD CTA -->
 <section class="download" id="download">
@@ -1345,7 +1463,7 @@ footer {
 // ─── i18n ────────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
   en: {
-    "nav.features": "Features", "nav.tutorial": "Tutorial", "nav.privacy": "Privacy", "nav.pricing": "Pricing", "nav.download": "Download",
+    "nav.features": "Features", "nav.tutorial": "Tutorial", "nav.privacy": "Privacy", "nav.pricing": "Pricing", "nav.faq": "FAQ", "nav.download": "Download",
 
     "hero.badge": "Now available on the App Store",
     "hero.tagline": "U Can Manage.",
@@ -1399,9 +1517,26 @@ const TRANSLATIONS = {
     "feat35.title": "Every $100 is hours of your life.",
     "feat35.desc": "From <em>Your Money or Your Life</em> — the NYT bestseller that changed how millions think about money. ucm converts every expense into hours-of-life worked. That $1,200 trip isn't $1,200 — it's 49 hours of your time. No other budget app does this.",
     "feat35.pill1": "Time, not just dollars", "feat35.pill2": "Behavior change", "feat35.pill3": "Unique to ucm",
+    "feat35.link": "How the Real Hourly Wage works →",
     "rhw.eyebrow": "REAL WAGE", "rhw.currency": "$", "rhw.whole": "31", "rhw.cents": ".30",
     "rhw.unit": "/ hour of your life", "rhw.example": "$100 coffee run", "rhw.hours": "3.2 hours", "rhw.foot": "of your time",
-    "hero.diff": "The only budget app with a Real Hourly Wage.",
+    "hero.diff": "The only budget app that shows what you spend in hours of your life.",
+    "faq.label": "FAQ",
+    "faq.title": "Questions, answered.",
+    "faq.q1": "Is it really a one-time purchase?",
+    "faq.a1": "Yes. Pay once, own it forever — and that includes every future Pro feature we ship. No subscription, no upsell later.",
+    "faq.q2": "What happens if you stop developing the app?",
+    "faq.a2": "The app keeps working. ucm runs entirely on your device — your data lives in your own iCloud, not our servers, so nothing depends on us staying online.",
+    "faq.q3": "Why is it so cheap?",
+    "faq.a3": "Because there's no server to pay for and no investors to satisfy. Other apps charge $10–15 every month forever. ucm is a one-time price — you're paying for software, not renting it.",
+    "faq.q4": "Can I get a refund?",
+    "faq.a4": "Yes — refunds are handled by Apple through the standard App Store process, typically within 14 days of purchase.",
+    "faq.q5": "Is my data really private?",
+    "faq.a5": "Completely. ucm has no account, no login, and no analytics tracking you. Your finances never touch our servers. See the <a href=\"#privacy\">privacy details</a> above.",
+    "faq.q6": "Will I lose my data if I switch devices?",
+    "faq.a6": "No. ucm syncs through your private iCloud account, so your data follows you across iPhone and iPad automatically — encrypted, and only visible to you.",
+    "faq.q7": "Is there an Android version?",
+    "faq.a7": "Not yet — ucm is built iOS-first to take full advantage of the platform. An Android version is being considered for the future.",
 
     "feat4.eyebrow": "Monthly Review",
     "feat4.title": "Know exactly where your money went.",
@@ -1505,7 +1640,7 @@ const TRANSLATIONS = {
     "price.pro_f14": "<strong style=\"color:var(--text-primary)\">CSV export</strong> for Excel, Numbers, QuickBooks",
     "price.pro_f15": "All future updates included",
     "price.pro_currency": "$",
-    "price.currency_disclaimer": "Prices shown are in US Dollars.",
+    "price.currency_disclaimer": "One-time price, billed once by the App Store in your local currency.",
     "price.pro_cta": "Get Pro — $4.99",
     "price.compare": "YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.",
     "price.fut_badge": "Coming soon", "price.fut_plan": "ucm Connect",
@@ -1524,7 +1659,7 @@ const TRANSLATIONS = {
   },
 
   "pt-BR": {
-    "nav.features": "Recursos", "nav.tutorial": "Tutorial", "nav.privacy": "Privacidade", "nav.pricing": "Planos", "nav.download": "Baixar",
+    "nav.features": "Recursos", "nav.tutorial": "Tutorial", "nav.privacy": "Privacidade", "nav.pricing": "Planos", "nav.faq": "Dúvidas", "nav.download": "Baixar",
 
     "hero.badge": "Já disponível na App Store",
     "hero.tagline": "Você Consegue Gerenciar.",
@@ -1578,9 +1713,26 @@ const TRANSLATIONS = {
     "feat35.title": "Cada R$100 são horas da sua vida.",
     "feat35.desc": "Do livro <em>Sua Vida ou Seu Dinheiro</em> — o bestseller do NYT que mudou como milhões pensam sobre dinheiro. O ucm converte cada despesa em horas de vida trabalhadas. Aquela viagem de R$1.500 não é R$1.500 — são 48 horas do seu tempo. Mais de uma semana inteira de trabalho. Nenhum outro app de orçamento faz isso.",
     "feat35.pill1": "Tempo, não só dinheiro", "feat35.pill2": "Mudança de hábito", "feat35.pill3": "Exclusivo do ucm",
+    "feat35.link": "Como funciona o Salário Real por hora →",
     "rhw.eyebrow": "SALÁRIO REAL", "rhw.currency": "R$", "rhw.whole": "31", "rhw.cents": ",30",
     "rhw.unit": "/ hora da sua vida", "rhw.example": "R$100 no jantar", "rhw.hours": "3,2 horas", "rhw.foot": "do seu tempo",
-    "hero.diff": "O único app de orçamento com Salário Real por hora.",
+    "hero.diff": "O único app de finanças feito pro Brasil — e sem assinatura.",
+    "faq.label": "Dúvidas",
+    "faq.title": "Suas perguntas, respondidas.",
+    "faq.q1": "É realmente compra única?",
+    "faq.a1": "Sim. Pague uma vez e é seu pra sempre — incluindo todos os recursos Pro que lançarmos no futuro. Sem assinatura, sem cobrança depois.",
+    "faq.q2": "E se vocês pararem de desenvolver o app?",
+    "faq.a2": "O app continua funcionando. O ucm roda inteiramente no seu aparelho — seus dados ficam no seu próprio iCloud, não nos nossos servidores. Nada depende de a gente estar online.",
+    "faq.q3": "Por que é tão barato?",
+    "faq.a3": "Porque não há servidor pra pagar nem investidores pra agradar. Outros apps cobram R$10–30 todo mês, pra sempre. O ucm é preço único — você paga pelo software, não aluga.",
+    "faq.q4": "Posso pedir reembolso?",
+    "faq.a4": "Sim — reembolsos são feitos pela Apple, pelo processo padrão da App Store, normalmente em até 14 dias após a compra.",
+    "faq.q5": "Meus dados são mesmo privados?",
+    "faq.a5": "Totalmente. O ucm não tem conta, não tem login e não tem rastreamento. Suas finanças nunca passam pelos nossos servidores. Veja os <a href=\"#privacy\">detalhes de privacidade</a> acima.",
+    "faq.q6": "Vou perder meus dados se trocar de aparelho?",
+    "faq.a6": "Não. O ucm sincroniza pela sua conta iCloud privada, então seus dados acompanham você entre iPhone e iPad automaticamente — criptografados e visíveis só pra você.",
+    "faq.q7": "Tem versão para Android?",
+    "faq.a7": "Ainda não — o ucm foi feito iOS-first para aproveitar todos os recursos da plataforma. Uma versão Android está sendo considerada para o futuro.",
 
     "feat4.eyebrow": "Revisão Mensal",
     "feat4.title": "Saiba exatamente para onde foi seu dinheiro.",
@@ -1684,7 +1836,7 @@ const TRANSLATIONS = {
     "price.pro_f14": "<strong style=\"color:var(--text-primary)\">Exportação CSV</strong> para Excel, Numbers, QuickBooks",
     "price.pro_f15": "Todas as atualizações futuras incluídas",
     "price.pro_currency": "US$",
-    "price.currency_disclaimer": "Os preços exibidos são em dólares americanos.",
+    "price.currency_disclaimer": "Preço único, cobrado uma vez pela App Store na sua moeda local.",
     "price.pro_cta": "Comprar Pro — US$4.99",
     "price.compare": "YNAB cobra <strong>US$109/ano</strong>. Copilot cobra <strong>US$95/ano</strong>. ucm Pro é US$4.99. Uma vez.",
     "price.fut_badge": "Em breve", "price.fut_plan": "ucm Connect",
@@ -1711,6 +1863,10 @@ function applyLang(lang) {
     const val = TRANSLATIONS[lang][key];
     if (val != null) el.innerHTML = val;
   });
+  // Sections that belong to only one language (e.g. the Brazil band).
+  document.querySelectorAll('[data-lang-only]').forEach(el => {
+    el.style.display = (el.dataset.langOnly === lang) ? '' : 'none';
+  });
   document.querySelectorAll('[data-lang-btn]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.langBtn === lang);
   });
@@ -1728,6 +1884,30 @@ function applyLang(lang) {
   document.querySelectorAll('[data-lang-btn]').forEach(btn => {
     btn.addEventListener('click', () => applyLang(btn.dataset.langBtn));
   });
+})();
+
+// ─── Localized App Store price ───────────────────────────────────────────
+// App Store prices are fixed per-region tiers set in App Store Connect — they
+// don't drift with exchange rates — so a small confirmed map is safe and
+// correct. Unknown regions fall back to USD; the disclaimer covers the rest.
+(function () {
+  var PRICES = {
+    BR: '<sup>R$</sup>29<span class="pp-cents">,90</span>',
+    CA: '<sup>CA$</sup>6<span class="pp-cents">.99</span>',
+    US: '<sup>$</sup>4<span class="pp-cents">.99</span>'
+  };
+  function detectRegion() {
+    try {
+      var loc = navigator.language || 'en-US';
+      if (window.Intl && Intl.Locale) {
+        var r = new Intl.Locale(loc).region;
+        if (r) return r.toUpperCase();
+      }
+      return (loc.split('-')[1] || 'US').toUpperCase();
+    } catch (e) { return 'US'; }
+  }
+  var el = document.getElementById('proPrice');
+  if (el) el.innerHTML = PRICES[detectRegion()] || PRICES.US;
 })();
 
 // ─── Feature carousel ────────────────────────────────────────────────────
