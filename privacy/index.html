@@ -123,11 +123,11 @@
 
     <div data-lang="en" class="active">
       <h1>Privacy Policy</h1>
-      <p>Last updated: April 2026</p>
+      <p>Last updated: May 2026</p>
     </div>
     <div data-lang="pt-BR">
       <h1>Política de Privacidade</h1>
-      <p>Última atualização: abril de 2026</p>
+      <p>Última atualização: maio de 2026</p>
     </div>
   </header>
 
@@ -170,14 +170,14 @@
       </section>
 
       <section>
-        <h2>3. AI Receipt Scanning</h2>
+        <h2>3. Smart Scan (receipt scanning)</h2>
         <p>
-          ucm includes an optional AI-powered receipt scanner. If you choose to use
-          this feature by entering your own OpenAI API key, receipt images are sent
-          directly from your device to OpenAI's API for processing. Your API key is
-          stored locally on your device and is never shared with us. Please review
-          <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI's privacy policy</a>
-          for how they handle image data.
+          ucm includes Smart Scan, an optional receipt scanner. Smart Scan reads
+          receipts <strong>entirely on your device</strong> using Apple's on-device
+          Vision framework, extracting the vendor, amount, date, and category from
+          the photo. Receipt images are processed on your device only — they are
+          never uploaded, sent to any server, or shared with us or any third party.
+          No API key and no internet connection are required.
         </p>
       </section>
 
@@ -185,7 +185,7 @@
         <h2>4. Third-party SDKs and frameworks</h2>
         <p>
           The app uses no third-party analytics, advertising, or tracking SDKs.
-          It uses only Apple's first-party frameworks (SwiftUI, SwiftData, StoreKit, CloudKit).
+          It uses only Apple's first-party frameworks (SwiftUI, SwiftData, Vision, StoreKit, CloudKit).
         </p>
       </section>
 
@@ -273,15 +273,15 @@
       </section>
 
       <section>
-        <h2>3. Leitura de recibos com IA</h2>
+        <h2>3. Smart Scan (leitura de recibos)</h2>
         <p>
-          O ucm inclui um leitor opcional de recibos com inteligência artificial.
-          Se você decidir usar esse recurso inserindo sua própria chave de API da
-          OpenAI, as imagens dos recibos são enviadas diretamente do seu dispositivo
-          para a API da OpenAI para processamento. Sua chave de API é armazenada
-          localmente no seu dispositivo e nunca é compartilhada conosco. Consulte a
-          <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">política de privacidade da OpenAI</a>
-          para entender como eles tratam imagens.
+          O ucm inclui o Smart Scan, um leitor opcional de recibos. O Smart Scan lê
+          os recibos <strong>inteiramente no seu dispositivo</strong>, usando o
+          framework Vision da Apple, extraindo o estabelecimento, o valor, a data e a
+          categoria a partir da foto. As imagens dos recibos são processadas apenas
+          no seu dispositivo — nunca são enviadas para servidores nem compartilhadas
+          conosco ou com terceiros. Não é necessária nenhuma chave de API nem conexão
+          com a internet.
         </p>
       </section>
 
@@ -290,7 +290,7 @@
         <p>
           O aplicativo não utiliza nenhum SDK de análise, publicidade ou
           rastreamento de terceiros. Apenas frameworks oficiais da Apple
-          (SwiftUI, SwiftData, StoreKit, CloudKit) são utilizados.
+          (SwiftUI, SwiftData, Vision, StoreKit, CloudKit) são utilizados.
         </p>
       </section>
 
