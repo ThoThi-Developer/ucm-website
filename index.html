@@ -1323,7 +1323,7 @@ footer {
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f15">All future updates included</span></div>
         </div>
 
-        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" data-i18n="price.pro_cta">Get Pro — $4.99</a>
+        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" id="proCta" data-i18n="price.pro_cta">Get Pro — $4.99</a>
         <p class="compare-note" data-i18n="price.compare">YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.</p>
       </div>
 
@@ -1837,7 +1837,7 @@ const TRANSLATIONS = {
     "price.pro_f15": "Todas as atualizações futuras incluídas",
     "price.pro_currency": "US$",
     "price.currency_disclaimer": "Preço único, cobrado uma vez pela App Store na sua moeda local.",
-    "price.pro_cta": "Comprar Pro — US$4.99",
+    "price.pro_cta": "Comprar Pro — R$29,90",
     "price.compare": "YNAB cobra <strong>US$109/ano</strong>. Copilot cobra <strong>US$95/ano</strong>. ucm Pro é US$4.99. Uma vez.",
     "price.fut_badge": "Em breve", "price.fut_plan": "ucm Connect",
     "price.fut_tagline": "Em desenvolvimento — um serviço de nuvem opcional com conexão bancária e importação automática de transações. Em breve.",
@@ -1892,9 +1892,9 @@ function applyLang(lang) {
 // correct. Unknown regions fall back to USD; the disclaimer covers the rest.
 (function () {
   var PRICES = {
-    BR: '<sup>R$</sup>29<span class="pp-cents">,90</span>',
-    CA: '<sup>CA$</sup>6<span class="pp-cents">.99</span>',
-    US: '<sup>$</sup>4<span class="pp-cents">.99</span>'
+    BR: { display: '<sup>R$</sup>29<span class="pp-cents">,90</span>', cta: 'Get Pro — R$29,90' },
+    CA: { display: '<sup>CA$</sup>6<span class="pp-cents">.99</span>', cta: 'Get Pro — CA$6.99' },
+    US: { display: '<sup>$</sup>4<span class="pp-cents">.99</span>',  cta: 'Get Pro — $4.99' }
   };
   function detectRegion() {
     try {
@@ -1906,8 +1906,12 @@ function applyLang(lang) {
       return (loc.split('-')[1] || 'US').toUpperCase();
     } catch (e) { return 'US'; }
   }
+  var region = detectRegion();
+  var p = PRICES[region] || PRICES.US;
   var el = document.getElementById('proPrice');
-  if (el) el.innerHTML = PRICES[detectRegion()] || PRICES.US;
+  if (el) el.innerHTML = p.display;
+  var cta = document.getElementById('proCta');
+  if (cta) cta.textContent = p.cta;
 })();
 
 // ─── Feature carousel ────────────────────────────────────────────────────
