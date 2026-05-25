@@ -1066,42 +1066,40 @@ function initCloudKit() {
     document.getElementById('setup-banner').style.display = 'block';
   }
 
-  dbg('Configuring CloudKit…');
+  // ── Intercept CloudKit JS popup → full-page navigation ──────────
+  // CloudKit JS calls window.open() to open the auth popup.
+  // We override it so the auth URL navigates the main window instead.
+  // After Apple auth, the page is redirected back to /dashboard with
+  // ckWebAuthToken in the URL hash, which setUpAuth() then processes.
+  const _origOpen = window.open.bind(window);
+  window.open = function(url, target, features) {
+    if (typeof url === 'string' && url.includes('apple-cloudkit.com') && url.includes('auth')) {
+      dbg('Intercepted CK popup → full-page nav');
+      window.location.href = url;
+      return null;
+    }
+    return _origOpen(url, target, features);
+  };
 
-  // ── Popup auth handler ──────────────────────────────────────────
-  // CloudKit JS always opens a popup. With URL Redirect mode the popup
-  // lands back on /dashboard with ckWebAuthToken in the URL hash.
-  // If we're that popup, process the token, tell the parent, then close.
-  const isPopup = !!(window.opener && !window.opener.closed);
+  // ── Handle auth redirect back from Apple ─────────────────────────
   const ckHash  = window.location.hash;
   const ckParam = new URLSearchParams(ckHash.replace(/^#/, ''));
   const webAuthToken = ckParam.get('ckWebAuthToken');
-
-  if (isPopup && webAuthToken) {
-    dbg('Popup auth callback — processing token…');
+  if (webAuthToken) {
+    dbg('ckWebAuthToken found in URL ✓');
     history.replaceState(null, '', window.location.pathname);
   }
 
-  // Parent listens for same-origin message from popup
-  window.addEventListener('message', (e) => {
-    if (e.origin === 'https://ucm.thothi.app' && e.data === 'ck-auth-done') {
-      dbg('Auth confirmed by popup — reloading session…');
-      CloudKit.getDefaultContainer().setUpAuth().then(id => {
-        if (id) { dbg('Session restored ✓'); onSignedIn(id); }
-        else     { dbg('Session not found after popup'); showAuth(); }
-      });
-    }
-  });
+  dbg('Configuring CloudKit…');
 
   CloudKit.configure({
     containers: [{
       containerIdentifier: CK_CONTAINER,
       apiTokenAuth: {
-        apiToken:          CK_TOKEN,
-        persist:           true,
-        signInButton:      { id: 'sign-in-btn', theme: 'white' },
-        signOutButton:     { id: 'sign-out-btn' },
-        signInCallbackURL: 'https://ucm.thothi.app/dashboard',
+        apiToken:     CK_TOKEN,
+        persist:      true,
+        signInButton: { id: 'sign-in-btn', theme: 'white' },
+        signOutButton:{ id: 'sign-out-btn' },
       },
       environment: CK_ENV,
     }]
@@ -1112,35 +1110,28 @@ function initCloudKit() {
   dbg('Calling setUpAuth…');
   container.setUpAuth().then(userIdentity => {
     if (userIdentity) {
-      if (isPopup) {
-        // Running in auth popup — notify parent and close
-        dbg('Popup: auth success, notifying parent…');
-        try { window.opener.postMessage('ck-auth-done', 'https://ucm.thothi.app'); } catch(_) {}
-        setTimeout(() => window.close(), 300);
-      } else {
-        dbg('setUpAuth: signed in ✓');
-        onSignedIn(userIdentity);
-      }
+      dbg('setUpAuth: signed in ✓');
+      onSignedIn(userIdentity);
+    } else if (webAuthToken) {
+      dbg('Token in URL but setUpAuth missed it — retrying…');
+      setTimeout(() => {
+        container.setUpAuth().then(id => {
+          if (id) { dbg('Retry: signed in ✓'); onSignedIn(id); }
+          else     { dbg('Retry: still null'); showAuth(); }
+        });
+      }, 400);
     } else {
-      dbg('setUpAuth: not signed in — showing auth screen');
+      dbg('Not signed in');
       showAuth();
     }
-  }).catch(err => {
-    dbg('setUpAuth ERROR: ' + err.message);
-    showAuth();
-  });
+  }).catch(err => { dbg('setUpAuth ERROR: ' + err.message); showAuth(); });
 
-  if (!isPopup) {
-    container.whenUserSignsIn().then(identity => {
-      dbg('whenUserSignsIn fired ✓');
-      onSignedIn(identity);
-    }).catch(err => dbg('whenUserSignsIn ERROR: ' + err.message));
+  container.whenUserSignsIn().then(identity => {
+    dbg('whenUserSignsIn ✓');
+    onSignedIn(identity);
+  }).catch(err => dbg('whenUserSignsIn ERROR: ' + err.message));
 
-    container.whenUserSignsOut().then(() => {
-      dbg('User signed out');
-      onSignedOut();
-    });
-  }
+  container.whenUserSignsOut().then(() => { dbg('Signed out'); onSignedOut(); });
 }
 
 function onSignedIn(userIdentity) {
