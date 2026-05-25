@@ -1106,10 +1106,30 @@ function initCloudKit() {
   });
 
   const container = CloudKit.getDefaultContainer();
+  const isPopup = !!(window.opener && !window.opener.closed);
+
+  // Parent listens for popup auth completion (same-origin, not blocked by ITP)
+  if (!isPopup) {
+    window.addEventListener('message', (e) => {
+      if (e.origin === 'https://ucm.thothi.app' && e.data === 'ck-auth-done') {
+        dbg('Popup auth done — restoring session…');
+        container.setUpAuth().then(id => {
+          if (id) { dbg('Session OK ✓'); onSignedIn(id); }
+          else     { dbg('Session missing'); showAuth(); }
+        });
+      }
+    });
+  }
 
   dbg('Calling setUpAuth…');
   container.setUpAuth().then(userIdentity => {
     if (userIdentity) {
+      if (isPopup) {
+        dbg('Popup auth complete — notifying parent…');
+        try { window.opener.postMessage('ck-auth-done', 'https://ucm.thothi.app'); } catch(_) {}
+        setTimeout(() => window.close(), 300);
+        return;
+      }
       dbg('setUpAuth: signed in ✓');
       onSignedIn(userIdentity);
     } else if (webAuthToken) {
