@@ -1256,10 +1256,18 @@ function loadDemo() {
   state.loaded = true;
 
   showDashboard();
-  renderAll();
-
-  // Show a demo banner
-  showToast('Modo demonstração — dados fictícios', 4000);
+  try {
+    renderAll();
+    showToast('Modo demonstração — dados fictícios', 4000);
+  } catch(e) {
+    console.error('renderAll failed:', e);
+    // Show error visibly in the main area for debugging
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="color:#F87171;background:rgba(248,113,113,0.1);border:1px solid #F87171;border-radius:12px;padding:16px;font-size:13px;font-family:monospace;">
+        <strong>renderAll error:</strong><br>${e.message}<br><br>${e.stack?.split('\n').slice(0,3).join('<br>')}
+      </div>`
+    );
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════
