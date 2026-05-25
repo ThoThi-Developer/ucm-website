@@ -728,6 +728,7 @@
     <div class="auth-footer">
       Requires ucm Pro on iPhone &nbsp;·&nbsp; Your data stays in your iCloud
     </div>
+    <div id="auth-debug" style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px;text-align:center;"></div>
   </div>
 </div>
 
@@ -1054,20 +1055,27 @@ let insightAction = null;
 // ═══════════════════════════════════════════════════════════════════
 // CLOUDKIT SETUP
 // ═══════════════════════════════════════════════════════════════════
+function dbg(msg) {
+  console.log('[ucm]', msg);
+  const el = document.getElementById('auth-debug');
+  if (el) el.textContent = msg;
+}
+
 function initCloudKit() {
   if (CK_TOKEN === 'YOUR_CK_API_TOKEN') {
     document.getElementById('setup-banner').style.display = 'block';
   }
 
+  dbg('Configuring CloudKit…');
+
   CloudKit.configure({
     containers: [{
       containerIdentifier: CK_CONTAINER,
       apiTokenAuth: {
-        apiToken:         CK_TOKEN,
-        persist:          true,
-        signInButton:     { id: 'sign-in-btn',  theme: 'white' },
-        signOutButton:    { id: 'sign-out-btn' },
-        signInCallbackURL: window.location.href,
+        apiToken:     CK_TOKEN,
+        persist:      true,
+        signInButton: { id: 'sign-in-btn', theme: 'white' },
+        signOutButton:{ id: 'sign-out-btn' },
       },
       environment: CK_ENV,
     }]
@@ -1075,16 +1083,29 @@ function initCloudKit() {
 
   const container = CloudKit.getDefaultContainer();
 
+  dbg('Calling setUpAuth…');
   container.setUpAuth().then(userIdentity => {
     if (userIdentity) {
+      dbg('setUpAuth: signed in ✓');
       onSignedIn(userIdentity);
     } else {
+      dbg('setUpAuth: not signed in — showing auth screen');
       showAuth();
     }
+  }).catch(err => {
+    dbg('setUpAuth ERROR: ' + err.message);
+    showAuth();
   });
 
-  container.whenUserSignsIn().then(onSignedIn);
-  container.whenUserSignsOut().then(onSignedOut);
+  container.whenUserSignsIn().then(identity => {
+    dbg('whenUserSignsIn fired ✓');
+    onSignedIn(identity);
+  }).catch(err => dbg('whenUserSignsIn ERROR: ' + err.message));
+
+  container.whenUserSignsOut().then(() => {
+    dbg('User signed out');
+    onSignedOut();
+  });
 }
 
 function onSignedIn(userIdentity) {
