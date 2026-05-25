@@ -1210,40 +1210,46 @@ function loadDemo() {
   const txns = [];
   const salario = 8500; const aluguel = 2200; const condo = 450;
   for (let m = 11; m >= 0; m--) {
-    const base = new Date(now.getFullYear(), now.getMonth() - m, 5);
-    txns.push({ id:`s${m}`,  amount: salario + (m%3===0?500:0), type:'income',  date: new Date(base.getFullYear(), base.getMonth(), 5),  isCashFlow:true,  splitParentID:null, category:'Salário',      note:'Salário mensal' });
-    txns.push({ id:`a${m}`,  amount: aluguel, type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 10), isCashFlow:true,  splitParentID:null, category:'Moradia',      note:'Aluguel' });
-    txns.push({ id:`c${m}`,  amount: condo,   type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 10), isCashFlow:true,  splitParentID:null, category:'Moradia',      note:'Condomínio' });
-    txns.push({ id:`m${m}`,  amount: Math.round(350+Math.random()*150), type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 14), isCashFlow:true,  splitParentID:null, category:'Alimentação',  note:'Supermercado' });
-    txns.push({ id:`r${m}`,  amount: Math.round(120+Math.random()*80),  type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 18), isCashFlow:true,  splitParentID:null, category:'Alimentação',  note:'Restaurantes' });
-    txns.push({ id:`t${m}`,  amount: Math.round(180+Math.random()*60),  type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 20), isCashFlow:true,  splitParentID:null, category:'Transporte',   note:'Transporte' });
-    txns.push({ id:`sp${m}`, amount: 45,      type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 12), isCashFlow:true,  splitParentID:null, category:'Assinaturas',  note:'Spotify' });
-    txns.push({ id:`nf${m}`, amount: 55,      type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 12), isCashFlow:true,  splitParentID:null, category:'Assinaturas',  note:'Netflix' });
-    if (m % 2 === 0) txns.push({ id:`ex${m}`, amount: Math.round(200+Math.random()*300), type:'expense', date: new Date(base.getFullYear(), base.getMonth(), 22), isCashFlow:true, splitParentID:null, category:'Lazer', note:'Lazer' });
+    const yr = now.getFullYear(), mn = now.getMonth() - m;
+    const tx = (id, amount, type, d, cat, note) => ({
+      id, amount, type, date: new Date(yr, mn, d),
+      isCashFlow: true, splitParentID: null, categoryName: cat, note,
+      isCardPayment: false, recurringID: null,
+    });
+    txns.push(tx(`s${m}`,  salario+(m%3===0?500:0), 'income',   5,  'Salário',     'Salário mensal'));
+    txns.push(tx(`a${m}`,  aluguel,                 'expense',  10, 'Moradia',     'Aluguel'));
+    txns.push(tx(`c${m}`,  condo,                   'expense',  10, 'Moradia',     'Condomínio'));
+    txns.push(tx(`m${m}`,  Math.round(350+Math.random()*150), 'expense', 14, 'Alimentação', 'Supermercado'));
+    txns.push(tx(`r${m}`,  Math.round(120+Math.random()*80),  'expense', 18, 'Alimentação', 'Restaurantes'));
+    txns.push(tx(`t${m}`,  Math.round(180+Math.random()*60),  'expense', 20, 'Transporte',  'Transporte'));
+    txns.push(tx(`sp${m}`, 45, 'expense', 12, 'Assinaturas', 'Spotify'));
+    txns.push(tx(`nf${m}`, 55, 'expense', 12, 'Assinaturas', 'Netflix'));
+    if (m % 2 === 0) txns.push(tx(`ex${m}`, Math.round(200+Math.random()*300), 'expense', 22, 'Lazer', 'Lazer'));
   }
 
   state.settings = {
     isPremium: true, currencyCode: 'BRL', startingBalance: 12000,
-    monthlyIncomeGoal: 9000, savingsRateGoal: 0.25,
+    monthlyIncome: 8500, monthlyIncomeGoal: 9000, savingsRateGoal: 0.25,
+    hoursPerWeek: 40,
   };
   state.transactions = txns;
   state.goals = [
-    { id:'g1', name:'Reserva de emergência', targetAmount:30000, currentAmount:18500, targetDate: mo(8),  isCompleted:false },
-    { id:'g2', name:'Viagem Europa',         targetAmount:15000, currentAmount:4200,  targetDate: mo(14), isCompleted:false },
-    { id:'g3', name:'MacBook Pro',           targetAmount:12000, currentAmount:9800,  targetDate: mo(2),  isCompleted:false },
+    { id:'g1', name:'Reserva de emergência', emoji:'🛡️', targetAmount:30000, currentAmount:18500, deadline: mo(8),  isCompleted:false },
+    { id:'g2', name:'Viagem Europa',         emoji:'✈️', targetAmount:15000, currentAmount:4200,  deadline: mo(14), isCompleted:false },
+    { id:'g3', name:'MacBook Pro',           emoji:'💻', targetAmount:12000, currentAmount:9800,  deadline: mo(2),  isCompleted:false },
   ];
   state.allocations = [
-    { category:'Moradia',     budgetedAmount:2800 },
-    { category:'Alimentação', budgetedAmount:600  },
-    { category:'Transporte',  budgetedAmount:250  },
-    { category:'Assinaturas', budgetedAmount:150  },
-    { category:'Lazer',       budgetedAmount:300  },
+    { categoryName:'Moradia',     budgetedAmount:2800 },
+    { categoryName:'Alimentação', budgetedAmount:600  },
+    { categoryName:'Transporte',  budgetedAmount:250  },
+    { categoryName:'Assinaturas', budgetedAmount:150  },
+    { categoryName:'Lazer',       budgetedAmount:300  },
   ];
-  state.categories   = state.allocations.map(a => ({ name: a.category }));
+  state.categories   = state.allocations.map(a => ({ name: a.categoryName, emoji: '📦' }));
   state.bankAccounts = [];
   state.recurring    = [
-    { name:'Spotify', amount:45, category:'Assinaturas' },
-    { name:'Netflix', amount:55, category:'Assinaturas' },
+    { id:'rec1', name:'Spotify', amount:45, frequency:'monthly', startDate: day(90), categoryName:'Assinaturas' },
+    { id:'rec2', name:'Netflix', amount:55, frequency:'monthly', startDate: day(90), categoryName:'Assinaturas' },
   ];
   state.loaded = true;
 
