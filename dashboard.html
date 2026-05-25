@@ -220,12 +220,14 @@
     ───────────────────────────────────────────────────────── */
     aside {
       width: var(--sidebar-w);
-      min-height: 100vh;
+      height: 100vh;
+      position: sticky; top: 0;
       background: var(--surface);
       border-right: 1px solid var(--border-sub);
       display: flex; flex-direction: column;
       padding: 24px 16px;
       flex-shrink: 0;
+      overflow-y: auto;
     }
 
     .logo {
@@ -2113,11 +2115,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       item.classList.add('active');
 
-      // Scroll to section
+      // Scroll only the <main> content area, not the whole page
       const targetId = sectionMap[page];
       if (targetId) {
         const el = document.getElementById(targetId);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const mainEl = document.querySelector('main');
+        if (el && mainEl) {
+          mainEl.scrollTo({ top: el.offsetTop - 28, behavior: 'smooth' });
+        }
       }
     });
   });
