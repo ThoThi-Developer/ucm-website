@@ -840,7 +840,7 @@
     </div>
 
     <!-- Row 1: Balance + Score + Runway + Wage -->
-    <div class="grid-4">
+    <div class="grid-4" id="section-overview">
 
       <div class="balance-card">
         <div>
@@ -907,7 +907,7 @@
     </div>
 
     <!-- Row 2: Trend Chart full-width -->
-    <div class="card chart-card">
+    <div class="card chart-card" id="section-insights">
       <div class="chart-header">
         <h3>Income vs Expenses</h3>
         <div class="chart-range-btns">
@@ -940,7 +940,7 @@
     </div>
 
     <!-- Row 3: Budget + Right column -->
-    <div class="grid-2-1">
+    <div class="grid-2-1" id="section-budget">
 
       <div class="card budget-card">
         <div class="budget-header">
@@ -1012,7 +1012,7 @@
     </div>
 
     <!-- Row 5: Recent Transactions -->
-    <div class="card">
+    <div class="card" id="section-history">
       <div class="section-header">
         <span>Recent Transactions</span>
         <a href="#history">View all →</a>
@@ -2094,7 +2094,36 @@ function togglePrivacy() {
 // ═══════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', initCloudKit);
+// ── Nav item click → scroll to section + active state ──────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const sectionMap = {
+    overview:  'section-overview',
+    insights:  'section-insights',
+    budget:    'section-budget',
+    goals:     'section-budget',   // goals are in same row
+    history:   'section-history',
+  };
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', e => {
+      e.preventDefault();
+      const page = item.dataset.page;
+
+      // Update active state
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+
+      // Scroll to section
+      const targetId = sectionMap[page];
+      if (targetId) {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  initCloudKit();
+});
 </script>
 </body>
 </html>
