@@ -1148,9 +1148,40 @@ function handleSignOut() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// SIGN-IN BUTTON PATCH
+// CloudKit JS v2 always opens a popup. We intercept the injected anchor
+// and force full-page navigation so the redirect lands in the main window.
+// ═══════════════════════════════════════════════════════════════════
+let _btnPatchTries = 0;
+function patchSignInButton() {
+  const a = document.querySelector('#sign-in-btn a');
+  if (a && a.href && a.href.length > 10) {
+    const authUrl = a.href;
+    dbg('Button patched → full-page nav');
+    a.onclick = (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.location.href = authUrl;
+      return false;
+    };
+    a.removeAttribute('target');
+  } else if (_btnPatchTries++ < 30) {
+    setTimeout(patchSignInButton, 200);
+  } else {
+    dbg('Button not found after retries');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // UI STATE TRANSITIONS
 // ═══════════════════════════════════════════════════════════════════
-function showAuth()     { document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
+function showAuth()     {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'none';
+  _btnPatchTries = 0;
+  patchSignInButton();
+}
 function showLoading()  { document.getElementById('loading-screen').style.display = 'flex'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
 function showDashboard(){ document.getElementById('dashboard').style.display = ''; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; }
 function hidePaywall()  { document.getElementById('paywall-overlay').style.display = 'none'; }
