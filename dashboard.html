@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ucm — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #050F0E;
+      --surface:    #0C1A18;
+      --surface2:   #112320;
+      --accent:     #2DD4BF;
+      --accent-mid: #14B8A6;
+      --accent-deep:#0D9488;
+      --accent-pale:rgba(45,212,191,0.10);
+      --border:     rgba(45,212,191,0.16);
+      --border-sub: rgba(255,255,255,0.07);
+      --text:       rgba(255,255,255,0.93);
+      --text-sec:   rgba(255,255,255,0.50);
+      --text-ter:   rgba(255,255,255,0.28);
+      --positive:   #34D399;
+      --negative:   #F87171;
+      --warning:    #FBBF24;
+      --sidebar-w:  220px;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       AUTH SCREEN
+    ───────────────────────────────────────────────────────── */
+    #auth-screen {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(5,15,14,0.92);
+      backdrop-filter: blur(24px);
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 420px; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 24px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    }
+
+    .auth-logo {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 900; color: #000; letter-spacing: -1.5px;
+    }
+
+    .auth-title {
+      font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
+      text-align: center;
+    }
+
+    .auth-sub {
+      font-size: 14px; color: var(--text-sec); text-align: center; line-height: 1.6;
+      max-width: 300px;
+    }
+
+    .auth-divider {
+      width: 100%; height: 1px; background: var(--border-sub);
+    }
+
+    /* CloudKit injects its own button here */
+    #sign-in-btn {
+      width: 100%;
+    }
+
+    /* Override Apple's button styles to match our brand */
+    #sign-in-btn > * {
+      width: 100% !important;
+      border-radius: 12px !important;
+    }
+
+    .auth-footer {
+      font-size: 11px; color: var(--text-ter); text-align: center; line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       LOADING SCREEN
+    ───────────────────────────────────────────────────────── */
+    #loading-screen {
+      position: fixed; inset: 0; z-index: 90;
+      display: none; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      background: var(--bg);
+    }
+
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border-sub);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-size: 13px; color: var(--text-sec); font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       PAYWALL OVERLAY
+    ───────────────────────────────────────────────────────── */
+    #paywall-overlay {
+      position: fixed; inset: 0; z-index: 80;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(5,15,14,0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .paywall-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 460px; width: 90%;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+
+    .paywall-icon {
+      font-size: 48px;
+    }
+
+    .paywall-title {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    }
+
+    .paywall-sub {
+      font-size: 14px; color: var(--text-sec); line-height: 1.6; max-width: 340px;
+    }
+
+    .paywall-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-pale);
+      border: 1px solid var(--border);
+      border-radius: 99px; padding: 6px 16px;
+      font-size: 12px; font-weight: 600; color: var(--accent);
+    }
+
+    .paywall-cta {
+      display: flex; flex-direction: column; gap: 10px; width: 100%;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      font-size: 15px; font-weight: 700;
+      padding: 14px 24px;
+      border-radius: 12px; border: none; cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: opacity 0.15s;
+      text-decoration: none; display: block; text-align: center;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-sec);
+      font-size: 13px; font-weight: 500;
+      padding: 10px;
+      border-radius: 10px; border: none; cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: color 0.15s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* ─────────────────────────────────────────────────────────
+       TOAST
+    ───────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      background: var(--surface2);
+      border: 1px solid var(--border-sub);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0; transform: translateY(8px);
+      transition: all 0.25s ease;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ─────────────────────────────────────────────────────────
+       SETUP BANNER (shown if token not configured)
+    ───────────────────────────────────────────────────────── */
+    #setup-banner {
+      display: none;
+      background: rgba(251,191,36,0.12);
+      border-bottom: 1px solid rgba(251,191,36,0.3);
+      padding: 10px 20px;
+      font-size: 12px; color: var(--warning);
+      text-align: center;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       SIDEBAR
+    ───────────────────────────────────────────────────────── */
+    aside {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border-sub);
+      display: flex; flex-direction: column;
+      padding: 24px 16px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 4px; margin-bottom: 36px;
+    }
+
+    .logo-mark {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900; color: #000; letter-spacing: -1px;
+    }
+
+    .logo-text { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+
+    nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      font-size: 14px; font-weight: 500; color: var(--text-sec);
+      cursor: pointer; transition: all 0.15s; text-decoration: none;
+    }
+    .nav-item:hover { background: var(--border-sub); color: var(--text); }
+    .nav-item.active { background: var(--accent-pale); color: var(--accent); font-weight: 600; }
+    .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .nav-section {
+      font-size: 10px; font-weight: 600; color: var(--text-ter);
+      text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 16px 12px 6px;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border-sub);
+      padding-top: 16px; margin-top: 16px;
+    }
+
+    .user-chip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      background: var(--accent-pale);
+      border: 1px solid var(--border);
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .user-chip:hover { opacity: 0.8; }
+
+    .user-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #000; flex-shrink: 0;
+    }
+
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-size: 12px; font-weight: 600; }
+    .user-plan { font-size: 10px; color: var(--accent); font-weight: 600; }
+
+    #sign-out-btn { display: none; }
+
+    /* ─────────────────────────────────────────────────────────
+       MAIN
+    ───────────────────────────────────────────────────────── */
+    main {
+      flex: 1; overflow-y: auto;
+      padding: 28px 32px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    main::-webkit-scrollbar { width: 5px; }
+    main::-webkit-scrollbar-track { background: transparent; }
+    main::-webkit-scrollbar-thumb { background: var(--border-sub); border-radius: 99px; }
+
+    /* ─────────────────────────────────────────────────────────
+       TOP BAR
+    ───────────────────────────────────────────────────────── */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .topbar-left h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    .topbar-left p { font-size: 13px; color: var(--text-sec); margin-top: 2px; }
+
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+
+    .month-picker {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border-sub);
+      border-radius: 10px; padding: 8px 14px;
+      font-size: 13px; font-weight: 600; color: var(--text);
+      user-select: none;
+    }
+
+    .month-nav-btn {
+      background: transparent; border: none;
+      color: var(--text-sec); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2px; border-radius: 4px; transition: color 0.15s;
+    }
+    .month-nav-btn:hover { color: var(--text); }
+    .month-nav-btn svg { width: 14px; height: 14px; }
+    .month-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .refresh-btn {
+      background: var(--surface); border: 1px solid var(--border-sub);
+      border-radius: 8px; padding: 8px; cursor: pointer;
+      color: var(--text-sec); display: flex; align-items: center;
+      transition: color 0.15s, background 0.15s;
+    }
+    .refresh-btn:hover { color: var(--text); background: var(--surface2); }
+    .refresh-btn svg { width: 14px; height: 14px; }
+
+    /* ─────────────────────────────────────────────────────────
+       GRID LAYOUTS
+    ───────────────────────────────────────────────────────── */
+    .grid-4 { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px; }
+    .grid-2-1 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* ─────────────────────────────────────────────────────────
+       CARDS
+    ───────────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border-sub);
+      border-radius: 16px; padding: 20px;
+    }
+
+    .card-label {
+      font-size: 10px; font-weight: 600; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       BALANCE HERO CARD
+    ───────────────────────────────────────────────────────── */
+    .balance-card {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(13,148,136,0.18) 100%);
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 24px; display: flex; flex-direction: column; gap: 16px;
+    }
+
+    .balance-card .label {
+      font-size: 11px; font-weight: 600; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.7px;
+    }
+
+    .balance-amount-row { display: flex; align-items: center; gap: 12px; margin-top: 2px; }
+
+    .balance-card .amount {
+      font-size: 42px; font-weight: 900; letter-spacing: -2px;
+      color: var(--text); line-height: 1;
+    }
+
+    .balance-divider { height: 1px; background: var(--border-sub); }
+
+    .balance-row { display: flex; justify-content: space-between; }
+    .balance-metric { display: flex; flex-direction: column; gap: 2px; }
+    .balance-metric .m-label { font-size: 11px; color: var(--text-sec); }
+    .balance-metric .m-value { font-size: 14px; font-weight: 700; }
+
+    /* ─────────────────────────────────────────────────────────
+       SCORE RING
+    ───────────────────────────────────────────────────────── */
+    .score-card {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 10px; padding: 20px;
+    }
+
+    .ring-wrap { position: relative; width: 100px; height: 100px; }
+    .ring-wrap svg { transform: rotate(-90deg); }
+
+    .ring-center {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center; line-height: 1;
+    }
+
+    .ring-center .score-num { font-size: 28px; font-weight: 900; color: var(--text); }
+    .ring-center .score-denom { font-size: 10px; color: var(--text-ter); font-weight: 600; }
+    .score-level { font-size: 15px; font-weight: 800; color: var(--accent); text-align: center; }
+    .score-narrative { font-size: 11px; color: var(--text-sec); text-align: center; line-height: 1.5; }
+
+    /* ─────────────────────────────────────────────────────────
+       STAT CHIPS
+    ───────────────────────────────────────────────────────── */
+    .stat-chip {
+      background: var(--surface); border: 1px solid var(--border-sub);
+      border-radius: 14px; padding: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+
+    .chip-header {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 600; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    .chip-header .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .chip-value { font-size: 22px; font-weight: 800; letter-spacing: -0.8px; }
+    .chip-sub { font-size: 11px; color: var(--text-ter); }
+
+    /* ─────────────────────────────────────────────────────────
+       BUDGET BARS
+    ───────────────────────────────────────────────────────── */
+    .budget-card { display: flex; flex-direction: column; gap: 14px; }
+
+    .budget-header { display: flex; justify-content: space-between; align-items: center; }
+    .budget-header h3 { font-size: 15px; font-weight: 700; }
+    .budget-header span { font-size: 12px; color: var(--text-sec); }
+
+    .budget-row { display: flex; flex-direction: column; gap: 5px; }
+
+    .budget-row-top {
+      display: flex; justify-content: space-between; font-size: 13px;
+    }
+
+    .budget-name { font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .budget-amounts { color: var(--text-sec); font-size: 12px; }
+
+    .bar-track {
+      height: 6px; background: var(--border-sub);
+      border-radius: 999px; overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%; border-radius: 999px;
+      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       WEEKLY MOVE (INSIGHT) CARD
+    ───────────────────────────────────────────────────────── */
+    .move-card {
+      background: linear-gradient(135deg, rgba(45,212,191,0.08) 0%, var(--surface) 100%);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 20px; display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .move-card.tint-red    { background: linear-gradient(135deg, rgba(248,113,113,0.08) 0%, var(--surface) 100%); border-color: rgba(248,113,113,0.25); }
+    .move-card.tint-orange { background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, var(--surface) 100%); border-color: rgba(251,191,36,0.25); }
+    .move-card.tint-green  { background: linear-gradient(135deg, rgba(52,211,153,0.08) 0%, var(--surface) 100%); border-color: rgba(52,211,153,0.25); }
+
+    .move-icon-wrap {
+      width: 40px; height: 40px; background: rgba(45,212,191,0.15);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+
+    .move-label {
+      font-size: 10px; font-weight: 600; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.6px;
+    }
+
+    .move-headline { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.3; }
+    .move-body { font-size: 12px; color: var(--text-sec); line-height: 1.6; }
+
+    /* goal-link highlight */
+    .move-body .goal-link {
+      color: var(--accent); font-weight: 600;
+    }
+
+    .move-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #000;
+      font-size: 13px; font-weight: 700;
+      padding: 9px 16px; border-radius: 10px; border: none;
+      cursor: pointer; width: fit-content;
+      font-family: 'Outfit', sans-serif; transition: opacity 0.15s;
+    }
+    .move-btn:hover { opacity: 0.85; }
+
+    /* ─────────────────────────────────────────────────────────
+       GOALS
+    ───────────────────────────────────────────────────────── */
+    .goal-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 0; border-bottom: 1px solid var(--border-sub);
+    }
+    .goal-row:last-child { border-bottom: none; }
+    .goal-emoji { font-size: 22px; }
+    .goal-info { flex: 1; min-width: 0; }
+    .goal-name { font-size: 13px; font-weight: 600; }
+    .goal-progress-text { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
+    .goal-bar-wrap { margin-top: 5px; }
+    .goal-pct { font-size: 13px; font-weight: 700; color: var(--accent); }
+    .goal-eta { font-size: 10px; color: var(--text-ter); margin-top: 2px; }
+
+    /* ─────────────────────────────────────────────────────────
+       TRANSACTIONS
+    ───────────────────────────────────────────────────────── */
+    .tx-list { display: flex; flex-direction: column; }
+
+    .tx-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--border-sub);
+    }
+    .tx-row:last-child { border-bottom: none; }
+
+    .tx-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--surface2); display: flex; align-items: center;
+      justify-content: center; font-size: 16px; flex-shrink: 0;
+    }
+
+    .tx-info { flex: 1; min-width: 0; }
+    .tx-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tx-cat  { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
+
+    .tx-right { text-align: right; flex-shrink: 0; }
+    .tx-amount { font-size: 14px; font-weight: 700; }
+    .tx-date   { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
+
+    .positive { color: var(--positive); }
+    .negative { color: var(--text); }
+    .negative-red { color: var(--negative); }
+
+    /* ─────────────────────────────────────────────────────────
+       TREND CHART
+    ───────────────────────────────────────────────────────── */
+    .chart-card { display: flex; flex-direction: column; gap: 16px; }
+
+    .chart-header { display: flex; justify-content: space-between; align-items: center; }
+    .chart-header h3 { font-size: 15px; font-weight: 700; }
+
+    .chart-range-btns { display: flex; gap: 4px; }
+
+    .range-btn {
+      background: transparent; border: 1px solid var(--border-sub);
+      border-radius: 7px; padding: 5px 10px;
+      font-size: 11px; font-weight: 600; color: var(--text-sec);
+      cursor: pointer; font-family: 'Outfit', sans-serif; transition: all 0.15s;
+    }
+    .range-btn.active { background: var(--accent-pale); border-color: var(--border); color: var(--accent); }
+    .range-btn:hover:not(.active) { color: var(--text); border-color: var(--border); }
+
+    .chart-container { position: relative; height: 180px; }
+
+    .chart-stats {
+      display: flex; gap: 20px;
+      padding-top: 12px; border-top: 1px solid var(--border-sub);
+    }
+
+    .chart-stat { display: flex; flex-direction: column; gap: 2px; }
+    .chart-stat .cs-label { font-size: 10px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; }
+    .chart-stat .cs-value { font-size: 16px; font-weight: 800; }
+
+    /* ─────────────────────────────────────────────────────────
+       SCENARIO SIMULATOR
+    ───────────────────────────────────────────────────────── */
+    .simulator-card {
+      background: linear-gradient(135deg, rgba(167,139,250,0.06) 0%, var(--surface) 100%);
+      border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 16px; padding: 20px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    .simulator-header { display: flex; align-items: center; gap: 10px; }
+
+    .simulator-icon {
+      width: 36px; height: 36px; background: rgba(167,139,250,0.15);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 18px;
+    }
+
+    .simulator-title { font-size: 15px; font-weight: 700; }
+    .simulator-sub   { font-size: 11px; color: var(--text-sec); }
+
+    .simulator-control { display: flex; flex-direction: column; gap: 10px; }
+
+    .slider-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px;
+    }
+
+    .slider-label span { color: var(--text-sec); }
+
+    .slider-value {
+      font-size: 16px; font-weight: 800; color: #A78BFA;
+      min-width: 90px; text-align: right;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%; height: 4px;
+      background: var(--border-sub); border-radius: 99px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #A78BFA;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(167,139,250,0.5);
+    }
+
+    .simulator-results { display: flex; flex-direction: column; gap: 8px; }
+
+    .sim-result-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; background: var(--surface2);
+      border-radius: 10px; font-size: 12px;
+    }
+
+    .sim-result-emoji { font-size: 16px; }
+
+    .sim-result-name { flex: 1; font-weight: 500; }
+
+    .sim-result-delta {
+      font-size: 11px; font-weight: 700;
+      padding: 3px 8px; border-radius: 6px;
+    }
+
+    .sim-result-delta.better { background: rgba(52,211,153,0.15); color: var(--positive); }
+    .sim-result-delta.worse  { background: rgba(248,113,113,0.15); color: var(--negative); }
+    .sim-result-delta.same   { background: var(--border-sub); color: var(--text-ter); }
+
+    .sim-result-date { font-size: 11px; color: var(--text-sec); }
+
+    /* ─────────────────────────────────────────────────────────
+       SECTION HEADERS
+    ───────────────────────────────────────────────────────── */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .section-header span { font-size: 15px; font-weight: 700; }
+    .section-header a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; }
+    .section-header .badge { font-size: 11px; color: var(--text-sec); }
+
+    /* ─────────────────────────────────────────────────────────
+       PRIVACY
+    ───────────────────────────────────────────────────────── */
+    .private { transition: filter 0.25s ease; }
+    .privacy-mode .private {
+      filter: blur(8px); user-select: none; pointer-events: none;
+    }
+
+    .eye-btn {
+      background: rgba(255,255,255,0.08); border: 1px solid var(--border-sub);
+      border-radius: 50%; width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-sec);
+      transition: color 0.15s, background 0.15s; flex-shrink: 0; padding: 0;
+    }
+    .eye-btn:hover { color: var(--text); background: rgba(255,255,255,0.14); }
+    .eye-btn svg { width: 15px; height: 15px; }
+
+    /* ─────────────────────────────────────────────────────────
+       SKELETON LOADING
+    ───────────────────────────────────────────────────────── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.04) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+    }
+
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ─────────────────────────────────────────────────────────
+       EMPTY STATE
+    ───────────────────────────────────────────────────────── */
+    .empty-state {
+      text-align: center; padding: 32px 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .empty-state .es-icon { font-size: 32px; opacity: 0.5; }
+    .empty-state .es-title { font-size: 14px; font-weight: 600; color: var(--text-sec); }
+    .empty-state .es-sub { font-size: 12px; color: var(--text-ter); }
+  </style>
+</head>
+<body>
+
+<!-- ── Setup Banner (token not configured) ── -->
+<div id="setup-banner">
+  ⚠️ CloudKit API token not configured.
+  Open <strong>dashboard.html</strong>, find <code>YOUR_CK_API_TOKEN</code> and replace it with your token from
+  <a href="https://icloud.developer.apple.com" target="_blank" style="color:var(--warning)">icloud.developer.apple.com</a>
+  → iCloud.com.thothi.ucm → Settings → Tokens & Keys.
+</div>
+
+<!-- ── Auth Screen ── -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <img src="uploads/AppIcon.png" alt="ucm" style="width:64px;height:64px;border-radius:18px;" />
+    <div class="auth-title">Your finances,<br/>at a glance.</div>
+    <div class="auth-sub">
+      Sign in with the same Apple ID you use on the ucm app.
+      Your data loads directly from iCloud — nothing touches our servers.
+    </div>
+    <div class="auth-divider"></div>
+    <!-- CloudKit JS injects the Apple sign-in button here -->
+    <div id="sign-in-btn"></div>
+    <div class="auth-footer">
+      Requires ucm Pro on iPhone &nbsp;·&nbsp; Your data stays in your iCloud
+    </div>
+  </div>
+</div>
+
+<!-- ── Loading Screen ── -->
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <div class="loading-text">Loading your data from iCloud…</div>
+</div>
+
+<!-- ── Paywall Overlay ── -->
+<div id="paywall-overlay">
+  <div class="paywall-card">
+    <div class="paywall-icon">📊</div>
+    <div class="paywall-badge">✦ ucm Pro</div>
+    <div class="paywall-title">Your dashboard is ready.</div>
+    <div class="paywall-sub">
+      Your financial data is in iCloud, waiting for you.
+      Upgrade to ucm Pro on iPhone to unlock your full web dashboard.
+    </div>
+    <div class="paywall-cta">
+      <a class="btn-primary" href="https://apps.apple.com/app/ucm/id6741530699" target="_blank">
+        Get ucm Pro on iPhone →
+      </a>
+      <button class="btn-secondary" onclick="hidePaywall()">View demo instead</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div id="toast"></div>
+
+<!-- ── Dashboard ── -->
+<div id="dashboard" style="display:none; width:100%;">
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="logo">
+      <img src="uploads/AppIcon.png" alt="ucm" style="width:32px;height:32px;border-radius:8px;" />
+      <span class="logo-text">ucm</span>
+    </div>
+
+    <nav>
+      <div class="nav-section">Menu</div>
+      <a class="nav-item active" href="#overview" data-page="overview">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        Overview
+      </a>
+      <a class="nav-item" href="#budget" data-page="budget">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 010 20M12 2v5M12 17v5"/></svg>
+        Budget
+      </a>
+      <a class="nav-item" href="#insights" data-page="insights">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        Insights
+      </a>
+      <a class="nav-item" href="#goals" data-page="goals">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+        Goals
+      </a>
+      <a class="nav-item" href="#history" data-page="history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        History
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip" id="user-chip" onclick="handleSignOut()">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-info">
+          <div class="user-name" id="user-name">Loading…</div>
+          <div class="user-plan">✦ Pro</div>
+        </div>
+      </div>
+      <!-- CloudKit injects sign-out button here (hidden) -->
+      <div id="sign-out-btn"></div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Overview</h1>
+        <p id="today-label"></p>
+      </div>
+      <div class="topbar-right">
+        <div class="month-picker">
+          <button class="month-nav-btn" id="prev-month-btn" onclick="navigateMonth(-1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+          </button>
+          <span id="month-label">May 2026</span>
+          <button class="month-nav-btn" id="next-month-btn" onclick="navigateMonth(1)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+        <button class="refresh-btn" onclick="refreshData()" title="Refresh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Row 1: Balance + Score + Runway + Wage -->
+    <div class="grid-4">
+
+      <div class="balance-card">
+        <div>
+          <div class="balance-card label">Current Balance</div>
+          <div class="balance-amount-row">
+            <div class="balance-card amount private" id="balance-amount">—</div>
+            <button class="eye-btn" onclick="togglePrivacy()">
+              <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <div class="private" id="balance-delta" style="font-size:12px; margin-top:6px; color:var(--positive)">—</div>
+        </div>
+        <div class="balance-divider"></div>
+        <div class="balance-row">
+          <div class="balance-metric">
+            <span class="m-label">⏰ Upcoming</span>
+            <span class="m-value private negative-red" id="upcoming-amount">—</span>
+          </div>
+          <div class="balance-metric" style="text-align:right">
+            <span class="m-label">📈 This Month Net</span>
+            <span class="m-value private" id="month-net">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card score-card">
+        <div class="ring-wrap">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="8"/>
+            <circle id="score-ring" cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="8"
+              stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9"
+              style="transition: stroke-dashoffset 1.2s ease, stroke 0.5s ease"/>
+          </svg>
+          <div class="ring-center">
+            <div class="score-num" id="score-num">—</div>
+            <div class="score-denom">/100</div>
+          </div>
+        </div>
+        <div class="score-level" id="score-level">Loading</div>
+        <div class="score-narrative" id="score-narrative"></div>
+      </div>
+
+      <div class="stat-chip">
+        <div class="chip-header">
+          <div class="dot" style="background:var(--accent)"></div>
+          Runway
+        </div>
+        <div class="chip-value private" id="runway-value" style="color:var(--accent)">—</div>
+        <div class="chip-sub">months of expenses</div>
+      </div>
+
+      <div class="stat-chip">
+        <div class="chip-header">
+          <div class="dot" style="background:#A78BFA"></div>
+          Real Wage
+        </div>
+        <div class="chip-value private" id="wage-value" style="color:var(--text)">—</div>
+        <div class="chip-sub private" id="wage-sub">hr / $100</div>
+      </div>
+
+    </div>
+
+    <!-- Row 2: Trend Chart full-width -->
+    <div class="card chart-card">
+      <div class="chart-header">
+        <h3>Income vs Expenses</h3>
+        <div class="chart-range-btns">
+          <button class="range-btn active" onclick="setChartRange(3, this)">3M</button>
+          <button class="range-btn" onclick="setChartRange(6, this)">6M</button>
+          <button class="range-btn" onclick="setChartRange(12, this)">12M</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="trend-chart"></canvas>
+      </div>
+      <div class="chart-stats">
+        <div class="chart-stat">
+          <span class="cs-label">Avg Income</span>
+          <span class="cs-value private" id="avg-income" style="color:var(--positive)">—</span>
+        </div>
+        <div class="chart-stat">
+          <span class="cs-label">Avg Expenses</span>
+          <span class="cs-value private" id="avg-expenses" style="color:var(--negative)">—</span>
+        </div>
+        <div class="chart-stat">
+          <span class="cs-label">Avg Savings Rate</span>
+          <span class="cs-value" id="avg-savings-rate" style="color:var(--accent)">—</span>
+        </div>
+        <div class="chart-stat">
+          <span class="cs-label">Trend</span>
+          <span class="cs-value" id="savings-trend">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Budget + Right column -->
+    <div class="grid-2-1">
+
+      <div class="card budget-card">
+        <div class="budget-header">
+          <h3>Budget vs Actual</h3>
+          <span class="private" id="budget-summary">—</span>
+        </div>
+        <div id="budget-bars">
+          <div class="empty-state">
+            <div class="es-icon">📊</div>
+            <div class="es-title">No budget set</div>
+            <div class="es-sub">Create a budget in the app to track spending here</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <!-- Insight / Weekly Move -->
+        <div class="move-card" id="insight-card">
+          <div class="move-icon-wrap" id="insight-icon">🎯</div>
+          <div>
+            <div class="move-label">Your next move</div>
+            <div class="move-headline" id="insight-headline">Analysing your data…</div>
+          </div>
+          <div class="move-body" id="insight-body"></div>
+          <button class="move-btn" id="insight-btn" onclick="handleInsightAction()">Loading</button>
+        </div>
+
+        <!-- Goals -->
+        <div class="card">
+          <div class="section-header">
+            <span>Goals</span>
+            <span class="badge" id="goals-badge">—</span>
+          </div>
+          <div class="tx-list" id="goals-list">
+            <div class="empty-state">
+              <div class="es-icon">🎯</div>
+              <div class="es-title">No goals yet</div>
+              <div class="es-sub">Set your first savings goal in the app</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Row 4: Scenario Simulator -->
+    <div class="simulator-card">
+      <div class="simulator-header">
+        <div class="simulator-icon">🔮</div>
+        <div>
+          <div class="simulator-title">What if…</div>
+          <div class="simulator-sub">Drag to simulate changes to your monthly savings</div>
+        </div>
+      </div>
+      <div class="simulator-control">
+        <div class="slider-label">
+          <span>Monthly savings change</span>
+          <div class="slider-value" id="sim-value">+$0</div>
+        </div>
+        <input type="range" id="sim-slider" min="-500" max="500" value="0" step="10"
+          oninput="updateSimulator(this.value)" />
+      </div>
+      <div class="simulator-results" id="sim-results">
+        <div class="empty-state" style="padding:12px">
+          <div class="es-sub">Add goals in the app to see projections here</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 5: Recent Transactions -->
+    <div class="card">
+      <div class="section-header">
+        <span>Recent Transactions</span>
+        <a href="#history">View all →</a>
+      </div>
+      <div class="tx-list" id="tx-list">
+        <div class="empty-state">
+          <div class="es-icon">💸</div>
+          <div class="es-title">No transactions this month</div>
+          <div class="es-sub">Transactions you log in the app appear here</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// CONFIGURATION — Replace YOUR_CK_API_TOKEN with your real token
+// from icloud.developer.apple.com → iCloud.com.thothi.ucm →
+// Settings → Tokens & Keys → Create Token
+// ═══════════════════════════════════════════════════════════════════
+const CK_TOKEN     = '20520e5eb35e2835dc18cba8a4d1714a2d178a39473cbe6b3f49a0308623c030';
+const CK_CONTAINER = 'iCloud.com.thothi.ucm';
+const CK_ENV       = 'production';
+
+// ═══════════════════════════════════════════════════════════════════
+// GLOBAL STATE
+// ═══════════════════════════════════════════════════════════════════
+let state = {
+  settings: null,
+  transactions: [],
+  goals: [],
+  allocations: [],
+  categories: [],
+  recurring: [],
+  bankAccounts: [],
+  loaded: false,
+};
+
+let currentMonth  = { year: new Date().getFullYear(), month: new Date().getMonth() };
+let chartRange    = 3;
+let trendChart    = null;
+let privacyHidden = false;
+let insightAction = null;
+
+// ═══════════════════════════════════════════════════════════════════
+// CLOUDKIT SETUP
+// ═══════════════════════════════════════════════════════════════════
+function initCloudKit() {
+  if (CK_TOKEN === 'YOUR_CK_API_TOKEN') {
+    document.getElementById('setup-banner').style.display = 'block';
+  }
+
+  CloudKit.configure({
+    containers: [{
+      containerIdentifier: CK_CONTAINER,
+      apiTokenAuth: {
+        apiToken:    CK_TOKEN,
+        persist:     true,
+        signInButton:  { id: 'sign-in-btn',  theme: 'black' },
+        signOutButton: { id: 'sign-out-btn' },
+      },
+      environment: CK_ENV,
+    }]
+  });
+
+  const container = CloudKit.getDefaultContainer();
+
+  container.setUpAuth().then(userIdentity => {
+    if (userIdentity) {
+      onSignedIn(userIdentity);
+    } else {
+      showAuth();
+    }
+  });
+
+  container.whenUserSignsIn().then(onSignedIn);
+  container.whenUserSignsOut().then(onSignedOut);
+}
+
+function onSignedIn(userIdentity) {
+  const initials = userIdentity?.nameComponents?.givenName?.[0]?.toUpperCase() ?? '?';
+  document.getElementById('user-avatar').textContent = initials;
+  document.getElementById('user-name').textContent =
+    [userIdentity?.nameComponents?.givenName, userIdentity?.nameComponents?.familyName]
+      .filter(Boolean).join(' ') || 'ucm Pro';
+  showLoading();
+  loadDashboard();
+}
+
+function onSignedOut() {
+  state = { settings: null, transactions: [], goals: [], allocations: [], categories: [], recurring: [], bankAccounts: [], loaded: false };
+  showAuth();
+}
+
+function handleSignOut() {
+  document.getElementById('sign-out-btn').querySelector('a, button')?.click();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// UI STATE TRANSITIONS
+// ═══════════════════════════════════════════════════════════════════
+function showAuth()     { document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
+function showLoading()  { document.getElementById('loading-screen').style.display = 'flex'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
+function showDashboard(){ document.getElementById('dashboard').style.display = ''; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; }
+function hidePaywall()  { document.getElementById('paywall-overlay').style.display = 'none'; }
+
+function showPaywall() {
+  document.getElementById('paywall-overlay').style.display = 'flex';
+  showDashboard();
+}
+
+function showToast(msg, duration = 2500) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), duration);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DATA FETCHING
+// ═══════════════════════════════════════════════════════════════════
+const db = () => CloudKit.getDefaultContainer().privateCloudDatabase;
+
+async function fetchAll(query) {
+  let records = [];
+  let response = await db().performQuery(query);
+  if (response.hasErrors) { console.error('CK error:', response.errors[0]); return []; }
+  records.push(...response.records);
+  while (response.moreComing) {
+    response = await db().performQuery({ ...query, cursor: response.cursor });
+    if (response.hasErrors) break;
+    records.push(...response.records);
+  }
+  return records;
+}
+
+async function fetchRecord(recordType, limit = 1) {
+  return fetchAll({ recordType, resultsLimit: limit });
+}
+
+async function loadDashboard() {
+  try {
+    const twelveMonthsAgo = new Date();
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+
+    const [settingsRecs, txRecs, goalRecs, allocRecs, catRecs, recurRecs, bankRecs] =
+      await Promise.all([
+        fetchRecord('CD_AppSettings'),
+        fetchAll({
+          recordType: 'CD_BudgetTransaction',
+          filterBy: [{
+            fieldName: 'CD_date',
+            comparator: 'GREATER_THAN_OR_EQUALS',
+            fieldValue: { value: twelveMonthsAgo.getTime(), type: 'TIMESTAMP' }
+          }],
+          sortBy: [{ fieldName: 'CD_date', ascending: false }],
+        }),
+        fetchAll({ recordType: 'CD_SavingsGoal' }),
+        fetchAll({ recordType: 'CD_CategoryAllocation' }),
+        fetchAll({ recordType: 'CD_Category' }),
+        fetchAll({ recordType: 'CD_RecurringTransaction' }),
+        fetchAll({ recordType: 'CD_BankAccount' }),
+      ]);
+
+    state.settings    = settingsRecs[0] ? mapSettings(settingsRecs[0]) : defaultSettings();
+    state.transactions = txRecs.map(mapTransaction).filter(t => t.splitParentID == null);
+    state.goals        = goalRecs.map(mapGoal).filter(g => !g.isCompleted);
+    state.allocations  = allocRecs.map(mapAllocation).filter(a => a.budgetedAmount > 0);
+    state.categories   = catRecs.map(mapCategory);
+    state.recurring    = recurRecs.map(mapRecurring);
+    state.bankAccounts = bankRecs.map(mapBankAccount).filter(b => !b.isArchived);
+    state.loaded       = true;
+
+    if (!state.settings.isPremium) {
+      showDashboard();
+      showPaywall();
+      return;
+    }
+
+    showDashboard();
+    renderAll();
+
+  } catch (err) {
+    console.error('Dashboard load failed:', err);
+    showToast('Failed to load data. Check console for details.');
+    showDashboard();
+  }
+}
+
+async function refreshData() {
+  showToast('Refreshing…');
+  await loadDashboard();
+  showToast('Updated ✓');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DATA MAPPERS  (CloudKit field → JS object)
+// ═══════════════════════════════════════════════════════════════════
+function f(record, field, fallback = null) {
+  return record.fields?.[field]?.value ?? fallback;
+}
+
+function mapTransaction(r) {
+  return {
+    id:              r.recordName,
+    amount:          Math.abs(f(r, 'CD_amount', 0)),
+    type:            f(r, 'CD_typeRaw', 'expense'),
+    date:            new Date(f(r, 'CD_date', 0)),
+    note:            f(r, 'CD_note', ''),
+    categoryName:    f(r, 'CD_categoryName', null),       // may be null; relationship
+    isCashFlow:      f(r, 'CD_isCashFlow', 1) !== 0,
+    splitParentID:   f(r, 'CD_splitParentID', null),
+    isCardPayment:   f(r, 'CD_isCardPayment', 0) !== 0,
+    recurringID:     f(r, 'CD_recurringSeriesID', null),
+  };
+}
+
+function mapGoal(r) {
+  return {
+    id:            r.recordName,
+    name:          f(r, 'CD_name', 'Goal'),
+    emoji:         f(r, 'CD_emoji', '🎯'),
+    targetAmount:  f(r, 'CD_targetAmount', 0),
+    currentAmount: f(r, 'CD_currentAmount', 0),
+    deadline:      f(r, 'CD_deadline') ? new Date(f(r, 'CD_deadline')) : null,
+    isCompleted:   f(r, 'CD_isCompleted', 0) !== 0,
+  };
+}
+
+function mapAllocation(r) {
+  return {
+    categoryName:  f(r, 'CD_categoryName', ''),
+    budgetedAmount: f(r, 'CD_budgetedAmount', 0),
+  };
+}
+
+function mapCategory(r) {
+  return {
+    name:   f(r, 'CD_name', ''),
+    emoji:  f(r, 'CD_emoji', '📦'),
+    isNeed: f(r, 'CD_isNeed', 0) !== 0,
+  };
+}
+
+function mapRecurring(r) {
+  return {
+    id:        r.recordName,
+    name:      f(r, 'CD_name', ''),
+    amount:    Math.abs(f(r, 'CD_amount', 0)),
+    frequency: f(r, 'CD_frequencyRaw', 'monthly'),
+    startDate: new Date(f(r, 'CD_startDate', 0)),
+  };
+}
+
+function mapBankAccount(r) {
+  return {
+    id:              r.recordName,
+    name:            f(r, 'CD_name', 'Account'),
+    emoji:           f(r, 'CD_emoji', '🏦'),
+    startingBalance: f(r, 'CD_startingBalance', 0),
+    colorHex:        f(r, 'CD_colorHex', '#4A90E2'),
+    isArchived:      f(r, 'CD_isArchived', 0) !== 0,
+  };
+}
+
+function mapSettings(r) {
+  return {
+    currencyCode:    f(r, 'CD_currencyCode', 'USD'),
+    monthlyIncome:   f(r, 'CD_declaredMonthlyIncome', 0),
+    isPremium:       f(r, 'CD_isPremium', 0) !== 0,
+    startingBalance: f(r, 'CD_startingBalance', 0),
+    showIncomeGreen: f(r, 'CD_showIncomeGreen', 1) !== 0,
+  };
+}
+
+function defaultSettings() {
+  return { currencyCode: 'USD', monthlyIncome: 0, isPremium: false, startingBalance: 0, showIncomeGreen: true };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// COMPUTATION
+// ═══════════════════════════════════════════════════════════════════
+function inMonth(tx, year, month) {
+  return tx.date.getFullYear() === year && tx.date.getMonth() === month;
+}
+
+function cashFlowTxs(txs) {
+  return txs.filter(t => t.isCashFlow && !t.isCardPayment);
+}
+
+function computeBalance(txs, bankAccounts, settings) {
+  const hasBankAccounts = bankAccounts.length > 0;
+  const base = hasBankAccounts
+    ? bankAccounts.reduce((s, a) => s + a.startingBalance, 0)
+    : settings.startingBalance;
+
+  const cf = cashFlowTxs(txs);
+  const net = cf.reduce((s, t) => t.type === 'income' ? s + t.amount : s - t.amount, 0);
+  return base + net;
+}
+
+function computeMonthlyData(txs, year, month) {
+  const cf = cashFlowTxs(txs.filter(t => inMonth(t, year, month)));
+  const income   = cf.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+  const expenses = cf.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+  return { income, expenses, net: income - expenses, savingsRate: income > 0 ? (income - expenses) / income * 100 : 0 };
+}
+
+function computeAllMonthlyData(txs, monthsBack = 12) {
+  const months = [];
+  const now = new Date();
+  for (let i = monthsBack - 1; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const data = computeMonthlyData(txs, d.getFullYear(), d.getMonth());
+    months.push({ year: d.getFullYear(), month: d.getMonth(), label: d.toLocaleDateString('en', {month:'short'}), ...data });
+  }
+  return months;
+}
+
+function computeAvgIncome(txs) {
+  const monthlyData = computeAllMonthlyData(txs, 3);
+  const months = monthlyData.filter(m => m.income > 0);
+  return months.length > 0 ? months.reduce((s, m) => s + m.income, 0) / months.length : 0;
+}
+
+function computeRunwayMonths(txs, settings) {
+  const monthlyData = computeAllMonthlyData(txs, 3);
+  const avgExpenses = monthlyData.filter(m => m.expenses > 0).reduce((s, m) => s + m.expenses, 0) / Math.max(monthlyData.filter(m => m.expenses > 0).length, 1);
+  if (avgExpenses <= 0) return 0;
+  const balance = computeBalance(txs, state.bankAccounts, settings);
+  return balance / avgExpenses;
+}
+
+function computeRealWage(txs, settings) {
+  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
+  const weeklyHours = parseFloat(localStorage.getItem('ucm.weeklyHours') || '40');
+  if (income <= 0 || weeklyHours <= 0) return null;
+  const hourlyWage = income / (weeklyHours * 4.33);
+  return { hourlyWage, hoursPerHundred: 100 / hourlyWage };
+}
+
+function computeHealthScore(txs, recurring, settings) {
+  const cf = cashFlowTxs(txs);
+  if (cf.length < 10) return { total: 0, level: 'Getting Started', narrative: 'Keep logging — score unlocks at 10 transactions.' };
+
+  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
+  if (income <= 0) return { total: 0, level: 'Getting Started', narrative: 'Set your monthly income in the app to unlock your score.' };
+
+  const runway = computeRunwayMonths(txs, settings);
+  const runwayPts = Math.round(Math.min(runway, 6) / 6 * 30);
+
+  const allMonths = computeAllMonthlyData(txs, 3).filter(m => m.income > 0 || m.expenses > 0);
+  const avgRate = allMonths.length > 0 ? allMonths.reduce((s, m) => s + m.savingsRate, 0) / allMonths.length : 0;
+  const ratePts = Math.round(Math.min(Math.max(avgRate, 0), 25) / 25 * 25);
+
+  const yearlyFixed = recurring.filter(r => r.frequency === 'yearly').reduce((s, r) => s + r.amount / 12, 0);
+  const monthlyFixed = recurring.filter(r => r.frequency === 'monthly').reduce((s, r) => s + r.amount, 0);
+  const fixedRatio = (yearlyFixed + monthlyFixed) / income;
+  const fixedPts = fixedRatio < 0.3 ? 20 : fixedRatio < 0.5 ? 14 : fixedRatio < 0.65 ? 7 : 0;
+
+  const debtPts = 15; // No CC debt data available from CloudKit easily — default to good
+
+  const total = runwayPts + ratePts + fixedPts + debtPts;
+  const level = total >= 85 ? 'Excellent' : total >= 70 ? 'On Track' : total >= 50 ? 'Fair' : total >= 30 ? 'Needs Work' : 'Critical';
+  const narrative = total >= 85 ? 'Strong across all metrics. Keep it up.' :
+                    total >= 70 ? 'Solid fundamentals. A few tweaks would help.' :
+                    total >= 50 ? 'Some pressure points to address.' :
+                    'Important gaps to close — see your weekly move.';
+
+  return { total, level, narrative, runwayPts, ratePts, fixedPts, debtPts };
+}
+
+function goalETA(goal, monthlySavings) {
+  const remaining = goal.targetAmount - goal.currentAmount;
+  if (remaining <= 0) return null;
+  if (monthlySavings <= 0) return null;
+  const months = Math.ceil(remaining / monthlySavings);
+  const eta = new Date();
+  eta.setMonth(eta.getMonth() + months);
+  return { months, date: eta };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PRESCRIPTIVE INSIGHT ENGINE
+// ═══════════════════════════════════════════════════════════════════
+function computeInsight(txs, goals, recurring, settings, allocations) {
+  const cf = cashFlowTxs(txs);
+  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
+  const monthData = computeMonthlyData(txs, currentMonth.year, currentMonth.month);
+  const monthlySavings = Math.max(income - monthData.expenses, 0);
+  const currency = settings.currencyCode;
+
+  // Rule 1: Unused subscription → goal acceleration
+  const cutoff = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
+  const unusedSubs = recurring.filter(r => {
+    const recentTx = cf.filter(t => t.recurringID === r.id && t.date >= cutoff);
+    const newEnough = r.startDate > cutoff;
+    return recentTx.length === 0 && !newEnough && r.amount > 0;
+  });
+
+  if (unusedSubs.length > 0 && goals.length > 0) {
+    const sub = unusedSubs.sort((a, b) => b.amount - a.amount)[0];
+    const monthlySaving = sub.frequency === 'yearly' ? sub.amount / 12 : sub.amount;
+    const annualSaving  = sub.frequency === 'yearly' ? sub.amount : sub.amount * 12;
+
+    const activeGoals = goals.filter(g => g.targetAmount > g.currentAmount);
+    if (activeGoals.length > 0) {
+      const goal = activeGoals[0];
+      const remaining = goal.targetAmount - goal.currentAmount;
+      const currentMonths = monthlySavings > 0 ? Math.ceil(remaining / monthlySavings) : 999;
+      const newMonths     = (monthlySavings + monthlySaving) > 0 ? Math.ceil(remaining / (monthlySavings + monthlySaving)) : 999;
+      const saved         = Math.max(currentMonths - newMonths, 0);
+
+      return {
+        tint: 'tint-orange',
+        icon: '🔔',
+        headline: `Cancel ${sub.name} — unused for 60+ days`,
+        body: `That frees up <strong class="goal-link">${fmt(annualSaving, currency)}/year</strong>. Applied to your ${goal.emoji} <strong>${goal.name}</strong> goal, you'd reach it <strong class="goal-link">${saved} month${saved !== 1 ? 's' : ''} sooner</strong>.`,
+        btnLabel: 'Review in App',
+        action: null,
+      };
+    }
+  }
+
+  // Rule 2: Over budget this month
+  const totalBudget = allocations.reduce((s, a) => s + a.budgetedAmount, 0);
+  if (totalBudget > 0 && monthData.expenses > 0) {
+    const now = new Date();
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const dayOfMonth  = now.getDate();
+    const paceRatio   = dayOfMonth / daysInMonth;
+    const spendRatio  = monthData.expenses / totalBudget;
+    if (spendRatio > paceRatio + 0.2 && paceRatio > 0.3) {
+      const overshoot = Math.round((spendRatio - paceRatio) * 100);
+      return {
+        tint: 'tint-orange',
+        icon: '⚡',
+        headline: 'Spending faster than the month',
+        body: `You've used <strong>${Math.round(spendRatio * 100)}%</strong> of your budget with <strong>${Math.round(paceRatio * 100)}%</strong> of the month elapsed — <strong class="goal-link">${overshoot}% ahead of pace</strong>. Check your largest categories below.`,
+        btnLabel: 'See Budget',
+        action: () => document.querySelector('[data-page="budget"]')?.click(),
+      };
+    }
+  }
+
+  // Rule 3: Low runway
+  const runway = computeRunwayMonths(txs, settings);
+  if (runway > 0 && runway < 1) {
+    return {
+      tint: 'tint-red',
+      icon: '⛽',
+      headline: 'Runway under one month',
+      body: `If income stopped today, your savings cover less than 30 days of expenses. Build a 1-month buffer before anything else.`,
+      btnLabel: 'Start a Goal',
+      action: () => document.querySelector('[data-page="goals"]')?.click(),
+    };
+  }
+
+  // Rule 4: Savings rate drop
+  const months3 = computeAllMonthlyData(txs, 3).filter(m => m.income > 0);
+  if (months3.length >= 2) {
+    const latest = months3[months3.length - 1].savingsRate;
+    const prior  = months3.slice(0, -1).reduce((s, m) => s + m.savingsRate, 0) / (months3.length - 1);
+    if (latest < prior - 10 && prior > 0) {
+      return {
+        tint: 'tint-orange',
+        icon: '📉',
+        headline: 'Savings rate dropped this month',
+        body: `Your savings rate fell from <strong>${Math.round(prior)}%</strong> to <strong class="goal-link">${Math.round(latest)}%</strong> — a ${Math.round(prior - latest)}pp drop. Check which category spiked.`,
+        btnLabel: 'See Trends',
+        action: null,
+      };
+    }
+  }
+
+  // Rule 5: No budget
+  if (allocations.length === 0) {
+    return {
+      tint: '',
+      icon: '📊',
+      headline: 'Set a monthly budget',
+      body: 'A budget is the single biggest behaviour-change tool in personal finance. Two minutes now, months of clarity after.',
+      btnLabel: 'Create in App',
+      action: null,
+    };
+  }
+
+  // Fallback: all good
+  return {
+    tint: 'tint-green',
+    icon: '✅',
+    headline: "You're in solid shape",
+    body: 'Nothing urgent this week. Keep logging and let the habits compound.',
+    btnLabel: 'See Trends',
+    action: null,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════
+function renderAll() {
+  const { settings, transactions: txs, goals, allocations, recurring, bankAccounts } = state;
+  const currency = settings.currencyCode;
+  const { year, month } = currentMonth;
+
+  // Month label
+  const d = new Date(year, month, 1);
+  document.getElementById('month-label').textContent = d.toLocaleDateString('en', { month: 'long', year: 'numeric' });
+  const isCurrentMonth = year === new Date().getFullYear() && month === new Date().getMonth();
+  document.getElementById('next-month-btn').disabled = isCurrentMonth;
+
+  // Today label
+  document.getElementById('today-label').textContent = new Date().toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+  // Balance
+  const balance = computeBalance(txs, bankAccounts, settings);
+  document.getElementById('balance-amount').textContent = fmt(balance, currency);
+  const prevMonthBal = computeBalance(
+    txs.filter(t => !(t.date.getFullYear() === year && t.date.getMonth() === month)),
+    bankAccounts, settings
+  );
+  const delta = balance - prevMonthBal;
+  const deltaEl = document.getElementById('balance-delta');
+  deltaEl.textContent = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency)} from last month`;
+  deltaEl.style.color = delta >= 0 ? 'var(--positive)' : 'var(--negative)';
+
+  // This month
+  const monthData = computeMonthlyData(txs, year, month);
+  document.getElementById('month-net').textContent = fmt(monthData.net, currency);
+  document.getElementById('month-net').style.color = monthData.net >= 0 ? 'var(--positive)' : 'var(--negative)';
+
+  // Upcoming (recurring that haven't hit yet this month)
+  const today = new Date();
+  const upcomingTotal = recurring
+    .filter(r => r.frequency === 'monthly')
+    .filter(r => {
+      const dayOfMonth = r.startDate.getDate();
+      return dayOfMonth > today.getDate();
+    })
+    .reduce((s, r) => s + r.amount, 0);
+  document.getElementById('upcoming-amount').textContent = `−${fmt(upcomingTotal, currency)}`;
+
+  // Health Score
+  const score = computeHealthScore(txs, recurring, settings);
+  document.getElementById('score-num').textContent = score.total > 0 ? score.total : '—';
+  document.getElementById('score-level').textContent = score.level;
+  document.getElementById('score-narrative').textContent = score.narrative;
+  const scoreColors = { Excellent: '#34D399', 'On Track': '#2DD4BF', Fair: '#FBBF24', 'Needs Work': '#FB923C', Critical: '#F87171', 'Getting Started': '#2DD4BF' };
+  const sColor = scoreColors[score.level] || 'var(--accent)';
+  document.getElementById('score-level').style.color = sColor;
+  const ring = document.getElementById('score-ring');
+  const circumference = 263.9;
+  ring.setAttribute('stroke', sColor);
+  ring.style.strokeDashoffset = score.total > 0 ? circumference - (score.total / 100) * circumference : circumference;
+
+  // Runway
+  const runway = computeRunwayMonths(txs, settings);
+  document.getElementById('runway-value').textContent = runway > 0 ? runway.toFixed(1) : '—';
+  document.getElementById('runway-value').style.color = runway >= 3 ? 'var(--positive)' : runway >= 1 ? 'var(--warning)' : 'var(--negative)';
+
+  // Real Wage
+  const wage = computeRealWage(txs, settings);
+  document.getElementById('wage-value').textContent = wage ? fmt(wage.hourlyWage, currency, true) : '—';
+  document.getElementById('wage-sub').textContent = wage ? `${wage.hoursPerHundred.toFixed(1)} hr / ${fmt(100, currency, true)}` : 'Set income to calculate';
+
+  // Budget Bars
+  renderBudgetBars(allocations, txs, year, month, currency);
+
+  // Insight Card
+  const insight = computeInsight(txs, goals, recurring, settings, allocations);
+  renderInsightCard(insight);
+
+  // Goals
+  renderGoals(goals, txs, currency, settings);
+
+  // Trend Chart
+  renderTrendChart(txs, chartRange, currency);
+
+  // Transactions
+  renderTransactions(txs.filter(t => inMonth(t, year, month)).slice(0, 10), currency, settings);
+
+  // Scenario Simulator
+  renderSimulator(goals, txs, settings);
+}
+
+function renderBudgetBars(allocations, txs, year, month, currency) {
+  const container = document.getElementById('budget-bars');
+  if (allocations.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">📊</div><div class="es-title">No budget set</div><div class="es-sub">Create a budget in the app to track spending here</div></div>`;
+    return;
+  }
+
+  const cfTxs = cashFlowTxs(txs.filter(t => inMonth(t, year, month) && t.type === 'expense'));
+  let totalSpent = 0, totalBudget = 0;
+
+  const catEmoji = Object.fromEntries(state.categories.map(c => [c.name, c.emoji]));
+
+  const rows = allocations.map(a => {
+    const spent = cfTxs
+      .filter(t => t.categoryName === a.categoryName)
+      .reduce((s, t) => s + t.amount, 0);
+    const pct = a.budgetedAmount > 0 ? spent / a.budgetedAmount : 0;
+    totalSpent += spent; totalBudget += a.budgetedAmount;
+    const color = pct >= 1 ? 'var(--negative)' : pct >= 0.8 ? 'var(--warning)' : 'var(--positive)';
+    const emoji = catEmoji[a.categoryName] || '📦';
+    return `
+      <div class="budget-row">
+        <div class="budget-row-top">
+          <span class="budget-name">${emoji} ${a.categoryName}</span>
+          <span class="budget-amounts private">${fmt(spent, currency, true)} / ${fmt(a.budgetedAmount, currency, true)}</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${Math.min(pct * 100, 100)}%; background:${color}"></div>
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('budget-summary').textContent = `${fmt(totalSpent, currency, true)} of ${fmt(totalBudget, currency, true)}`;
+  container.innerHTML = rows.join('');
+}
+
+function renderInsightCard(insight) {
+  const card = document.getElementById('insight-card');
+  card.className = `move-card ${insight.tint}`;
+  document.getElementById('insight-icon').textContent = insight.icon;
+  document.getElementById('insight-headline').textContent = insight.headline;
+  document.getElementById('insight-body').innerHTML = insight.body;
+  document.getElementById('insight-btn').textContent = `${insight.btnLabel} →`;
+  insightAction = insight.action;
+}
+
+function handleInsightAction() {
+  if (insightAction) insightAction();
+}
+
+function renderGoals(goals, txs, currency, settings) {
+  const container = document.getElementById('goals-list');
+  document.getElementById('goals-badge').textContent = `${goals.length} active`;
+
+  if (goals.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">🎯</div><div class="es-title">No goals yet</div><div class="es-sub">Set your first savings goal in the app</div></div>`;
+    return;
+  }
+
+  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
+  const monthData = computeMonthlyData(txs, currentMonth.year, currentMonth.month);
+  const monthlySavings = Math.max(income - monthData.expenses, 1);
+
+  const colors = ['var(--accent)', '#A78BFA', '#FB923C', '#34D399', '#60A5FA'];
+
+  container.innerHTML = goals.map((g, i) => {
+    const pct = g.targetAmount > 0 ? Math.min(g.currentAmount / g.targetAmount * 100, 100) : 0;
+    const color = colors[i % colors.length];
+    const eta = goalETA(g, monthlySavings);
+    const etaLabel = eta ? `~${eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' })}` : '';
+    return `
+      <div class="goal-row">
+        <div class="goal-emoji">${g.emoji}</div>
+        <div class="goal-info">
+          <div class="goal-name">${g.name}</div>
+          <div class="goal-progress-text private">${fmt(g.currentAmount, currency, true)} of ${fmt(g.targetAmount, currency, true)}</div>
+          <div class="goal-bar-wrap">
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${color}"></div></div>
+          </div>
+          ${etaLabel ? `<div class="goal-eta">Est. completion: ${etaLabel}</div>` : ''}
+        </div>
+        <div class="goal-pct" style="color:${color}">${Math.round(pct)}%</div>
+      </div>`;
+  }).join('');
+}
+
+function renderTransactions(txs, currency, settings) {
+  const container = document.getElementById('tx-list');
+  if (txs.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">💸</div><div class="es-title">No transactions this month</div><div class="es-sub">Transactions you log in the app appear here</div></div>`;
+    return;
+  }
+
+  const catEmoji = Object.fromEntries(state.categories.map(c => [c.name, c.emoji]));
+  const today     = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+  container.innerHTML = txs.map(t => {
+    const isIncome = t.type === 'income';
+    const dateStr  = t.date.toDateString() === today ? 'Today' :
+                     t.date.toDateString() === yesterday ? 'Yesterday' :
+                     t.date.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+    const emoji = catEmoji[t.categoryName] || (isIncome ? '💰' : '💸');
+    const amountClass = isIncome ? 'positive' : (settings.showIncomeGreen ? 'negative' : '');
+    const sign  = isIncome ? '+' : '−';
+    return `
+      <div class="tx-row">
+        <div class="tx-icon">${emoji}</div>
+        <div class="tx-info">
+          <div class="tx-name">${t.note || t.categoryName || (isIncome ? 'Income' : 'Expense')}</div>
+          <div class="tx-cat">${t.categoryName || ''}${t.isCardPayment ? ' · Card' : ''}</div>
+        </div>
+        <div class="tx-right">
+          <div class="tx-amount private ${amountClass}">${sign}${fmt(t.amount, currency)}</div>
+          <div class="tx-date">${dateStr}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderTrendChart(txs, months, currency) {
+  const data = computeAllMonthlyData(txs, months);
+  const labels   = data.map(m => m.label);
+  const incomes  = data.map(m => m.income);
+  const expenses = data.map(m => m.expenses);
+  const rates    = data.map(m => m.savingsRate);
+
+  const ctx = document.getElementById('trend-chart').getContext('2d');
+
+  if (trendChart) trendChart.destroy();
+
+  trendChart = new Chart(ctx, {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Income',
+          data: incomes,
+          backgroundColor: 'rgba(52,211,153,0.6)',
+          borderColor: 'rgba(52,211,153,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          type: 'bar',
+          label: 'Expenses',
+          data: expenses,
+          backgroundColor: 'rgba(248,113,113,0.5)',
+          borderColor: 'rgba(248,113,113,0.8)',
+          borderWidth: 1,
+          borderRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          type: 'line',
+          label: 'Savings Rate %',
+          data: rates,
+          borderColor: 'rgba(45,212,191,0.9)',
+          backgroundColor: 'rgba(45,212,191,0.1)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: 'var(--accent)',
+          tension: 0.4,
+          fill: false,
+          yAxisID: 'y2',
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0C1A18',
+          borderColor: 'rgba(45,212,191,0.3)',
+          borderWidth: 1,
+          titleColor: 'rgba(255,255,255,0.9)',
+          bodyColor: 'rgba(255,255,255,0.6)',
+          callbacks: {
+            label: ctx => {
+              if (ctx.datasetIndex === 2) return ` Savings rate: ${ctx.parsed.y.toFixed(1)}%`;
+              return ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y, currency, true)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid:   { color: 'rgba(255,255,255,0.04)' },
+          ticks:  { color: 'rgba(255,255,255,0.4)', font: { family: 'Outfit', size: 11 } },
+        },
+        y: {
+          position: 'left',
+          grid:  { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: 'rgba(255,255,255,0.4)', font: { family: 'Outfit', size: 11 },
+                   callback: v => fmt(v, currency, true) },
+        },
+        y2: {
+          position: 'right', grid: { display: false },
+          ticks: { color: 'rgba(45,212,191,0.6)', font: { family: 'Outfit', size: 11 },
+                   callback: v => `${v.toFixed(0)}%` },
+          min: -20, max: 100,
+        }
+      }
+    }
+  });
+
+  // Summary stats
+  const validMonths = data.filter(m => m.income > 0 || m.expenses > 0);
+  const avgInc  = validMonths.reduce((s, m) => s + m.income, 0) / Math.max(validMonths.length, 1);
+  const avgExp  = validMonths.reduce((s, m) => s + m.expenses, 0) / Math.max(validMonths.length, 1);
+  const avgRate = validMonths.reduce((s, m) => s + m.savingsRate, 0) / Math.max(validMonths.length, 1);
+
+  document.getElementById('avg-income').textContent   = fmt(avgInc, currency, true);
+  document.getElementById('avg-expenses').textContent = fmt(avgExp, currency, true);
+  document.getElementById('avg-savings-rate').textContent = `${avgRate.toFixed(1)}%`;
+
+  if (validMonths.length >= 2) {
+    const first = validMonths[0].savingsRate;
+    const last  = validMonths[validMonths.length - 1].savingsRate;
+    const diff  = last - first;
+    const trendEl = document.getElementById('savings-trend');
+    trendEl.textContent = diff > 2 ? `↑ Improving` : diff < -2 ? `↓ Declining` : `→ Stable`;
+    trendEl.style.color = diff > 2 ? 'var(--positive)' : diff < -2 ? 'var(--negative)' : 'var(--warning)';
+  }
+}
+
+function renderSimulator(goals, txs, settings) {
+  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
+  const monthData = computeMonthlyData(txs, currentMonth.year, currentMonth.month);
+  const baseMonthlySavings = Math.max(income - monthData.expenses, 0);
+
+  const currency = settings.currencyCode;
+  const slider = document.getElementById('sim-slider');
+
+  // Set slider range relative to income
+  const maxSwing = Math.round(income * 0.5 / 50) * 50 || 500;
+  slider.min = -maxSwing; slider.max = maxSwing; slider.value = 0;
+  document.getElementById('sim-value').textContent = fmt(0, currency, true);
+
+  // Initial render
+  updateSimulatorDisplay(0, baseMonthlySavings, goals, currency);
+
+  // Store for updates
+  window._simBase    = baseMonthlySavings;
+  window._simGoals   = goals;
+  window._simCurrency = currency;
+}
+
+function updateSimulator(value) {
+  const v = parseFloat(value);
+  const sign = v >= 0 ? '+' : '';
+  document.getElementById('sim-value').textContent = `${sign}${fmt(Math.abs(v), window._simCurrency, true)}`;
+  document.getElementById('sim-value').style.color = v >= 0 ? '#A78BFA' : 'var(--negative)';
+  updateSimulatorDisplay(v, window._simBase, window._simGoals, window._simCurrency);
+}
+
+function updateSimulatorDisplay(delta, baseSavings, goals, currency) {
+  const container = document.getElementById('sim-results');
+  if (goals.length === 0) {
+    container.innerHTML = `<div class="empty-state" style="padding:12px"><div class="es-sub">Add goals in the app to see projections here</div></div>`;
+    return;
+  }
+
+  const newSavings = Math.max(baseSavings + delta, 0);
+
+  container.innerHTML = goals.map(g => {
+    const remaining = g.targetAmount - g.currentAmount;
+    if (remaining <= 0) return '';
+
+    const baseMonths = baseSavings > 0 ? Math.ceil(remaining / baseSavings) : null;
+    const newMonths  = newSavings  > 0 ? Math.ceil(remaining / newSavings)  : null;
+
+    const baseDate = baseMonths ? new Date(Date.now() + baseMonths * 30.44 * 86400000) : null;
+    const newDate  = newMonths  ? new Date(Date.now() + newMonths  * 30.44 * 86400000) : null;
+
+    const diff  = baseMonths && newMonths ? baseMonths - newMonths : 0;
+    const cls   = Math.abs(diff) < 1 ? 'same' : diff > 0 ? 'better' : 'worse';
+    const badge = Math.abs(diff) < 1 ? 'No change' :
+                  diff > 0 ? `${diff}mo sooner` : `${Math.abs(diff)}mo later`;
+
+    const dateLabel = newDate ? newDate.toLocaleDateString('en', { month: 'short', year: 'numeric' }) : 'N/A';
+
+    return `
+      <div class="sim-result-row">
+        <div class="sim-result-emoji">${g.emoji}</div>
+        <div class="sim-result-name">${g.name}</div>
+        <div class="sim-result-delta ${cls}">${badge}</div>
+        <div class="sim-result-date">${dateLabel}</div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// FORMATTING
+// ═══════════════════════════════════════════════════════════════════
+const _fmtCache = {};
+function fmt(amount, currencyCode = 'USD', compact = false) {
+  const key = `${currencyCode}-${compact}`;
+  if (!_fmtCache[key]) {
+    _fmtCache[key] = new Intl.NumberFormat(navigator.language || 'en', {
+      style: 'currency', currency: currencyCode,
+      maximumFractionDigits: compact ? 0 : 2,
+      notation: compact && Math.abs(amount) >= 10000 ? 'compact' : 'standard',
+    });
+  }
+  return _fmtCache[key].format(amount);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// UI INTERACTIONS
+// ═══════════════════════════════════════════════════════════════════
+function navigateMonth(dir) {
+  currentMonth.month += dir;
+  if (currentMonth.month > 11) { currentMonth.month = 0; currentMonth.year++; }
+  if (currentMonth.month < 0)  { currentMonth.month = 11; currentMonth.year--; }
+  if (state.loaded) renderAll();
+}
+
+function setChartRange(months, btn) {
+  chartRange = months;
+  document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (state.loaded) renderTrendChart(state.transactions, months, state.settings.currencyCode);
+}
+
+function togglePrivacy() {
+  privacyHidden = !privacyHidden;
+  document.body.classList.toggle('privacy-mode', privacyHidden);
+  const EYE_OPEN = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+  const EYE_OFF  = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+  document.getElementById('eye-icon').innerHTML = privacyHidden ? EYE_OFF : EYE_OPEN;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', initCloudKit);
+</script>
+</body>
+</html>
