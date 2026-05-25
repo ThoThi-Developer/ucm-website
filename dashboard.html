@@ -1081,16 +1081,39 @@ function initCloudKit() {
     return _origOpen(url, target, features);
   };
 
-  // ── Handle auth redirect back from Apple ─────────────────────────
-  const ckHash  = window.location.hash;
-  const ckParam = new URLSearchParams(ckHash.replace(/^#/, ''));
-  const webAuthToken = ckParam.get('ckWebAuthToken');
-  if (webAuthToken) {
-    dbg('ckWebAuthToken found in URL ✓');
-    history.replaceState(null, '', window.location.pathname);
+  // ── Popup detection ───────────────────────────────────────────────
+  // If this page is loaded inside a popup (CloudKit's auth redirect),
+  // do NOT configure CloudKit — a second CloudKit instance would consume
+  // the ckWebAuthToken and cause "unknownError" in the parent window.
+  // Instead, relay the raw URL hash to the parent and close the popup.
+  const isPopup = !!(window.opener && !window.opener.closed);
+  if (isPopup) {
+    const tokenHash = window.location.hash;
+    if (tokenHash.includes('ckWebAuthToken')) {
+      dbg('Popup: relaying token to parent…');
+      history.replaceState(null, '', window.location.pathname);
+      try { window.opener.postMessage({ type: 'ck-relay', hash: tokenHash }, 'https://ucm.thothi.app'); } catch(_) {}
+    } else {
+      dbg('Popup: no token found');
+    }
+    setTimeout(() => window.close(), 250);
+    return; // ← Stop here. Don't run CloudKit in the popup.
   }
 
   dbg('Configuring CloudKit…');
+
+  // Main window: listen for token relayed from popup
+  window.addEventListener('message', (e) => {
+    if (e.origin === 'https://ucm.thothi.app' && e.data?.type === 'ck-relay') {
+      dbg('Token received — processing…');
+      history.replaceState(null, '', window.location.pathname + e.data.hash);
+      CloudKit.getDefaultContainer().setUpAuth().then(id => {
+        history.replaceState(null, '', window.location.pathname);
+        if (id) { dbg('Signed in ✓'); onSignedIn(id); }
+        else     { dbg('setUpAuth null after relay'); showAuth(); }
+      }).catch(err => { dbg('Relay setUpAuth ERROR: ' + err.message); showAuth(); });
+    }
+  });
 
   CloudKit.configure({
     containers: [{
@@ -1106,50 +1129,17 @@ function initCloudKit() {
   });
 
   const container = CloudKit.getDefaultContainer();
-  const isPopup = !!(window.opener && !window.opener.closed);
-
-  // Parent listens for popup auth completion (same-origin, not blocked by ITP)
-  if (!isPopup) {
-    window.addEventListener('message', (e) => {
-      if (e.origin === 'https://ucm.thothi.app' && e.data === 'ck-auth-done') {
-        dbg('Popup auth done — restoring session…');
-        container.setUpAuth().then(id => {
-          if (id) { dbg('Session OK ✓'); onSignedIn(id); }
-          else     { dbg('Session missing'); showAuth(); }
-        });
-      }
-    });
-  }
 
   dbg('Calling setUpAuth…');
   container.setUpAuth().then(userIdentity => {
     if (userIdentity) {
-      if (isPopup) {
-        dbg('Popup auth complete — notifying parent…');
-        try { window.opener.postMessage('ck-auth-done', 'https://ucm.thothi.app'); } catch(_) {}
-        setTimeout(() => window.close(), 300);
-        return;
-      }
-      dbg('setUpAuth: signed in ✓');
+      dbg('Already signed in ✓');
       onSignedIn(userIdentity);
-    } else if (webAuthToken) {
-      dbg('Token in URL but setUpAuth missed it — retrying…');
-      setTimeout(() => {
-        container.setUpAuth().then(id => {
-          if (id) { dbg('Retry: signed in ✓'); onSignedIn(id); }
-          else     { dbg('Retry: still null'); showAuth(); }
-        });
-      }, 400);
     } else {
       dbg('Not signed in');
       showAuth();
     }
   }).catch(err => { dbg('setUpAuth ERROR: ' + err.message); showAuth(); });
-
-  container.whenUserSignsIn().then(identity => {
-    dbg('whenUserSignsIn ✓');
-    onSignedIn(identity);
-  }).catch(err => dbg('whenUserSignsIn ERROR: ' + err.message));
 
   container.whenUserSignsOut().then(() => { dbg('Signed out'); onSignedOut(); });
 }
