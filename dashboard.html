@@ -1063,10 +1063,11 @@ function initCloudKit() {
     containers: [{
       containerIdentifier: CK_CONTAINER,
       apiTokenAuth: {
-        apiToken:    CK_TOKEN,
-        persist:     true,
-        signInButton:  { id: 'sign-in-btn',  theme: 'white' },
-        signOutButton: { id: 'sign-out-btn' },
+        apiToken:         CK_TOKEN,
+        persist:          true,
+        signInButton:     { id: 'sign-in-btn',  theme: 'white' },
+        signOutButton:    { id: 'sign-out-btn' },
+        signInCallbackURL: window.location.href,
       },
       environment: CK_ENV,
     }]
