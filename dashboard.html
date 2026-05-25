@@ -1068,14 +1068,25 @@ function initCloudKit() {
 
   dbg('Configuring CloudKit…');
 
+  // Extract ckWebAuthToken from URL hash if present (URL Redirect callback)
+  const ckHash = window.location.hash;
+  const ckParams = new URLSearchParams(ckHash.replace(/^#/, ''));
+  const webAuthToken = ckParams.get('ckWebAuthToken');
+  if (webAuthToken) {
+    dbg('Auth token found in URL — processing…');
+    // Clean the URL so it doesn't confuse future loads
+    history.replaceState(null, '', window.location.pathname);
+  }
+
   CloudKit.configure({
     containers: [{
       containerIdentifier: CK_CONTAINER,
       apiTokenAuth: {
-        apiToken:     CK_TOKEN,
-        persist:      true,
-        signInButton: { id: 'sign-in-btn', theme: 'white' },
-        signOutButton:{ id: 'sign-out-btn' },
+        apiToken:         CK_TOKEN,
+        persist:          true,
+        signInButton:     { id: 'sign-in-btn', theme: 'white' },
+        signOutButton:    { id: 'sign-out-btn' },
+        signInCallbackURL: 'https://ucm.thothi.app/dashboard',
       },
       environment: CK_ENV,
     }]
@@ -1088,6 +1099,15 @@ function initCloudKit() {
     if (userIdentity) {
       dbg('setUpAuth: signed in ✓');
       onSignedIn(userIdentity);
+    } else if (webAuthToken) {
+      // URL had a token but setUpAuth missed it — retry once
+      dbg('Retrying auth with URL token…');
+      setTimeout(() => {
+        container.setUpAuth().then(id => {
+          if (id) { dbg('Retry signed in ✓'); onSignedIn(id); }
+          else { dbg('Retry failed — showing auth'); showAuth(); }
+        });
+      }, 300);
     } else {
       dbg('setUpAuth: not signed in — showing auth screen');
       showAuth();
