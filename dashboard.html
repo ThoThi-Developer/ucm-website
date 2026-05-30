@@ -1077,56 +1077,76 @@ function initCloudKit() {
     document.getElementById('setup-banner').style.display = 'block';
   }
 
-  // ── Intercept CloudKit JS popup → full-page navigation ──────────
-  // CloudKit JS calls window.open() to open the auth popup.
-  // We override it so the auth URL navigates the main window instead.
-  // After Apple auth, the page is redirected back to /dashboard with
-  // ckWebAuthToken in the URL hash, which setUpAuth() then processes.
-  const _origOpen = window.open.bind(window);
-  window.open = function(url, target, features) {
-    // Catch any CloudKit auth popup regardless of path — the actual URL is
-    // cdn.apple-cloudkit.com/... which doesn't contain 'auth' in the path.
-    if (typeof url === 'string' && url.includes('apple-cloudkit.com')) {
-      dbg('Intercepted CK popup → full-page nav');
-      window.location.href = url;
-      return null;
-    }
-    return _origOpen(url, target, features);
-  };
+  // ── Auth callback detection ───────────────────────────────────────
+  // CloudKit auth redirect lands on /dashboard with #ckWebAuthToken=...
+  // in the URL hash. This can happen in two contexts:
+  //   (A) A popup window opened by CloudKit JS — relay token to parent,
+  //       then close. Use BroadcastChannel (survives cross-origin hops
+  //       that nullify window.opener in Safari) + postMessage fallback.
+  //   (B) The main window itself (if window.opener is unavailable) —
+  //       process the token directly via setUpAuth().
+  const tokenHash = window.location.hash;
+  if (tokenHash.includes('ckWebAuthToken')) {
+    history.replaceState(null, '', window.location.pathname);
 
-  // ── Popup detection ───────────────────────────────────────────────
-  // If this page is loaded inside a popup (CloudKit's auth redirect),
-  // do NOT configure CloudKit — a second CloudKit instance would consume
-  // the ckWebAuthToken and cause "unknownError" in the parent window.
-  // Instead, relay the raw URL hash to the parent and close the popup.
-  const isPopup = !!(window.opener && !window.opener.closed);
-  if (isPopup) {
-    const tokenHash = window.location.hash;
-    if (tokenHash.includes('ckWebAuthToken')) {
-      dbg('Popup: relaying token to parent…');
-      history.replaceState(null, '', window.location.pathname);
+    if (window.opener && !window.opener.closed) {
+      // Context A — relay via postMessage
+      dbg('Auth callback: relaying via postMessage…');
       try { window.opener.postMessage({ type: 'ck-relay', hash: tokenHash }, 'https://ucm.thothi.app'); } catch(_) {}
-    } else {
-      dbg('Popup: no token found');
     }
-    setTimeout(() => window.close(), 250);
-    return; // ← Stop here. Don't run CloudKit in the popup.
+    // Always broadcast — BroadcastChannel works even when opener is null
+    // (Safari clears opener after cross-origin popup navigation)
+    try {
+      const ch = new BroadcastChannel('ck-auth');
+      dbg('Auth callback: relaying via BroadcastChannel…');
+      ch.postMessage({ type: 'ck-relay', hash: tokenHash });
+      ch.close();
+    } catch(_) {}
+
+    // If this IS the main window (no opener), process directly
+    if (!window.opener || window.opener.closed) {
+      dbg('Auth callback: no opener — processing token in main window…');
+      // Fall through to configure CloudKit below, then setUpAuth picks up the hash
+      // (we already removed the hash above, so we restore it for setUpAuth)
+      history.replaceState(null, '', window.location.pathname + tokenHash);
+    } else {
+      // This is a popup — close it after relay
+      setTimeout(() => window.close(), 500);
+      return;
+    }
   }
 
   dbg('Configuring CloudKit…');
 
-  // Main window: listen for token relayed from popup
+  // ── Main window: listen for token relayed from popup ─────────────
+  // BroadcastChannel is the primary relay (survives Safari cross-origin
+  // opener nullification). postMessage is kept as secondary.
+  try {
+    const authChannel = new BroadcastChannel('ck-auth');
+    authChannel.addEventListener('message', (e) => {
+      if (e.data?.type === 'ck-relay') {
+        authChannel.close();
+        dbg('Token via BroadcastChannel — processing…');
+        processRelayedToken(e.data.hash);
+      }
+    });
+  } catch(_) {}
+
   window.addEventListener('message', (e) => {
     if (e.origin === 'https://ucm.thothi.app' && e.data?.type === 'ck-relay') {
-      dbg('Token received — processing…');
-      history.replaceState(null, '', window.location.pathname + e.data.hash);
-      CloudKit.getDefaultContainer().setUpAuth().then(id => {
-        history.replaceState(null, '', window.location.pathname);
-        if (id) { dbg('Signed in ✓'); onSignedIn(id); }
-        else     { dbg('setUpAuth null after relay'); showAuth(); }
-      }).catch(err => { dbg('Relay setUpAuth ERROR: ' + err.message); showAuth(); });
+      dbg('Token via postMessage — processing…');
+      processRelayedToken(e.data.hash);
     }
   });
+
+  function processRelayedToken(hash) {
+    history.replaceState(null, '', window.location.pathname + hash);
+    CloudKit.getDefaultContainer().setUpAuth().then(id => {
+      history.replaceState(null, '', window.location.pathname);
+      if (id) { dbg('Signed in ✓'); onSignedIn(id); }
+      else     { dbg('setUpAuth null after relay'); showAuth(); }
+    }).catch(err => { dbg('Relay setUpAuth ERROR: ' + err.message); showAuth(); });
+  }
 
   CloudKit.configure({
     containers: [{
@@ -1177,31 +1197,19 @@ function handleSignOut() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// SIGN-IN BUTTON PATCH
-// CloudKit JS v2 always opens a popup. We intercept the injected anchor
-// and force full-page navigation so the redirect lands in the main window.
+// SIGN-IN BUTTON OBSERVER
+// CloudKit JS injects the Apple sign-in button asynchronously.
+// We watch for it and log when it appears (popup flow handles auth).
 // ═══════════════════════════════════════════════════════════════════
 let _btnPatchTries = 0;
 function patchSignInButton() {
-  // CloudKit JS may inject an <a>, <button>, or <div> depending on version
-  const el = document.querySelector('#sign-in-btn a, #sign-in-btn button, #sign-in-btn [onclick]');
-  const href = el?.href || el?.getAttribute('data-href');
-  if (el && href && href.length > 10) {
-    dbg('Button patched → full-page nav');
-    el.onclick = (e) => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      window.location.href = href;
-      return false;
-    };
-    el.removeAttribute('target');
-  } else if (el) {
-    // Element exists but no direct href — window.open override will catch the popup
-    dbg('Button found (no href) — relying on window.open intercept');
+  const el = document.querySelector('#sign-in-btn a, #sign-in-btn button, #sign-in-btn [onclick], #sign-in-btn > *');
+  if (el) {
+    dbg('Sign-in button ready');
   } else if (_btnPatchTries++ < 30) {
     setTimeout(patchSignInButton, 200);
   } else {
-    dbg('Button not found — relying on window.open intercept');
+    dbg('Sign-in button not injected after 6s');
   }
 }
 
