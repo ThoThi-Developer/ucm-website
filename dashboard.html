@@ -31,6 +31,26 @@
       --sidebar-w:    200px;
     }
 
+    [data-theme="light"] {
+      --bg:           #F1F5F4;
+      --surface:      #FFFFFF;
+      --surface2:     #F7FAF9;
+      --surface3:     #E8EEEC;
+      --border:       rgba(13,40,33,0.10);
+      --border-accent:rgba(13,148,136,0.30);
+      --accent:       #0D9488;
+      --accent-mid:   #14B8A6;
+      --accent-deep:  #0F766E;
+      --accent-pale:  rgba(13,148,136,0.09);
+      --text:         #0B201B;
+      --text-sec:     rgba(11,32,27,0.60);
+      --text-ter:     rgba(11,32,27,0.36);
+      --positive:     #059669;
+      --negative:     #DC2626;
+      --warning:      #D97706;
+      --purple:       #7C3AED;
+    }
+
     body {
       font-family: 'Outfit', sans-serif;
       background: var(--bg);
@@ -513,6 +533,87 @@
     .chip-header .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
     .chip-value { font-size: 22px; font-weight: 800; letter-spacing: -0.8px; }
     .chip-sub { font-size: 11px; color: var(--text-ter); }
+
+    /* ═══════════ SUGGESTIONS + FORECAST LAB ═══════════ */
+    .lab-intro { margin-bottom: 18px; }
+    .lab-intro h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.6px; }
+    .lab-intro p { font-size: 13px; color: var(--text-sec); margin-top: 4px; line-height: 1.5; max-width: 640px; }
+
+    .lab-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 1100px) { .lab-grid { grid-template-columns: 1fr; } }
+
+    /* Summary bar */
+    .lab-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 18px; }
+    .lab-stat { background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 5px; }
+    .lab-stat-label { font-size: 10px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.06em; }
+    .lab-stat-value { font-size: 21px; font-weight: 800; letter-spacing: -0.6px; transition: color .3s; }
+    .lab-stat-value.big { font-size: 24px; }
+    @media (max-width: 720px) { .lab-summary { grid-template-columns: repeat(2, 1fr); } }
+
+    /* Category slider rows */
+    .slider-row { padding: 15px 0; border-bottom: 1px solid var(--border); }
+    .slider-row:last-child { border-bottom: none; }
+    .slider-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 11px; gap: 12px; }
+    .slider-name { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .need-tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 2px 7px; border-radius: 6px; }
+    .need-tag.want { background: rgba(251,146,60,0.14); color: #FB923C; }
+    .need-tag.need { background: rgba(45,212,191,0.12); color: var(--accent); }
+    .slider-vals { font-size: 13px; font-weight: 700; text-align: right; white-space: nowrap; }
+    .slider-vals .new-amt { color: var(--accent); }
+    .slider-vals .delta { font-size: 11px; font-weight: 600; margin-left: 6px; }
+    .slider-vals .delta.save { color: var(--positive); }
+    .slider-vals .delta.over { color: var(--negative); }
+    input[type=range].lab-range { -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
+      border-radius: 999px; background: var(--surface3); outline: none; cursor: pointer; }
+    input[type=range].lab-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%; background: var(--accent);
+      border: 3px solid var(--bg); box-shadow: 0 1px 4px rgba(0,0,0,0.4); cursor: pointer; }
+    input[type=range].lab-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); border: 3px solid var(--bg); cursor: pointer; }
+    .slider-meta { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-ter); margin-top: 7px; }
+
+    /* Best practices rail */
+    .practice-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 16px; margin-bottom: 12px; }
+    .practice-card h4 { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+    .practice-card p { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
+    .ratio-bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; margin: 12px 0 8px; background: var(--surface3); }
+    .ratio-seg { height: 100%; }
+    .ratio-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; color: var(--text-sec); }
+    .ratio-legend span { display: flex; align-items: center; gap: 5px; }
+    .ratio-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+    /* Forecast story cards */
+    .story-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 4px; }
+    @media (max-width: 900px) { .story-grid { grid-template-columns: 1fr; } }
+    .story-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 16px; padding: 18px; }
+    .story-icon { font-size: 20px; margin-bottom: 8px; }
+    .story-kicker { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-sec); }
+    .story-big { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; margin: 6px 0 4px; color: var(--accent); }
+    .story-body { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
+    .story-rows { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+    .story-row { display: flex; justify-content: space-between; font-size: 12px; }
+    .story-row .yr { color: var(--text-ter); }
+    .story-row .amt { font-weight: 700; }
+    .narrative-banner { background: linear-gradient(135deg, var(--accent-pale), transparent);
+      border: 1px solid var(--border-accent); border-radius: 16px; padding: 18px 20px; margin-top: 16px; }
+    .narrative-banner .nb-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--accent); margin-bottom: 6px; }
+    .narrative-banner .nb-text { font-size: 15px; font-weight: 600; line-height: 1.5; }
+    .narrative-banner .nb-text b { color: var(--accent); }
+    .fc-chart-wrap { position: relative; height: 320px; margin-top: 6px; }
+    .invest-toggle { display: inline-flex; gap: 2px; background: var(--surface3); border-radius: 9px; padding: 3px; }
+    .invest-toggle button { background: transparent; border: none; color: var(--text-sec); font-family: inherit;
+      font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 7px; cursor: pointer; }
+    .invest-toggle button.active { background: var(--accent); color: #00201c; }
+
+    .lang-toggle { display: inline-flex; gap: 2px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 3px; margin-left: 4px; }
+    .lang-toggle button { background: transparent; border: none; color: var(--text-sec); font-family: inherit;
+      font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 7px; cursor: pointer; letter-spacing: 0.02em; }
+    .lang-toggle button.active { background: var(--accent); color: #00201c; }
   </style>
 </head>
 <body>
@@ -586,26 +687,18 @@
     </div>
 
     <nav>
-      <div class="nav-section">Menu</div>
-      <a class="nav-item active" href="#" data-section="s-overview">
+      <div class="nav-section" data-i18n="nav.pages">Pages</div>
+      <a class="nav-item active" href="#" data-page="overview" onclick="showPage('overview');return false;">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-        Overview
+        <span data-i18n="nav.overview">Overview</span>
       </a>
-      <a class="nav-item" href="#" data-section="s-cashflow">
+      <a class="nav-item" href="#" data-page="suggestions" onclick="showPage('suggestions');return false;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span data-i18n="nav.suggestions">Suggestions</span>
+      </a>
+      <a class="nav-item" href="#" data-page="forecast" onclick="showPage('forecast');return false;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
-        Cash Flow
-      </a>
-      <a class="nav-item" href="#" data-section="s-goals">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
-        Goals
-      </a>
-      <a class="nav-item" href="#" data-section="s-spending">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        Insights
-      </a>
-      <a class="nav-item" href="#" data-section="s-history">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-        History
+        <span data-i18n="nav.forecast">Forecast</span>
       </a>
     </nav>
 
@@ -627,7 +720,7 @@
     <!-- Topbar -->
     <div class="topbar">
       <div class="topbar-left">
-        <h1>Dashboard</h1>
+        <h1 id="page-title">Overview</h1>
         <p id="today-label"></p>
       </div>
       <div class="topbar-right">
@@ -640,6 +733,11 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
           </button>
         </div>
+        <button class="eye-btn" onclick="toggleTheme()" title="Toggle light / dark" id="theme-btn">
+          <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
         <button class="eye-btn" onclick="togglePrivacy()" title="Toggle privacy">
           <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -649,12 +747,19 @@
         <button class="refresh-btn" onclick="refreshData()" title="Refresh">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
         </button>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" data-lang-btn="en" onclick="applyLang('en')">EN</button>
+          <button type="button" data-lang-btn="pt-BR" onclick="applyLang('pt-BR')">PT</button>
+        </div>
       </div>
     </div>
 
+    <!-- ═══════════════ PAGE: OVERVIEW ═══════════════ -->
+    <div class="page" id="page-overview">
+
     <!-- Section 1: Net Worth Hero -->
     <div id="s-overview">
-      <div class="nw-label">Net Worth</div>
+      <div class="nw-label" data-i18n="ov.networth">Net Worth</div>
       <div class="nw-row">
         <div class="nw-amount private" id="nw-amount">—</div>
         <span class="nw-delta" id="nw-delta">↑ —</span>
@@ -667,30 +772,30 @@
     <!-- Section 2: Cash Flow + Month Summary -->
     <div class="row-2-1" id="s-cashflow">
       <div class="card">
-        <div class="card-label">Cash Flow</div>
+        <div class="card-label" data-i18n="ov.cashflow">Cash Flow</div>
         <div class="cf-chart-wrap">
           <canvas id="wf-chart"></canvas>
         </div>
       </div>
       <div class="card">
-        <div class="card-label">This Month</div>
+        <div class="card-label" data-i18n="ov.thismonth">This Month</div>
         <div class="cf-summary">
           <div class="cf-row">
-            <div class="cf-row-label"><div class="cf-dot" style="background:var(--positive)"></div>Income</div>
+            <div class="cf-row-label"><div class="cf-dot" style="background:var(--positive)"></div><span data-i18n="ov.income">Income</span></div>
             <div class="cf-value positive private" id="cf-income">—</div>
           </div>
           <div class="cf-row">
-            <div class="cf-row-label"><div class="cf-dot" style="background:var(--negative)"></div>Expenses</div>
+            <div class="cf-row-label"><div class="cf-dot" style="background:var(--negative)"></div><span data-i18n="ov.expenses">Expenses</span></div>
             <div class="cf-value private" id="cf-expenses" style="color:var(--negative)">—</div>
           </div>
           <div class="cf-row">
-            <div class="cf-row-label"><div class="cf-dot" style="background:var(--accent)"></div>Saved</div>
+            <div class="cf-row-label"><div class="cf-dot" style="background:var(--accent)"></div><span data-i18n="ov.saved">Saved</span></div>
             <div class="cf-value private" id="cf-saved" style="color:var(--accent)">—</div>
           </div>
         </div>
         <div style="margin-top:16px; padding-top:14px; border-top: 1px solid var(--border);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span style="font-size:11px; font-weight:600; color:var(--text-sec); text-transform:uppercase; letter-spacing:0.06em;">Health Score</span>
+            <span data-i18n="ov.health" style="font-size:11px; font-weight:600; color:var(--text-sec); text-transform:uppercase; letter-spacing:0.06em;">Health Score</span>
           </div>
           <div class="score-card" style="padding:0; gap:6px; align-items:flex-start; flex-direction:row; flex-wrap:wrap;">
             <div class="ring-wrap" style="width:70px;height:70px;">
@@ -718,14 +823,14 @@
     <div class="row-3-2" id="s-spending">
       <div class="card">
         <div class="section-header">
-          <span>Spending</span>
+          <span data-i18n="ov.spending">Spending</span>
           <span class="badge private" id="spend-summary">—</span>
         </div>
         <div id="spend-bars">
           <div class="empty-state">
             <div class="es-icon">📊</div>
-            <div class="es-title">No budget set</div>
-            <div class="es-sub">Create a budget in the app to track spending here</div>
+            <div class="es-title" data-i18n="es.nobudget.t">No budget set</div>
+            <div class="es-sub" data-i18n="es.nobudget.s">Create a budget in the app to track spending here</div>
           </div>
         </div>
       </div>
@@ -733,35 +838,11 @@
         <div class="move-card" id="insight-card">
           <div class="move-icon-wrap" id="insight-icon">🎯</div>
           <div>
-            <div class="move-label">Your next move</div>
-            <div class="move-headline" id="insight-headline">Analysing your data…</div>
+            <div class="move-label" data-i18n="ov.nextmove">Your next move</div>
+            <div class="move-headline" id="insight-headline" data-i18n="ov.analysing">Analysing your data…</div>
           </div>
           <div class="move-body" id="insight-body"></div>
           <button class="move-btn" id="insight-btn" onclick="handleInsightAction()">Loading</button>
-        </div>
-        <!-- Trend chart mini -->
-        <div class="card">
-          <div class="chart-header">
-            <h3>Income vs Expenses</h3>
-            <div class="chart-range-btns">
-              <button class="range-btn active" onclick="setChartRange(3, this)">3M</button>
-              <button class="range-btn" onclick="setChartRange(6, this)">6M</button>
-              <button class="range-btn" onclick="setChartRange(12, this)">12M</button>
-            </div>
-          </div>
-          <div class="chart-container">
-            <canvas id="trend-chart"></canvas>
-          </div>
-          <div class="chart-stats">
-            <div class="chart-stat">
-              <span class="cs-label">Avg Income</span>
-              <span class="cs-value private" id="avg-income" style="color:var(--positive)">—</span>
-            </div>
-            <div class="chart-stat">
-              <span class="cs-label">Savings Rate</span>
-              <span class="cs-value" id="avg-savings-rate" style="color:var(--accent)">—</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -769,14 +850,14 @@
     <!-- Section 4: Goals with Velocity -->
     <div class="card" id="s-goals">
       <div class="section-header">
-        <span>Goals</span>
+        <span data-i18n="ov.goals">Goals</span>
         <span class="badge" id="goals-badge">—</span>
       </div>
       <div id="goals-list">
         <div class="empty-state">
           <div class="es-icon">🎯</div>
-          <div class="es-title">No goals yet</div>
-          <div class="es-sub">Set your first savings goal in the app</div>
+          <div class="es-title" data-i18n="es.nogoals.t">No goals yet</div>
+          <div class="es-sub" data-i18n="es.nogoals.s">Set your first savings goal in the app</div>
         </div>
       </div>
     </div>
@@ -784,8 +865,8 @@
     <!-- Section 5: Spending Calendar Heatmap -->
     <div class="card" id="s-calendar">
       <div class="section-header">
-        <span>Spending Calendar</span>
-        <span class="badge">Last 90 days</span>
+        <span data-i18n="ov.calendar">Spending Calendar</span>
+        <span class="badge" data-i18n="ov.last90">Last 90 days</span>
       </div>
       <div class="calendar-wrap">
         <div style="display:flex; align-items:flex-start; gap:0;">
@@ -801,14 +882,14 @@
           <div class="calendar-grid-outer" id="cal-grid"></div>
         </div>
         <div class="cal-legend">
-          <span>Less</span>
+          <span data-i18n="cal.less">Less</span>
           <div class="cal-legend-cells">
             <div class="cal-legend-cell" style="background:var(--surface2)"></div>
             <div class="cal-legend-cell" style="background:rgba(45,212,191,0.2)"></div>
             <div class="cal-legend-cell" style="background:rgba(45,212,191,0.5)"></div>
             <div class="cal-legend-cell" style="background:rgba(45,212,191,0.85)"></div>
           </div>
-          <span>More</span>
+          <span data-i18n="cal.more">More</span>
         </div>
       </div>
     </div>
@@ -816,17 +897,29 @@
     <!-- Section 6: History -->
     <div class="card" id="s-history">
       <div class="section-header">
-        <span>Recent Transactions</span>
+        <span data-i18n="ov.recenttx">Recent Transactions</span>
         <span class="badge" id="tx-count-label">—</span>
       </div>
       <div class="tx-list" id="tx-list">
         <div class="empty-state">
           <div class="es-icon">💸</div>
-          <div class="es-title">No transactions this month</div>
-          <div class="es-sub">Transactions you log in the app appear here</div>
+          <div class="es-title" data-i18n="es.notx.t">No transactions this month</div>
+          <div class="es-sub" data-i18n="es.notx.s">Transactions you log in the app appear here</div>
         </div>
       </div>
     </div>
+
+    </div><!-- /page-overview -->
+
+    <!-- ═══════════════ PAGE: SUGGESTIONS ═══════════════ -->
+    <div class="page" id="page-suggestions" style="display:none">
+      <div id="sg-root"></div>
+    </div><!-- /page-suggestions -->
+
+    <!-- ═══════════════ PAGE: FORECAST ═══════════════ -->
+    <div class="page" id="page-forecast" style="display:none">
+      <div id="fc-root"></div>
+    </div><!-- /page-forecast -->
 
   </main>
 </div>
@@ -854,6 +947,179 @@ let nwChart       = null;
 let wfChart       = null;
 let privacyHidden = false;
 let insightAction = null;
+
+// ═══════════════════════════════════════════════════════════════════
+// I18N  (EN / PT-BR)
+// ═══════════════════════════════════════════════════════════════════
+let LANG = 'en';
+const I18N = {
+  en: {
+    'nav.pages': 'Pages', 'nav.overview': 'Overview', 'nav.suggestions': 'Suggestions', 'nav.forecast': 'Forecast',
+    'ov.networth': 'Net Worth', 'ov.thismonth': 'This Month', 'ov.income': 'Income', 'ov.expenses': 'Expenses',
+    'ov.saved': 'Saved', 'ov.health': 'Health Score', 'ov.cashflow': 'Cash Flow', 'ov.loading': 'Loading',
+    'ov.spending': 'Spending', 'ov.nextmove': 'Your next move', 'ov.analysing': 'Analysing your data…',
+    'ov.goals': 'Goals', 'ov.calendar': 'Spending Calendar', 'ov.last90': 'Last 90 days', 'ov.recenttx': 'Recent Transactions',
+    'cal.less': 'Less', 'cal.more': 'More', 'ov.thismonthdelta': 'this month', 'wf.net': 'Net', 'sp.of': 'of', 'tx.expense': 'Expense',
+    'es.nobudget.t': 'No budget set', 'es.nobudget.s': 'Create a budget in the app to track spending here',
+    'es.nogoals.t': 'No goals yet', 'es.nogoals.s': 'Set your first savings goal in the app',
+    'es.notx.t': 'No transactions this month', 'es.notx.s': 'Transactions you log in the app appear here',
+    'tag.need': 'Need', 'tag.want': 'Want', 'badge.reset': 'Reset',
+    'score.Excellent': 'Excellent', 'score.On Track': 'On Track', 'score.Fair': 'Fair',
+    'score.Needs Work': 'Needs Work', 'score.Critical': 'Critical', 'score.Getting Started': 'Getting Started',
+    // Suggestions
+    'sg.title': 'Tune your plan',
+    'sg.intro': "Drag any category to see what a small change does to your month — and your year. Wants are listed first: they're usually the safest to trim. Your changes carry straight into the <b>Forecast</b>.",
+    'sg.cur': 'Current / mo', 'sg.new': 'Your plan / mo', 'sg.msave': 'Saved / mo', 'sg.ysave': 'Saved / year',
+    'sg.categories': 'Categories', 'sg.now': 'Now', 'sg.empty.t': 'No budget to tune yet',
+    'sg.empty.s': 'Add a few transactions or a budget in the app, then come back to experiment.',
+    'pr.503020': 'The 50 / 30 / 20 rule', 'pr.needs': 'Needs', 'pr.wants': 'Wants', 'pr.save': 'Save',
+    'pr.verdict.strong': "You're saving <b>{p}%</b> — above the 20% target. Strong.",
+    'pr.verdict.mid': "You're saving <b>{p}%</b>. Nudging toward 20% would compound fast.",
+    'pr.verdict.low': "You're saving <b>{p}%</b> — below the 20% target. The sliders above show the quickest path up.",
+    'pr.subs.title': 'Subscription audit',
+    'pr.subs.body': 'You have <b>{n}</b> recurring {label} costing <b>{amt}</b> a year. The single easiest line to review — cancel one you forgot and it\'s pure savings.',
+    'pr.subs.one': 'subscription', 'pr.subs.many': 'subscriptions',
+    'pr.win.title': 'Biggest quick win',
+    'pr.win.body': '<b>{emoji} {name}</b> is your largest want at {actual}/mo. Trimming it to {target} frees <b>{save}</b> a year — see what that becomes on the <b>Forecast</b> page.',
+    // Forecast
+    'fc.title': 'Your year, reimagined',
+    'fc.intro': 'This is the same plan from Suggestions, projected forward. Ask "what if?" — drag a category and watch a full year of your money respond. Every dollar you don\'t spend is a dollar that can work for you.',
+    'fc.ysave': 'Saved / year', 'fc.rate0': 'Current savings rate', 'fc.rate1': 'New savings rate', 'fc.in12': 'In 12 months',
+    'fc.projtitle': 'Projected savings — next 12 months', 'fc.whatif': 'What if…?', 'fc.becomes': 'What that money becomes',
+    'fc.empty.t': 'Nothing to forecast yet', 'fc.empty.s': 'Add a budget or some transactions in the app to project your year.',
+    'fc.hint': 'Drag a category in <b>What if…?</b> above — your future takes shape here.',
+    'chart.current': 'Current path', 'chart.plan': 'Your plan',
+    'fc.invested': 'Invested at {r}% / yr', 'fc.investedbody': 'if you invest the {amt} you free each year:', 'fc.inyears': 'In {n} years',
+    'fc.hours.kicker': 'In hours of your life', 'fc.hours.body': "At your real wage of {wage}/hr, that's about <b>{days} working days</b> bought back every year — money you no longer have to earn.",
+    'fc.hours.nodata': 'Set your income in the app to see this saving measured in hours of your life — the most honest price there is.',
+    'fc.goal.kicker': 'Toward {name}', 'fc.goal.body': 'Your trims <b>alone</b> — without touching what you already save — cover the {remaining} left on <b>{name}</b> in {months} months.',
+    'fc.goal.nodata.kicker': 'Toward your goals', 'fc.goal.nodata': "Add a savings goal in the app and we'll show how much sooner these cuts get you there.",
+    'fc.honest.eyebrow': 'The honest trade',
+    'fc.honest.body': "By trimming <b>{cut}/mo</b> on {emoji} {name} and the rest of your plan, you free <b>{annual}</b> a year. Invested at {r}%, that's <b>{fv}</b> in 20 years — for a change you'll barely feel today.",
+    'fc.honest.body.plain': "Your plan frees <b>{annual}</b> a year. Invested at {r}%, that's <b>{fv}</b> in two decades.",
+    'unit.hrs': 'hrs', 'unit.mo': 'mo',
+    'hs.keeplogging': 'Keep logging — score unlocks at 10 transactions.',
+    'hs.setincome': 'Set your monthly income in the app to unlock your score.',
+    'hs.strong': 'Strong across all metrics. Keep it up.',
+    'hs.solid': 'Solid fundamentals. A few tweaks would help.',
+    'hs.pressure': 'Some pressure points to address.',
+    'hs.gaps': 'Important gaps to close — see your weekly move.',
+    'gv.saving': 'Saving {amt}/mo → reach by {date}', 'gv.setincome': 'Set income to calculate ETA',
+    'gv.simulate': 'Simulate: save more', 'gv.active': '{n} active',
+    'ins.open': 'Open ucm App', 'ins.month': 'month', 'ins.months': 'months', 'ins.sooner': '{n} {unit} sooner', 'tx.count': '{n} transactions',
+    'ins.sub.h': 'Cancel {name} — unused for 60+ days',
+    'ins.sub.b': 'That frees up <strong class="goal-link">{annual}/year</strong>. Applied to your {emoji} <strong>{name}</strong> goal, you\'d reach it <strong class="goal-link">{sooner}</strong>.',
+    'ins.pace.h': 'Spending faster than the month',
+    'ins.pace.b': "You've used <strong>{spent}%</strong> of your budget with <strong>{elapsed}%</strong> of the month elapsed — <strong class=\"goal-link\">{over}% ahead of pace</strong>. Check your largest categories below.",
+    'ins.pace.btn': 'See Budget',
+    'ins.runway.h': 'Runway under one month',
+    'ins.runway.b': 'If income stopped today, your savings cover less than 30 days of expenses. Build a 1-month buffer before anything else.',
+    'ins.runway.btn': 'Start a Goal',
+    'ins.drop.h': 'Savings rate dropped this month',
+    'ins.drop.b': 'Your savings rate fell from <strong>{prior}%</strong> to <strong class="goal-link">{latest}%</strong> — a {pp}pp drop. Check which category spiked.',
+    'ins.drop.btn': 'See Spending',
+    'ins.nobudget.h': 'Set a monthly budget',
+    'ins.nobudget.b': 'A budget is the single biggest behaviour-change tool in personal finance. Two minutes now, months of clarity after.',
+    'ins.solid.h': "You're in solid shape",
+    'ins.solid.b': 'Nothing urgent this week. Keep logging and let the habits compound.',
+  },
+  'pt-BR': {
+    'nav.pages': 'Páginas', 'nav.overview': 'Visão geral', 'nav.suggestions': 'Sugestões', 'nav.forecast': 'Projeção',
+    'ov.networth': 'Patrimônio', 'ov.thismonth': 'Este mês', 'ov.income': 'Receitas', 'ov.expenses': 'Despesas',
+    'ov.saved': 'Guardado', 'ov.health': 'Saúde financeira', 'ov.cashflow': 'Fluxo de caixa', 'ov.loading': 'Carregando',
+    'ov.spending': 'Gastos', 'ov.nextmove': 'Seu próximo passo', 'ov.analysing': 'Analisando seus dados…',
+    'ov.goals': 'Metas', 'ov.calendar': 'Calendário de gastos', 'ov.last90': 'Últimos 90 dias', 'ov.recenttx': 'Transações recentes',
+    'cal.less': 'Menos', 'cal.more': 'Mais', 'ov.thismonthdelta': 'este mês', 'wf.net': 'Saldo', 'sp.of': 'de', 'tx.expense': 'Despesa',
+    'es.nobudget.t': 'Nenhum orçamento', 'es.nobudget.s': 'Crie um orçamento no app para acompanhar os gastos aqui',
+    'es.nogoals.t': 'Nenhuma meta ainda', 'es.nogoals.s': 'Defina sua primeira meta de economia no app',
+    'es.notx.t': 'Nenhuma transação este mês', 'es.notx.s': 'As transações que você registra no app aparecem aqui',
+    'tag.need': 'Essencial', 'tag.want': 'Supérfluo', 'badge.reset': 'Redefinir',
+    'score.Excellent': 'Excelente', 'score.On Track': 'No caminho', 'score.Fair': 'Razoável',
+    'score.Needs Work': 'Precisa melhorar', 'score.Critical': 'Crítico', 'score.Getting Started': 'Começando',
+    // Suggestions
+    'sg.title': 'Ajuste seu plano',
+    'sg.intro': 'Arraste qualquer categoria para ver o que uma pequena mudança faz no seu mês — e no seu ano. Os supérfluos vêm primeiro: costumam ser os mais fáceis de cortar. Suas mudanças seguem direto para a <b>Projeção</b>.',
+    'sg.cur': 'Atual / mês', 'sg.new': 'Seu plano / mês', 'sg.msave': 'Economia / mês', 'sg.ysave': 'Economia / ano',
+    'sg.categories': 'Categorias', 'sg.now': 'Hoje', 'sg.empty.t': 'Nada para ajustar ainda',
+    'sg.empty.s': 'Adicione algumas transações ou um orçamento no app e volte para experimentar.',
+    'pr.503020': 'A regra 50 / 30 / 20', 'pr.needs': 'Essenciais', 'pr.wants': 'Supérfluos', 'pr.save': 'Poupar',
+    'pr.verdict.strong': 'Você está poupando <b>{p}%</b> — acima da meta de 20%. Excelente.',
+    'pr.verdict.mid': 'Você está poupando <b>{p}%</b>. Chegar perto de 20% faria diferença rápido.',
+    'pr.verdict.low': 'Você está poupando <b>{p}%</b> — abaixo da meta de 20%. Os controles acima mostram o caminho mais rápido para subir.',
+    'pr.subs.title': 'Auditoria de assinaturas',
+    'pr.subs.body': 'Você tem <b>{n}</b> {label} recorrentes custando <b>{amt}</b> por ano. A linha mais fácil de revisar — cancele uma que esqueceu e é economia pura.',
+    'pr.subs.one': 'assinatura', 'pr.subs.many': 'assinaturas',
+    'pr.win.title': 'Maior ganho rápido',
+    'pr.win.body': '<b>{emoji} {name}</b> é seu maior supérfluo, com {actual}/mês. Reduzindo para {target} você libera <b>{save}</b> por ano — veja no que isso se transforma na <b>Projeção</b>.',
+    // Forecast
+    'fc.title': 'Seu ano, reimaginado',
+    'fc.intro': 'É o mesmo plano das Sugestões, projetado para frente. Pergunte "e se?" — arraste uma categoria e veja um ano inteiro do seu dinheiro responder. Cada real que você não gasta é um real que pode trabalhar por você.',
+    'fc.ysave': 'Economia / ano', 'fc.rate0': 'Taxa de poupança atual', 'fc.rate1': 'Nova taxa de poupança', 'fc.in12': 'Em 12 meses',
+    'fc.projtitle': 'Economia projetada — próximos 12 meses', 'fc.whatif': 'E se…?', 'fc.becomes': 'No que esse dinheiro se transforma',
+    'fc.empty.t': 'Nada para projetar ainda', 'fc.empty.s': 'Adicione um orçamento ou algumas transações no app para projetar seu ano.',
+    'fc.hint': 'Arraste uma categoria em <b>E se…?</b> acima — seu futuro toma forma aqui.',
+    'chart.current': 'Caminho atual', 'chart.plan': 'Seu plano',
+    'fc.invested': 'Investido a {r}% / ano', 'fc.investedbody': 'se você investir os {amt} que libera por ano:', 'fc.inyears': 'Em {n} anos',
+    'fc.hours.kicker': 'Em horas da sua vida', 'fc.hours.body': 'Com seu salário real de {wage}/h, são cerca de <b>{days} dias de trabalho</b> recuperados todo ano — dinheiro que você não precisa mais ganhar.',
+    'fc.hours.nodata': 'Informe sua renda no app para ver essa economia medida em horas da sua vida — o preço mais honesto que existe.',
+    'fc.goal.kicker': 'Rumo a {name}', 'fc.goal.body': 'Só os seus cortes <b>sozinhos</b> — sem mexer no que você já guarda — cobrem os {remaining} que faltam para <b>{name}</b> em {months} meses.',
+    'fc.goal.nodata.kicker': 'Rumo às suas metas', 'fc.goal.nodata': 'Adicione uma meta no app e mostraremos quanto mais rápido esses cortes te levam até lá.',
+    'fc.honest.eyebrow': 'A troca honesta',
+    'fc.honest.body': 'Reduzindo <b>{cut}/mês</b> em {emoji} {name} e no resto do seu plano, você libera <b>{annual}</b> por ano. Investido a {r}%, são <b>{fv}</b> em 20 anos — por uma mudança que você mal vai sentir hoje.',
+    'fc.honest.body.plain': 'Seu plano libera <b>{annual}</b> por ano. Investido a {r}%, são <b>{fv}</b> em duas décadas.',
+    'unit.hrs': 'h', 'unit.mo': 'm',
+    'hs.keeplogging': 'Continue registrando — a pontuação abre com 10 transações.',
+    'hs.setincome': 'Informe sua renda mensal no app para liberar sua pontuação.',
+    'hs.strong': 'Forte em todos os indicadores. Continue assim.',
+    'hs.solid': 'Fundamentos sólidos. Alguns ajustes ajudariam.',
+    'hs.pressure': 'Alguns pontos de pressão a resolver.',
+    'hs.gaps': 'Lacunas importantes a fechar — veja seu próximo passo.',
+    'gv.saving': 'Guardando {amt}/mês → alcança em {date}', 'gv.setincome': 'Informe a renda para calcular a previsão',
+    'gv.simulate': 'Simular: guardar mais', 'gv.active': '{n} ativas',
+    'ins.open': 'Abrir o app ucm', 'ins.month': 'mês', 'ins.months': 'meses', 'ins.sooner': '{n} {unit} antes', 'tx.count': '{n} transações',
+    'ins.sub.h': 'Cancele {name} — sem uso há 60+ dias',
+    'ins.sub.b': 'Isso libera <strong class="goal-link">{annual}/ano</strong>. Aplicado à sua meta {emoji} <strong>{name}</strong>, você a alcançaria <strong class="goal-link">{sooner}</strong>.',
+    'ins.pace.h': 'Gastando mais rápido que o mês',
+    'ins.pace.b': 'Você já usou <strong>{spent}%</strong> do orçamento com <strong>{elapsed}%</strong> do mês decorrido — <strong class="goal-link">{over}% acima do ritmo</strong>. Veja suas maiores categorias abaixo.',
+    'ins.pace.btn': 'Ver orçamento',
+    'ins.runway.h': 'Reserva abaixo de um mês',
+    'ins.runway.b': 'Se a renda parasse hoje, suas economias cobririam menos de 30 dias de despesas. Monte uma reserva de 1 mês antes de tudo.',
+    'ins.runway.btn': 'Criar uma meta',
+    'ins.drop.h': 'Sua taxa de poupança caiu este mês',
+    'ins.drop.b': 'Sua taxa de poupança caiu de <strong>{prior}%</strong> para <strong class="goal-link">{latest}%</strong> — uma queda de {pp}pp. Veja qual categoria disparou.',
+    'ins.drop.btn': 'Ver gastos',
+    'ins.nobudget.h': 'Defina um orçamento mensal',
+    'ins.nobudget.b': 'Um orçamento é a maior ferramenta de mudança de comportamento nas finanças pessoais. Dois minutos agora, meses de clareza depois.',
+    'ins.solid.h': 'Você está em boa forma',
+    'ins.solid.b': 'Nada urgente esta semana. Continue registrando e deixe os hábitos se acumularem.',
+  },
+};
+function t(key) { return (I18N[LANG] && I18N[LANG][key] != null) ? I18N[LANG][key] : (I18N.en[key] != null ? I18N.en[key] : key); }
+function tt(key, vars) { return t(key).replace(/\{(\w+)\}/g, (_, k) => (vars && vars[k] != null) ? vars[k] : ''); }
+function dateLoc() { return LANG === 'pt-BR' ? 'pt-BR' : 'en'; }
+
+function applyLang(lang) {
+  if (!I18N[lang]) lang = 'en';
+  LANG = lang;
+  document.documentElement.lang = lang;
+  _fmtCache && Object.keys(_fmtCache).forEach(k => delete _fmtCache[k]);
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-lang-btn]').forEach(b => b.classList.toggle('active', b.dataset.langBtn === lang));
+  try { localStorage.setItem('ucm.dash.lang', lang); } catch (e) {}
+  if (state.loaded) {
+    renderAll();
+    if (currentPage === 'suggestions') renderSuggestions();
+    if (currentPage === 'forecast') renderForecast();
+  }
+  const titleEl = document.getElementById('page-title');
+  if (titleEl) titleEl.textContent = t('nav.' + currentPage);
+}
+function toggleLang() { applyLang(LANG === 'en' ? 'pt-BR' : 'en'); }
+function initLang() {
+  let stored = null;
+  try { stored = localStorage.getItem('ucm.dash.lang'); } catch (e) {}
+  applyLang(stored || ((navigator.language || '').toLowerCase().startsWith('pt') ? 'pt-BR' : 'en'));
+}
 
 // ═══════════════════════════════════════════════════════════════════
 // CLOUDKIT SETUP
@@ -962,7 +1228,13 @@ function loadDemo() {
     { categoryName:'Assinaturas', budgetedAmount:150  },
     { categoryName:'Lazer',       budgetedAmount:300  },
   ];
-  state.categories   = state.allocations.map(a => ({ name: a.categoryName, emoji: '📦' }));
+  state.categories   = [
+    { name:'Moradia',     emoji:'🏠', isNeed:true  },
+    { name:'Alimentação', emoji:'🍽️', isNeed:true  },
+    { name:'Transporte',  emoji:'🚗', isNeed:true  },
+    { name:'Assinaturas', emoji:'📺', isNeed:false },
+    { name:'Lazer',       emoji:'🎉', isNeed:false },
+  ];
   state.bankAccounts = [];
   state.recurring    = [
     { id:'rec1', name:'Spotify', amount:45, frequency:'monthly', startDate: day(90), categoryName:'Assinaturas' },
@@ -1248,7 +1520,7 @@ function computeAllMonthlyData(txs, monthsBack = 12) {
   for (let i = monthsBack - 1; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const data = computeMonthlyData(txs, d.getFullYear(), d.getMonth());
-    months.push({ year: d.getFullYear(), month: d.getMonth(), label: d.toLocaleDateString('en', {month:'short'}), ...data });
+    months.push({ year: d.getFullYear(), month: d.getMonth(), label: d.toLocaleDateString(dateLoc(), {month:'short'}), ...data });
   }
   return months;
 }
@@ -1277,9 +1549,9 @@ function computeRealWage(txs, settings) {
 
 function computeHealthScore(txs, recurring, settings) {
   const cf = cashFlowTxs(txs);
-  if (cf.length < 10) return { total: 0, level: 'Getting Started', narrative: 'Keep logging — score unlocks at 10 transactions.' };
+  if (cf.length < 10) return { total: 0, level: 'Getting Started', narrative: t('hs.keeplogging') };
   const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
-  if (income <= 0) return { total: 0, level: 'Getting Started', narrative: 'Set your monthly income in the app to unlock your score.' };
+  if (income <= 0) return { total: 0, level: 'Getting Started', narrative: t('hs.setincome') };
 
   const runway = computeRunwayMonths(txs, settings);
   const runwayPts = Math.round(Math.min(runway, 6) / 6 * 30);
@@ -1293,10 +1565,10 @@ function computeHealthScore(txs, recurring, settings) {
   const debtPts = 15;
   const total = runwayPts + ratePts + fixedPts + debtPts;
   const level = total >= 85 ? 'Excellent' : total >= 70 ? 'On Track' : total >= 50 ? 'Fair' : total >= 30 ? 'Needs Work' : 'Critical';
-  const narrative = total >= 85 ? 'Strong across all metrics. Keep it up.' :
-                    total >= 70 ? 'Solid fundamentals. A few tweaks would help.' :
-                    total >= 50 ? 'Some pressure points to address.' :
-                    'Important gaps to close — see your weekly move.';
+  const narrative = total >= 85 ? t('hs.strong') :
+                    total >= 70 ? t('hs.solid') :
+                    total >= 50 ? t('hs.pressure') :
+                    t('hs.gaps');
   return { total, level, narrative, runwayPts, ratePts, fixedPts, debtPts };
 }
 
@@ -1339,11 +1611,12 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
       const currentMonths = monthlySavings > 0 ? Math.ceil(remaining / monthlySavings) : 999;
       const newMonths     = (monthlySavings + monthlySaving) > 0 ? Math.ceil(remaining / (monthlySavings + monthlySaving)) : 999;
       const saved         = Math.max(currentMonths - newMonths, 0);
+      const sooner = tt('ins.sooner', { n: saved, unit: saved !== 1 ? t('ins.months') : t('ins.month') });
       return {
         tint: 'tint-orange', icon: '🔔',
-        headline: `Cancel ${sub.name} — unused for 60+ days`,
-        body: `That frees up <strong class="goal-link">${fmt(annualSaving, currency)}/year</strong>. Applied to your ${goal.emoji} <strong>${goal.name}</strong> goal, you'd reach it <strong class="goal-link">${saved} month${saved !== 1 ? 's' : ''} sooner</strong>.`,
-        btnLabel: 'Open ucm App →',
+        headline: tt('ins.sub.h', { name: sub.name }),
+        body: tt('ins.sub.b', { annual: fmt(annualSaving, currency), emoji: goal.emoji, name: goal.name, sooner }),
+        btnLabel: t('ins.open'),
         action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
       };
     }
@@ -1361,9 +1634,9 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
       const overshoot = Math.round((spendRatio - paceRatio) * 100);
       return {
         tint: 'tint-orange', icon: '⚡',
-        headline: 'Spending faster than the month',
-        body: `You've used <strong>${Math.round(spendRatio * 100)}%</strong> of your budget with <strong>${Math.round(paceRatio * 100)}%</strong> of the month elapsed — <strong class="goal-link">${overshoot}% ahead of pace</strong>. Check your largest categories below.`,
-        btnLabel: 'See Budget',
+        headline: t('ins.pace.h'),
+        body: tt('ins.pace.b', { spent: Math.round(spendRatio * 100), elapsed: Math.round(paceRatio * 100), over: overshoot }),
+        btnLabel: t('ins.pace.btn'),
         action: () => scrollToSection('s-spending'),
       };
     }
@@ -1374,9 +1647,9 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
   if (runway > 0 && runway < 1) {
     return {
       tint: 'tint-red', icon: '⛽',
-      headline: 'Runway under one month',
-      body: `If income stopped today, your savings cover less than 30 days of expenses. Build a 1-month buffer before anything else.`,
-      btnLabel: 'Start a Goal',
+      headline: t('ins.runway.h'),
+      body: t('ins.runway.b'),
+      btnLabel: t('ins.runway.btn'),
       action: () => scrollToSection('s-goals'),
     };
   }
@@ -1389,9 +1662,9 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     if (latest < prior - 10 && prior > 0) {
       return {
         tint: 'tint-orange', icon: '📉',
-        headline: 'Savings rate dropped this month',
-        body: `Your savings rate fell from <strong>${Math.round(prior)}%</strong> to <strong class="goal-link">${Math.round(latest)}%</strong> — a ${Math.round(prior - latest)}pp drop. Check which category spiked.`,
-        btnLabel: 'See Spending',
+        headline: t('ins.drop.h'),
+        body: tt('ins.drop.b', { prior: Math.round(prior), latest: Math.round(latest), pp: Math.round(prior - latest) }),
+        btnLabel: t('ins.drop.btn'),
         action: () => scrollToSection('s-spending'),
       };
     }
@@ -1401,9 +1674,9 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
   if (allocations.length === 0) {
     return {
       tint: '', icon: '📊',
-      headline: 'Set a monthly budget',
-      body: 'A budget is the single biggest behaviour-change tool in personal finance. Two minutes now, months of clarity after.',
-      btnLabel: 'Open ucm App →',
+      headline: t('ins.nobudget.h'),
+      body: t('ins.nobudget.b'),
+      btnLabel: t('ins.open'),
       action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
     };
   }
@@ -1411,10 +1684,10 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
   // Fallback
   return {
     tint: 'tint-green', icon: '✅',
-    headline: "You're in solid shape",
-    body: 'Nothing urgent this week. Keep logging and let the habits compound.',
-    btnLabel: 'See Trends',
-    action: null,
+    headline: t('ins.solid.h'),
+    body: t('ins.solid.b'),
+    btnLabel: t('ins.open'),
+    action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
   };
 }
 
@@ -1484,7 +1757,7 @@ function renderNetWorth(txs, bankAccounts, settings, currency) {
     const d = new Date(now.getFullYear(), now.getMonth() - i + 1, 0); // end of month
     const txsUpTo = txs.filter(t => t.date <= d);
     const nw = computeBalance(txsUpTo, bankAccounts, settings);
-    labels.push(d.toLocaleDateString('en', { month: 'short' }));
+    labels.push(d.toLocaleDateString(dateLoc(), { month: 'short' }));
     dataPoints.push(nw);
   }
 
@@ -1494,7 +1767,7 @@ function renderNetWorth(txs, bankAccounts, settings, currency) {
 
   document.getElementById('nw-amount').textContent = fmt(current, currency);
   const deltaEl = document.getElementById('nw-delta');
-  deltaEl.textContent = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency, true)} this month`;
+  deltaEl.textContent = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency, true)} ${t('ov.thismonthdelta')}`;
   deltaEl.className = 'nw-delta' + (delta < 0 ? ' neg' : '');
 
   const ctx = document.getElementById('nw-chart').getContext('2d');
@@ -1530,7 +1803,7 @@ function renderNetWorth(txs, bankAccounts, settings, currency) {
         }
       },
       scales: {
-        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.3)', font: { family: 'Outfit', size: 10 } } },
+        x: { grid: { display: false }, ticks: { color: themeColors().tick, font: { family: 'Outfit', size: 10 } } },
         y: { display: false },
       }
     }
@@ -1560,7 +1833,7 @@ function renderWaterfall(txs, year, month, currency) {
   const colors = [];
 
   // Income bar
-  labels.push('Income');
+  labels.push(t('ov.income'));
   data.push([0, income]);
   colors.push('rgba(52,211,153,0.8)');
 
@@ -1575,7 +1848,7 @@ function renderWaterfall(txs, year, month, currency) {
 
   // Net bar
   const net = income - topCats.reduce((s, [, a]) => s + a, 0);
-  labels.push('Net');
+  labels.push(t('wf.net'));
   data.push([0, net]);
   colors.push(net >= 0 ? 'rgba(52,211,153,0.8)' : 'rgba(248,113,113,0.8)');
 
@@ -1618,13 +1891,13 @@ function renderWaterfall(txs, year, month, currency) {
       },
       scales: {
         x: {
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: 'rgba(255,255,255,0.35)', font: { family: 'Outfit', size: 10 },
+          grid: { color: themeColors().grid },
+          ticks: { color: themeColors().tick, font: { family: 'Outfit', size: 10 },
                    callback: v => fmt(v, currency, true) },
         },
         y: {
           grid: { display: false },
-          ticks: { color: 'rgba(255,255,255,0.5)', font: { family: 'Outfit', size: 11 } },
+          ticks: { color: themeColors().tick, font: { family: 'Outfit', size: 11 } },
         }
       }
     }
@@ -1686,7 +1959,7 @@ function renderSpending(allocations, txs, year, month, currency, categories) {
       </div>`;
   });
 
-  summaryEl.textContent = `${fmt(totalSpent, currency, true)} of ${fmt(totalBudget, currency, true)}`;
+  summaryEl.textContent = `${fmt(totalSpent, currency, true)} ${t('sp.of')} ${fmt(totalBudget, currency, true)}`;
   container.innerHTML = rows.join('');
 }
 
@@ -1695,10 +1968,10 @@ function renderSpending(allocations, txs, year, month, currency, categories) {
 // ═══════════════════════════════════════════════════════════════════
 function renderGoalVelocity(goals, txs, settings) {
   const container = document.getElementById('goals-list');
-  document.getElementById('goals-badge').textContent = `${goals.length} active`;
+  document.getElementById('goals-badge').textContent = tt('gv.active', { n: goals.length });
 
   if (goals.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">🎯</div><div class="es-title">No goals yet</div><div class="es-sub">Set your first savings goal in the app</div></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">🎯</div><div class="es-title">${t('es.nogoals.t')}</div><div class="es-sub">${t('es.nogoals.s')}</div></div>`;
     return;
   }
 
@@ -1713,7 +1986,7 @@ function renderGoalVelocity(goals, txs, settings) {
     const pct = g.targetAmount > 0 ? Math.min(g.currentAmount / g.targetAmount * 100, 100) : 0;
     const color = goalColors[i % goalColors.length];
     const eta = goalETA(g, monthlySavings);
-    const etaLabel = eta ? `Saving ${fmt(monthlySavings, currency, true)}/mo → reach by ${eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' })}` : 'Set income to calculate ETA';
+    const etaLabel = eta ? tt('gv.saving', { amt: fmt(monthlySavings, currency, true), date: eta.date.toLocaleDateString(dateLoc(), { month: 'short', year: 'numeric' }) }) : t('gv.setincome');
     const maxExtra = Math.round(monthlySavings * 2 / 50) * 50 || 500;
     return `
       <div class="goal-row">
@@ -1726,13 +1999,13 @@ function renderGoalVelocity(goals, txs, settings) {
           <div class="goal-bar-fill" id="gbar-${i}" style="width:${pct}%; background: linear-gradient(90deg, ${color}99, ${color})"></div>
         </div>
         <div class="goal-meta">
-          <span class="private">${fmt(g.currentAmount, currency, true)} of ${fmt(g.targetAmount, currency, true)}</span>
+          <span class="private">${fmt(g.currentAmount, currency, true)} ${t('sp.of')} ${fmt(g.targetAmount, currency, true)}</span>
           <span class="goal-eta-text" id="geta-${i}">${etaLabel}</span>
         </div>
         <div class="goal-sim-wrap">
           <div class="goal-sim-label">
-            <span>Simulate: save more</span>
-            <span class="goal-sim-eta" id="gsim-eta-${i}">${eta ? eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' }) : '—'}</span>
+            <span>${t('gv.simulate')}</span>
+            <span class="goal-sim-eta" id="gsim-eta-${i}">${eta ? eta.date.toLocaleDateString(dateLoc(), { month: 'short', year: 'numeric' }) : '—'}</span>
           </div>
           <input type="range" id="gsim-${i}" min="0" max="${maxExtra}" value="0" step="50"
             data-goal-idx="${i}"
@@ -1755,7 +2028,7 @@ function updateGoalETA(idx, extra) {
   const etaEl = document.getElementById(`gsim-eta-${idx}`);
   if (etaEl) {
     etaEl.textContent = eta
-      ? `${eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' })} (+${fmt(extra, currency, true)}/mo)`
+      ? `${eta.date.toLocaleDateString(dateLoc(), { month: 'short', year: 'numeric' })} (+${fmt(extra, currency, true)}/mo)`
       : '—';
   }
 }
@@ -1818,7 +2091,7 @@ function renderCalendarHeatmap(txs) {
       if (!isInRange) return `<div class="cal-cell" style="background:transparent;"></div>`;
       const amt = spendMap[dateStr] || 0;
       const color = getColor(dateStr);
-      const label = `${day.toLocaleDateString('en', { month: 'short', day: 'numeric' })}${amt > 0 ? ': ' + fmt(amt, state.settings?.currencyCode || 'USD', true) : ''}`;
+      const label = `${day.toLocaleDateString(dateLoc(), { month: 'short', day: 'numeric' })}${amt > 0 ? ': ' + fmt(amt, state.settings?.currencyCode || 'USD', true) : ''}`;
       return `<div class="cal-cell" style="background:${color};" title="${label}"></div>`;
     }).join('');
     return `<div class="cal-week">${cells}</div>`;
@@ -1843,7 +2116,7 @@ function renderInsightCard(insight) {
 // ═══════════════════════════════════════════════════════════════════
 function renderTransactions(txs, currency, settings) {
   const container = document.getElementById('tx-list');
-  document.getElementById('tx-count-label').textContent = `${txs.length} transactions`;
+  document.getElementById('tx-count-label').textContent = tt('tx.count', { n: txs.length });
 
   if (txs.length === 0) {
     container.innerHTML = `<div class="empty-state"><div class="es-icon">💸</div><div class="es-title">No transactions this month</div><div class="es-sub">Transactions you log in the app appear here</div></div>`;
@@ -1858,7 +2131,7 @@ function renderTransactions(txs, currency, settings) {
     const isIncome = t.type === 'income';
     const dateStr  = t.date.toDateString() === today ? 'Today' :
                      t.date.toDateString() === yesterday ? 'Yesterday' :
-                     t.date.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+                     t.date.toLocaleDateString(dateLoc(), { month: 'short', day: 'numeric' });
     const emoji = catEmoji[t.categoryName] || (isIncome ? '💰' : '💸');
     const amountClass = isIncome ? 'positive' : 'negative';
     const sign = isIncome ? '+' : '−';
@@ -1895,7 +2168,7 @@ function renderTrendChart(txs, months, currency) {
       labels,
       datasets: [
         {
-          type: 'bar', label: 'Income', data: incomes,
+          type: 'bar', label: t('ov.income'), data: incomes,
           backgroundColor: 'rgba(52,211,153,0.6)', borderColor: 'rgba(52,211,153,0.9)',
           borderWidth: 1, borderRadius: 4, yAxisID: 'y',
         },
@@ -1966,10 +2239,10 @@ function renderAll() {
 
   // Month label + nav
   const d = new Date(year, month, 1);
-  document.getElementById('month-label').textContent = d.toLocaleDateString('en', { month: 'long', year: 'numeric' });
+  document.getElementById('month-label').textContent = d.toLocaleDateString(dateLoc(), { month: 'long', year: 'numeric' });
   const isCurrentMonth = year === new Date().getFullYear() && month === new Date().getMonth();
   document.getElementById('next-month-btn').disabled = isCurrentMonth;
-  document.getElementById('today-label').textContent = new Date().toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  document.getElementById('today-label').textContent = new Date().toLocaleDateString(dateLoc(), { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
   // Section 1: Net Worth
   renderNetWorth(txs, bankAccounts, settings, currency);
@@ -1986,7 +2259,7 @@ function renderAll() {
   // Health Score
   const score = computeHealthScore(txs, recurring, settings);
   document.getElementById('score-num').textContent = score.total > 0 ? score.total : '—';
-  document.getElementById('score-level').textContent = score.level;
+  document.getElementById('score-level').textContent = t('score.' + score.level);
   document.getElementById('score-narrative').textContent = score.narrative;
   const scoreColors = { Excellent: '#34D399', 'On Track': '#2DD4BF', Fair: '#FBBF24', 'Needs Work': '#FB923C', Critical: '#F87171', 'Getting Started': '#2DD4BF' };
   const sColor = scoreColors[score.level] || 'var(--accent)';
@@ -1999,7 +2272,6 @@ function renderAll() {
   renderSpending(allocations, txs, year, month, currency, categories);
   const insight = computeInsight(txs, goals, recurring, settings, allocations);
   renderInsightCard(insight);
-  renderTrendChart(txs, chartRange, currency);
 
   // Section 4: Goals
   renderGoalVelocity(goals, txs, settings);
@@ -2014,17 +2286,517 @@ function renderAll() {
 // ═══════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', e => {
-      e.preventDefault();
-      const sectionId = item.dataset.section;
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      item.classList.add('active');
-      if (sectionId) scrollToSection(sectionId);
-    });
-  });
+let currentPage = 'overview';
+const PAGE_TITLES = { overview: 'Overview', suggestions: 'Suggestions', forecast: 'Forecast' };
 
+function showPage(page) {
+  currentPage = page;
+  ['overview', 'suggestions', 'forecast'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.style.display = (p === page) ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.page === page);
+  });
+  const titleEl = document.getElementById('page-title');
+  if (titleEl) titleEl.textContent = t('nav.' + page) || PAGE_TITLES[page] || 'Dashboard';
+  document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (page === 'suggestions' && state.loaded) renderSuggestions();
+  if (page === 'forecast' && state.loaded) renderForecast();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// THEME (light / dark)
+// ═══════════════════════════════════════════════════════════════════
+function applyTheme(theme) {
+  if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  else document.documentElement.removeAttribute('data-theme');
+  const icon = document.getElementById('theme-icon');
+  if (icon) {
+    icon.innerHTML = theme === 'light'
+      ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+      : '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  }
+}
+
+function initTheme() { applyTheme(localStorage.getItem('ucm.theme') || 'dark'); }
+
+function toggleTheme() {
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  localStorage.setItem('ucm.theme', next);
+  applyTheme(next);
+  if (state.loaded) {
+    renderAll();
+    if (currentPage === 'suggestions') renderSuggestions();
+    if (currentPage === 'forecast') renderForecast();
+  }
+}
+
+function themeColors() {
+  const light = document.documentElement.getAttribute('data-theme') === 'light';
+  return {
+    grid:   light ? 'rgba(13,40,33,0.08)' : 'rgba(255,255,255,0.04)',
+    tick:   light ? 'rgba(11,32,27,0.45)' : 'rgba(255,255,255,0.35)',
+    legend: light ? 'rgba(11,32,27,0.62)' : 'rgba(255,255,255,0.6)',
+    track:  light ? 'rgba(13,40,33,0.45)' : 'rgba(148,163,184,0.55)',
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE: FORECAST  (the behavioral payoff)
+// ═══════════════════════════════════════════════════════════════════
+let fcChart = null;
+const INVEST_HORIZONS = [5, 10, 20, 30];
+
+function fvAnnuity(contributionPerYear, rate, years) {
+  return rate > 0 ? contributionPerYear * ((Math.pow(1 + rate, years) - 1) / rate) : contributionPerYear * years;
+}
+
+function next12Labels() {
+  const now = new Date(), out = [];
+  for (let i = 1; i <= 12; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    out.push(d.toLocaleDateString(dateLoc(), { month: 'short' }));
+  }
+  return out;
+}
+
+function forecastState() {
+  const rows = buildBudgetModel();
+  const t = budgetTotals(rows);
+  const income = labIncome();
+  const savingsCurrent = Math.max(income - t.currentTotal, 0);
+  const savingsNew     = Math.max(income - t.newTotal, 0);
+  return { rows, t, income, savingsCurrent, savingsNew, annualSaving: t.annualDelta };
+}
+
+function renderForecast() {
+  forecastDirty = false;
+  const root = document.getElementById('fc-root');
+  const currency = state.settings.currencyCode;
+  const fs = forecastState();
+
+  if (fs.rows.length === 0) {
+    root.innerHTML = `<div class="empty-state"><div class="es-icon">📈</div>
+      <div class="es-title">${t('fc.empty.t')}</div>
+      <div class="es-sub">${t('fc.empty.s')}</div></div>`;
+    return;
+  }
+
+  const sliders = fs.rows.map(r => {
+    const delta = r.baseline - r.current;
+    return `
+    <div class="slider-row">
+      <div class="slider-row-top">
+        <span class="slider-name">${r.emoji} ${r.name}
+          <span class="need-tag ${r.isNeed ? 'need' : 'want'}">${r.isNeed ? t('tag.need') : t('tag.want')}</span></span>
+        <span class="slider-vals">
+          <span class="new-amt" id="amt-fc-${cssId(r.name)}">${fmt(r.current, currency, true)}</span>
+          <span class="delta ${delta >= 0 ? 'save' : 'over'}" id="dl-fc-${cssId(r.name)}">${deltaLabel(delta, currency)}</span>
+        </span>
+      </div>
+      <input type="range" class="lab-range" min="0" max="${r.max}" step="10" value="${Math.round(r.current)}"
+        oninput="fcTweak('${escAttr(r.name)}', this.value)">
+    </div>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="lab-intro">
+      <h2>${t('fc.title')}</h2>
+      <p>${t('fc.intro')}</p>
+    </div>
+
+    <div class="lab-summary">
+      <div class="lab-stat"><span class="lab-stat-label">${t('fc.ysave')}</span><span class="lab-stat-value big" id="fc-ysave" style="color:var(--accent)">${fmt(fs.annualSaving, currency)}</span></div>
+      <div class="lab-stat"><span class="lab-stat-label">${t('fc.rate0')}</span><span class="lab-stat-value" id="fc-rate0">${fs.income > 0 ? Math.round(fs.savingsCurrent / fs.income * 100) : 0}%</span></div>
+      <div class="lab-stat"><span class="lab-stat-label">${t('fc.rate1')}</span><span class="lab-stat-value" id="fc-rate1" style="color:var(--accent)">${fs.income > 0 ? Math.round(fs.savingsNew / fs.income * 100) : 0}%</span></div>
+      <div class="lab-stat"><span class="lab-stat-label">${t('fc.in12')}</span><span class="lab-stat-value" id="fc-12" style="color:var(--accent)">${fmt(fs.savingsNew * 12, currency)}</span></div>
+    </div>
+
+    <div class="lab-grid">
+      <div class="card">
+        <div class="chart-header" style="margin-bottom:6px">
+          <h3 style="font-size:13px;font-weight:700">${t('fc.projtitle')}</h3>
+        </div>
+        <div class="fc-chart-wrap"><canvas id="fc-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="section-header"><span>${t('fc.whatif')}</span>
+          <span class="badge" onclick="resetTweaksForecast()" style="cursor:pointer">${t('badge.reset')}</span></div>
+        ${sliders}
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:22px"><span>${t('fc.becomes')}</span>
+      <div class="invest-toggle" id="fc-invest">
+        ${[0.05, 0.07, 0.10].map(r => `<button class="${r === investRate ? 'active' : ''}" onclick="setInvestRate(${r})">${Math.round(r*100)}%</button>`).join('')}
+      </div>
+    </div>
+    <div id="fc-story"></div>
+    <div id="fc-narrative"></div>`;
+
+  buildForecastChart(fs);
+  renderForecastStory(fs);
+}
+
+function buildForecastChart(fs) {
+  const currency = state.settings.currencyCode;
+  const ctx = document.getElementById('fc-chart');
+  if (!ctx) return;
+  const labels = next12Labels();
+  const current = labels.map((_, i) => fs.savingsCurrent * (i + 1));
+  const plan    = labels.map((_, i) => fs.savingsNew * (i + 1));
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2DD4BF';
+  const tc = themeColors();
+
+  if (fcChart) fcChart.destroy();
+  fcChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: t('chart.current'), data: current, borderColor: tc.track,
+          borderWidth: 2, borderDash: [5,4], pointRadius: 0, tension: 0.3, fill: false },
+        { label: t('chart.plan'), data: plan, borderColor: accent, borderWidth: 2.5,
+          pointRadius: 0, tension: 0.3, fill: '-1', backgroundColor: 'rgba(45,212,191,0.12)' },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: true, position: 'top', align: 'end',
+          labels: { color: tc.legend, boxWidth: 10, boxHeight: 10, usePointStyle: true, font: { size: 11 } } },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmt(c.parsed.y, currency)}` } },
+      },
+      scales: {
+        x: { grid: { color: tc.grid }, ticks: { color: tc.tick, font: { size: 10 } } },
+        y: { grid: { color: tc.grid }, ticks: { color: tc.tick, font: { size: 10 },
+          callback: v => fmt(v, currency, true) } },
+      },
+    },
+  });
+}
+
+function renderForecastStory(fs) {
+  const currency = state.settings.currencyCode;
+  const storyEl = document.getElementById('fc-story');
+  const narrEl  = document.getElementById('fc-narrative');
+  if (!storyEl) return;
+
+  if (fs.annualSaving < 1) {
+    storyEl.innerHTML = `<div class="practice-card" style="text-align:center;padding:28px">
+      <p style="font-size:14px">${t('fc.hint')}</p></div>`;
+    narrEl.innerHTML = '';
+    return;
+  }
+  const r100 = Math.round(investRate * 100);
+
+  // 1) Money — compounding
+  const moneyRows = INVEST_HORIZONS.map(n =>
+    `<div class="story-row"><span class="yr">${tt('fc.inyears', { n })}</span><span class="amt">${fmt(fvAnnuity(fs.annualSaving, investRate, n), currency, true)}</span></div>`
+  ).join('');
+
+  // 2) Life-hours (Real Hourly Wage)
+  const rw = computeRealWage(state.transactions, state.settings);
+  const hoursCard = rw ? (() => {
+    const hrs = fs.annualSaving / rw.hourlyWage;
+    const days = hrs / 8;
+    return `<div class="story-card">
+      <div class="story-icon">⏳</div>
+      <div class="story-kicker">${t('fc.hours.kicker')}</div>
+      <div class="story-big">${Math.round(hrs)} ${t('unit.hrs')}</div>
+      <div class="story-body">${tt('fc.hours.body', { wage: fmt(rw.hourlyWage, currency, true), days: days.toFixed(1) })}</div>
+    </div>`;
+  })() : `<div class="story-card"><div class="story-icon">⏳</div><div class="story-kicker">${t('fc.hours.kicker')}</div>
+      <div class="story-body" style="margin-top:8px">${t('fc.hours.nodata')}</div></div>`;
+
+  // 3) Goal speed — cuts alone fund a goal
+  const monthlyDelta = fs.t.monthlyDelta;
+  const goals = (state.goals || []).filter(g => !g.isCompleted && g.targetAmount > g.currentAmount);
+  let goalCard;
+  if (goals.length && monthlyDelta > 0) {
+    const goal = goals.sort((a, b) => (a.targetAmount - a.currentAmount) - (b.targetAmount - b.currentAmount))[0];
+    const remaining = goal.targetAmount - goal.currentAmount;
+    const months = Math.ceil(remaining / monthlyDelta);
+    goalCard = `<div class="story-card">
+      <div class="story-icon">${goal.emoji || '🎯'}</div>
+      <div class="story-kicker">${tt('fc.goal.kicker', { name: goal.name })}</div>
+      <div class="story-big">${months} ${t('unit.mo')}</div>
+      <div class="story-body">${tt('fc.goal.body', { remaining: fmt(remaining, currency, true), name: goal.name, months })}</div>
+    </div>`;
+  } else {
+    goalCard = `<div class="story-card"><div class="story-icon">🎯</div><div class="story-kicker">${t('fc.goal.nodata.kicker')}</div>
+      <div class="story-body" style="margin-top:8px">${t('fc.goal.nodata')}</div></div>`;
+  }
+
+  storyEl.innerHTML = `<div class="story-grid">
+    <div class="story-card">
+      <div class="story-icon">📈</div>
+      <div class="story-kicker">${tt('fc.invested', { r: r100 })}</div>
+      <div class="story-big">${fmt(fvAnnuity(fs.annualSaving, investRate, 20), currency, true)}</div>
+      <div class="story-body">${tt('fc.investedbody', { amt: fmt(fs.annualSaving, currency, true) })}</div>
+      <div class="story-rows">${moneyRows}</div>
+    </div>
+    ${hoursCard}
+    ${goalCard}
+  </div>`;
+
+  // Narrative banner
+  const topCut = fs.rows.map(r => ({ ...r, cut: r.baseline - r.current }))
+    .filter(r => r.cut > 0).sort((a, b) => b.cut - a.cut)[0];
+  const fv20 = fvAnnuity(fs.annualSaving, investRate, 20);
+  const sentence = topCut
+    ? tt('fc.honest.body', { cut: fmt(topCut.cut, currency, true), emoji: topCut.emoji, name: topCut.name, annual: fmt(fs.annualSaving, currency), r: r100, fv: fmt(fv20, currency) })
+    : tt('fc.honest.body.plain', { annual: fmt(fs.annualSaving, currency), r: r100, fv: fmt(fv20, currency) });
+  narrEl.innerHTML = `<div class="narrative-banner">
+    <div class="nb-eyebrow">${t('fc.honest.eyebrow')}</div>
+    <div class="nb-text">${sentence}</div></div>`;
+}
+
+function fcTweak(name, value) {
+  applyTweak(name, value);
+  const currency = state.settings.currencyCode;
+  const fs = forecastState();
+  const row = fs.rows.find(r => r.name === name);
+  if (row) {
+    const delta = row.baseline - row.current;
+    setText('amt-fc-' + cssId(name), fmt(row.current, currency, true));
+    const dl = document.getElementById('dl-fc-' + cssId(name));
+    if (dl) { dl.textContent = deltaLabel(delta, currency); dl.className = 'delta ' + (delta >= 0 ? 'save' : 'over'); }
+  }
+  // summary
+  setText('fc-ysave', fmt(fs.annualSaving, currency));
+  setText('fc-rate0', (fs.income > 0 ? Math.round(fs.savingsCurrent / fs.income * 100) : 0) + '%');
+  setText('fc-rate1', (fs.income > 0 ? Math.round(fs.savingsNew / fs.income * 100) : 0) + '%');
+  setText('fc-12',    fmt(fs.savingsNew * 12, currency));
+  // chart
+  if (fcChart) { fcChart.data.datasets[1].data = next12Labels().map((_, i) => fs.savingsNew * (i + 1)); fcChart.update('none'); }
+  // story
+  renderForecastStory(fs);
+}
+
+function setInvestRate(r) {
+  investRate = r;
+  document.querySelectorAll('#fc-invest button').forEach(b => b.classList.toggle('active', Math.abs(parseInt(b.textContent) / 100 - r) < 0.001));
+  renderForecastStory(forecastState());
+}
+
+function resetTweaksForecast() { budgetTweaks = {}; forecastDirty = true; renderForecast(); }
+
+function applyTweak(name, value) { budgetTweaks[name] = parseFloat(value); forecastDirty = true; }
+
+// ═══════════════════════════════════════════════════════════════════
+// SHARED BUDGET LAB MODEL  (drives Suggestions + Forecast)
+// ═══════════════════════════════════════════════════════════════════
+let budgetTweaks = {};        // categoryName -> new monthly amount (the user's plan)
+let investRate   = 0.07;      // annual return assumption for the Forecast story
+let forecastDirty = true;     // re-render forecast when tweaks change
+
+function essentialOf(name) {
+  const cat = state.categories.find(c => c.name === name);
+  if (cat && typeof cat.isNeed === 'boolean') return cat.isNeed;
+  const needs = ['moradia','housing','rent','aluguel','transport','transporte','aliment','grocer','mercado',
+    'utilit','health','saúde','saude','educa','seguro','insurance','água','agua','luz','energia'];
+  return needs.some(n => name.toLowerCase().includes(n));
+}
+
+function categoryAvgSpend(name, months = 3) {
+  const now = new Date();
+  let total = 0, count = 0;
+  for (let i = 1; i <= months; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const spent = cashFlowTxs(state.transactions.filter(t =>
+      inMonth(t, d.getFullYear(), d.getMonth()) && t.type === 'expense' && (t.categoryName || 'Other') === name
+    )).reduce((s, t) => s + t.amount, 0);
+    total += spent; count++;
+  }
+  return count ? total / count : 0;
+}
+
+function buildBudgetModel() {
+  const names = new Set();
+  state.allocations.forEach(a => names.add(a.categoryName));
+  state.categories.forEach(c => names.add(c.name));
+  const allocMap = Object.fromEntries(state.allocations.map(a => [a.categoryName, a.budgetedAmount]));
+  const rows = [...names].map(name => {
+    const cat = state.categories.find(c => c.name === name);
+    const budgeted = allocMap[name] || 0;
+    const actual   = categoryAvgSpend(name);
+    const baseline = budgeted > 0 ? budgeted : actual;   // the "current plan"
+    const maxV     = Math.max(baseline, actual, budgeted, 50) * 1.5;
+    return {
+      name, emoji: cat?.emoji || '📦', isNeed: essentialOf(name),
+      budgeted, actual, baseline,
+      current: (name in budgetTweaks) ? budgetTweaks[name] : baseline,
+      max: Math.round(maxV / 10) * 10,
+    };
+  }).filter(r => r.baseline > 0 || r.actual > 0);
+  rows.sort((a, b) => (a.isNeed - b.isNeed) || (b.baseline - a.baseline));
+  return rows;
+}
+
+function budgetTotals(rows) {
+  const currentTotal = rows.reduce((s, r) => s + r.baseline, 0);
+  const newTotal     = rows.reduce((s, r) => s + r.current, 0);
+  const monthlyDelta = currentTotal - newTotal;   // +ve = saving
+  return { currentTotal, newTotal, monthlyDelta, annualDelta: monthlyDelta * 12 };
+}
+
+function labIncome() {
+  return state.settings.monthlyIncome > 0 ? state.settings.monthlyIncome : computeAvgIncome(state.transactions);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PAGE: SUGGESTIONS
+// ═══════════════════════════════════════════════════════════════════
+function renderSuggestions() {
+  const root = document.getElementById('sg-root');
+  const currency = state.settings.currencyCode;
+  const rows = buildBudgetModel();
+
+  if (rows.length === 0) {
+    root.innerHTML = `<div class="empty-state"><div class="es-icon">🎚️</div>
+      <div class="es-title">${t('sg.empty.t')}</div>
+      <div class="es-sub">${t('sg.empty.s')}</div></div>`;
+    return;
+  }
+
+  const tot = budgetTotals(rows);
+
+  const sliderHTML = rows.map(r => {
+    const delta = r.baseline - r.current;
+    return `
+    <div class="slider-row" data-name="${r.name}">
+      <div class="slider-row-top">
+        <span class="slider-name">${r.emoji} ${r.name}
+          <span class="need-tag ${r.isNeed ? 'need' : 'want'}">${r.isNeed ? t('tag.need') : t('tag.want')}</span></span>
+        <span class="slider-vals">
+          <span class="new-amt" id="amt-${cssId(r.name)}">${fmt(r.current, currency, true)}</span>
+          <span class="delta ${delta >= 0 ? 'save' : 'over'}" id="dl-${cssId(r.name)}">${deltaLabel(delta, currency)}</span>
+        </span>
+      </div>
+      <input type="range" class="lab-range" min="0" max="${r.max}" step="10" value="${Math.round(r.current)}"
+        oninput="setTweak('${escAttr(r.name)}', this.value)">
+      <div class="slider-meta"><span>${t('sg.now')}: ${fmt(r.baseline, currency, true)}</span><span>${fmt(r.max, currency, true)}</span></div>
+    </div>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="lab-intro">
+      <h2>${t('sg.title')}</h2>
+      <p>${t('sg.intro')}</p>
+    </div>
+
+    <div class="lab-summary">
+      <div class="lab-stat"><span class="lab-stat-label">${t('sg.cur')}</span><span class="lab-stat-value" id="sg-cur">${fmt(tot.currentTotal, currency)}</span></div>
+      <div class="lab-stat"><span class="lab-stat-label">${t('sg.new')}</span><span class="lab-stat-value" id="sg-new" style="color:var(--accent)">${fmt(tot.newTotal, currency)}</span></div>
+      <div class="lab-stat"><span class="lab-stat-label">${t('sg.msave')}</span><span class="lab-stat-value" id="sg-msave">${fmt(tot.monthlyDelta, currency)}</span></div>
+      <div class="lab-stat"><span class="lab-stat-label">${t('sg.ysave')}</span><span class="lab-stat-value big" id="sg-ysave" style="color:var(--accent)">${fmt(tot.annualDelta, currency)}</span></div>
+    </div>
+
+    <div class="lab-grid">
+      <div class="card">
+        <div class="section-header"><span>${t('sg.categories')}</span>
+          <span class="badge" id="sg-reset" onclick="resetTweaks()" style="cursor:pointer">${t('badge.reset')}</span></div>
+        ${sliderHTML}
+      </div>
+      <div>${renderPractices(rows, currency)}</div>
+    </div>`;
+}
+
+function cssId(name)  { return name.replace(/[^a-zA-Z0-9]/g, '_'); }
+function escAttr(s)   { return s.replace(/'/g, "\\'"); }
+function deltaLabel(delta, currency) {
+  if (Math.abs(delta) < 1) return '';
+  return (delta > 0 ? '↓ ' : '↑ ') + fmt(Math.abs(delta), currency, true);
+}
+
+function setTweak(name, value) {
+  budgetTweaks[name] = parseFloat(value);
+  forecastDirty = true;
+  const currency = state.settings.currencyCode;
+  const rows = buildBudgetModel();
+  const row  = rows.find(r => r.name === name);
+  if (row) {
+    const delta = row.baseline - row.current;
+    const amtEl = document.getElementById('amt-' + cssId(name));
+    const dlEl  = document.getElementById('dl-' + cssId(name));
+    if (amtEl) amtEl.textContent = fmt(row.current, currency, true);
+    if (dlEl)  { dlEl.textContent = deltaLabel(delta, currency); dlEl.className = 'delta ' + (delta >= 0 ? 'save' : 'over'); }
+  }
+  const tot = budgetTotals(rows);
+  setText('sg-cur',   fmt(tot.currentTotal, currency));
+  setText('sg-new',   fmt(tot.newTotal, currency));
+  setText('sg-msave', fmt(tot.monthlyDelta, currency));
+  setText('sg-ysave', fmt(tot.annualDelta, currency));
+}
+
+function resetTweaks() {
+  budgetTweaks = {};
+  forecastDirty = true;
+  renderSuggestions();
+}
+
+function setText(id, txt) { const el = document.getElementById(id); if (el) el.textContent = txt; }
+
+function renderPractices(rows, currency) {
+  const income = labIncome();
+  const needs = rows.filter(r => r.isNeed).reduce((s, r) => s + r.actual, 0);
+  const wants = rows.filter(r => !r.isNeed).reduce((s, r) => s + r.actual, 0);
+  const savings = Math.max(income - needs - wants, 0);
+  const tot = needs + wants + savings || 1;
+  const pN = needs / tot * 100, pW = wants / tot * 100, pS = savings / tot * 100;
+
+  // 50/30/20 verdict
+  const sRate = income > 0 ? savings / income * 100 : 0;
+  const p = Math.round(sRate);
+  const verdict = sRate >= 20 ? tt('pr.verdict.strong', { p }) :
+                  sRate >= 10 ? tt('pr.verdict.mid', { p }) :
+                                tt('pr.verdict.low', { p });
+
+  // Subscription audit
+  const subs = state.recurring || [];
+  const subAnnual = subs.reduce((s, r) => s + (r.frequency === 'yearly' ? r.amount : r.amount * 12), 0);
+
+  // Highest-impact want
+  const topWant = rows.filter(r => !r.isNeed && r.actual > 0).sort((a, b) => b.actual - a.actual)[0];
+  const cutTarget = topWant ? Math.round(topWant.actual * 0.7 / 10) * 10 : 0;
+  const cutSave = topWant ? (topWant.actual - cutTarget) * 12 : 0;
+
+  return `
+    <div class="practice-card">
+      <h4>⚖️ ${t('pr.503020')}</h4>
+      <div class="ratio-bar">
+        <div class="ratio-seg" style="width:${pN}%;background:var(--accent-deep)"></div>
+        <div class="ratio-seg" style="width:${pW}%;background:#FB923C"></div>
+        <div class="ratio-seg" style="width:${pS}%;background:var(--positive)"></div>
+      </div>
+      <div class="ratio-legend">
+        <span><span class="ratio-dot" style="background:var(--accent-deep)"></span>${t('pr.needs')} ${Math.round(pN)}%</span>
+        <span><span class="ratio-dot" style="background:#FB923C"></span>${t('pr.wants')} ${Math.round(pW)}%</span>
+        <span><span class="ratio-dot" style="background:var(--positive)"></span>${t('pr.save')} ${Math.round(pS)}%</span>
+      </div>
+      <p style="margin-top:10px">${verdict}</p>
+    </div>
+
+    ${subs.length ? `
+    <div class="practice-card">
+      <h4>📺 ${t('pr.subs.title')}</h4>
+      <p>${tt('pr.subs.body', { n: subs.length, label: subs.length === 1 ? t('pr.subs.one') : t('pr.subs.many'), amt: fmt(subAnnual, currency) })}</p>
+    </div>` : ''}
+
+    ${topWant && cutSave > 0 ? `
+    <div class="practice-card">
+      <h4>🎯 ${t('pr.win.title')}</h4>
+      <p>${tt('pr.win.body', { emoji: topWant.emoji, name: topWant.name, actual: fmt(topWant.actual, currency, true), target: fmt(cutTarget, currency, true), save: fmt(cutSave, currency) })}</p>
+    </div>` : ''}`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initLang();
   initCloudKit();
 });
 </script>
