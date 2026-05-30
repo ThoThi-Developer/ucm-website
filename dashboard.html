@@ -1084,7 +1084,9 @@ function initCloudKit() {
   // ckWebAuthToken in the URL hash, which setUpAuth() then processes.
   const _origOpen = window.open.bind(window);
   window.open = function(url, target, features) {
-    if (typeof url === 'string' && url.includes('apple-cloudkit.com') && url.includes('auth')) {
+    // Catch any CloudKit auth popup regardless of path — the actual URL is
+    // cdn.apple-cloudkit.com/... which doesn't contain 'auth' in the path.
+    if (typeof url === 'string' && url.includes('apple-cloudkit.com')) {
       dbg('Intercepted CK popup → full-page nav');
       window.location.href = url;
       return null;
@@ -1181,21 +1183,25 @@ function handleSignOut() {
 // ═══════════════════════════════════════════════════════════════════
 let _btnPatchTries = 0;
 function patchSignInButton() {
-  const a = document.querySelector('#sign-in-btn a');
-  if (a && a.href && a.href.length > 10) {
-    const authUrl = a.href;
+  // CloudKit JS may inject an <a>, <button>, or <div> depending on version
+  const el = document.querySelector('#sign-in-btn a, #sign-in-btn button, #sign-in-btn [onclick]');
+  const href = el?.href || el?.getAttribute('data-href');
+  if (el && href && href.length > 10) {
     dbg('Button patched → full-page nav');
-    a.onclick = (e) => {
+    el.onclick = (e) => {
       e.preventDefault();
       e.stopImmediatePropagation();
-      window.location.href = authUrl;
+      window.location.href = href;
       return false;
     };
-    a.removeAttribute('target');
+    el.removeAttribute('target');
+  } else if (el) {
+    // Element exists but no direct href — window.open override will catch the popup
+    dbg('Button found (no href) — relying on window.open intercept');
   } else if (_btnPatchTries++ < 30) {
     setTimeout(patchSignInButton, 200);
   } else {
-    dbg('Button not found after retries');
+    dbg('Button not found — relying on window.open intercept');
   }
 }
 
