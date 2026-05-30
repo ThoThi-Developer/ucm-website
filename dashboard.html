@@ -1279,32 +1279,90 @@ function dbg(msg) {
   });
 }
 
+// Live diagnostic snapshot — surfaced via ?diag in the URL so we can see exactly
+// what CloudKit reports on production without guessing.
+const CK_DIAG = {
+  origin: location.origin, container: CK_CONTAINER, env: CK_ENV,
+  tokenHint: (CK_TOKEN || '').slice(0, 8) + '…',
+  cloudkitLoaded: null, configured: null, setup: 'pending', error: null,
+  identity: null, btnRendered: null, ts: new Date().toISOString(),
+};
+
+function ckDiagUpdate(patch) {
+  Object.assign(CK_DIAG, patch);
+  if (new URLSearchParams(location.search).has('diag')) renderDiag();
+}
+
 function initCloudKit() {
   if (CK_TOKEN === 'YOUR_CK_API_TOKEN') {
     document.getElementById('setup-banner').style.display = 'block';
   }
+  CK_DIAG.cloudkitLoaded = (typeof CloudKit !== 'undefined');
+  if (!CK_DIAG.cloudkitLoaded) {
+    ckDiagUpdate({ setup: 'error', error: 'CloudKit JS failed to load (cdn.apple-cloudkit.com blocked?)' });
+    dbg('CloudKit JS not loaded'); showAuth(); return;
+  }
+
   dbg('Configuring CloudKit…');
-  CloudKit.configure({
-    containers: [{
-      containerIdentifier: CK_CONTAINER,
-      apiTokenAuth: {
-        apiToken:     CK_TOKEN,
-        persist:      true,
-        signInButton: { id: 'sign-in-btn', theme: 'white' },
-        signOutButton:{ id: 'sign-out-btn' },
-      },
-      environment: CK_ENV,
-    }]
-  });
+  try {
+    CloudKit.configure({
+      containers: [{
+        containerIdentifier: CK_CONTAINER,
+        apiTokenAuth: {
+          apiToken:     CK_TOKEN,
+          persist:      true,
+          signInButton: { id: 'sign-in-btn', theme: 'white' },
+          signOutButton:{ id: 'sign-out-btn' },
+        },
+        environment: CK_ENV,
+      }]
+    });
+    ckDiagUpdate({ configured: true });
+  } catch (e) {
+    ckDiagUpdate({ configured: false, setup: 'error', error: 'configure() threw: ' + e.message });
+    dbg('configure error: ' + e.message); showAuth(); return;
+  }
 
   const container = CloudKit.getDefaultContainer();
   container.setUpAuth().then(userIdentity => {
-    if (userIdentity) { dbg('Already signed in ✓'); onSignedIn(userIdentity); }
-    else              { dbg('Not signed in'); showAuth(); }
-  }).catch(err => { dbg('setUpAuth ERROR: ' + err.message); showAuth(); });
+    // Did CloudKit actually render its sign-in button?
+    setTimeout(() => ckDiagUpdate({ btnRendered: (document.getElementById('sign-in-btn')?.childElementCount || 0) > 0 }), 400);
+    if (userIdentity) { ckDiagUpdate({ setup: 'signed-in', identity: userIdentity?.userRecordName || 'yes' }); dbg('Already signed in ✓'); onSignedIn(userIdentity); }
+    else              { ckDiagUpdate({ setup: 'signed-out' }); dbg('Not signed in'); showAuth(); }
+  }).catch(err => {
+    ckDiagUpdate({ setup: 'error', error: err?.message || String(err) });
+    dbg('setUpAuth ERROR: ' + (err?.message || err)); showAuth();
+  });
 
-  container.whenUserSignsIn().then(id => { dbg('Signed in ✓'); onSignedIn(id); });
+  container.whenUserSignsIn().then(id => { ckDiagUpdate({ setup: 'signed-in', identity: id?.userRecordName || 'yes' }); dbg('Signed in ✓'); onSignedIn(id); });
   container.whenUserSignsOut().then(()  => { dbg('Signed out'); onSignedOut(); });
+}
+
+function renderDiag() {
+  let el = document.getElementById('ck-diag-panel');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'ck-diag-panel';
+    el.style.cssText = 'position:fixed;top:8px;left:8px;right:8px;z-index:9999;max-width:520px;margin:auto;' +
+      'background:#0E1A17;border:1px solid #2DD4BF;border-radius:12px;padding:14px 16px;' +
+      'font:12px/1.5 ui-monospace,Menlo,monospace;color:#cfe;box-shadow:0 12px 40px rgba(0,0,0,.6);';
+    document.body.appendChild(el);
+  }
+  const row = (k, v, ok) => `<div><span style="color:#6aa">${k}:</span> <span style="color:${ok===false?'#F87171':ok===true?'#34D399':'#cfe'}">${v}</span></div>`;
+  el.innerHTML =
+    `<div style="font-weight:700;color:#2DD4BF;margin-bottom:6px">CloudKit diagnostic</div>` +
+    row('origin', CK_DIAG.origin) +
+    row('container', CK_DIAG.container) +
+    row('environment', CK_DIAG.env) +
+    row('token', CK_DIAG.tokenHint) +
+    row('CloudKit JS loaded', CK_DIAG.cloudkitLoaded, CK_DIAG.cloudkitLoaded) +
+    row('configured', CK_DIAG.configured, CK_DIAG.configured) +
+    row('setUpAuth', CK_DIAG.setup, CK_DIAG.setup === 'error' ? false : CK_DIAG.setup === 'pending' ? null : true) +
+    (CK_DIAG.error ? row('error', CK_DIAG.error, false) : '') +
+    (CK_DIAG.identity ? row('identity', CK_DIAG.identity, true) : '') +
+    row('sign-in button rendered', CK_DIAG.btnRendered, CK_DIAG.btnRendered) +
+    `<button onclick="navigator.clipboard&&navigator.clipboard.writeText(JSON.stringify(CK_DIAG,null,2))" style="margin-top:8px;background:#2DD4BF;color:#00201c;border:none;border-radius:7px;padding:5px 10px;font-weight:700;cursor:pointer">Copy</button>` +
+    `<button onclick="document.getElementById('ck-diag-panel').remove()" style="margin-top:8px;margin-left:6px;background:transparent;color:#cfe;border:1px solid #2a4;border-radius:7px;padding:5px 10px;cursor:pointer">Close</button>`;
 }
 
 function onSignedIn(userIdentity) {
@@ -3086,6 +3144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const p = location.hash.slice(1);
     if (state.loaded && ROUTES.includes(p) && p !== currentPage) showPage(p);
   });
+  if (new URLSearchParams(location.search).has('diag')) renderDiag();
   initCloudKit();
 });
 </script>
