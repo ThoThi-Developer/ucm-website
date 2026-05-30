@@ -9,7 +9,7 @@ const hash = window.location.hash;
 if (hash.includes('ckWebAuthToken')) {
   // BroadcastChannel works even when Safari nullifies window.opener
   // after cross-origin popup navigation (cdn.apple-cloudkit.com → appleid.apple.com → here)
-  try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-relay', hash }); ch.close(); } catch(_) {}
+  try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-relay', hash }); ch.close(); } catch (_) {}
   // postMessage as fallback when opener is still available
   try { if (window.opener) window.opener.postMessage({ type: 'ck-relay', hash }, 'https://ucm.thothi.app'); } catch(_) {}
 }
