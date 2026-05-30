@@ -1037,7 +1037,7 @@
 // from icloud.developer.apple.com → iCloud.com.thothi.ucm →
 // Settings → Tokens & Keys → Create Token
 // ═══════════════════════════════════════════════════════════════════
-const CK_TOKEN     = '20520e5eb35e2835dc18cba8a4d1714a2d178a39473cbe6b3f49a0308623c030';
+const CK_TOKEN     = 'decd9dac90e4b52e2a5efb90b7962426bba6ecbcc11623da612452a7e1f1ee56';
 const CK_CONTAINER = 'iCloud.com.thothi.ucm';
 const CK_ENV       = 'production';
 
@@ -1078,24 +1078,6 @@ function initCloudKit() {
   }
 
   dbg('Configuring CloudKit…');
-
-  // BroadcastChannel: receives token relayed from auth-callback.html popup.
-  // This is needed because Safari nullifies window.opener after cross-origin
-  // navigation, so CloudKit's internal postMessage relay doesn't reach us.
-  try {
-    const ch = new BroadcastChannel('ck-auth');
-    ch.addEventListener('message', (e) => {
-      if (e.data?.type !== 'ck-relay') return;
-      ch.close();
-      dbg('Token received via BroadcastChannel — signing in…');
-      history.replaceState(null, '', window.location.pathname + e.data.hash);
-      CloudKit.getDefaultContainer().setUpAuth().then(id => {
-        history.replaceState(null, '', window.location.pathname);
-        if (id) { dbg('Signed in ✓'); onSignedIn(id); }
-        else    { dbg('setUpAuth null after relay'); showAuth(); }
-      }).catch(err => { dbg('setUpAuth ERROR after relay: ' + err.message); showAuth(); });
-    });
-  } catch(_) {}
 
   CloudKit.configure({
     containers: [{
