@@ -2117,13 +2117,18 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       item.classList.add('active');
 
-      // Scroll only the <main> content area, not the whole page
+      // Scroll the <main> content area to the target section
       const targetId = sectionMap[page];
       if (targetId) {
         const el = document.getElementById(targetId);
         const mainEl = document.querySelector('main');
         if (el && mainEl) {
-          mainEl.scrollTo({ top: el.offsetTop - 28, behavior: 'smooth' });
+          // getBoundingClientRect gives position relative to viewport;
+          // subtract mainEl's top and add current scroll to get scroll target
+          const targetTop = el.getBoundingClientRect().top
+                          - mainEl.getBoundingClientRect().top
+                          + mainEl.scrollTop - 28;
+          mainEl.scrollTo({ top: targetTop, behavior: 'smooth' });
         }
       }
     });
