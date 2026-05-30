@@ -1281,7 +1281,15 @@ async function loadDashboard() {
     }
 
     state.settings    = settingsRecs[0] ? mapSettings(settingsRecs[0]) : defaultSettings();
-    state.transactions = txRecs.map(mapTransaction)
+    const allMapped = txRecs.map(mapTransaction);
+    const withSplit = allMapped.filter(t => t.splitParentID != null).length;
+    const tooOld    = allMapped.filter(t => t.splitParentID == null && t.date < twelveMonthsAgo).length;
+    console.log(`Transactions: total=${allMapped.length} filtered_split=${withSplit} filtered_old=${tooOld}`);
+    if (allMapped.length > 0) {
+      const sample = allMapped[0];
+      console.log('Sample tx:', { date: sample.date, type: sample.type, amount: sample.amount, splitParentID: sample.splitParentID, rawDate: txRecs[0]?.fields?.CD_date?.value });
+    }
+    state.transactions = allMapped
       .filter(t => t.splitParentID == null && t.date >= twelveMonthsAgo)
       .sort((a, b) => b.date - a.date);
     state.goals        = goalRecs.map(mapGoal).filter(g => !g.isCompleted);
