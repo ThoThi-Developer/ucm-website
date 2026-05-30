@@ -1227,18 +1227,23 @@ const db = () => CloudKit.getDefaultContainer().privateCloudDatabase;
 
 async function fetchAll(query) {
   let records = [];
-  let response = await db().performQuery(query);
-  if (response.hasErrors) {
-    const err = response.errors[0];
-    console.error('CK error:', query.recordType, err);
-    dbg(`CK error on ${query.recordType}: ${err?.reason || err?.code || JSON.stringify(err)}`);
-    return [];
-  }
-  records.push(...response.records);
-  while (response.moreComing) {
-    response = await db().performQuery({ ...query, cursor: response.continuationMarker });
-    if (response.hasErrors) break;
+  try {
+    let response = await db().performQuery(query);
+    if (response.hasErrors) {
+      const err = response.errors[0];
+      console.error('CK query error:', query.recordType, JSON.stringify(err));
+      dbg(`CK error on ${query.recordType}: ${err?.reason || err?.serverErrorCode || err?.code || JSON.stringify(err)}`);
+      return [];
+    }
     records.push(...response.records);
+    while (response.moreComing) {
+      response = await db().performQuery({ ...query, cursor: response.continuationMarker });
+      if (response.hasErrors) break;
+      records.push(...response.records);
+    }
+  } catch(err) {
+    console.error('CK query threw:', query.recordType, err?.message || err);
+    dbg(`CK threw on ${query.recordType}: ${err?.message || err}`);
   }
   return records;
 }
