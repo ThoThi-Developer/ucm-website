@@ -1066,8 +1066,10 @@ let insightAction = null;
 // ═══════════════════════════════════════════════════════════════════
 function dbg(msg) {
   console.log('[ucm]', msg);
-  const el = document.getElementById('auth-debug');
-  if (el) el.textContent = msg;
+  ['auth-debug', 'no-data-debug'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = msg;
+  });
 }
 
 function initCloudKit() {
@@ -1304,10 +1306,15 @@ const db = () => CloudKit.getDefaultContainer().privateCloudDatabase;
 async function fetchAll(query) {
   let records = [];
   let response = await db().performQuery(query);
-  if (response.hasErrors) { console.error('CK error:', response.errors[0]); return []; }
+  if (response.hasErrors) {
+    const err = response.errors[0];
+    console.error('CK error:', query.recordType, err);
+    dbg(`CK error on ${query.recordType}: ${err?.reason || err?.code || JSON.stringify(err)}`);
+    return [];
+  }
   records.push(...response.records);
   while (response.moreComing) {
-    response = await db().performQuery({ ...query, cursor: response.cursor });
+    response = await db().performQuery({ ...query, cursor: response.continuationMarker });
     if (response.hasErrors) break;
     records.push(...response.records);
   }
@@ -1323,18 +1330,12 @@ async function loadDashboard() {
     const twelveMonthsAgo = new Date();
     twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
 
+    // No server-side filters — CloudKit requires QUERYABLE indexes on filtered fields,
+    // which may not exist for all users. We fetch all records and filter client-side instead.
     const [settingsRecs, txRecs, goalRecs, allocRecs, catRecs, recurRecs, bankRecs] =
       await Promise.all([
         fetchRecord('CD_AppSettings'),
-        fetchAll({
-          recordType: 'CD_BudgetTransaction',
-          filterBy: [{
-            fieldName: 'CD_date',
-            comparator: 'GREATER_THAN_OR_EQUALS',
-            fieldValue: { value: twelveMonthsAgo.getTime(), type: 'TIMESTAMP' }
-          }],
-          sortBy: [{ fieldName: 'CD_date', ascending: false }],
-        }),
+        fetchAll({ recordType: 'CD_BudgetTransaction' }),
         fetchAll({ recordType: 'CD_SavingsGoal' }),
         fetchAll({ recordType: 'CD_CategoryAllocation' }),
         fetchAll({ recordType: 'CD_Category' }),
@@ -1342,8 +1343,20 @@ async function loadDashboard() {
         fetchAll({ recordType: 'CD_BankAccount' }),
       ]);
 
+    dbg(`Records — settings:${settingsRecs.length} tx:${txRecs.length} goals:${goalRecs.length} cats:${catRecs.length} allocs:${allocRecs.length} recurring:${recurRecs.length} banks:${bankRecs.length}`);
+
+    // If no settings record was found at all, data hasn't synced yet.
+    // Don't treat this as "not premium" — show a helpful empty state instead.
+    if (settingsRecs.length === 0 && txRecs.length === 0 && goalRecs.length === 0) {
+      showDashboard();
+      showNoDataState();
+      return;
+    }
+
     state.settings    = settingsRecs[0] ? mapSettings(settingsRecs[0]) : defaultSettings();
-    state.transactions = txRecs.map(mapTransaction).filter(t => t.splitParentID == null);
+    state.transactions = txRecs.map(mapTransaction)
+      .filter(t => t.splitParentID == null && t.date >= twelveMonthsAgo)
+      .sort((a, b) => b.date - a.date);
     state.goals        = goalRecs.map(mapGoal).filter(g => !g.isCompleted);
     state.allocations  = allocRecs.map(mapAllocation).filter(a => a.budgetedAmount > 0);
     state.categories   = catRecs.map(mapCategory);
@@ -1351,7 +1364,7 @@ async function loadDashboard() {
     state.bankAccounts = bankRecs.map(mapBankAccount).filter(b => !b.isArchived);
     state.loaded       = true;
 
-    if (!state.settings.isPremium) {
+    if (settingsRecs.length > 0 && !state.settings.isPremium) {
       showDashboard();
       showPaywall();
       return;
@@ -1362,15 +1375,67 @@ async function loadDashboard() {
 
   } catch (err) {
     console.error('Dashboard load failed:', err);
-    showToast('Failed to load data. Check console for details.');
+    dbg('Load error: ' + err.message);
     showDashboard();
+    showNoDataState('error');
   }
 }
 
+function showNoDataState(reason) {
+  const isError = reason === 'error';
+  const main = document.querySelector('main');
+  const existing = document.getElementById('no-data-overlay');
+  if (existing) existing.remove();
+
+  const el = document.createElement('div');
+  el.id = 'no-data-overlay';
+  el.style.cssText = `
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(5,15,14,0.92); backdrop-filter:blur(24px);
+  `;
+  el.innerHTML = `
+    <div style="
+      background:var(--surface); border:1px solid var(--border); border-radius:24px;
+      padding:40px 36px; max-width:420px; width:100%;
+      display:flex; flex-direction:column; align-items:center; gap:16px;
+      box-shadow:0 32px 80px rgba(0,0,0,0.5); text-align:center;
+    ">
+      <div style="font-size:40px">${isError ? '⚠️' : '☁️'}</div>
+      <div style="font-size:20px; font-weight:800; letter-spacing:-0.5px">
+        ${isError ? 'Something went wrong' : 'No data found in iCloud'}
+      </div>
+      <div style="font-size:14px; color:var(--text-sec); line-height:1.6">
+        ${isError
+          ? 'There was an error loading your data. Check the browser console for details, then try again.'
+          : 'We signed you in successfully, but found no ucm data in your iCloud account.<br><br><strong>To fix this:</strong><br>1. Open ucm on your iPhone<br>2. Go to Settings → make sure iCloud sync is enabled<br>3. Wait a few minutes, then refresh here'}
+      </div>
+      <div style="display:flex; gap:12px; width:100%; margin-top:8px; flex-wrap:wrap;">
+        <button onclick="refreshData()" style="
+          flex:1; padding:12px; border-radius:12px; border:none;
+          background:var(--accent-mid); color:#000; font-family:inherit;
+          font-size:14px; font-weight:700; cursor:pointer;">
+          Try Again
+        </button>
+        <button onclick="document.getElementById('no-data-overlay').remove(); loadDemo();" style="
+          flex:1; padding:12px; border-radius:12px;
+          border:1px solid var(--border); background:transparent;
+          color:var(--text-sec); font-family:inherit;
+          font-size:14px; font-weight:500; cursor:pointer;">
+          View Demo
+        </button>
+      </div>
+      <div id="no-data-debug" style="font-size:11px; color:rgba(255,255,255,0.3); margin-top:4px;"></div>
+    </div>
+  `;
+  document.body.appendChild(el);
+}
+
 async function refreshData() {
-  showToast('Refreshing…');
+  const overlay = document.getElementById('no-data-overlay');
+  if (overlay) overlay.remove();
+  showLoading();
   await loadDashboard();
-  showToast('Updated ✓');
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2070,7 +2135,7 @@ function fmt(amount, currencyCode = 'USD', compact = false) {
     _fmtCache[key] = new Intl.NumberFormat(navigator.language || 'en', {
       style: 'currency', currency: currencyCode,
       maximumFractionDigits: compact ? 0 : 2,
-      notation: compact && Math.abs(amount) >= 10000 ? 'compact' : 'standard',
+      notation: compact ? 'compact' : 'standard',
     });
   }
   return _fmtCache[key].format(amount);
