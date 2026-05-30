@@ -33,7 +33,7 @@
       font-family: 'Outfit', sans-serif;
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       overflow: hidden;
     }
@@ -294,7 +294,7 @@
        MAIN
     ───────────────────────────────────────────────────────── */
     main {
-      flex: 1; overflow-y: auto;
+      flex: 1; min-height: 0; overflow-y: auto;
       padding: 28px 32px;
       display: flex; flex-direction: column; gap: 20px;
     }
@@ -1761,7 +1761,21 @@ function renderAll() {
 function renderBudgetBars(allocations, txs, year, month, currency) {
   const container = document.getElementById('budget-bars');
   if (allocations.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">📊</div><div class="es-title">No budget set</div><div class="es-sub">Create a budget in the app to track spending here</div></div>`;
+    container.innerHTML = `
+      <div class="empty-state" style="padding:32px 16px; gap:14px;">
+        <div style="font-size:36px">📊</div>
+        <div style="font-size:16px; font-weight:700; color:var(--text)">Set up your budget</div>
+        <div style="font-size:13px; color:var(--text-sec); line-height:1.6; max-width:260px; text-align:center">
+          Assign monthly limits to your spending categories in the ucm app — they'll appear here automatically.
+        </div>
+        <a href="https://apps.apple.com/app/ucm/id6741530699" target="_blank" style="
+          margin-top:4px; padding:10px 20px; border-radius:10px;
+          background:var(--accent-mid); color:#000;
+          font-size:13px; font-weight:700; text-decoration:none;
+          display:inline-block;">
+          Open ucm on iPhone →
+        </a>
+      </div>`;
     return;
   }
 
