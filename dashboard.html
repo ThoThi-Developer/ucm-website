@@ -1288,7 +1288,7 @@ const CK_DIAG = {
   origin: location.origin, container: CK_CONTAINER, env: CK_ENV,
   tokenHint: (CK_TOKEN || '').slice(0, 8) + '…',
   cloudkitLoaded: null, configured: null, setup: 'pending', error: null,
-  identity: null, btnRendered: null, ts: new Date().toISOString(),
+  identity: null, btnRendered: null, records: null, fetchErrors: [], ts: new Date().toISOString(),
 };
 
 function ckDiagUpdate(patch) {
@@ -1375,6 +1375,8 @@ function renderDiag() {
     (CK_DIAG.error ? row('error', CK_DIAG.error, false) : '') +
     (CK_DIAG.identity ? row('identity', CK_DIAG.identity, true) : '') +
     row('sign-in button rendered', btnVal, btnOk) +
+    (CK_DIAG.records != null ? row('records', CK_DIAG.records, /[1-9]/.test(CK_DIAG.records)) : '') +
+    (CK_DIAG.fetchErrors.length ? row('query errors', CK_DIAG.fetchErrors.join(' | '), false) : '') +
     `<button onclick="navigator.clipboard&&navigator.clipboard.writeText(JSON.stringify(CK_DIAG,null,2))" style="margin-top:8px;background:#2DD4BF;color:#00201c;border:none;border-radius:7px;padding:5px 10px;font-weight:700;cursor:pointer">Copy</button>` +
     `<button onclick="document.getElementById('ck-diag-panel').remove()" style="margin-top:8px;margin-left:6px;background:transparent;color:#cfe;border:1px solid #2a4;border-radius:7px;padding:5px 10px;cursor:pointer">Close</button>`;
 }
@@ -1549,8 +1551,10 @@ async function fetchAll(query) {
     let response = await db().performQuery(query);
     if (response.hasErrors) {
       const err = response.errors[0];
+      const reason = err?.reason || err?.serverErrorCode || err?.code || JSON.stringify(err);
       console.error('CK query error:', query.recordType, JSON.stringify(err));
-      dbg(`CK error on ${query.recordType}: ${err?.reason || err?.serverErrorCode || err?.code || JSON.stringify(err)}`);
+      dbg(`CK error on ${query.recordType}: ${reason}`);
+      CK_DIAG.fetchErrors.push(`${query.recordType}: ${reason}`);
       return [];
     }
     records.push(...response.records);
@@ -1562,6 +1566,7 @@ async function fetchAll(query) {
   } catch(err) {
     console.error('CK query threw:', query.recordType, err?.message || err);
     dbg(`CK threw on ${query.recordType}: ${err?.message || err}`);
+    CK_DIAG.fetchErrors.push(`${query.recordType}: ${err?.message || err}`);
   }
   return records;
 }
@@ -1586,7 +1591,8 @@ async function loadDashboard() {
         fetchAll({ recordType: 'CD_BankAccount' }),
       ]);
 
-    dbg(`Records — settings:${settingsRecs.length} tx:${txRecs.length} goals:${goalRecs.length} cats:${catRecs.length} allocs:${allocRecs.length} recurring:${recurRecs.length} banks:${bankRecs.length}`);
+    CK_DIAG.records = `settings:${settingsRecs.length} tx:${txRecs.length} goals:${goalRecs.length} cats:${catRecs.length} allocs:${allocRecs.length} recurring:${recurRecs.length} banks:${bankRecs.length}`;
+    dbg(`Records — ${CK_DIAG.records}`);
 
     if (settingsRecs.length === 0 && txRecs.length === 0 && goalRecs.length === 0) {
       showDashboard();
