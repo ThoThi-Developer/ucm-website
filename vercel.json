@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/dashboard", "destination": "/dashboard.html" }
+    { "source": "/dashboard",      "destination": "/dashboard.html" },
+    { "source": "/auth-callback",  "destination": "/auth-callback.html" }
   ],
   "redirects": [
     {

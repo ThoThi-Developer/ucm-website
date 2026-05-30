@@ -1077,91 +1077,7 @@ function initCloudKit() {
     document.getElementById('setup-banner').style.display = 'block';
   }
 
-  // ── Popup detection ──────────────────────────────────────────────
-  // CloudKit opens a popup to ucm.thothi.app/dashboard to handle auth.
-  // The popup goes through two phases:
-  //   Phase 1 — no token yet: hide all UI, configure CloudKit silently.
-  //             CloudKit may silently sign in (via iCloud cookies) or
-  //             redirect the popup to Apple's sign-in page.
-  //   Phase 2 — ckWebAuthToken in hash (after Apple redirect): relay
-  //             token to parent via BroadcastChannel + postMessage, close.
-  const isPopup = !!(window.opener && !window.opener.closed);
-  const tokenHash = window.location.hash;
-  const hasToken  = tokenHash.includes('ckWebAuthToken');
-
-  if (isPopup) {
-    if (hasToken) {
-      // Phase 2: relay token and close
-      dbg('Popup phase 2: relaying token…');
-      history.replaceState(null, '', window.location.pathname);
-      try { window.opener.postMessage({ type: 'ck-relay', hash: tokenHash }, 'https://ucm.thothi.app'); } catch(_) {}
-      try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-relay', hash: tokenHash }); ch.close(); } catch(_) {}
-      setTimeout(() => window.close(), 400);
-    } else {
-      // Phase 1: hide all UI, run CloudKit silently
-      dbg('Popup phase 1: silent auth…');
-      ['auth-screen','loading-screen','dashboard'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = 'none';
-      });
-      CloudKit.configure({
-        containers: [{ containerIdentifier: CK_CONTAINER, apiTokenAuth: { apiToken: CK_TOKEN, persist: true }, environment: CK_ENV }]
-      });
-      CloudKit.getDefaultContainer().setUpAuth().then(id => {
-        if (id) {
-          // Silently signed in (iCloud cookies) — notify parent
-          dbg('Popup: silent sign-in ✓');
-          try { window.opener.postMessage({ type: 'ck-signed-in' }, 'https://ucm.thothi.app'); } catch(_) {}
-          try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-signed-in' }); ch.close(); } catch(_) {}
-          setTimeout(() => window.close(), 400);
-        } else {
-          dbg('Popup: needs Apple sign-in (waiting for redirect)…');
-          // CloudKit will redirect to Apple sign-in; after auth it comes
-          // back to /dashboard#ckWebAuthToken=... which is Phase 2 above.
-        }
-      }).catch(err => { dbg('Popup setUpAuth error: ' + err.message); });
-    }
-    return; // Never run main dashboard logic in a popup
-  }
-
-  // ── Main window ──────────────────────────────────────────────────
   dbg('Configuring CloudKit…');
-
-  // Listen for token or silent-sign-in signal from popup
-  // BroadcastChannel works even when window.opener is cleared by Safari
-  // after cross-origin popup navigation.
-  function processRelayedToken(hash) {
-    history.replaceState(null, '', window.location.pathname + hash);
-    CloudKit.getDefaultContainer().setUpAuth().then(id => {
-      history.replaceState(null, '', window.location.pathname);
-      if (id) { dbg('Signed in ✓'); onSignedIn(id); }
-      else     { dbg('setUpAuth null after relay'); showAuth(); }
-    }).catch(err => { dbg('Relay setUpAuth ERROR: ' + err.message); showAuth(); });
-  }
-
-  try {
-    const authChannel = new BroadcastChannel('ck-auth');
-    authChannel.addEventListener('message', (e) => {
-      if (e.data?.type === 'ck-relay') {
-        authChannel.close();
-        dbg('Token via BroadcastChannel — processing…');
-        processRelayedToken(e.data.hash);
-      } else if (e.data?.type === 'ck-signed-in') {
-        authChannel.close();
-        dbg('Silent sign-in via BroadcastChannel — re-checking auth…');
-        CloudKit.getDefaultContainer().setUpAuth().then(id => {
-          if (id) { dbg('Signed in ✓'); onSignedIn(id); }
-          else showAuth();
-        });
-      }
-    });
-  } catch(_) {}
-
-  window.addEventListener('message', (e) => {
-    if (e.origin !== 'https://ucm.thothi.app') return;
-    if (e.data?.type === 'ck-relay')      processRelayedToken(e.data.hash);
-    if (e.data?.type === 'ck-signed-in')  CloudKit.getDefaultContainer().setUpAuth().then(id => { if (id) onSignedIn(id); });
-  });
 
   CloudKit.configure({
     containers: [{
@@ -1178,18 +1094,13 @@ function initCloudKit() {
 
   const container = CloudKit.getDefaultContainer();
 
-  dbg('Calling setUpAuth…');
   container.setUpAuth().then(userIdentity => {
-    if (userIdentity) {
-      dbg('Already signed in ✓');
-      onSignedIn(userIdentity);
-    } else {
-      dbg('Not signed in');
-      showAuth();
-    }
+    if (userIdentity) { dbg('Already signed in ✓'); onSignedIn(userIdentity); }
+    else              { dbg('Not signed in'); showAuth(); }
   }).catch(err => { dbg('setUpAuth ERROR: ' + err.message); showAuth(); });
 
-  container.whenUserSignsOut().then(() => { dbg('Signed out'); onSignedOut(); });
+  container.whenUserSignsIn().then(id => { dbg('Signed in ✓'); onSignedIn(id); });
+  container.whenUserSignsOut().then(()  => { dbg('Signed out'); onSignedOut(); });
 }
 
 function onSignedIn(userIdentity) {
@@ -1211,22 +1122,6 @@ function handleSignOut() {
   document.getElementById('sign-out-btn').querySelector('a, button')?.click();
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// SIGN-IN BUTTON OBSERVER
-// CloudKit JS injects the Apple sign-in button asynchronously.
-// We watch for it and log when it appears (popup flow handles auth).
-// ═══════════════════════════════════════════════════════════════════
-let _btnPatchTries = 0;
-function patchSignInButton() {
-  const el = document.querySelector('#sign-in-btn a, #sign-in-btn button, #sign-in-btn [onclick], #sign-in-btn > *');
-  if (el) {
-    dbg('Sign-in button ready');
-  } else if (_btnPatchTries++ < 30) {
-    setTimeout(patchSignInButton, 200);
-  } else {
-    dbg('Sign-in button not injected after 6s');
-  }
-}
 
 // ═══════════════════════════════════════════════════════════════════
 // DEMO MODE — Realistic Brazilian sample data
@@ -1304,12 +1199,10 @@ function loadDemo() {
 // ═══════════════════════════════════════════════════════════════════
 // UI STATE TRANSITIONS
 // ═══════════════════════════════════════════════════════════════════
-function showAuth()     {
+function showAuth() {
   document.getElementById('auth-screen').style.display = 'flex';
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'none';
-  _btnPatchTries = 0;
-  patchSignInButton();
 }
 function showLoading()  { document.getElementById('loading-screen').style.display = 'flex'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
 function showDashboard(){ document.getElementById('dashboard').style.display = 'flex'; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Signing in…</title>
+  <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
+</head>
+<body>
+<script>
+// This page exists solely as the CloudKit auth callback.
+// CloudKit JS processes the ckWebAuthToken in the URL hash,
+// signals the parent window, then we close.
+CloudKit.configure({
+  containers: [{
+    containerIdentifier: 'iCloud.com.thothi.ucm',
+    apiTokenAuth: {
+      apiToken: 'b8050c1fb88f5fcabf191996e0efe82644c70f2c5e279d0c8a19f117d0900da0',
+      persist:  true,
+    },
+    environment: 'production',
+  }]
+});
+
+CloudKit.getDefaultContainer().setUpAuth()
+  .then(() => setTimeout(() => window.close(), 300))
+  .catch(() => setTimeout(() => window.close(), 300));
+</script>
+</body>
+</html>
