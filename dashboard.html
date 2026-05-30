@@ -1349,8 +1349,19 @@ function renderDiag() {
     document.body.appendChild(el);
   }
   const row = (k, v, ok) => `<div><span style="color:#6aa">${k}:</span> <span style="color:${ok===false?'#F87171':ok===true?'#34D399':'#cfe'}">${v}</span></div>`;
+  const signedIn = CK_DIAG.setup === 'signed-in';
+  // Verdict line so the panel is unambiguous at a glance.
+  const verdict = CK_DIAG.setup === 'error' ? ['✗ Auth error — see below', false]
+    : signedIn ? ['✓ Signed in & healthy', true]
+    : CK_DIAG.setup === 'signed-out' ? [(CK_DIAG.btnRendered ? '✓ Signed out — sign-in ready' : '… waiting for sign-in button'), CK_DIAG.btnRendered]
+    : ['… checking', null];
+  // The sign-in button only renders when signed OUT; n/a (expected) while signed in.
+  const btnVal = signedIn ? 'n/a (signed in — sign-out button used)' : String(CK_DIAG.btnRendered);
+  const btnOk  = signedIn ? null : CK_DIAG.btnRendered;
   el.innerHTML =
     `<div style="font-weight:700;color:#2DD4BF;margin-bottom:6px">CloudKit diagnostic</div>` +
+    row('STATUS', verdict[0], verdict[1]) +
+    `<div style="height:6px"></div>` +
     row('origin', CK_DIAG.origin) +
     row('container', CK_DIAG.container) +
     row('environment', CK_DIAG.env) +
@@ -1360,7 +1371,7 @@ function renderDiag() {
     row('setUpAuth', CK_DIAG.setup, CK_DIAG.setup === 'error' ? false : CK_DIAG.setup === 'pending' ? null : true) +
     (CK_DIAG.error ? row('error', CK_DIAG.error, false) : '') +
     (CK_DIAG.identity ? row('identity', CK_DIAG.identity, true) : '') +
-    row('sign-in button rendered', CK_DIAG.btnRendered, CK_DIAG.btnRendered) +
+    row('sign-in button rendered', btnVal, btnOk) +
     `<button onclick="navigator.clipboard&&navigator.clipboard.writeText(JSON.stringify(CK_DIAG,null,2))" style="margin-top:8px;background:#2DD4BF;color:#00201c;border:none;border-radius:7px;padding:5px 10px;font-weight:700;cursor:pointer">Copy</button>` +
     `<button onclick="document.getElementById('ck-diag-panel').remove()" style="margin-top:8px;margin-left:6px;background:transparent;color:#cfe;border:1px solid #2a4;border-radius:7px;padding:5px 10px;cursor:pointer">Close</button>`;
 }
