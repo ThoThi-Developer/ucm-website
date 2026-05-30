@@ -11,22 +11,24 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:         #050F0E;
-      --surface:    #0C1A18;
-      --surface2:   #112320;
-      --accent:     #2DD4BF;
-      --accent-mid: #14B8A6;
-      --accent-deep:#0D9488;
-      --accent-pale:rgba(45,212,191,0.10);
-      --border:     rgba(45,212,191,0.16);
-      --border-sub: rgba(255,255,255,0.07);
-      --text:       rgba(255,255,255,0.93);
-      --text-sec:   rgba(255,255,255,0.50);
-      --text-ter:   rgba(255,255,255,0.28);
-      --positive:   #34D399;
-      --negative:   #F87171;
-      --warning:    #FBBF24;
-      --sidebar-w:  220px;
+      --bg:           #080F0D;
+      --surface:      #0E1A17;
+      --surface2:     #142420;
+      --surface3:     #1A2D29;
+      --border:       rgba(255,255,255,0.07);
+      --border-accent:rgba(45,212,191,0.2);
+      --accent:       #2DD4BF;
+      --accent-mid:   #14B8A6;
+      --accent-deep:  #0D9488;
+      --accent-pale:  rgba(45,212,191,0.10);
+      --text:         rgba(255,255,255,0.92);
+      --text-sec:     rgba(255,255,255,0.48);
+      --text-ter:     rgba(255,255,255,0.24);
+      --positive:     #34D399;
+      --negative:     #F87171;
+      --warning:      #FBBF24;
+      --purple:       #A78BFA;
+      --sidebar-w:    200px;
     }
 
     body {
@@ -36,293 +38,195 @@
       height: 100vh;
       display: flex;
       overflow: hidden;
+      font-variant-numeric: tabular-nums;
     }
 
-    /* ─────────────────────────────────────────────────────────
-       AUTH SCREEN
-    ───────────────────────────────────────────────────────── */
+    /* ── AUTH ── */
     #auth-screen {
       position: fixed; inset: 0; z-index: 100;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(5,15,14,0.92);
+      background: rgba(8,15,13,0.96);
       backdrop-filter: blur(24px);
     }
-
     .auth-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-accent);
       border-radius: 24px;
       padding: 48px 40px;
       max-width: 420px; width: 100%;
       display: flex; flex-direction: column; align-items: center;
       gap: 24px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
     }
+    .auth-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; text-align: center; }
+    .auth-sub { font-size: 14px; color: var(--text-sec); text-align: center; line-height: 1.6; max-width: 300px; }
+    .auth-divider { width: 100%; height: 1px; background: var(--border); }
+    #sign-in-btn { width: 100%; }
+    #sign-in-btn > * { width: 100% !important; border-radius: 12px !important; }
+    .auth-footer { font-size: 11px; color: var(--text-ter); text-align: center; line-height: 1.5; }
 
-    .auth-logo {
-      width: 64px; height: 64px;
-      background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
-      border-radius: 18px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 28px; font-weight: 900; color: #000; letter-spacing: -1.5px;
-    }
-
-    .auth-title {
-      font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
-      text-align: center;
-    }
-
-    .auth-sub {
-      font-size: 14px; color: var(--text-sec); text-align: center; line-height: 1.6;
-      max-width: 300px;
-    }
-
-    .auth-divider {
-      width: 100%; height: 1px; background: var(--border-sub);
-    }
-
-    /* CloudKit injects its own button here */
-    #sign-in-btn {
-      width: 100%;
-    }
-
-    /* Override Apple's button styles to match our brand */
-    #sign-in-btn > * {
-      width: 100% !important;
-      border-radius: 12px !important;
-    }
-
-    .auth-footer {
-      font-size: 11px; color: var(--text-ter); text-align: center; line-height: 1.5;
-    }
-
-    /* ─────────────────────────────────────────────────────────
-       LOADING SCREEN
-    ───────────────────────────────────────────────────────── */
+    /* ── LOADING ── */
     #loading-screen {
       position: fixed; inset: 0; z-index: 90;
       display: none; align-items: center; justify-content: center;
       flex-direction: column; gap: 16px;
       background: var(--bg);
     }
-
     .spinner {
       width: 36px; height: 36px;
-      border: 3px solid var(--border-sub);
+      border: 3px solid var(--border);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 13px; color: var(--text-sec); font-weight: 500; }
 
-    .loading-text {
-      font-size: 13px; color: var(--text-sec); font-weight: 500;
-    }
-
-    /* ─────────────────────────────────────────────────────────
-       PAYWALL OVERLAY
-    ───────────────────────────────────────────────────────── */
+    /* ── PAYWALL ── */
     #paywall-overlay {
       position: fixed; inset: 0; z-index: 80;
       display: none; align-items: center; justify-content: center;
-      background: rgba(5,15,14,0.85);
+      background: rgba(8,15,13,0.88);
       backdrop-filter: blur(12px);
     }
-
     .paywall-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-accent);
       border-radius: 24px;
       padding: 48px 40px;
       max-width: 460px; width: 90%;
       text-align: center;
       display: flex; flex-direction: column; align-items: center; gap: 20px;
     }
-
-    .paywall-icon {
-      font-size: 48px;
-    }
-
-    .paywall-title {
-      font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
-    }
-
-    .paywall-sub {
-      font-size: 14px; color: var(--text-sec); line-height: 1.6; max-width: 340px;
-    }
-
+    .paywall-icon { font-size: 48px; }
+    .paywall-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    .paywall-sub { font-size: 14px; color: var(--text-sec); line-height: 1.6; max-width: 340px; }
     .paywall-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent-pale);
-      border: 1px solid var(--border);
+      background: var(--accent-pale); border: 1px solid var(--border-accent);
       border-radius: 99px; padding: 6px 16px;
       font-size: 12px; font-weight: 600; color: var(--accent);
     }
-
-    .paywall-cta {
-      display: flex; flex-direction: column; gap: 10px; width: 100%;
-    }
-
+    .paywall-cta { display: flex; flex-direction: column; gap: 10px; width: 100%; }
     .btn-primary {
-      background: var(--accent);
-      color: #000;
+      background: var(--accent); color: #000;
       font-size: 15px; font-weight: 700;
-      padding: 14px 24px;
-      border-radius: 12px; border: none; cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      transition: opacity 0.15s;
+      padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer;
+      font-family: 'Outfit', sans-serif; transition: opacity 0.15s;
       text-decoration: none; display: block; text-align: center;
     }
     .btn-primary:hover { opacity: 0.85; }
-
     .btn-secondary {
-      background: transparent;
-      color: var(--text-sec);
-      font-size: 13px; font-weight: 500;
-      padding: 10px;
+      background: transparent; color: var(--text-sec);
+      font-size: 13px; font-weight: 500; padding: 10px;
       border-radius: 10px; border: none; cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      transition: color 0.15s;
+      font-family: 'Outfit', sans-serif; transition: color 0.15s;
     }
     .btn-secondary:hover { color: var(--text); }
 
-    /* ─────────────────────────────────────────────────────────
-       TOAST
-    ───────────────────────────────────────────────────────── */
+    /* ── TOAST ── */
     #toast {
       position: fixed; bottom: 24px; right: 24px; z-index: 200;
-      background: var(--surface2);
-      border: 1px solid var(--border-sub);
-      border-radius: 12px;
-      padding: 12px 18px;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 18px;
       font-size: 13px; font-weight: 500;
       opacity: 0; transform: translateY(8px);
-      transition: all 0.25s ease;
-      pointer-events: none;
+      transition: all 0.25s ease; pointer-events: none;
     }
     #toast.show { opacity: 1; transform: translateY(0); }
 
-    /* ─────────────────────────────────────────────────────────
-       SETUP BANNER (shown if token not configured)
-    ───────────────────────────────────────────────────────── */
+    /* ── SETUP BANNER ── */
     #setup-banner {
       display: none;
       background: rgba(251,191,36,0.12);
       border-bottom: 1px solid rgba(251,191,36,0.3);
       padding: 10px 20px;
-      font-size: 12px; color: var(--warning);
-      text-align: center;
+      font-size: 12px; color: var(--warning); text-align: center;
     }
 
-    /* ─────────────────────────────────────────────────────────
-       SIDEBAR
-    ───────────────────────────────────────────────────────── */
+    /* ── SIDEBAR ── */
     aside {
       width: var(--sidebar-w);
       height: 100vh;
       position: sticky; top: 0;
       background: var(--surface);
-      border-right: 1px solid var(--border-sub);
+      border-right: 1px solid var(--border);
       display: flex; flex-direction: column;
-      padding: 24px 16px;
+      padding: 20px 12px;
       flex-shrink: 0;
       overflow-y: auto;
     }
-
     .logo {
       display: flex; align-items: center; gap: 10px;
-      padding: 0 4px; margin-bottom: 36px;
+      padding: 4px 8px; margin-bottom: 32px;
     }
-
     .logo-mark {
-      width: 34px; height: 34px;
+      width: 32px; height: 32px;
       background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
-      border-radius: 10px;
+      border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px; font-weight: 900; color: #000; letter-spacing: -1px;
+      font-size: 15px; font-weight: 900; color: #000; letter-spacing: -1px;
     }
-
-    .logo-text { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
-
-    nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-
-    .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px; border-radius: 10px;
-      font-size: 14px; font-weight: 500; color: var(--text-sec);
-      cursor: pointer; transition: all 0.15s; text-decoration: none;
-    }
-    .nav-item:hover { background: var(--border-sub); color: var(--text); }
-    .nav-item.active { background: var(--accent-pale); color: var(--accent); font-weight: 600; }
-    .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
-
+    .logo-text { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
+    nav { flex: 1; display: flex; flex-direction: column; gap: 2px; }
     .nav-section {
       font-size: 10px; font-weight: 600; color: var(--text-ter);
-      text-transform: uppercase; letter-spacing: 0.8px;
-      padding: 16px 12px 6px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 14px 8px 6px;
     }
-
+    .nav-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 8px; border-radius: 9px;
+      font-size: 13px; font-weight: 500; color: var(--text-sec);
+      cursor: pointer; transition: all 0.15s; text-decoration: none;
+    }
+    .nav-item:hover { background: var(--border); color: var(--text); }
+    .nav-item.active { background: var(--accent-pale); color: var(--accent); font-weight: 600; }
+    .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
     .sidebar-footer {
-      border-top: 1px solid var(--border-sub);
-      padding-top: 16px; margin-top: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px; margin-top: 14px;
     }
-
     .user-chip {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px; border-radius: 10px;
-      background: var(--accent-pale);
-      border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 8px; border-radius: 9px;
+      background: var(--accent-pale); border: 1px solid var(--border-accent);
       cursor: pointer; transition: opacity 0.15s;
     }
     .user-chip:hover { opacity: 0.8; }
-
     .user-avatar {
-      width: 28px; height: 28px; border-radius: 50%;
+      width: 26px; height: 26px; border-radius: 50%;
       background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; color: #000; flex-shrink: 0;
+      font-size: 11px; font-weight: 700; color: #000; flex-shrink: 0;
     }
-
     .user-info { flex: 1; min-width: 0; }
-    .user-name { font-size: 12px; font-weight: 600; }
+    .user-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .user-plan { font-size: 10px; color: var(--accent); font-weight: 600; }
-
     #sign-out-btn { display: none; }
 
-    /* ─────────────────────────────────────────────────────────
-       MAIN
-    ───────────────────────────────────────────────────────── */
+    /* ── MAIN ── */
     main {
       flex: 1; min-height: 0; overflow-y: auto;
-      padding: 28px 32px;
-      display: flex; flex-direction: column; gap: 20px;
+      padding: 24px 28px;
+      display: flex; flex-direction: column; gap: 18px;
     }
-
-    main::-webkit-scrollbar { width: 5px; }
+    main::-webkit-scrollbar { width: 4px; }
     main::-webkit-scrollbar-track { background: transparent; }
-    main::-webkit-scrollbar-thumb { background: var(--border-sub); border-radius: 99px; }
+    main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
 
-    /* ─────────────────────────────────────────────────────────
-       TOP BAR
-    ───────────────────────────────────────────────────────── */
-    .topbar {
-      display: flex; align-items: center; justify-content: space-between;
-    }
-
-    .topbar-left h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    .topbar-left p { font-size: 13px; color: var(--text-sec); margin-top: 2px; }
-
-    .topbar-right { display: flex; align-items: center; gap: 10px; }
-
+    /* ── TOPBAR ── */
+    .topbar { display: flex; align-items: center; justify-content: space-between; }
+    .topbar-left h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .topbar-left p { font-size: 12px; color: var(--text-sec); margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 8px; }
     .month-picker {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--surface); border: 1px solid var(--border-sub);
-      border-radius: 10px; padding: 8px 14px;
+      display: flex; align-items: center; gap: 6px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 9px; padding: 7px 12px;
       font-size: 13px; font-weight: 600; color: var(--text);
       user-select: none;
     }
-
     .month-nav-btn {
       background: transparent; border: none;
       color: var(--text-sec); cursor: pointer;
@@ -330,414 +234,316 @@
       padding: 2px; border-radius: 4px; transition: color 0.15s;
     }
     .month-nav-btn:hover { color: var(--text); }
-    .month-nav-btn svg { width: 14px; height: 14px; }
+    .month-nav-btn svg { width: 13px; height: 13px; }
     .month-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
     .refresh-btn {
-      background: var(--surface); border: 1px solid var(--border-sub);
-      border-radius: 8px; padding: 8px; cursor: pointer;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px; cursor: pointer;
       color: var(--text-sec); display: flex; align-items: center;
       transition: color 0.15s, background 0.15s;
     }
     .refresh-btn:hover { color: var(--text); background: var(--surface2); }
-    .refresh-btn svg { width: 14px; height: 14px; }
+    .refresh-btn svg { width: 13px; height: 13px; }
+    .eye-btn {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-sec);
+      transition: color 0.15s, background 0.15s; padding: 0;
+    }
+    .eye-btn:hover { color: var(--text); background: var(--surface2); }
+    .eye-btn svg { width: 14px; height: 14px; }
 
-    /* ─────────────────────────────────────────────────────────
-       GRID LAYOUTS
-    ───────────────────────────────────────────────────────── */
-    .grid-4 { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px; }
-    .grid-2-1 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-    /* ─────────────────────────────────────────────────────────
-       CARDS
-    ───────────────────────────────────────────────────────── */
+    /* ── CARDS ── */
     .card {
       background: var(--surface);
-      border: 1px solid var(--border-sub);
-      border-radius: 16px; padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px;
     }
-
     .card-label {
       font-size: 10px; font-weight: 600; color: var(--text-sec);
-      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;
     }
 
-    /* ─────────────────────────────────────────────────────────
-       BALANCE HERO CARD
-    ───────────────────────────────────────────────────────── */
-    .balance-card {
-      background: linear-gradient(135deg, var(--surface) 0%, rgba(13,148,136,0.18) 100%);
-      border: 1px solid var(--border); border-radius: 20px;
-      padding: 24px; display: flex; flex-direction: column; gap: 16px;
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
     }
+    .section-header span { font-size: 14px; font-weight: 700; }
+    .section-header a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; }
+    .section-header .badge { font-size: 11px; color: var(--text-sec); }
 
-    .balance-card .label {
-      font-size: 11px; font-weight: 600; color: var(--text-sec);
-      text-transform: uppercase; letter-spacing: 0.7px;
+    /* ── NET WORTH HERO ── */
+    #s-overview {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(13,148,136,0.15) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px; padding: 24px;
     }
-
-    .balance-amount-row { display: flex; align-items: center; gap: 12px; margin-top: 2px; }
-
-    .balance-card .amount {
-      font-size: 42px; font-weight: 900; letter-spacing: -2px;
-      color: var(--text); line-height: 1;
-    }
-
-    .balance-divider { height: 1px; background: var(--border-sub); }
-
-    .balance-row { display: flex; justify-content: space-between; }
-    .balance-metric { display: flex; flex-direction: column; gap: 2px; }
-    .balance-metric .m-label { font-size: 11px; color: var(--text-sec); }
-    .balance-metric .m-value { font-size: 14px; font-weight: 700; }
-
-    /* ─────────────────────────────────────────────────────────
-       SCORE RING
-    ───────────────────────────────────────────────────────── */
-    .score-card {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 10px; padding: 20px;
-    }
-
-    .ring-wrap { position: relative; width: 100px; height: 100px; }
-    .ring-wrap svg { transform: rotate(-90deg); }
-
-    .ring-center {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center; line-height: 1;
-    }
-
-    .ring-center .score-num { font-size: 28px; font-weight: 900; color: var(--text); }
-    .ring-center .score-denom { font-size: 10px; color: var(--text-ter); font-weight: 600; }
-    .score-level { font-size: 15px; font-weight: 800; color: var(--accent); text-align: center; }
-    .score-narrative { font-size: 11px; color: var(--text-sec); text-align: center; line-height: 1.5; }
-
-    /* ─────────────────────────────────────────────────────────
-       STAT CHIPS
-    ───────────────────────────────────────────────────────── */
-    .stat-chip {
-      background: var(--surface); border: 1px solid var(--border-sub);
-      border-radius: 14px; padding: 16px;
-      display: flex; flex-direction: column; gap: 6px;
-    }
-
-    .chip-header {
-      display: flex; align-items: center; gap: 6px;
+    .nw-label {
       font-size: 10px; font-weight: 600; color: var(--text-sec);
-      text-transform: uppercase; letter-spacing: 0.5px;
+      text-transform: uppercase; letter-spacing: 0.08em;
     }
-
-    .chip-header .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .chip-value { font-size: 22px; font-weight: 800; letter-spacing: -0.8px; }
-    .chip-sub { font-size: 11px; color: var(--text-ter); }
-
-    /* ─────────────────────────────────────────────────────────
-       BUDGET BARS
-    ───────────────────────────────────────────────────────── */
-    .budget-card { display: flex; flex-direction: column; gap: 14px; }
-
-    .budget-header { display: flex; justify-content: space-between; align-items: center; }
-    .budget-header h3 { font-size: 15px; font-weight: 700; }
-    .budget-header span { font-size: 12px; color: var(--text-sec); }
-
-    .budget-row { display: flex; flex-direction: column; gap: 5px; }
-
-    .budget-row-top {
-      display: flex; justify-content: space-between; font-size: 13px;
+    .nw-row { display: flex; align-items: center; gap: 12px; margin: 8px 0 4px; }
+    .nw-amount {
+      font-size: 48px; font-weight: 800; letter-spacing: -2.5px;
+      line-height: 1; color: var(--text);
     }
+    .nw-delta {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 99px;
+      font-size: 12px; font-weight: 700;
+      background: rgba(52,211,153,0.12); color: var(--positive);
+      border: 1px solid rgba(52,211,153,0.2);
+    }
+    .nw-delta.neg { background: rgba(248,113,113,0.12); color: var(--negative); border-color: rgba(248,113,113,0.2); }
+    .nw-chart-wrap { height: 120px; margin-top: 14px; }
 
-    .budget-name { font-weight: 500; display: flex; align-items: center; gap: 6px; }
-    .budget-amounts { color: var(--text-sec); font-size: 12px; }
+    /* ── TWO-COL ROWS ── */
+    .row-2-1 { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; }
+    .row-2   { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .row-3-2 { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; }
 
+    /* ── CASHFLOW SECTION ── */
+    .cf-chart-wrap { height: 180px; }
+    .cf-summary { display: flex; flex-direction: column; gap: 0; }
+    .cf-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .cf-row:last-child { border-bottom: none; }
+    .cf-row-label { font-size: 11px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+    .cf-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .cf-value { font-size: 20px; font-weight: 800; letter-spacing: -0.8px; }
+
+    /* ── SPENDING BARS ── */
+    .spend-bars { display: flex; flex-direction: column; gap: 12px; }
+    .spend-row { display: flex; flex-direction: column; gap: 4px; }
+    .spend-row-top {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px;
+    }
+    .spend-name { font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .spend-amounts { color: var(--text-sec); font-size: 11px; }
+    .anomaly-badge {
+      display: inline-flex; align-items: center;
+      padding: 2px 6px; border-radius: 5px;
+      font-size: 10px; font-weight: 700;
+      background: rgba(248,113,113,0.15); color: var(--negative);
+      margin-left: 6px;
+    }
     .bar-track {
-      height: 6px; background: var(--border-sub);
-      border-radius: 999px; overflow: hidden;
+      height: 6px; background: var(--border);
+      border-radius: 999px; overflow: visible; position: relative;
     }
-
     .bar-fill {
       height: 100%; border-radius: 999px;
       transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
     }
+    .bar-budget {
+      position: absolute; top: 0; left: 0;
+      height: 100%; border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+    }
 
-    /* ─────────────────────────────────────────────────────────
-       WEEKLY MOVE (INSIGHT) CARD
-    ───────────────────────────────────────────────────────── */
+    /* ── INSIGHT CARD ── */
     .move-card {
-      background: linear-gradient(135deg, rgba(45,212,191,0.08) 0%, var(--surface) 100%);
-      border: 1px solid var(--border); border-radius: 16px;
-      padding: 20px; display: flex; flex-direction: column; gap: 12px;
+      background: linear-gradient(135deg, rgba(45,212,191,0.07) 0%, var(--surface) 100%);
+      border: 1px solid var(--border-accent); border-radius: 14px;
+      padding: 18px; display: flex; flex-direction: column; gap: 10px;
     }
-
-    .move-card.tint-red    { background: linear-gradient(135deg, rgba(248,113,113,0.08) 0%, var(--surface) 100%); border-color: rgba(248,113,113,0.25); }
-    .move-card.tint-orange { background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, var(--surface) 100%); border-color: rgba(251,191,36,0.25); }
-    .move-card.tint-green  { background: linear-gradient(135deg, rgba(52,211,153,0.08) 0%, var(--surface) 100%); border-color: rgba(52,211,153,0.25); }
-
+    .move-card.tint-red    { background: linear-gradient(135deg, rgba(248,113,113,0.07) 0%, var(--surface) 100%); border-color: rgba(248,113,113,0.25); }
+    .move-card.tint-orange { background: linear-gradient(135deg, rgba(251,191,36,0.07) 0%, var(--surface) 100%); border-color: rgba(251,191,36,0.25); }
+    .move-card.tint-green  { background: linear-gradient(135deg, rgba(52,211,153,0.07) 0%, var(--surface) 100%); border-color: rgba(52,211,153,0.25); }
     .move-icon-wrap {
-      width: 40px; height: 40px; background: rgba(45,212,191,0.15);
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
+      width: 38px; height: 38px; background: rgba(45,212,191,0.12);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 18px;
     }
-
-    .move-label {
-      font-size: 10px; font-weight: 600; color: var(--text-sec);
-      text-transform: uppercase; letter-spacing: 0.6px;
-    }
-
-    .move-headline { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.3; }
+    .move-label { font-size: 10px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.08em; }
+    .move-headline { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.3; }
     .move-body { font-size: 12px; color: var(--text-sec); line-height: 1.6; }
-
-    /* goal-link highlight */
-    .move-body .goal-link {
-      color: var(--accent); font-weight: 600;
-    }
-
+    .move-body .goal-link { color: var(--accent); font-weight: 600; }
     .move-btn {
       display: inline-flex; align-items: center; gap: 6px;
       background: var(--accent); color: #000;
-      font-size: 13px; font-weight: 700;
-      padding: 9px 16px; border-radius: 10px; border: none;
+      font-size: 12px; font-weight: 700;
+      padding: 8px 14px; border-radius: 9px; border: none;
       cursor: pointer; width: fit-content;
       font-family: 'Outfit', sans-serif; transition: opacity 0.15s;
     }
     .move-btn:hover { opacity: 0.85; }
 
-    /* ─────────────────────────────────────────────────────────
-       GOALS
-    ───────────────────────────────────────────────────────── */
+    /* ── GOALS ── */
     .goal-row {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 0; border-bottom: 1px solid var(--border-sub);
+      padding: 14px 0; border-bottom: 1px solid var(--border);
     }
     .goal-row:last-child { border-bottom: none; }
-    .goal-emoji { font-size: 22px; }
-    .goal-info { flex: 1; min-width: 0; }
-    .goal-name { font-size: 13px; font-weight: 600; }
-    .goal-progress-text { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
-    .goal-bar-wrap { margin-top: 5px; }
-    .goal-pct { font-size: 13px; font-weight: 700; color: var(--accent); }
-    .goal-eta { font-size: 10px; color: var(--text-ter); margin-top: 2px; }
+    .goal-row-top {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    }
+    .goal-emoji { font-size: 20px; }
+    .goal-name { font-size: 13px; font-weight: 700; flex: 1; }
+    .goal-pct-label { font-size: 13px; font-weight: 800; color: var(--accent); }
+    .goal-bar-wrap { position: relative; height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: 6px; }
+    .goal-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.9s cubic-bezier(0.4,0,0.2,1);
+    }
+    .goal-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sec); }
+    .goal-eta-text { color: var(--text-ter); }
+    .goal-sim-wrap { margin-top: 10px; }
+    .goal-sim-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-sec); margin-bottom: 6px; }
+    .goal-sim-eta { font-weight: 700; color: var(--accent); font-size: 12px; }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%; height: 4px;
+      background: var(--border); border-radius: 99px; outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--accent); cursor: pointer;
+      box-shadow: 0 2px 8px rgba(45,212,191,0.4);
+    }
 
-    /* ─────────────────────────────────────────────────────────
-       TRANSACTIONS
-    ───────────────────────────────────────────────────────── */
+    /* ── CALENDAR HEATMAP ── */
+    .calendar-wrap { overflow-x: auto; }
+    .calendar-grid-outer { display: flex; gap: 4px; min-width: fit-content; }
+    .cal-week { display: flex; flex-direction: column; gap: 3px; }
+    .cal-cell {
+      width: 13px; height: 13px; border-radius: 3px;
+      background: var(--surface2);
+      cursor: default; transition: transform 0.1s;
+      position: relative;
+    }
+    .cal-cell:hover { transform: scale(1.3); z-index: 2; }
+    .cal-cell[title]:hover::after {
+      content: attr(title);
+      position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
+      background: var(--surface3); border: 1px solid var(--border);
+      color: var(--text); font-size: 10px; font-weight: 600;
+      padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+      pointer-events: none; z-index: 10;
+    }
+    .cal-dow-labels { display: flex; flex-direction: column; gap: 3px; margin-right: 4px; }
+    .cal-dow { height: 13px; font-size: 9px; color: var(--text-ter); font-weight: 600; line-height: 13px; }
+    .cal-legend { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 11px; color: var(--text-ter); }
+    .cal-legend-cells { display: flex; gap: 3px; }
+    .cal-legend-cell { width: 11px; height: 11px; border-radius: 2px; }
+
+    /* ── TRANSACTIONS ── */
     .tx-list { display: flex; flex-direction: column; }
-
     .tx-row {
       display: flex; align-items: center; gap: 12px;
-      padding: 12px 0; border-bottom: 1px solid var(--border-sub);
+      padding: 10px 0; border-bottom: 1px solid var(--border);
     }
     .tx-row:last-child { border-bottom: none; }
-
     .tx-icon {
-      width: 36px; height: 36px; border-radius: 10px;
+      width: 34px; height: 34px; border-radius: 9px;
       background: var(--surface2); display: flex; align-items: center;
-      justify-content: center; font-size: 16px; flex-shrink: 0;
+      justify-content: center; font-size: 15px; flex-shrink: 0;
     }
-
     .tx-info { flex: 1; min-width: 0; }
     .tx-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .tx-cat  { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
-
     .tx-right { text-align: right; flex-shrink: 0; }
-    .tx-amount { font-size: 14px; font-weight: 700; }
+    .tx-amount { font-size: 13px; font-weight: 700; }
     .tx-date   { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
-
     .positive { color: var(--positive); }
     .negative { color: var(--text); }
-    .negative-red { color: var(--negative); }
 
-    /* ─────────────────────────────────────────────────────────
-       TREND CHART
-    ───────────────────────────────────────────────────────── */
-    .chart-card { display: flex; flex-direction: column; gap: 16px; }
-
-    .chart-header { display: flex; justify-content: space-between; align-items: center; }
-    .chart-header h3 { font-size: 15px; font-weight: 700; }
-
+    /* ── TREND CHART ── */
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .chart-header h3 { font-size: 14px; font-weight: 700; }
     .chart-range-btns { display: flex; gap: 4px; }
-
     .range-btn {
-      background: transparent; border: 1px solid var(--border-sub);
+      background: transparent; border: 1px solid var(--border);
       border-radius: 7px; padding: 5px 10px;
       font-size: 11px; font-weight: 600; color: var(--text-sec);
       cursor: pointer; font-family: 'Outfit', sans-serif; transition: all 0.15s;
     }
-    .range-btn.active { background: var(--accent-pale); border-color: var(--border); color: var(--accent); }
-    .range-btn:hover:not(.active) { color: var(--text); border-color: var(--border); }
-
+    .range-btn.active { background: var(--accent-pale); border-color: var(--border-accent); color: var(--accent); }
+    .range-btn:hover:not(.active) { color: var(--text); border-color: rgba(255,255,255,0.15); }
     .chart-container { position: relative; height: 180px; }
-
     .chart-stats {
       display: flex; gap: 20px;
-      padding-top: 12px; border-top: 1px solid var(--border-sub);
+      padding-top: 12px; border-top: 1px solid var(--border);
+      margin-top: 14px;
     }
-
     .chart-stat { display: flex; flex-direction: column; gap: 2px; }
-    .chart-stat .cs-label { font-size: 10px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; }
-    .chart-stat .cs-value { font-size: 16px; font-weight: 800; }
+    .chart-stat .cs-label { font-size: 10px; font-weight: 600; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.06em; }
+    .chart-stat .cs-value { font-size: 15px; font-weight: 800; }
 
-    /* ─────────────────────────────────────────────────────────
-       SCENARIO SIMULATOR
-    ───────────────────────────────────────────────────────── */
-    .simulator-card {
-      background: linear-gradient(135deg, rgba(167,139,250,0.06) 0%, var(--surface) 100%);
-      border: 1px solid rgba(167,139,250,0.2);
-      border-radius: 16px; padding: 20px;
-      display: flex; flex-direction: column; gap: 16px;
-    }
-
-    .simulator-header { display: flex; align-items: center; gap: 10px; }
-
-    .simulator-icon {
-      width: 36px; height: 36px; background: rgba(167,139,250,0.15);
-      border-radius: 10px; display: flex; align-items: center;
-      justify-content: center; font-size: 18px;
-    }
-
-    .simulator-title { font-size: 15px; font-weight: 700; }
-    .simulator-sub   { font-size: 11px; color: var(--text-sec); }
-
-    .simulator-control { display: flex; flex-direction: column; gap: 10px; }
-
-    .slider-label {
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 12px;
-    }
-
-    .slider-label span { color: var(--text-sec); }
-
-    .slider-value {
-      font-size: 16px; font-weight: 800; color: #A78BFA;
-      min-width: 90px; text-align: right;
-    }
-
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%; height: 4px;
-      background: var(--border-sub); border-radius: 99px;
-      outline: none;
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: #A78BFA;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(167,139,250,0.5);
-    }
-
-    .simulator-results { display: flex; flex-direction: column; gap: 8px; }
-
-    .sim-result-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px; background: var(--surface2);
-      border-radius: 10px; font-size: 12px;
-    }
-
-    .sim-result-emoji { font-size: 16px; }
-
-    .sim-result-name { flex: 1; font-weight: 500; }
-
-    .sim-result-delta {
-      font-size: 11px; font-weight: 700;
-      padding: 3px 8px; border-radius: 6px;
-    }
-
-    .sim-result-delta.better { background: rgba(52,211,153,0.15); color: var(--positive); }
-    .sim-result-delta.worse  { background: rgba(248,113,113,0.15); color: var(--negative); }
-    .sim-result-delta.same   { background: var(--border-sub); color: var(--text-ter); }
-
-    .sim-result-date { font-size: 11px; color: var(--text-sec); }
-
-    /* ─────────────────────────────────────────────────────────
-       SECTION HEADERS
-    ───────────────────────────────────────────────────────── */
-    .section-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .section-header span { font-size: 15px; font-weight: 700; }
-    .section-header a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; }
-    .section-header .badge { font-size: 11px; color: var(--text-sec); }
-
-    /* ─────────────────────────────────────────────────────────
-       PRIVACY
-    ───────────────────────────────────────────────────────── */
+    /* ── PRIVACY ── */
     .private { transition: filter 0.25s ease; }
-    .privacy-mode .private {
-      filter: blur(8px); user-select: none; pointer-events: none;
-    }
+    .privacy-mode .private { filter: blur(8px); user-select: none; pointer-events: none; }
 
-    .eye-btn {
-      background: rgba(255,255,255,0.08); border: 1px solid var(--border-sub);
-      border-radius: 50%; width: 34px; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--text-sec);
-      transition: color 0.15s, background 0.15s; flex-shrink: 0; padding: 0;
-    }
-    .eye-btn:hover { color: var(--text); background: rgba(255,255,255,0.14); }
-    .eye-btn svg { width: 15px; height: 15px; }
-
-    /* ─────────────────────────────────────────────────────────
-       SKELETON LOADING
-    ───────────────────────────────────────────────────────── */
-    .skeleton {
-      background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.04) 50%, var(--surface2) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 6px;
-    }
-
-    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-    /* ─────────────────────────────────────────────────────────
-       EMPTY STATE
-    ───────────────────────────────────────────────────────── */
+    /* ── EMPTY STATE ── */
     .empty-state {
-      text-align: center; padding: 32px 16px;
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      text-align: center; padding: 28px 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
     }
-    .empty-state .es-icon { font-size: 32px; opacity: 0.5; }
-    .empty-state .es-title { font-size: 14px; font-weight: 600; color: var(--text-sec); }
-    .empty-state .es-sub { font-size: 12px; color: var(--text-ter); }
+    .empty-state .es-icon { font-size: 28px; opacity: 0.5; }
+    .empty-state .es-title { font-size: 13px; font-weight: 600; color: var(--text-sec); }
+    .empty-state .es-sub { font-size: 11px; color: var(--text-ter); }
+
+    /* ── SCORE RING ── */
+    .score-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px; }
+    .ring-wrap { position: relative; width: 90px; height: 90px; }
+    .ring-wrap svg { transform: rotate(-90deg); }
+    .ring-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; line-height: 1; }
+    .ring-center .score-num { font-size: 26px; font-weight: 900; color: var(--text); }
+    .ring-center .score-denom { font-size: 9px; color: var(--text-ter); font-weight: 600; }
+    .score-level { font-size: 13px; font-weight: 800; color: var(--accent); text-align: center; }
+    .score-narrative { font-size: 10px; color: var(--text-sec); text-align: center; line-height: 1.4; }
+
+    /* ── STAT CHIP ── */
+    .stat-chip {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .chip-header {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 600; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .chip-header .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .chip-value { font-size: 22px; font-weight: 800; letter-spacing: -0.8px; }
+    .chip-sub { font-size: 11px; color: var(--text-ter); }
   </style>
 </head>
 <body>
 
-<!-- ── Setup Banner (token not configured) ── -->
+<!-- ── Setup Banner ── -->
 <div id="setup-banner">
-  ⚠️ CloudKit API token not configured.
-  Open <strong>dashboard.html</strong>, find <code>YOUR_CK_API_TOKEN</code> and replace it with your token from
-  <a href="https://icloud.developer.apple.com" target="_blank" style="color:var(--warning)">icloud.developer.apple.com</a>
-  → iCloud.com.thothi.ucm → Settings → Tokens & Keys.
+  ⚠️ CloudKit API token not configured. Open dashboard.html and replace <code>YOUR_CK_API_TOKEN</code> with your token.
 </div>
 
 <!-- ── Auth Screen ── -->
 <div id="auth-screen">
   <div class="auth-card">
-    <img src="uploads/AppIcon.png" alt="ucm" style="width:64px;height:64px;border-radius:18px;" />
+    <img src="uploads/AppIcon.png" alt="ucm" style="width:60px;height:60px;border-radius:16px;" />
     <div class="auth-title">Your finances,<br/>at a glance.</div>
     <div class="auth-sub">
       Sign in with the same Apple ID you use on the ucm app.
       Your data loads directly from iCloud — nothing touches our servers.
     </div>
     <div class="auth-divider"></div>
-    <!-- CloudKit JS injects the Apple sign-in button here -->
     <div id="sign-in-btn"></div>
     <button onclick="loadDemo()" style="
-      width:100%; padding:14px; border-radius:12px; border:1px solid var(--border);
+      width:100%; padding:13px; border-radius:12px; border:1px solid var(--border);
       background:transparent; color:var(--text-sec); font-family:inherit;
-      font-size:15px; font-weight:500; cursor:pointer; margin-top:4px;
+      font-size:14px; font-weight:500; cursor:pointer; margin-top:4px;
       transition:background 0.15s, color 0.15s;">
       Ver demonstração →
     </button>
     <div class="auth-footer">
       Requires ucm Pro on iPhone &nbsp;·&nbsp; Your data stays in your iCloud
     </div>
-    <div id="auth-debug" style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:4px;text-align:center;"></div>
+    <div id="auth-debug" style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;text-align:center;"></div>
   </div>
 </div>
 
@@ -775,29 +581,29 @@
   <!-- Sidebar -->
   <aside>
     <div class="logo">
-      <img src="uploads/AppIcon.png" alt="ucm" style="width:32px;height:32px;border-radius:8px;" />
+      <img src="uploads/AppIcon.png" alt="ucm" style="width:30px;height:30px;border-radius:8px;" />
       <span class="logo-text">ucm</span>
     </div>
 
     <nav>
       <div class="nav-section">Menu</div>
-      <a class="nav-item active" href="#overview" data-page="overview">
+      <a class="nav-item active" href="#" data-section="s-overview">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
         Overview
       </a>
-      <a class="nav-item" href="#budget" data-page="budget">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 010 20M12 2v5M12 17v5"/></svg>
-        Budget
-      </a>
-      <a class="nav-item" href="#insights" data-page="insights">
+      <a class="nav-item" href="#" data-section="s-cashflow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
-        Insights
+        Cash Flow
       </a>
-      <a class="nav-item" href="#goals" data-page="goals">
+      <a class="nav-item" href="#" data-section="s-goals">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
         Goals
       </a>
-      <a class="nav-item" href="#history" data-page="history">
+      <a class="nav-item" href="#" data-section="s-spending">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Insights
+      </a>
+      <a class="nav-item" href="#" data-section="s-history">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         History
       </a>
@@ -811,7 +617,6 @@
           <div class="user-plan">✦ Pro</div>
         </div>
       </div>
-      <!-- CloudKit injects sign-out button here (hidden) -->
       <div id="sign-out-btn"></div>
     </div>
   </aside>
@@ -819,10 +624,10 @@
   <!-- Main Content -->
   <main>
 
-    <!-- Top bar -->
+    <!-- Topbar -->
     <div class="topbar">
       <div class="topbar-left">
-        <h1>Overview</h1>
+        <h1>Dashboard</h1>
         <p id="today-label"></p>
       </div>
       <div class="topbar-right">
@@ -835,121 +640,88 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
           </button>
         </div>
+        <button class="eye-btn" onclick="togglePrivacy()" title="Toggle privacy">
+          <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
         <button class="refresh-btn" onclick="refreshData()" title="Refresh">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Row 1: Balance + Score + Runway + Wage -->
-    <div class="grid-4" id="section-overview">
+    <!-- Section 1: Net Worth Hero -->
+    <div id="s-overview">
+      <div class="nw-label">Net Worth</div>
+      <div class="nw-row">
+        <div class="nw-amount private" id="nw-amount">—</div>
+        <span class="nw-delta" id="nw-delta">↑ —</span>
+      </div>
+      <div class="nw-chart-wrap">
+        <canvas id="nw-chart"></canvas>
+      </div>
+    </div>
 
-      <div class="balance-card">
-        <div>
-          <div class="balance-card label">Current Balance</div>
-          <div class="balance-amount-row">
-            <div class="balance-card amount private" id="balance-amount">—</div>
-            <button class="eye-btn" onclick="togglePrivacy()">
-              <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                <circle cx="12" cy="12" r="3"/>
+    <!-- Section 2: Cash Flow + Month Summary -->
+    <div class="row-2-1" id="s-cashflow">
+      <div class="card">
+        <div class="card-label">Cash Flow</div>
+        <div class="cf-chart-wrap">
+          <canvas id="wf-chart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">This Month</div>
+        <div class="cf-summary">
+          <div class="cf-row">
+            <div class="cf-row-label"><div class="cf-dot" style="background:var(--positive)"></div>Income</div>
+            <div class="cf-value positive private" id="cf-income">—</div>
+          </div>
+          <div class="cf-row">
+            <div class="cf-row-label"><div class="cf-dot" style="background:var(--negative)"></div>Expenses</div>
+            <div class="cf-value private" id="cf-expenses" style="color:var(--negative)">—</div>
+          </div>
+          <div class="cf-row">
+            <div class="cf-row-label"><div class="cf-dot" style="background:var(--accent)"></div>Saved</div>
+            <div class="cf-value private" id="cf-saved" style="color:var(--accent)">—</div>
+          </div>
+        </div>
+        <div style="margin-top:16px; padding-top:14px; border-top: 1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:11px; font-weight:600; color:var(--text-sec); text-transform:uppercase; letter-spacing:0.06em;">Health Score</span>
+          </div>
+          <div class="score-card" style="padding:0; gap:6px; align-items:flex-start; flex-direction:row; flex-wrap:wrap;">
+            <div class="ring-wrap" style="width:70px;height:70px;">
+              <svg width="70" height="70" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="8"/>
+                <circle id="score-ring" cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="8"
+                  stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9"
+                  style="transition: stroke-dashoffset 1.2s ease, stroke 0.5s ease"/>
               </svg>
-            </button>
+              <div class="ring-center">
+                <div class="score-num" style="font-size:20px;" id="score-num">—</div>
+                <div class="score-denom">/100</div>
+              </div>
+            </div>
+            <div style="flex:1; min-width:0; padding-top:4px;">
+              <div class="score-level" style="text-align:left; font-size:12px;" id="score-level">Loading</div>
+              <div class="score-narrative" style="text-align:left; font-size:10px; margin-top:3px;" id="score-narrative"></div>
+            </div>
           </div>
-          <div class="private" id="balance-delta" style="font-size:12px; margin-top:6px; color:var(--positive)">—</div>
-        </div>
-        <div class="balance-divider"></div>
-        <div class="balance-row">
-          <div class="balance-metric">
-            <span class="m-label">⏰ Upcoming</span>
-            <span class="m-value private negative-red" id="upcoming-amount">—</span>
-          </div>
-          <div class="balance-metric" style="text-align:right">
-            <span class="m-label">📈 This Month Net</span>
-            <span class="m-value private" id="month-net">—</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card score-card">
-        <div class="ring-wrap">
-          <svg width="100" height="100" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="8"/>
-            <circle id="score-ring" cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="8"
-              stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9"
-              style="transition: stroke-dashoffset 1.2s ease, stroke 0.5s ease"/>
-          </svg>
-          <div class="ring-center">
-            <div class="score-num" id="score-num">—</div>
-            <div class="score-denom">/100</div>
-          </div>
-        </div>
-        <div class="score-level" id="score-level">Loading</div>
-        <div class="score-narrative" id="score-narrative"></div>
-      </div>
-
-      <div class="stat-chip">
-        <div class="chip-header">
-          <div class="dot" style="background:var(--accent)"></div>
-          Runway
-        </div>
-        <div class="chip-value private" id="runway-value" style="color:var(--accent)">—</div>
-        <div class="chip-sub">months of expenses</div>
-      </div>
-
-      <div class="stat-chip">
-        <div class="chip-header">
-          <div class="dot" style="background:#A78BFA"></div>
-          Real Wage
-        </div>
-        <div class="chip-value private" id="wage-value" style="color:var(--text)">—</div>
-        <div class="chip-sub private" id="wage-sub">hr / $100</div>
-      </div>
-
-    </div>
-
-    <!-- Row 2: Trend Chart full-width -->
-    <div class="card chart-card" id="section-insights">
-      <div class="chart-header">
-        <h3>Income vs Expenses</h3>
-        <div class="chart-range-btns">
-          <button class="range-btn active" onclick="setChartRange(3, this)">3M</button>
-          <button class="range-btn" onclick="setChartRange(6, this)">6M</button>
-          <button class="range-btn" onclick="setChartRange(12, this)">12M</button>
-        </div>
-      </div>
-      <div class="chart-container">
-        <canvas id="trend-chart"></canvas>
-      </div>
-      <div class="chart-stats">
-        <div class="chart-stat">
-          <span class="cs-label">Avg Income</span>
-          <span class="cs-value private" id="avg-income" style="color:var(--positive)">—</span>
-        </div>
-        <div class="chart-stat">
-          <span class="cs-label">Avg Expenses</span>
-          <span class="cs-value private" id="avg-expenses" style="color:var(--negative)">—</span>
-        </div>
-        <div class="chart-stat">
-          <span class="cs-label">Avg Savings Rate</span>
-          <span class="cs-value" id="avg-savings-rate" style="color:var(--accent)">—</span>
-        </div>
-        <div class="chart-stat">
-          <span class="cs-label">Trend</span>
-          <span class="cs-value" id="savings-trend">—</span>
         </div>
       </div>
     </div>
 
-    <!-- Row 3: Budget + Right column -->
-    <div class="grid-2-1" id="section-budget">
-
-      <div class="card budget-card">
-        <div class="budget-header">
-          <h3>Budget vs Actual</h3>
-          <span class="private" id="budget-summary">—</span>
+    <!-- Section 3: Spending + Insight -->
+    <div class="row-3-2" id="s-spending">
+      <div class="card">
+        <div class="section-header">
+          <span>Spending</span>
+          <span class="badge private" id="spend-summary">—</span>
         </div>
-        <div id="budget-bars">
+        <div id="spend-bars">
           <div class="empty-state">
             <div class="es-icon">📊</div>
             <div class="es-title">No budget set</div>
@@ -957,10 +729,7 @@
           </div>
         </div>
       </div>
-
       <div style="display:flex; flex-direction:column; gap:14px;">
-
-        <!-- Insight / Weekly Move -->
         <div class="move-card" id="insight-card">
           <div class="move-icon-wrap" id="insight-icon">🎯</div>
           <div>
@@ -970,54 +739,85 @@
           <div class="move-body" id="insight-body"></div>
           <button class="move-btn" id="insight-btn" onclick="handleInsightAction()">Loading</button>
         </div>
-
-        <!-- Goals -->
+        <!-- Trend chart mini -->
         <div class="card">
-          <div class="section-header">
-            <span>Goals</span>
-            <span class="badge" id="goals-badge">—</span>
+          <div class="chart-header">
+            <h3>Income vs Expenses</h3>
+            <div class="chart-range-btns">
+              <button class="range-btn active" onclick="setChartRange(3, this)">3M</button>
+              <button class="range-btn" onclick="setChartRange(6, this)">6M</button>
+              <button class="range-btn" onclick="setChartRange(12, this)">12M</button>
+            </div>
           </div>
-          <div class="tx-list" id="goals-list">
-            <div class="empty-state">
-              <div class="es-icon">🎯</div>
-              <div class="es-title">No goals yet</div>
-              <div class="es-sub">Set your first savings goal in the app</div>
+          <div class="chart-container">
+            <canvas id="trend-chart"></canvas>
+          </div>
+          <div class="chart-stats">
+            <div class="chart-stat">
+              <span class="cs-label">Avg Income</span>
+              <span class="cs-value private" id="avg-income" style="color:var(--positive)">—</span>
+            </div>
+            <div class="chart-stat">
+              <span class="cs-label">Savings Rate</span>
+              <span class="cs-value" id="avg-savings-rate" style="color:var(--accent)">—</span>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- Row 4: Scenario Simulator -->
-    <div class="simulator-card">
-      <div class="simulator-header">
-        <div class="simulator-icon">🔮</div>
-        <div>
-          <div class="simulator-title">What if…</div>
-          <div class="simulator-sub">Drag to simulate changes to your monthly savings</div>
-        </div>
+    <!-- Section 4: Goals with Velocity -->
+    <div class="card" id="s-goals">
+      <div class="section-header">
+        <span>Goals</span>
+        <span class="badge" id="goals-badge">—</span>
       </div>
-      <div class="simulator-control">
-        <div class="slider-label">
-          <span>Monthly savings change</span>
-          <div class="slider-value" id="sim-value">+$0</div>
-        </div>
-        <input type="range" id="sim-slider" min="-500" max="500" value="0" step="10"
-          oninput="updateSimulator(this.value)" />
-      </div>
-      <div class="simulator-results" id="sim-results">
-        <div class="empty-state" style="padding:12px">
-          <div class="es-sub">Add goals in the app to see projections here</div>
+      <div id="goals-list">
+        <div class="empty-state">
+          <div class="es-icon">🎯</div>
+          <div class="es-title">No goals yet</div>
+          <div class="es-sub">Set your first savings goal in the app</div>
         </div>
       </div>
     </div>
 
-    <!-- Row 5: Recent Transactions -->
-    <div class="card" id="section-history">
+    <!-- Section 5: Spending Calendar Heatmap -->
+    <div class="card" id="s-calendar">
+      <div class="section-header">
+        <span>Spending Calendar</span>
+        <span class="badge">Last 90 days</span>
+      </div>
+      <div class="calendar-wrap">
+        <div style="display:flex; align-items:flex-start; gap:0;">
+          <div class="cal-dow-labels" id="cal-dow-labels">
+            <div class="cal-dow">M</div>
+            <div class="cal-dow">T</div>
+            <div class="cal-dow">W</div>
+            <div class="cal-dow">T</div>
+            <div class="cal-dow">F</div>
+            <div class="cal-dow">S</div>
+            <div class="cal-dow">S</div>
+          </div>
+          <div class="calendar-grid-outer" id="cal-grid"></div>
+        </div>
+        <div class="cal-legend">
+          <span>Less</span>
+          <div class="cal-legend-cells">
+            <div class="cal-legend-cell" style="background:var(--surface2)"></div>
+            <div class="cal-legend-cell" style="background:rgba(45,212,191,0.2)"></div>
+            <div class="cal-legend-cell" style="background:rgba(45,212,191,0.5)"></div>
+            <div class="cal-legend-cell" style="background:rgba(45,212,191,0.85)"></div>
+          </div>
+          <span>More</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: History -->
+    <div class="card" id="s-history">
       <div class="section-header">
         <span>Recent Transactions</span>
-        <a href="#history">View all →</a>
+        <span class="badge" id="tx-count-label">—</span>
       </div>
       <div class="tx-list" id="tx-list">
         <div class="empty-state">
@@ -1033,9 +833,7 @@
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
-// CONFIGURATION — Replace YOUR_CK_API_TOKEN with your real token
-// from icloud.developer.apple.com → iCloud.com.thothi.ucm →
-// Settings → Tokens & Keys → Create Token
+// CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════
 const CK_TOKEN     = 'decd9dac90e4b52e2a5efb90b7962426bba6ecbcc11623da612452a7e1f1ee56';
 const CK_CONTAINER = 'iCloud.com.thothi.ucm';
@@ -1045,19 +843,15 @@ const CK_ENV       = 'production';
 // GLOBAL STATE
 // ═══════════════════════════════════════════════════════════════════
 let state = {
-  settings: null,
-  transactions: [],
-  goals: [],
-  allocations: [],
-  categories: [],
-  recurring: [],
-  bankAccounts: [],
-  loaded: false,
+  settings: null, transactions: [], goals: [], allocations: [],
+  categories: [], recurring: [], bankAccounts: [], loaded: false,
 };
 
 let currentMonth  = { year: new Date().getFullYear(), month: new Date().getMonth() };
 let chartRange    = 3;
 let trendChart    = null;
+let nwChart       = null;
+let wfChart       = null;
 let privacyHidden = false;
 let insightAction = null;
 
@@ -1076,9 +870,7 @@ function initCloudKit() {
   if (CK_TOKEN === 'YOUR_CK_API_TOKEN') {
     document.getElementById('setup-banner').style.display = 'block';
   }
-
   dbg('Configuring CloudKit…');
-
   CloudKit.configure({
     containers: [{
       containerIdentifier: CK_CONTAINER,
@@ -1093,7 +885,6 @@ function initCloudKit() {
   });
 
   const container = CloudKit.getDefaultContainer();
-
   container.setUpAuth().then(userIdentity => {
     if (userIdentity) { dbg('Already signed in ✓'); onSignedIn(userIdentity); }
     else              { dbg('Not signed in'); showAuth(); }
@@ -1122,9 +913,8 @@ function handleSignOut() {
   document.getElementById('sign-out-btn').querySelector('a, button')?.click();
 }
 
-
 // ═══════════════════════════════════════════════════════════════════
-// DEMO MODE — Realistic Brazilian sample data
+// DEMO MODE
 // ═══════════════════════════════════════════════════════════════════
 function loadDemo() {
   document.getElementById('user-avatar').textContent = 'T';
@@ -1134,7 +924,6 @@ function loadDemo() {
   const mo  = (offset) => { const d = new Date(now); d.setMonth(d.getMonth() + offset); return d; };
   const day = (daysAgo) => { const d = new Date(now); d.setDate(d.getDate() - daysAgo); return d; };
 
-  // Transactions — 12 months of realistic BRL data
   const txns = [];
   const salario = 8500; const aluguel = 2200; const condo = 450;
   for (let m = 11; m >= 0; m--) {
@@ -1158,7 +947,7 @@ function loadDemo() {
   state.settings = {
     isPremium: true, currencyCode: 'BRL', startingBalance: 12000,
     monthlyIncome: 8500, monthlyIncomeGoal: 9000, savingsRateGoal: 0.25,
-    hoursPerWeek: 40,
+    hoursPerWeek: 40, showIncomeGreen: true,
   };
   state.transactions = txns;
   state.goals = [
@@ -1187,7 +976,6 @@ function loadDemo() {
     showToast('Modo demonstração — dados fictícios', 4000);
   } catch(e) {
     console.error('renderAll failed:', e);
-    // Show error visibly in the main area for debugging
     document.querySelector('main').insertAdjacentHTML('afterbegin',
       `<div style="color:#F87171;background:rgba(248,113,113,0.1);border:1px solid #F87171;border-radius:12px;padding:16px;font-size:13px;font-family:monospace;">
         <strong>renderAll error:</strong><br>${e.message}<br><br>${e.stack?.split('\n').slice(0,3).join('<br>')}
@@ -1204,14 +992,10 @@ function showAuth() {
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'none';
 }
-function showLoading()  { document.getElementById('loading-screen').style.display = 'flex'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
-function showDashboard(){ document.getElementById('dashboard').style.display = 'flex'; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; }
-function hidePaywall()  { document.getElementById('paywall-overlay').style.display = 'none'; }
-
-function showPaywall() {
-  document.getElementById('paywall-overlay').style.display = 'flex';
-  showDashboard();
-}
+function showLoading()   { document.getElementById('loading-screen').style.display = 'flex'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
+function showDashboard() { document.getElementById('dashboard').style.display = 'flex'; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; }
+function hidePaywall()   { document.getElementById('paywall-overlay').style.display = 'none'; }
+function showPaywall()   { document.getElementById('paywall-overlay').style.display = 'flex'; showDashboard(); }
 
 function showToast(msg, duration = 2500) {
   const el = document.getElementById('toast');
@@ -1257,8 +1041,6 @@ async function loadDashboard() {
     const twelveMonthsAgo = new Date();
     twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
 
-    // No server-side filters — CloudKit requires QUERYABLE indexes on filtered fields,
-    // which may not exist for all users. We fetch all records and filter client-side instead.
     const [settingsRecs, txRecs, goalRecs, allocRecs, catRecs, recurRecs, bankRecs] =
       await Promise.all([
         fetchRecord('CD_AppSettings'),
@@ -1272,8 +1054,6 @@ async function loadDashboard() {
 
     dbg(`Records — settings:${settingsRecs.length} tx:${txRecs.length} goals:${goalRecs.length} cats:${catRecs.length} allocs:${allocRecs.length} recurring:${recurRecs.length} banks:${bankRecs.length}`);
 
-    // If no settings record was found at all, data hasn't synced yet.
-    // Don't treat this as "not premium" — show a helpful empty state instead.
     if (settingsRecs.length === 0 && txRecs.length === 0 && goalRecs.length === 0) {
       showDashboard();
       showNoDataState();
@@ -1318,51 +1098,27 @@ async function loadDashboard() {
 
 function showNoDataState(reason) {
   const isError = reason === 'error';
-  const main = document.querySelector('main');
   const existing = document.getElementById('no-data-overlay');
   if (existing) existing.remove();
 
   const el = document.createElement('div');
   el.id = 'no-data-overlay';
-  el.style.cssText = `
-    position:fixed; inset:0; z-index:50;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(5,15,14,0.92); backdrop-filter:blur(24px);
-  `;
+  el.style.cssText = `position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(8,15,13,0.92);backdrop-filter:blur(24px);`;
   el.innerHTML = `
-    <div style="
-      background:var(--surface); border:1px solid var(--border); border-radius:24px;
-      padding:40px 36px; max-width:420px; width:100%;
-      display:flex; flex-direction:column; align-items:center; gap:16px;
-      box-shadow:0 32px 80px rgba(0,0,0,0.5); text-align:center;
-    ">
+    <div style="background:var(--surface);border:1px solid var(--border-accent);border-radius:24px;padding:40px 36px;max-width:420px;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;box-shadow:0 32px 80px rgba(0,0,0,0.5);text-align:center;">
       <div style="font-size:40px">${isError ? '⚠️' : '☁️'}</div>
-      <div style="font-size:20px; font-weight:800; letter-spacing:-0.5px">
-        ${isError ? 'Something went wrong' : 'No data found in iCloud'}
-      </div>
-      <div style="font-size:14px; color:var(--text-sec); line-height:1.6">
+      <div style="font-size:20px;font-weight:800;letter-spacing:-0.5px">${isError ? 'Something went wrong' : 'No data found in iCloud'}</div>
+      <div style="font-size:14px;color:var(--text-sec);line-height:1.6">
         ${isError
           ? 'There was an error loading your data. Check the browser console for details, then try again.'
           : 'We signed you in successfully, but found no ucm data in your iCloud account.<br><br><strong>To fix this:</strong><br>1. Open ucm on your iPhone<br>2. Go to Settings → make sure iCloud sync is enabled<br>3. Wait a few minutes, then refresh here'}
       </div>
-      <div style="display:flex; gap:12px; width:100%; margin-top:8px; flex-wrap:wrap;">
-        <button onclick="refreshData()" style="
-          flex:1; padding:12px; border-radius:12px; border:none;
-          background:var(--accent-mid); color:#000; font-family:inherit;
-          font-size:14px; font-weight:700; cursor:pointer;">
-          Try Again
-        </button>
-        <button onclick="document.getElementById('no-data-overlay').remove(); loadDemo();" style="
-          flex:1; padding:12px; border-radius:12px;
-          border:1px solid var(--border); background:transparent;
-          color:var(--text-sec); font-family:inherit;
-          font-size:14px; font-weight:500; cursor:pointer;">
-          View Demo
-        </button>
+      <div style="display:flex;gap:12px;width:100%;margin-top:8px;flex-wrap:wrap;">
+        <button onclick="refreshData()" style="flex:1;padding:12px;border-radius:12px;border:none;background:var(--accent-mid);color:#000;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">Try Again</button>
+        <button onclick="document.getElementById('no-data-overlay').remove();loadDemo();" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text-sec);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">View Demo</button>
       </div>
-      <div id="no-data-debug" style="font-size:11px; color:rgba(255,255,255,0.3); margin-top:4px;"></div>
-    </div>
-  `;
+      <div id="no-data-debug" style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;"></div>
+    </div>`;
   document.body.appendChild(el);
 }
 
@@ -1374,7 +1130,7 @@ async function refreshData() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// DATA MAPPERS  (CloudKit field → JS object)
+// DATA MAPPERS
 // ═══════════════════════════════════════════════════════════════════
 function f(record, field, fallback = null) {
   return record.fields?.[field]?.value ?? fallback;
@@ -1382,16 +1138,16 @@ function f(record, field, fallback = null) {
 
 function mapTransaction(r) {
   return {
-    id:              r.recordName,
-    amount:          Math.abs(f(r, 'CD_amount', 0)),
-    type:            f(r, 'CD_typeRaw', 'expense'),
-    date:            new Date(f(r, 'CD_date', 0)),
-    note:            f(r, 'CD_note', ''),
-    categoryName:    f(r, 'CD_categoryName', null),       // may be null; relationship
-    isCashFlow:      f(r, 'CD_isCashFlow', 1) !== 0,
-    splitParentID:   f(r, 'CD_splitParentID', null),
-    isCardPayment:   f(r, 'CD_isCardPayment', 0) !== 0,
-    recurringID:     f(r, 'CD_recurringSeriesID', null),
+    id:            r.recordName,
+    amount:        Math.abs(f(r, 'CD_amount', 0)),
+    type:          f(r, 'CD_typeRaw', 'expense'),
+    date:          new Date(f(r, 'CD_date', 0)),
+    note:          f(r, 'CD_note', ''),
+    categoryName:  f(r, 'CD_categoryName', null),
+    isCashFlow:    f(r, 'CD_isCashFlow', 1) !== 0,
+    splitParentID: f(r, 'CD_splitParentID', null),
+    isCardPayment: f(r, 'CD_isCardPayment', 0) !== 0,
+    recurringID:   f(r, 'CD_recurringSeriesID', null),
   };
 }
 
@@ -1409,7 +1165,7 @@ function mapGoal(r) {
 
 function mapAllocation(r) {
   return {
-    categoryName:  f(r, 'CD_categoryName', ''),
+    categoryName:   f(r, 'CD_categoryName', ''),
     budgetedAmount: f(r, 'CD_budgetedAmount', 0),
   };
 }
@@ -1444,7 +1200,6 @@ function mapBankAccount(r) {
 }
 
 function mapSettings(r) {
-  // Log all fields so we can verify field names match what CloudKit stores
   console.log('CD_AppSettings fields:', JSON.stringify(r.fields));
   return {
     currencyCode:    f(r, 'CD_currencyCode', 'USD'),
@@ -1475,7 +1230,6 @@ function computeBalance(txs, bankAccounts, settings) {
   const base = hasBankAccounts
     ? bankAccounts.reduce((s, a) => s + a.startingBalance, 0)
     : settings.startingBalance;
-
   const cf = cashFlowTxs(txs);
   const net = cf.reduce((s, t) => t.type === 'income' ? s + t.amount : s - t.amount, 0);
   return base + net;
@@ -1524,31 +1278,25 @@ function computeRealWage(txs, settings) {
 function computeHealthScore(txs, recurring, settings) {
   const cf = cashFlowTxs(txs);
   if (cf.length < 10) return { total: 0, level: 'Getting Started', narrative: 'Keep logging — score unlocks at 10 transactions.' };
-
   const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
   if (income <= 0) return { total: 0, level: 'Getting Started', narrative: 'Set your monthly income in the app to unlock your score.' };
 
   const runway = computeRunwayMonths(txs, settings);
   const runwayPts = Math.round(Math.min(runway, 6) / 6 * 30);
-
   const allMonths = computeAllMonthlyData(txs, 3).filter(m => m.income > 0 || m.expenses > 0);
   const avgRate = allMonths.length > 0 ? allMonths.reduce((s, m) => s + m.savingsRate, 0) / allMonths.length : 0;
   const ratePts = Math.round(Math.min(Math.max(avgRate, 0), 25) / 25 * 25);
-
   const yearlyFixed = recurring.filter(r => r.frequency === 'yearly').reduce((s, r) => s + r.amount / 12, 0);
   const monthlyFixed = recurring.filter(r => r.frequency === 'monthly').reduce((s, r) => s + r.amount, 0);
   const fixedRatio = (yearlyFixed + monthlyFixed) / income;
   const fixedPts = fixedRatio < 0.3 ? 20 : fixedRatio < 0.5 ? 14 : fixedRatio < 0.65 ? 7 : 0;
-
-  const debtPts = 15; // No CC debt data available from CloudKit easily — default to good
-
+  const debtPts = 15;
   const total = runwayPts + ratePts + fixedPts + debtPts;
   const level = total >= 85 ? 'Excellent' : total >= 70 ? 'On Track' : total >= 50 ? 'Fair' : total >= 30 ? 'Needs Work' : 'Critical';
   const narrative = total >= 85 ? 'Strong across all metrics. Keep it up.' :
                     total >= 70 ? 'Solid fundamentals. A few tweaks would help.' :
                     total >= 50 ? 'Some pressure points to address.' :
                     'Important gaps to close — see your weekly move.';
-
   return { total, level, narrative, runwayPts, ratePts, fixedPts, debtPts };
 }
 
@@ -1572,7 +1320,7 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
   const monthlySavings = Math.max(income - monthData.expenses, 0);
   const currency = settings.currencyCode;
 
-  // Rule 1: Unused subscription → goal acceleration
+  // Rule 1: Unused subscription
   const cutoff = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
   const unusedSubs = recurring.filter(r => {
     const recentTx = cf.filter(t => t.recurringID === r.id && t.date >= cutoff);
@@ -1584,7 +1332,6 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     const sub = unusedSubs.sort((a, b) => b.amount - a.amount)[0];
     const monthlySaving = sub.frequency === 'yearly' ? sub.amount / 12 : sub.amount;
     const annualSaving  = sub.frequency === 'yearly' ? sub.amount : sub.amount * 12;
-
     const activeGoals = goals.filter(g => g.targetAmount > g.currentAmount);
     if (activeGoals.length > 0) {
       const goal = activeGoals[0];
@@ -1592,10 +1339,8 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
       const currentMonths = monthlySavings > 0 ? Math.ceil(remaining / monthlySavings) : 999;
       const newMonths     = (monthlySavings + monthlySaving) > 0 ? Math.ceil(remaining / (monthlySavings + monthlySaving)) : 999;
       const saved         = Math.max(currentMonths - newMonths, 0);
-
       return {
-        tint: 'tint-orange',
-        icon: '🔔',
+        tint: 'tint-orange', icon: '🔔',
         headline: `Cancel ${sub.name} — unused for 60+ days`,
         body: `That frees up <strong class="goal-link">${fmt(annualSaving, currency)}/year</strong>. Applied to your ${goal.emoji} <strong>${goal.name}</strong> goal, you'd reach it <strong class="goal-link">${saved} month${saved !== 1 ? 's' : ''} sooner</strong>.`,
         btnLabel: 'Open ucm App →',
@@ -1604,7 +1349,7 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     }
   }
 
-  // Rule 2: Over budget this month
+  // Rule 2: Over budget
   const totalBudget = allocations.reduce((s, a) => s + a.budgetedAmount, 0);
   if (totalBudget > 0 && monthData.expenses > 0) {
     const now = new Date();
@@ -1615,12 +1360,11 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     if (spendRatio > paceRatio + 0.2 && paceRatio > 0.3) {
       const overshoot = Math.round((spendRatio - paceRatio) * 100);
       return {
-        tint: 'tint-orange',
-        icon: '⚡',
+        tint: 'tint-orange', icon: '⚡',
         headline: 'Spending faster than the month',
         body: `You've used <strong>${Math.round(spendRatio * 100)}%</strong> of your budget with <strong>${Math.round(paceRatio * 100)}%</strong> of the month elapsed — <strong class="goal-link">${overshoot}% ahead of pace</strong>. Check your largest categories below.`,
         btnLabel: 'See Budget',
-        action: () => document.querySelector('[data-page="budget"]')?.click(),
+        action: () => scrollToSection('s-spending'),
       };
     }
   }
@@ -1629,12 +1373,11 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
   const runway = computeRunwayMonths(txs, settings);
   if (runway > 0 && runway < 1) {
     return {
-      tint: 'tint-red',
-      icon: '⛽',
+      tint: 'tint-red', icon: '⛽',
       headline: 'Runway under one month',
       body: `If income stopped today, your savings cover less than 30 days of expenses. Build a 1-month buffer before anything else.`,
       btnLabel: 'Start a Goal',
-      action: () => document.querySelector('[data-page="goals"]')?.click(),
+      action: () => scrollToSection('s-goals'),
     };
   }
 
@@ -1645,12 +1388,11 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     const prior  = months3.slice(0, -1).reduce((s, m) => s + m.savingsRate, 0) / (months3.length - 1);
     if (latest < prior - 10 && prior > 0) {
       return {
-        tint: 'tint-orange',
-        icon: '📉',
+        tint: 'tint-orange', icon: '📉',
         headline: 'Savings rate dropped this month',
         body: `Your savings rate fell from <strong>${Math.round(prior)}%</strong> to <strong class="goal-link">${Math.round(latest)}%</strong> — a ${Math.round(prior - latest)}pp drop. Check which category spiked.`,
-        btnLabel: 'See Trends',
-        action: () => scrollToSection('section-insights'),
+        btnLabel: 'See Spending',
+        action: () => scrollToSection('s-spending'),
       };
     }
   }
@@ -1658,8 +1400,7 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
   // Rule 5: No budget
   if (allocations.length === 0) {
     return {
-      tint: '',
-      icon: '📊',
+      tint: '', icon: '📊',
       headline: 'Set a monthly budget',
       body: 'A budget is the single biggest behaviour-change tool in personal finance. Two minutes now, months of clarity after.',
       btnLabel: 'Open ucm App →',
@@ -1667,422 +1408,14 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     };
   }
 
-  // Fallback: all good
+  // Fallback
   return {
-    tint: 'tint-green',
-    icon: '✅',
+    tint: 'tint-green', icon: '✅',
     headline: "You're in solid shape",
     body: 'Nothing urgent this week. Keep logging and let the habits compound.',
     btnLabel: 'See Trends',
     action: null,
   };
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════════════════════════
-function renderAll() {
-  const { settings, transactions: txs, goals, allocations, recurring, bankAccounts } = state;
-  const currency = settings.currencyCode;
-  const { year, month } = currentMonth;
-
-  // Month label
-  const d = new Date(year, month, 1);
-  document.getElementById('month-label').textContent = d.toLocaleDateString('en', { month: 'long', year: 'numeric' });
-  const isCurrentMonth = year === new Date().getFullYear() && month === new Date().getMonth();
-  document.getElementById('next-month-btn').disabled = isCurrentMonth;
-
-  // Today label
-  document.getElementById('today-label').textContent = new Date().toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-
-  // Balance
-  const balance = computeBalance(txs, bankAccounts, settings);
-  document.getElementById('balance-amount').textContent = fmt(balance, currency);
-  const prevMonthBal = computeBalance(
-    txs.filter(t => !(t.date.getFullYear() === year && t.date.getMonth() === month)),
-    bankAccounts, settings
-  );
-  const delta = balance - prevMonthBal;
-  const deltaEl = document.getElementById('balance-delta');
-  deltaEl.textContent = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency)} from last month`;
-  deltaEl.style.color = delta >= 0 ? 'var(--positive)' : 'var(--negative)';
-
-  // This month
-  const monthData = computeMonthlyData(txs, year, month);
-  document.getElementById('month-net').textContent = fmt(monthData.net, currency);
-  document.getElementById('month-net').style.color = monthData.net >= 0 ? 'var(--positive)' : 'var(--negative)';
-
-  // Upcoming (recurring that haven't hit yet this month)
-  const today = new Date();
-  const upcomingTotal = recurring
-    .filter(r => r.frequency === 'monthly')
-    .filter(r => {
-      const dayOfMonth = r.startDate.getDate();
-      return dayOfMonth > today.getDate();
-    })
-    .reduce((s, r) => s + r.amount, 0);
-  document.getElementById('upcoming-amount').textContent = `−${fmt(upcomingTotal, currency)}`;
-
-  // Health Score
-  const score = computeHealthScore(txs, recurring, settings);
-  document.getElementById('score-num').textContent = score.total > 0 ? score.total : '—';
-  document.getElementById('score-level').textContent = score.level;
-  document.getElementById('score-narrative').textContent = score.narrative;
-  const scoreColors = { Excellent: '#34D399', 'On Track': '#2DD4BF', Fair: '#FBBF24', 'Needs Work': '#FB923C', Critical: '#F87171', 'Getting Started': '#2DD4BF' };
-  const sColor = scoreColors[score.level] || 'var(--accent)';
-  document.getElementById('score-level').style.color = sColor;
-  const ring = document.getElementById('score-ring');
-  const circumference = 263.9;
-  ring.setAttribute('stroke', sColor);
-  ring.style.strokeDashoffset = score.total > 0 ? circumference - (score.total / 100) * circumference : circumference;
-
-  // Runway
-  const runway = computeRunwayMonths(txs, settings);
-  document.getElementById('runway-value').textContent = runway > 0 ? runway.toFixed(1) : '—';
-  document.getElementById('runway-value').style.color = runway >= 3 ? 'var(--positive)' : runway >= 1 ? 'var(--warning)' : 'var(--negative)';
-
-  // Real Wage
-  const wage = computeRealWage(txs, settings);
-  document.getElementById('wage-value').textContent = wage ? fmt(wage.hourlyWage, currency, true) : '—';
-  document.getElementById('wage-sub').textContent = wage ? `${wage.hoursPerHundred.toFixed(1)} hr / ${fmt(100, currency, true)}` : 'Set income to calculate';
-
-  // Budget Bars
-  renderBudgetBars(allocations, txs, year, month, currency);
-
-  // Insight Card
-  const insight = computeInsight(txs, goals, recurring, settings, allocations);
-  renderInsightCard(insight);
-
-  // Goals
-  renderGoals(goals, txs, currency, settings);
-
-  // Trend Chart
-  renderTrendChart(txs, chartRange, currency);
-
-  // Transactions
-  renderTransactions(txs.filter(t => inMonth(t, year, month)).slice(0, 10), currency, settings);
-
-  // Scenario Simulator
-  renderSimulator(goals, txs, settings);
-}
-
-function renderBudgetBars(allocations, txs, year, month, currency) {
-  const container = document.getElementById('budget-bars');
-  if (allocations.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state" style="padding:32px 16px; gap:14px;">
-        <div style="font-size:36px">📊</div>
-        <div style="font-size:16px; font-weight:700; color:var(--text)">Set up your budget</div>
-        <div style="font-size:13px; color:var(--text-sec); line-height:1.6; max-width:260px; text-align:center">
-          Assign monthly limits to your spending categories in the ucm app — they'll appear here automatically.
-        </div>
-        <a href="https://apps.apple.com/app/ucm/id6741530699" target="_blank" style="
-          margin-top:4px; padding:10px 20px; border-radius:10px;
-          background:var(--accent-mid); color:#000;
-          font-size:13px; font-weight:700; text-decoration:none;
-          display:inline-block;">
-          Open ucm on iPhone →
-        </a>
-      </div>`;
-    return;
-  }
-
-  const cfTxs = cashFlowTxs(txs.filter(t => inMonth(t, year, month) && t.type === 'expense'));
-  let totalSpent = 0, totalBudget = 0;
-
-  const catEmoji = Object.fromEntries(state.categories.map(c => [c.name, c.emoji]));
-
-  const rows = allocations.map(a => {
-    const spent = cfTxs
-      .filter(t => t.categoryName === a.categoryName)
-      .reduce((s, t) => s + t.amount, 0);
-    const pct = a.budgetedAmount > 0 ? spent / a.budgetedAmount : 0;
-    totalSpent += spent; totalBudget += a.budgetedAmount;
-    const color = pct >= 1 ? 'var(--negative)' : pct >= 0.8 ? 'var(--warning)' : 'var(--positive)';
-    const emoji = catEmoji[a.categoryName] || '📦';
-    return `
-      <div class="budget-row">
-        <div class="budget-row-top">
-          <span class="budget-name">${emoji} ${a.categoryName}</span>
-          <span class="budget-amounts private">${fmt(spent, currency, true)} / ${fmt(a.budgetedAmount, currency, true)}</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill" style="width:${Math.min(pct * 100, 100)}%; background:${color}"></div>
-        </div>
-      </div>`;
-  });
-
-  document.getElementById('budget-summary').textContent = `${fmt(totalSpent, currency, true)} of ${fmt(totalBudget, currency, true)}`;
-  container.innerHTML = rows.join('');
-}
-
-function renderInsightCard(insight) {
-  const card = document.getElementById('insight-card');
-  card.className = `move-card ${insight.tint}`;
-  document.getElementById('insight-icon').textContent = insight.icon;
-  document.getElementById('insight-headline').textContent = insight.headline;
-  document.getElementById('insight-body').innerHTML = insight.body;
-  document.getElementById('insight-btn').textContent = `${insight.btnLabel} →`;
-  insightAction = insight.action;
-}
-
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  const mainEl = document.querySelector('main');
-  if (el && mainEl) {
-    const top = el.getBoundingClientRect().top - mainEl.getBoundingClientRect().top + mainEl.scrollTop - 28;
-    mainEl.scrollTo({ top, behavior: 'smooth' });
-  }
-}
-
-function handleInsightAction() {
-  if (insightAction) insightAction();
-}
-
-function renderGoals(goals, txs, currency, settings) {
-  const container = document.getElementById('goals-list');
-  document.getElementById('goals-badge').textContent = `${goals.length} active`;
-
-  if (goals.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">🎯</div><div class="es-title">No goals yet</div><div class="es-sub">Set your first savings goal in the app</div></div>`;
-    return;
-  }
-
-  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
-  const monthData = computeMonthlyData(txs, currentMonth.year, currentMonth.month);
-  const monthlySavings = Math.max(income - monthData.expenses, 1);
-
-  const colors = ['var(--accent)', '#A78BFA', '#FB923C', '#34D399', '#60A5FA'];
-
-  container.innerHTML = goals.map((g, i) => {
-    const pct = g.targetAmount > 0 ? Math.min(g.currentAmount / g.targetAmount * 100, 100) : 0;
-    const color = colors[i % colors.length];
-    const eta = goalETA(g, monthlySavings);
-    const etaLabel = eta ? `~${eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' })}` : '';
-    return `
-      <div class="goal-row">
-        <div class="goal-emoji">${g.emoji}</div>
-        <div class="goal-info">
-          <div class="goal-name">${g.name}</div>
-          <div class="goal-progress-text private">${fmt(g.currentAmount, currency, true)} of ${fmt(g.targetAmount, currency, true)}</div>
-          <div class="goal-bar-wrap">
-            <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${color}"></div></div>
-          </div>
-          ${etaLabel ? `<div class="goal-eta">Est. completion: ${etaLabel}</div>` : ''}
-        </div>
-        <div class="goal-pct" style="color:${color}">${Math.round(pct)}%</div>
-      </div>`;
-  }).join('');
-}
-
-function renderTransactions(txs, currency, settings) {
-  const container = document.getElementById('tx-list');
-  if (txs.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">💸</div><div class="es-title">No transactions this month</div><div class="es-sub">Transactions you log in the app appear here</div></div>`;
-    return;
-  }
-
-  const catEmoji = Object.fromEntries(state.categories.map(c => [c.name, c.emoji]));
-  const today     = new Date().toDateString();
-  const yesterday = new Date(Date.now() - 86400000).toDateString();
-
-  container.innerHTML = txs.map(t => {
-    const isIncome = t.type === 'income';
-    const dateStr  = t.date.toDateString() === today ? 'Today' :
-                     t.date.toDateString() === yesterday ? 'Yesterday' :
-                     t.date.toLocaleDateString('en', { month: 'short', day: 'numeric' });
-    const emoji = catEmoji[t.categoryName] || (isIncome ? '💰' : '💸');
-    const amountClass = isIncome ? 'positive' : (settings.showIncomeGreen ? 'negative' : '');
-    const sign  = isIncome ? '+' : '−';
-    return `
-      <div class="tx-row">
-        <div class="tx-icon">${emoji}</div>
-        <div class="tx-info">
-          <div class="tx-name">${t.note || t.categoryName || (isIncome ? 'Income' : 'Expense')}</div>
-          <div class="tx-cat">${t.categoryName || ''}${t.isCardPayment ? ' · Card' : ''}</div>
-        </div>
-        <div class="tx-right">
-          <div class="tx-amount private ${amountClass}">${sign}${fmt(t.amount, currency)}</div>
-          <div class="tx-date">${dateStr}</div>
-        </div>
-      </div>`;
-  }).join('');
-}
-
-function renderTrendChart(txs, months, currency) {
-  const data = computeAllMonthlyData(txs, months);
-  const labels   = data.map(m => m.label);
-  const incomes  = data.map(m => m.income);
-  const expenses = data.map(m => m.expenses);
-  const rates    = data.map(m => m.savingsRate);
-
-  const ctx = document.getElementById('trend-chart').getContext('2d');
-
-  if (trendChart) trendChart.destroy();
-
-  trendChart = new Chart(ctx, {
-    data: {
-      labels,
-      datasets: [
-        {
-          type: 'bar',
-          label: 'Income',
-          data: incomes,
-          backgroundColor: 'rgba(52,211,153,0.6)',
-          borderColor: 'rgba(52,211,153,0.9)',
-          borderWidth: 1,
-          borderRadius: 4,
-          yAxisID: 'y',
-        },
-        {
-          type: 'bar',
-          label: 'Expenses',
-          data: expenses,
-          backgroundColor: 'rgba(248,113,113,0.5)',
-          borderColor: 'rgba(248,113,113,0.8)',
-          borderWidth: 1,
-          borderRadius: 4,
-          yAxisID: 'y',
-        },
-        {
-          type: 'line',
-          label: 'Savings Rate %',
-          data: rates,
-          borderColor: 'rgba(45,212,191,0.9)',
-          backgroundColor: 'rgba(45,212,191,0.1)',
-          borderWidth: 2,
-          pointRadius: 3,
-          pointBackgroundColor: 'var(--accent)',
-          tension: 0.4,
-          fill: false,
-          yAxisID: 'y2',
-        },
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#0C1A18',
-          borderColor: 'rgba(45,212,191,0.3)',
-          borderWidth: 1,
-          titleColor: 'rgba(255,255,255,0.9)',
-          bodyColor: 'rgba(255,255,255,0.6)',
-          callbacks: {
-            label: ctx => {
-              if (ctx.datasetIndex === 2) return ` Savings rate: ${ctx.parsed.y.toFixed(1)}%`;
-              return ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y, currency, true)}`;
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid:   { color: 'rgba(255,255,255,0.04)' },
-          ticks:  { color: 'rgba(255,255,255,0.4)', font: { family: 'Outfit', size: 11 } },
-        },
-        y: {
-          position: 'left',
-          grid:  { color: 'rgba(255,255,255,0.05)' },
-          ticks: { color: 'rgba(255,255,255,0.4)', font: { family: 'Outfit', size: 11 },
-                   callback: v => fmt(v, currency, true) },
-        },
-        y2: {
-          position: 'right', grid: { display: false },
-          ticks: { color: 'rgba(45,212,191,0.6)', font: { family: 'Outfit', size: 11 },
-                   callback: v => `${v.toFixed(0)}%` },
-          min: -20, max: 100,
-        }
-      }
-    }
-  });
-
-  // Summary stats
-  const validMonths = data.filter(m => m.income > 0 || m.expenses > 0);
-  const avgInc  = validMonths.reduce((s, m) => s + m.income, 0) / Math.max(validMonths.length, 1);
-  const avgExp  = validMonths.reduce((s, m) => s + m.expenses, 0) / Math.max(validMonths.length, 1);
-  const avgRate = validMonths.reduce((s, m) => s + m.savingsRate, 0) / Math.max(validMonths.length, 1);
-
-  document.getElementById('avg-income').textContent   = fmt(avgInc, currency, true);
-  document.getElementById('avg-expenses').textContent = fmt(avgExp, currency, true);
-  document.getElementById('avg-savings-rate').textContent = `${avgRate.toFixed(1)}%`;
-
-  if (validMonths.length >= 2) {
-    const first = validMonths[0].savingsRate;
-    const last  = validMonths[validMonths.length - 1].savingsRate;
-    const diff  = last - first;
-    const trendEl = document.getElementById('savings-trend');
-    trendEl.textContent = diff > 2 ? `↑ Improving` : diff < -2 ? `↓ Declining` : `→ Stable`;
-    trendEl.style.color = diff > 2 ? 'var(--positive)' : diff < -2 ? 'var(--negative)' : 'var(--warning)';
-  }
-}
-
-function renderSimulator(goals, txs, settings) {
-  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
-  const monthData = computeMonthlyData(txs, currentMonth.year, currentMonth.month);
-  const baseMonthlySavings = Math.max(income - monthData.expenses, 0);
-
-  const currency = settings.currencyCode;
-  const slider = document.getElementById('sim-slider');
-
-  // Set slider range relative to income
-  const maxSwing = Math.round(income * 0.5 / 50) * 50 || 500;
-  slider.min = -maxSwing; slider.max = maxSwing; slider.value = 0;
-  document.getElementById('sim-value').textContent = fmt(0, currency, true);
-
-  // Initial render
-  updateSimulatorDisplay(0, baseMonthlySavings, goals, currency);
-
-  // Store for updates
-  window._simBase    = baseMonthlySavings;
-  window._simGoals   = goals;
-  window._simCurrency = currency;
-}
-
-function updateSimulator(value) {
-  const v = parseFloat(value);
-  const sign = v >= 0 ? '+' : '';
-  document.getElementById('sim-value').textContent = `${sign}${fmt(Math.abs(v), window._simCurrency, true)}`;
-  document.getElementById('sim-value').style.color = v >= 0 ? '#A78BFA' : 'var(--negative)';
-  updateSimulatorDisplay(v, window._simBase, window._simGoals, window._simCurrency);
-}
-
-function updateSimulatorDisplay(delta, baseSavings, goals, currency) {
-  const container = document.getElementById('sim-results');
-  if (goals.length === 0) {
-    container.innerHTML = `<div class="empty-state" style="padding:12px"><div class="es-sub">Add goals in the app to see projections here</div></div>`;
-    return;
-  }
-
-  const newSavings = Math.max(baseSavings + delta, 0);
-
-  container.innerHTML = goals.map(g => {
-    const remaining = g.targetAmount - g.currentAmount;
-    if (remaining <= 0) return '';
-
-    const baseMonths = baseSavings > 0 ? Math.ceil(remaining / baseSavings) : null;
-    const newMonths  = newSavings  > 0 ? Math.ceil(remaining / newSavings)  : null;
-
-    const baseDate = baseMonths ? new Date(Date.now() + baseMonths * 30.44 * 86400000) : null;
-    const newDate  = newMonths  ? new Date(Date.now() + newMonths  * 30.44 * 86400000) : null;
-
-    const diff  = baseMonths && newMonths ? baseMonths - newMonths : 0;
-    const cls   = Math.abs(diff) < 1 ? 'same' : diff > 0 ? 'better' : 'worse';
-    const badge = Math.abs(diff) < 1 ? 'No change' :
-                  diff > 0 ? `${diff}mo sooner` : `${Math.abs(diff)}mo later`;
-
-    const dateLabel = newDate ? newDate.toLocaleDateString('en', { month: 'short', year: 'numeric' }) : 'N/A';
-
-    return `
-      <div class="sim-result-row">
-        <div class="sim-result-emoji">${g.emoji}</div>
-        <div class="sim-result-name">${g.name}</div>
-        <div class="sim-result-delta ${cls}">${badge}</div>
-        <div class="sim-result-date">${dateLabel}</div>
-      </div>`;
-  }).join('');
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2126,42 +1459,569 @@ function togglePrivacy() {
   document.getElementById('eye-icon').innerHTML = privacyHidden ? EYE_OFF : EYE_OPEN;
 }
 
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  const mainEl = document.querySelector('main');
+  if (el && mainEl) {
+    const top = el.getBoundingClientRect().top - mainEl.getBoundingClientRect().top + mainEl.scrollTop - 24;
+    mainEl.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+
+function handleInsightAction() {
+  if (insightAction) insightAction();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — NET WORTH
+// ═══════════════════════════════════════════════════════════════════
+function renderNetWorth(txs, bankAccounts, settings, currency) {
+  const now = new Date();
+  const labels = [];
+  const dataPoints = [];
+
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i + 1, 0); // end of month
+    const txsUpTo = txs.filter(t => t.date <= d);
+    const nw = computeBalance(txsUpTo, bankAccounts, settings);
+    labels.push(d.toLocaleDateString('en', { month: 'short' }));
+    dataPoints.push(nw);
+  }
+
+  const current = dataPoints[dataPoints.length - 1];
+  const prev    = dataPoints[dataPoints.length - 2] ?? current;
+  const delta   = current - prev;
+
+  document.getElementById('nw-amount').textContent = fmt(current, currency);
+  const deltaEl = document.getElementById('nw-delta');
+  deltaEl.textContent = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency, true)} this month`;
+  deltaEl.className = 'nw-delta' + (delta < 0 ? ' neg' : '');
+
+  const ctx = document.getElementById('nw-chart').getContext('2d');
+  if (nwChart) nwChart.destroy();
+
+  const grad = ctx.createLinearGradient(0, 0, 0, 120);
+  grad.addColorStop(0, 'rgba(45,212,191,0.3)');
+  grad.addColorStop(1, 'rgba(45,212,191,0)');
+
+  nwChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: dataPoints,
+        borderColor: 'rgba(45,212,191,0.9)',
+        backgroundColor: grad,
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0E1A17',
+          borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1,
+          titleColor: 'rgba(255,255,255,0.9)', bodyColor: 'rgba(255,255,255,0.6)',
+          callbacks: { label: ctx => ` ${fmt(ctx.parsed.y, currency)}` }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.3)', font: { family: 'Outfit', size: 10 } } },
+        y: { display: false },
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — WATERFALL CHART
+// ═══════════════════════════════════════════════════════════════════
+function renderWaterfall(txs, year, month, currency) {
+  const cf = cashFlowTxs(txs.filter(t => inMonth(t, year, month)));
+  const income = cf.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+  const expenseTxs = cf.filter(t => t.type === 'expense');
+
+  // Group by category, pick top 5
+  const catMap = {};
+  expenseTxs.forEach(t => {
+    const k = t.categoryName || 'Other';
+    catMap[k] = (catMap[k] || 0) + t.amount;
+  });
+  const topCats = Object.entries(catMap)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+
+  const labels = [];
+  const data   = [];
+  const colors = [];
+
+  // Income bar
+  labels.push('Income');
+  data.push([0, income]);
+  colors.push('rgba(52,211,153,0.8)');
+
+  let running = income;
+  const catColors = ['rgba(248,113,113,0.75)', 'rgba(251,191,36,0.75)', 'rgba(167,139,250,0.75)', 'rgba(96,165,250,0.75)', 'rgba(251,146,60,0.75)'];
+  topCats.forEach(([cat, amt], i) => {
+    labels.push(cat);
+    data.push([running - amt, running]);
+    colors.push(catColors[i % catColors.length]);
+    running -= amt;
+  });
+
+  // Net bar
+  const net = income - topCats.reduce((s, [, a]) => s + a, 0);
+  labels.push('Net');
+  data.push([0, net]);
+  colors.push(net >= 0 ? 'rgba(52,211,153,0.8)' : 'rgba(248,113,113,0.8)');
+
+  const ctx = document.getElementById('wf-chart').getContext('2d');
+  if (wfChart) wfChart.destroy();
+
+  if (income === 0 && topCats.length === 0) {
+    document.getElementById('wf-chart').style.display = 'none';
+    return;
+  }
+  document.getElementById('wf-chart').style.display = '';
+
+  wfChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0E1A17',
+          borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1,
+          titleColor: 'rgba(255,255,255,0.9)', bodyColor: 'rgba(255,255,255,0.6)',
+          callbacks: {
+            label: ctx => {
+              const [start, end] = ctx.raw;
+              return ` ${fmt(Math.abs(end - start), currency, true)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: 'rgba(255,255,255,0.35)', font: { family: 'Outfit', size: 10 },
+                   callback: v => fmt(v, currency, true) },
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: 'rgba(255,255,255,0.5)', font: { family: 'Outfit', size: 11 } },
+        }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — SPENDING BARS WITH ANOMALY DETECTION
+// ═══════════════════════════════════════════════════════════════════
+function renderSpending(allocations, txs, year, month, currency, categories) {
+  const container = document.getElementById('spend-bars');
+  const summaryEl = document.getElementById('spend-summary');
+
+  if (allocations.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">📊</div><div class="es-title">No budget set</div><div class="es-sub">Create a budget in the app to track spending here</div></div>`;
+    summaryEl.textContent = '—';
+    return;
+  }
+
+  const catEmoji = Object.fromEntries(categories.map(c => [c.name, c.emoji]));
+
+  // Compute last 3 months avg per category
+  const avgMap = {};
+  for (let i = 1; i <= 3; i++) {
+    let d = new Date(year, month - i, 1);
+    const cf3 = cashFlowTxs(txs.filter(t => inMonth(t, d.getFullYear(), d.getMonth()) && t.type === 'expense'));
+    cf3.forEach(t => {
+      const k = t.categoryName || 'Other';
+      avgMap[k] = (avgMap[k] || 0) + t.amount;
+    });
+  }
+  Object.keys(avgMap).forEach(k => avgMap[k] /= 3);
+
+  const cfCurrent = cashFlowTxs(txs.filter(t => inMonth(t, year, month) && t.type === 'expense'));
+  let totalSpent = 0, totalBudget = 0;
+
+  const rows = allocations.map(a => {
+    const spent = cfCurrent.filter(t => t.categoryName === a.categoryName).reduce((s, t) => s + t.amount, 0);
+    const pct = a.budgetedAmount > 0 ? spent / a.budgetedAmount : 0;
+    totalSpent += spent; totalBudget += a.budgetedAmount;
+    const color = pct >= 1 ? 'var(--negative)' : pct >= 0.8 ? 'var(--warning)' : 'var(--positive)';
+    const emoji = catEmoji[a.categoryName] || '📦';
+    const avg3 = avgMap[a.categoryName] || 0;
+    const isAnomaly = avg3 > 0 && spent > avg3 * 1.2;
+    const anomalyPct = avg3 > 0 ? Math.round((spent / avg3 - 1) * 100) : 0;
+    return `
+      <div class="spend-row">
+        <div class="spend-row-top">
+          <span class="spend-name">
+            ${emoji} ${a.categoryName}
+            ${isAnomaly ? `<span class="anomaly-badge">↑ +${anomalyPct}%</span>` : ''}
+          </span>
+          <span class="spend-amounts private">${fmt(spent, currency, true)} / ${fmt(a.budgetedAmount, currency, true)}</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-budget" style="width:100%"></div>
+          <div class="bar-fill" style="width:${Math.min(pct * 100, 100)}%; background:${color}; position:relative; z-index:1;"></div>
+        </div>
+      </div>`;
+  });
+
+  summaryEl.textContent = `${fmt(totalSpent, currency, true)} of ${fmt(totalBudget, currency, true)}`;
+  container.innerHTML = rows.join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — GOAL VELOCITY WITH SLIDERS
+// ═══════════════════════════════════════════════════════════════════
+function renderGoalVelocity(goals, txs, settings) {
+  const container = document.getElementById('goals-list');
+  document.getElementById('goals-badge').textContent = `${goals.length} active`;
+
+  if (goals.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">🎯</div><div class="es-title">No goals yet</div><div class="es-sub">Set your first savings goal in the app</div></div>`;
+    return;
+  }
+
+  const currency = settings.currencyCode;
+  const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
+  const monthData = computeMonthlyData(txs, currentMonth.year, currentMonth.month);
+  const monthlySavings = Math.max(income - monthData.expenses, 1);
+
+  const goalColors = ['#2DD4BF', '#A78BFA', '#FB923C', '#34D399', '#60A5FA'];
+
+  container.innerHTML = goals.map((g, i) => {
+    const pct = g.targetAmount > 0 ? Math.min(g.currentAmount / g.targetAmount * 100, 100) : 0;
+    const color = goalColors[i % goalColors.length];
+    const eta = goalETA(g, monthlySavings);
+    const etaLabel = eta ? `Saving ${fmt(monthlySavings, currency, true)}/mo → reach by ${eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' })}` : 'Set income to calculate ETA';
+    const maxExtra = Math.round(monthlySavings * 2 / 50) * 50 || 500;
+    return `
+      <div class="goal-row">
+        <div class="goal-row-top">
+          <span class="goal-emoji">${g.emoji}</span>
+          <span class="goal-name">${g.name}</span>
+          <span class="goal-pct-label" style="color:${color}">${Math.round(pct)}%</span>
+        </div>
+        <div class="goal-bar-wrap">
+          <div class="goal-bar-fill" id="gbar-${i}" style="width:${pct}%; background: linear-gradient(90deg, ${color}99, ${color})"></div>
+        </div>
+        <div class="goal-meta">
+          <span class="private">${fmt(g.currentAmount, currency, true)} of ${fmt(g.targetAmount, currency, true)}</span>
+          <span class="goal-eta-text" id="geta-${i}">${etaLabel}</span>
+        </div>
+        <div class="goal-sim-wrap">
+          <div class="goal-sim-label">
+            <span>Simulate: save more</span>
+            <span class="goal-sim-eta" id="gsim-eta-${i}">${eta ? eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' }) : '—'}</span>
+          </div>
+          <input type="range" id="gsim-${i}" min="0" max="${maxExtra}" value="0" step="50"
+            data-goal-idx="${i}"
+            oninput="updateGoalETA(${i}, parseFloat(this.value))" />
+        </div>
+      </div>`;
+  }).join('');
+
+  // Store goal data for slider updates
+  window._goalVelocityData = { goals, monthlySavings, currency };
+}
+
+function updateGoalETA(idx, extra) {
+  if (!window._goalVelocityData) return;
+  const { goals, monthlySavings, currency } = window._goalVelocityData;
+  const g = goals[idx];
+  if (!g) return;
+  const newSavings = monthlySavings + extra;
+  const eta = goalETA(g, newSavings);
+  const etaEl = document.getElementById(`gsim-eta-${idx}`);
+  if (etaEl) {
+    etaEl.textContent = eta
+      ? `${eta.date.toLocaleDateString('en', { month: 'short', year: 'numeric' })} (+${fmt(extra, currency, true)}/mo)`
+      : '—';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — CALENDAR HEATMAP
+// ═══════════════════════════════════════════════════════════════════
+function renderCalendarHeatmap(txs) {
+  const container = document.getElementById('cal-grid');
+
+  // Build spend map for last 90 days
+  const spendMap = {};
+  const today = new Date();
+  today.setHours(23, 59, 59, 999);
+  const start = new Date(today);
+  start.setDate(start.getDate() - 89);
+  start.setHours(0, 0, 0, 0);
+
+  const expenseTxs = cashFlowTxs(txs).filter(t => t.type === 'expense' && t.date >= start && t.date <= today);
+  expenseTxs.forEach(t => {
+    const key = t.date.toISOString().slice(0, 10);
+    spendMap[key] = (spendMap[key] || 0) + t.amount;
+  });
+
+  const maxSpend = Math.max(...Object.values(spendMap), 1);
+
+  // Build weeks array: find Monday of the week containing `start`
+  const startDay = new Date(start);
+  // Align to Monday
+  const dow = startDay.getDay(); // 0=Sun
+  const offsetToMon = (dow === 0) ? -6 : 1 - dow;
+  startDay.setDate(startDay.getDate() + offsetToMon);
+
+  // Generate all days from startDay to today grouped by week
+  const weeks = [];
+  let cur = new Date(startDay);
+  while (cur <= today) {
+    const week = [];
+    for (let d = 0; d < 7; d++) {
+      week.push(new Date(cur));
+      cur.setDate(cur.getDate() + 1);
+    }
+    weeks.push(week);
+  }
+
+  const getColor = (dateStr) => {
+    if (!dateStr) return 'transparent';
+    const amt = spendMap[dateStr] || 0;
+    if (amt === 0) return 'var(--surface2)';
+    const ratio = amt / maxSpend;
+    if (ratio < 0.25) return 'rgba(45,212,191,0.20)';
+    if (ratio < 0.55) return 'rgba(45,212,191,0.50)';
+    return 'rgba(45,212,191,0.85)';
+  };
+
+  container.innerHTML = weeks.map(week => {
+    const cells = week.map(day => {
+      const dateStr = day.toISOString().slice(0, 10);
+      const isInRange = day >= start && day <= today;
+      if (!isInRange) return `<div class="cal-cell" style="background:transparent;"></div>`;
+      const amt = spendMap[dateStr] || 0;
+      const color = getColor(dateStr);
+      const label = `${day.toLocaleDateString('en', { month: 'short', day: 'numeric' })}${amt > 0 ? ': ' + fmt(amt, state.settings?.currencyCode || 'USD', true) : ''}`;
+      return `<div class="cal-cell" style="background:${color};" title="${label}"></div>`;
+    }).join('');
+    return `<div class="cal-week">${cells}</div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — INSIGHT CARD
+// ═══════════════════════════════════════════════════════════════════
+function renderInsightCard(insight) {
+  const card = document.getElementById('insight-card');
+  card.className = `move-card ${insight.tint}`;
+  document.getElementById('insight-icon').textContent = insight.icon;
+  document.getElementById('insight-headline').textContent = insight.headline;
+  document.getElementById('insight-body').innerHTML = insight.body;
+  document.getElementById('insight-btn').textContent = `${insight.btnLabel} →`;
+  insightAction = insight.action;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — TRANSACTIONS
+// ═══════════════════════════════════════════════════════════════════
+function renderTransactions(txs, currency, settings) {
+  const container = document.getElementById('tx-list');
+  document.getElementById('tx-count-label').textContent = `${txs.length} transactions`;
+
+  if (txs.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">💸</div><div class="es-title">No transactions this month</div><div class="es-sub">Transactions you log in the app appear here</div></div>`;
+    return;
+  }
+
+  const catEmoji = Object.fromEntries(state.categories.map(c => [c.name, c.emoji]));
+  const today     = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+  container.innerHTML = txs.map(t => {
+    const isIncome = t.type === 'income';
+    const dateStr  = t.date.toDateString() === today ? 'Today' :
+                     t.date.toDateString() === yesterday ? 'Yesterday' :
+                     t.date.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+    const emoji = catEmoji[t.categoryName] || (isIncome ? '💰' : '💸');
+    const amountClass = isIncome ? 'positive' : 'negative';
+    const sign = isIncome ? '+' : '−';
+    return `
+      <div class="tx-row">
+        <div class="tx-icon">${emoji}</div>
+        <div class="tx-info">
+          <div class="tx-name">${t.note || t.categoryName || (isIncome ? 'Income' : 'Expense')}</div>
+          <div class="tx-cat">${t.categoryName || ''}${t.isCardPayment ? ' · Card' : ''}</div>
+        </div>
+        <div class="tx-right">
+          <div class="tx-amount private ${amountClass}">${sign}${fmt(t.amount, currency)}</div>
+          <div class="tx-date">${dateStr}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER — TREND CHART
+// ═══════════════════════════════════════════════════════════════════
+function renderTrendChart(txs, months, currency) {
+  const data = computeAllMonthlyData(txs, months);
+  const labels   = data.map(m => m.label);
+  const incomes  = data.map(m => m.income);
+  const expenses = data.map(m => m.expenses);
+  const rates    = data.map(m => m.savingsRate);
+
+  const ctx = document.getElementById('trend-chart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+
+  trendChart = new Chart(ctx, {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar', label: 'Income', data: incomes,
+          backgroundColor: 'rgba(52,211,153,0.6)', borderColor: 'rgba(52,211,153,0.9)',
+          borderWidth: 1, borderRadius: 4, yAxisID: 'y',
+        },
+        {
+          type: 'bar', label: 'Expenses', data: expenses,
+          backgroundColor: 'rgba(248,113,113,0.5)', borderColor: 'rgba(248,113,113,0.8)',
+          borderWidth: 1, borderRadius: 4, yAxisID: 'y',
+        },
+        {
+          type: 'line', label: 'Savings Rate %', data: rates,
+          borderColor: 'rgba(45,212,191,0.9)', backgroundColor: 'rgba(45,212,191,0.1)',
+          borderWidth: 2, pointRadius: 3, pointBackgroundColor: 'var(--accent)',
+          tension: 0.4, fill: false, yAxisID: 'y2',
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0E1A17', borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1,
+          titleColor: 'rgba(255,255,255,0.9)', bodyColor: 'rgba(255,255,255,0.6)',
+          callbacks: {
+            label: ctx => {
+              if (ctx.datasetIndex === 2) return ` Savings rate: ${ctx.parsed.y.toFixed(1)}%`;
+              return ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y, currency, true)}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid:  { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: 'rgba(255,255,255,0.4)', font: { family: 'Outfit', size: 11 } },
+        },
+        y: {
+          position: 'left',
+          grid:  { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: 'rgba(255,255,255,0.4)', font: { family: 'Outfit', size: 11 },
+                   callback: v => fmt(v, currency, true) },
+        },
+        y2: {
+          position: 'right', grid: { display: false },
+          ticks: { color: 'rgba(45,212,191,0.6)', font: { family: 'Outfit', size: 11 },
+                   callback: v => `${v.toFixed(0)}%` },
+          min: -20, max: 100,
+        }
+      }
+    }
+  });
+
+  const validMonths = data.filter(m => m.income > 0 || m.expenses > 0);
+  const avgInc  = validMonths.reduce((s, m) => s + m.income, 0) / Math.max(validMonths.length, 1);
+  const avgRate = validMonths.reduce((s, m) => s + m.savingsRate, 0) / Math.max(validMonths.length, 1);
+  document.getElementById('avg-income').textContent = fmt(avgInc, currency, true);
+  document.getElementById('avg-savings-rate').textContent = `${avgRate.toFixed(1)}%`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════════════════════════
+function renderAll() {
+  const { settings, transactions: txs, goals, allocations, recurring, bankAccounts, categories } = state;
+  const currency = settings.currencyCode;
+  const { year, month } = currentMonth;
+
+  // Month label + nav
+  const d = new Date(year, month, 1);
+  document.getElementById('month-label').textContent = d.toLocaleDateString('en', { month: 'long', year: 'numeric' });
+  const isCurrentMonth = year === new Date().getFullYear() && month === new Date().getMonth();
+  document.getElementById('next-month-btn').disabled = isCurrentMonth;
+  document.getElementById('today-label').textContent = new Date().toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+  // Section 1: Net Worth
+  renderNetWorth(txs, bankAccounts, settings, currency);
+
+  // Section 2: Cash Flow
+  const monthData = computeMonthlyData(txs, year, month);
+  document.getElementById('cf-income').textContent   = fmt(monthData.income, currency);
+  document.getElementById('cf-expenses').textContent = fmt(monthData.expenses, currency);
+  document.getElementById('cf-saved').textContent    = fmt(monthData.net, currency);
+  document.getElementById('cf-saved').style.color = monthData.net >= 0 ? 'var(--accent)' : 'var(--negative)';
+
+  renderWaterfall(txs, year, month, currency);
+
+  // Health Score
+  const score = computeHealthScore(txs, recurring, settings);
+  document.getElementById('score-num').textContent = score.total > 0 ? score.total : '—';
+  document.getElementById('score-level').textContent = score.level;
+  document.getElementById('score-narrative').textContent = score.narrative;
+  const scoreColors = { Excellent: '#34D399', 'On Track': '#2DD4BF', Fair: '#FBBF24', 'Needs Work': '#FB923C', Critical: '#F87171', 'Getting Started': '#2DD4BF' };
+  const sColor = scoreColors[score.level] || 'var(--accent)';
+  document.getElementById('score-level').style.color = sColor;
+  const ring = document.getElementById('score-ring');
+  ring.setAttribute('stroke', sColor);
+  ring.style.strokeDashoffset = score.total > 0 ? 263.9 - (score.total / 100) * 263.9 : 263.9;
+
+  // Section 3: Spending + Insight
+  renderSpending(allocations, txs, year, month, currency, categories);
+  const insight = computeInsight(txs, goals, recurring, settings, allocations);
+  renderInsightCard(insight);
+  renderTrendChart(txs, chartRange, currency);
+
+  // Section 4: Goals
+  renderGoalVelocity(goals, txs, settings);
+
+  // Section 5: Calendar Heatmap
+  renderCalendarHeatmap(txs);
+
+  // Section 6: Transactions
+  renderTransactions(txs.filter(t => inMonth(t, year, month)).slice(0, 20), currency, settings);
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════
-// ── Nav item click → scroll to section + active state ──────────────
 document.addEventListener('DOMContentLoaded', () => {
-  const sectionMap = {
-    overview:  'section-overview',
-    insights:  'section-insights',
-    budget:    'section-budget',
-    goals:     'section-budget',   // goals are in same row
-    history:   'section-history',
-  };
-
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', e => {
       e.preventDefault();
-      const page = item.dataset.page;
-
-      // Update active state
+      const sectionId = item.dataset.section;
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       item.classList.add('active');
-
-      // Scroll the <main> content area to the target section
-      const targetId = sectionMap[page];
-      if (targetId) {
-        const el = document.getElementById(targetId);
-        const mainEl = document.querySelector('main');
-        if (el && mainEl) {
-          // getBoundingClientRect gives position relative to viewport;
-          // subtract mainEl's top and add current scroll to get scroll target
-          const targetTop = el.getBoundingClientRect().top
-                          - mainEl.getBoundingClientRect().top
-                          + mainEl.scrollTop - 28;
-          mainEl.scrollTo({ top: targetTop, behavior: 'smooth' });
-        }
-      }
+      if (sectionId) scrollToSection(sectionId);
     });
   });
 
