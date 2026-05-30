@@ -1007,6 +1007,7 @@ const I18N = {
     'gv.saving': 'Saving {amt}/mo → reach by {date}', 'gv.setincome': 'Set income to calculate ETA',
     'gv.simulate': 'Simulate: save more', 'gv.active': '{n} active',
     'ins.open': 'Open ucm App', 'ins.month': 'month', 'ins.months': 'months', 'ins.sooner': '{n} {unit} sooner', 'tx.count': '{n} transactions',
+    'ins.cta.impact': 'See the impact', 'ins.cta.plan': 'Build your plan', 'ins.cta.forecast': 'See your Forecast',
     'ins.sub.h': 'Cancel {name} — unused for 60+ days',
     'ins.sub.b': 'That frees up <strong class="goal-link">{annual}/year</strong>. Applied to your {emoji} <strong>{name}</strong> goal, you\'d reach it <strong class="goal-link">{sooner}</strong>.',
     'ins.pace.h': 'Spending faster than the month',
@@ -1077,6 +1078,7 @@ const I18N = {
     'gv.saving': 'Guardando {amt}/mês → alcança em {date}', 'gv.setincome': 'Informe a renda para calcular a previsão',
     'gv.simulate': 'Simular: guardar mais', 'gv.active': '{n} ativas',
     'ins.open': 'Abrir o app ucm', 'ins.month': 'mês', 'ins.months': 'meses', 'ins.sooner': '{n} {unit} antes', 'tx.count': '{n} transações',
+    'ins.cta.impact': 'Ver o impacto', 'ins.cta.plan': 'Montar seu plano', 'ins.cta.forecast': 'Ver sua Projeção',
     'ins.sub.h': 'Cancele {name} — sem uso há 60+ dias',
     'ins.sub.b': 'Isso libera <strong class="goal-link">{annual}/ano</strong>. Aplicado à sua meta {emoji} <strong>{name}</strong>, você a alcançaria <strong class="goal-link">{sooner}</strong>.',
     'ins.pace.h': 'Gastando mais rápido que o mês',
@@ -1616,8 +1618,8 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
         tint: 'tint-orange', icon: '🔔',
         headline: tt('ins.sub.h', { name: sub.name }),
         body: tt('ins.sub.b', { annual: fmt(annualSaving, currency), emoji: goal.emoji, name: goal.name, sooner }),
-        btnLabel: t('ins.open'),
-        action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
+        btnLabel: t('ins.cta.impact'),
+        action: () => showPage('forecast'),
       };
     }
   }
@@ -1676,8 +1678,8 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
       tint: '', icon: '📊',
       headline: t('ins.nobudget.h'),
       body: t('ins.nobudget.b'),
-      btnLabel: t('ins.open'),
-      action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
+      btnLabel: t('ins.cta.plan'),
+      action: () => showPage('suggestions'),
     };
   }
 
@@ -1686,8 +1688,8 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
     tint: 'tint-green', icon: '✅',
     headline: t('ins.solid.h'),
     body: t('ins.solid.b'),
-    btnLabel: t('ins.open'),
-    action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
+    btnLabel: t('ins.cta.forecast'),
+    action: () => showPage('forecast'),
   };
 }
 
