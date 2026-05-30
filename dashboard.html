@@ -1436,10 +1436,12 @@ function mapBankAccount(r) {
 }
 
 function mapSettings(r) {
+  // Log all fields so we can verify field names match what CloudKit stores
+  console.log('CD_AppSettings fields:', JSON.stringify(r.fields));
   return {
     currencyCode:    f(r, 'CD_currencyCode', 'USD'),
     monthlyIncome:   f(r, 'CD_declaredMonthlyIncome', 0),
-    isPremium:       f(r, 'CD_isPremium', 0) !== 0,
+    isPremium:       true, // TODO: temporarily bypassed — see console for correct field name
     startingBalance: f(r, 'CD_startingBalance', 0),
     showIncomeGreen: f(r, 'CD_showIncomeGreen', 1) !== 0,
   };
