@@ -1077,68 +1077,59 @@ function initCloudKit() {
     document.getElementById('setup-banner').style.display = 'block';
   }
 
-  // ── Auth callback detection ───────────────────────────────────────
-  // CloudKit auth redirect lands on /dashboard with #ckWebAuthToken=...
-  // in the URL hash. This can happen in two contexts:
-  //   (A) A popup window opened by CloudKit JS — relay token to parent,
-  //       then close. Use BroadcastChannel (survives cross-origin hops
-  //       that nullify window.opener in Safari) + postMessage fallback.
-  //   (B) The main window itself (if window.opener is unavailable) —
-  //       process the token directly via setUpAuth().
+  // ── Popup detection ──────────────────────────────────────────────
+  // CloudKit opens a popup to ucm.thothi.app/dashboard to handle auth.
+  // The popup goes through two phases:
+  //   Phase 1 — no token yet: hide all UI, configure CloudKit silently.
+  //             CloudKit may silently sign in (via iCloud cookies) or
+  //             redirect the popup to Apple's sign-in page.
+  //   Phase 2 — ckWebAuthToken in hash (after Apple redirect): relay
+  //             token to parent via BroadcastChannel + postMessage, close.
+  const isPopup = !!(window.opener && !window.opener.closed);
   const tokenHash = window.location.hash;
-  if (tokenHash.includes('ckWebAuthToken')) {
-    history.replaceState(null, '', window.location.pathname);
+  const hasToken  = tokenHash.includes('ckWebAuthToken');
 
-    if (window.opener && !window.opener.closed) {
-      // Context A — relay via postMessage
-      dbg('Auth callback: relaying via postMessage…');
+  if (isPopup) {
+    if (hasToken) {
+      // Phase 2: relay token and close
+      dbg('Popup phase 2: relaying token…');
+      history.replaceState(null, '', window.location.pathname);
       try { window.opener.postMessage({ type: 'ck-relay', hash: tokenHash }, 'https://ucm.thothi.app'); } catch(_) {}
-    }
-    // Always broadcast — BroadcastChannel works even when opener is null
-    // (Safari clears opener after cross-origin popup navigation)
-    try {
-      const ch = new BroadcastChannel('ck-auth');
-      dbg('Auth callback: relaying via BroadcastChannel…');
-      ch.postMessage({ type: 'ck-relay', hash: tokenHash });
-      ch.close();
-    } catch(_) {}
-
-    // If this IS the main window (no opener), process directly
-    if (!window.opener || window.opener.closed) {
-      dbg('Auth callback: no opener — processing token in main window…');
-      // Fall through to configure CloudKit below, then setUpAuth picks up the hash
-      // (we already removed the hash above, so we restore it for setUpAuth)
-      history.replaceState(null, '', window.location.pathname + tokenHash);
+      try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-relay', hash: tokenHash }); ch.close(); } catch(_) {}
+      setTimeout(() => window.close(), 400);
     } else {
-      // This is a popup — close it after relay
-      setTimeout(() => window.close(), 500);
-      return;
+      // Phase 1: hide all UI, run CloudKit silently
+      dbg('Popup phase 1: silent auth…');
+      ['auth-screen','loading-screen','dashboard'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      CloudKit.configure({
+        containers: [{ containerIdentifier: CK_CONTAINER, apiTokenAuth: { apiToken: CK_TOKEN, persist: true }, environment: CK_ENV }]
+      });
+      CloudKit.getDefaultContainer().setUpAuth().then(id => {
+        if (id) {
+          // Silently signed in (iCloud cookies) — notify parent
+          dbg('Popup: silent sign-in ✓');
+          try { window.opener.postMessage({ type: 'ck-signed-in' }, 'https://ucm.thothi.app'); } catch(_) {}
+          try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-signed-in' }); ch.close(); } catch(_) {}
+          setTimeout(() => window.close(), 400);
+        } else {
+          dbg('Popup: needs Apple sign-in (waiting for redirect)…');
+          // CloudKit will redirect to Apple sign-in; after auth it comes
+          // back to /dashboard#ckWebAuthToken=... which is Phase 2 above.
+        }
+      }).catch(err => { dbg('Popup setUpAuth error: ' + err.message); });
     }
+    return; // Never run main dashboard logic in a popup
   }
 
+  // ── Main window ──────────────────────────────────────────────────
   dbg('Configuring CloudKit…');
 
-  // ── Main window: listen for token relayed from popup ─────────────
-  // BroadcastChannel is the primary relay (survives Safari cross-origin
-  // opener nullification). postMessage is kept as secondary.
-  try {
-    const authChannel = new BroadcastChannel('ck-auth');
-    authChannel.addEventListener('message', (e) => {
-      if (e.data?.type === 'ck-relay') {
-        authChannel.close();
-        dbg('Token via BroadcastChannel — processing…');
-        processRelayedToken(e.data.hash);
-      }
-    });
-  } catch(_) {}
-
-  window.addEventListener('message', (e) => {
-    if (e.origin === 'https://ucm.thothi.app' && e.data?.type === 'ck-relay') {
-      dbg('Token via postMessage — processing…');
-      processRelayedToken(e.data.hash);
-    }
-  });
-
+  // Listen for token or silent-sign-in signal from popup
+  // BroadcastChannel works even when window.opener is cleared by Safari
+  // after cross-origin popup navigation.
   function processRelayedToken(hash) {
     history.replaceState(null, '', window.location.pathname + hash);
     CloudKit.getDefaultContainer().setUpAuth().then(id => {
@@ -1147,6 +1138,30 @@ function initCloudKit() {
       else     { dbg('setUpAuth null after relay'); showAuth(); }
     }).catch(err => { dbg('Relay setUpAuth ERROR: ' + err.message); showAuth(); });
   }
+
+  try {
+    const authChannel = new BroadcastChannel('ck-auth');
+    authChannel.addEventListener('message', (e) => {
+      if (e.data?.type === 'ck-relay') {
+        authChannel.close();
+        dbg('Token via BroadcastChannel — processing…');
+        processRelayedToken(e.data.hash);
+      } else if (e.data?.type === 'ck-signed-in') {
+        authChannel.close();
+        dbg('Silent sign-in via BroadcastChannel — re-checking auth…');
+        CloudKit.getDefaultContainer().setUpAuth().then(id => {
+          if (id) { dbg('Signed in ✓'); onSignedIn(id); }
+          else showAuth();
+        });
+      }
+    });
+  } catch(_) {}
+
+  window.addEventListener('message', (e) => {
+    if (e.origin !== 'https://ucm.thothi.app') return;
+    if (e.data?.type === 'ck-relay')      processRelayedToken(e.data.hash);
+    if (e.data?.type === 'ck-signed-in')  CloudKit.getDefaultContainer().setUpAuth().then(id => { if (id) onSignedIn(id); });
+  });
 
   CloudKit.configure({
     containers: [{
