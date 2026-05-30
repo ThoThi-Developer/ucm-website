@@ -1079,6 +1079,24 @@ function initCloudKit() {
 
   dbg('Configuring CloudKit…');
 
+  // BroadcastChannel: receives token relayed from auth-callback.html popup.
+  // This is needed because Safari nullifies window.opener after cross-origin
+  // navigation, so CloudKit's internal postMessage relay doesn't reach us.
+  try {
+    const ch = new BroadcastChannel('ck-auth');
+    ch.addEventListener('message', (e) => {
+      if (e.data?.type !== 'ck-relay') return;
+      ch.close();
+      dbg('Token received via BroadcastChannel — signing in…');
+      history.replaceState(null, '', window.location.pathname + e.data.hash);
+      CloudKit.getDefaultContainer().setUpAuth().then(id => {
+        history.replaceState(null, '', window.location.pathname);
+        if (id) { dbg('Signed in ✓'); onSignedIn(id); }
+        else    { dbg('setUpAuth null after relay'); showAuth(); }
+      }).catch(err => { dbg('setUpAuth ERROR after relay: ' + err.message); showAuth(); });
+    });
+  } catch(_) {}
+
   CloudKit.configure({
     containers: [{
       containerIdentifier: CK_CONTAINER,

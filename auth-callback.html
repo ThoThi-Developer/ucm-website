@@ -1,29 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8" />
-  <title>Signing in…</title>
-  <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
-</head>
+<head><meta charset="UTF-8"><title>Signing in…</title></head>
 <body>
 <script>
-// This page exists solely as the CloudKit auth callback.
-// CloudKit JS processes the ckWebAuthToken in the URL hash,
-// signals the parent window, then we close.
-CloudKit.configure({
-  containers: [{
-    containerIdentifier: 'iCloud.com.thothi.ucm',
-    apiTokenAuth: {
-      apiToken: 'b8050c1fb88f5fcabf191996e0efe82644c70f2c5e279d0c8a19f117d0900da0',
-      persist:  true,
-    },
-    environment: 'production',
-  }]
-});
-
-CloudKit.getDefaultContainer().setUpAuth()
-  .then(() => setTimeout(() => window.close(), 300))
-  .catch(() => setTimeout(() => window.close(), 300));
+// No CloudKit here — we just relay the token to the parent window.
+// The parent's CloudKit instance processes it via setUpAuth().
+const hash = window.location.hash;
+if (hash.includes('ckWebAuthToken')) {
+  // BroadcastChannel works even when Safari nullifies window.opener
+  // after cross-origin popup navigation (cdn.apple-cloudkit.com → appleid.apple.com → here)
+  try { const ch = new BroadcastChannel('ck-auth'); ch.postMessage({ type: 'ck-relay', hash }); ch.close(); } catch(_) {}
+  // postMessage as fallback when opener is still available
+  try { if (window.opener) window.opener.postMessage({ type: 'ck-relay', hash }, 'https://ucm.thothi.app'); } catch(_) {}
+}
+setTimeout(() => window.close(), 300);
 </script>
 </body>
 </html>
