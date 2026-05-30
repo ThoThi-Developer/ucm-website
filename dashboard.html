@@ -67,6 +67,13 @@
       display: flex; align-items: center; justify-content: center;
       background: rgba(8,15,13,0.96);
       backdrop-filter: blur(24px);
+      /* The sign-in splash stays dark regardless of app theme — CloudKit's
+         "Sign in with Apple" button is white and would vanish on a light card. */
+      --bg: #080F0D; --surface: #0E1A17; --surface2: #142420; --surface3: #1A2D29;
+      --border: rgba(255,255,255,0.07); --border-accent: rgba(45,212,191,0.2);
+      --text: rgba(255,255,255,0.92); --text-sec: rgba(255,255,255,0.48);
+      --text-ter: rgba(255,255,255,0.24); --accent: #2DD4BF;
+      color: var(--text);
     }
     .auth-card {
       background: var(--surface);
@@ -1078,7 +1085,7 @@ const I18N = {
     'export.csv': 'Export CSV', 'support.contact': 'Contact support', 'toast.demo': 'Demo mode — sample data',
     'nd.error.title': 'Something went wrong', 'nd.error.body': "We couldn't load your data this time. Please try again — if it keeps happening, get in touch and we'll help.",
     'nd.empty.title': 'No data found in iCloud', 'nd.empty.body': "You're signed in, but we haven't found any ucm data yet.<br><br><strong>To fix this:</strong><br>1. Open ucm on your iPhone<br>2. Settings → make sure iCloud sync is on<br>3. Wait a moment, then refresh here",
-    'nd.tryagain': 'Try again', 'nd.viewdemo': 'View demo',
+    'nd.tryagain': 'Try again', 'nd.viewdemo': 'View demo', 'auth.retry': 'Reload to sign in',
     'ov.networth': 'Net Worth', 'ov.thismonth': 'This Month', 'ov.income': 'Income', 'ov.expenses': 'Expenses',
     'ov.saved': 'Saved', 'ov.health': 'Health Score', 'ov.cashflow': 'Cash Flow', 'ov.loading': 'Loading',
     'ov.spending': 'Spending', 'ov.nextmove': 'Your next move', 'ov.analysing': 'Analysing your data…',
@@ -1159,7 +1166,7 @@ const I18N = {
     'export.csv': 'Exportar CSV', 'support.contact': 'Falar com o suporte', 'toast.demo': 'Modo demonstração — dados fictícios',
     'nd.error.title': 'Algo deu errado', 'nd.error.body': 'Não conseguimos carregar seus dados desta vez. Tente novamente — se continuar, fale com a gente que ajudamos.',
     'nd.empty.title': 'Nenhum dado no iCloud', 'nd.empty.body': 'Você entrou, mas ainda não encontramos dados do ucm.<br><br><strong>Como resolver:</strong><br>1. Abra o ucm no seu iPhone<br>2. Ajustes → ative a sincronização do iCloud<br>3. Aguarde um momento e atualize aqui',
-    'nd.tryagain': 'Tentar de novo', 'nd.viewdemo': 'Ver demonstração',
+    'nd.tryagain': 'Tentar de novo', 'nd.viewdemo': 'Ver demonstração', 'auth.retry': 'Recarregar para entrar',
     'ov.networth': 'Patrimônio', 'ov.thismonth': 'Este mês', 'ov.income': 'Receitas', 'ov.expenses': 'Despesas',
     'ov.saved': 'Guardado', 'ov.health': 'Saúde financeira', 'ov.cashflow': 'Fluxo de caixa', 'ov.loading': 'Carregando',
     'ov.spending': 'Gastos', 'ov.nextmove': 'Seu próximo passo', 'ov.analysing': 'Analisando seus dados…',
@@ -1311,8 +1318,28 @@ function onSignedIn(userIdentity) {
 }
 
 function onSignedOut() {
-  state = { settings: null, transactions: [], goals: [], allocations: [], categories: [], recurring: [], bankAccounts: [], loaded: false };
+  state = { settings: null, transactions: [], goals: [], allocations: [],
+            categories: [], recurring: [], bankAccounts: [], loaded: false, lastSync: null, isDemo: false };
+  // Drop any page deep-link so we return cleanly to the sign-in splash, not #forecast.
+  try { history.replaceState(null, '', location.pathname); } catch (e) {}
   showAuth();
+}
+
+// CloudKit renders the "Sign in with Apple" button asynchronously. If it never
+// appears (config/network), give the user a clear way back in rather than a dead screen.
+function ensureSignInAffordance() {
+  const holder = document.getElementById('sign-in-btn');
+  if (!holder) return;
+  setTimeout(() => {
+    if (holder.childElementCount === 0 && !document.getElementById('signin-fallback')) {
+      const b = document.createElement('button');
+      b.id = 'signin-fallback';
+      b.textContent = t('auth.retry');
+      b.onclick = () => location.replace(location.origin + location.pathname);
+      b.style.cssText = 'width:100%;padding:13px;border-radius:12px;border:none;background:var(--accent);color:#00201c;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;';
+      holder.appendChild(b);
+    }
+  }, 1800);
 }
 
 function handleSignOut() {
@@ -1409,6 +1436,7 @@ function showAuth() {
   document.getElementById('auth-screen').style.display = 'flex';
   document.getElementById('loading-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'none';
+  ensureSignInAffordance();
 }
 function showLoading()   { document.getElementById('loading-screen').style.display = 'flex'; document.getElementById('auth-screen').style.display = 'none'; document.getElementById('dashboard').style.display = 'none'; }
 function showDashboard() { document.getElementById('dashboard').style.display = 'flex'; document.getElementById('loading-screen').style.display = 'none'; document.getElementById('auth-screen').style.display = 'none'; }
