@@ -1598,8 +1598,8 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
         icon: '🔔',
         headline: `Cancel ${sub.name} — unused for 60+ days`,
         body: `That frees up <strong class="goal-link">${fmt(annualSaving, currency)}/year</strong>. Applied to your ${goal.emoji} <strong>${goal.name}</strong> goal, you'd reach it <strong class="goal-link">${saved} month${saved !== 1 ? 's' : ''} sooner</strong>.`,
-        btnLabel: 'Review in App',
-        action: null,
+        btnLabel: 'Open ucm App →',
+        action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
       };
     }
   }
@@ -1650,7 +1650,7 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
         headline: 'Savings rate dropped this month',
         body: `Your savings rate fell from <strong>${Math.round(prior)}%</strong> to <strong class="goal-link">${Math.round(latest)}%</strong> — a ${Math.round(prior - latest)}pp drop. Check which category spiked.`,
         btnLabel: 'See Trends',
-        action: null,
+        action: () => scrollToSection('section-insights'),
       };
     }
   }
@@ -1662,8 +1662,8 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
       icon: '📊',
       headline: 'Set a monthly budget',
       body: 'A budget is the single biggest behaviour-change tool in personal finance. Two minutes now, months of clarity after.',
-      btnLabel: 'Create in App',
-      action: null,
+      btnLabel: 'Open ucm App →',
+      action: () => window.open('https://apps.apple.com/app/ucm/id6741530699', '_blank'),
     };
   }
 
@@ -1824,6 +1824,15 @@ function renderInsightCard(insight) {
   document.getElementById('insight-body').innerHTML = insight.body;
   document.getElementById('insight-btn').textContent = `${insight.btnLabel} →`;
   insightAction = insight.action;
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  const mainEl = document.querySelector('main');
+  if (el && mainEl) {
+    const top = el.getBoundingClientRect().top - mainEl.getBoundingClientRect().top + mainEl.scrollTop - 28;
+    mainEl.scrollTo({ top, behavior: 'smooth' });
+  }
 }
 
 function handleInsightAction() {
