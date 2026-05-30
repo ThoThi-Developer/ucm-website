@@ -211,9 +211,15 @@
       display: flex; align-items: center; gap: 9px;
       padding: 9px 8px; border-radius: 9px;
       background: var(--accent-pale); border: 1px solid var(--border-accent);
-      cursor: pointer; transition: opacity 0.15s;
     }
-    .user-chip:hover { opacity: 0.8; }
+    .logout-btn {
+      flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-sec); cursor: pointer; transition: all 0.15s;
+    }
+    .logout-btn:hover { color: var(--negative); border-color: var(--negative); background: rgba(248,113,113,0.08); }
+    .logout-btn svg { width: 15px; height: 15px; }
     .user-avatar {
       width: 26px; height: 26px; border-radius: 50%;
       background: linear-gradient(135deg, var(--accent-mid), var(--accent-deep));
@@ -273,6 +279,19 @@
     }
     .eye-btn:hover { color: var(--text); background: var(--surface2); }
     .eye-btn svg { width: 14px; height: 14px; }
+    .sync-status {
+      font-size: 11px; color: var(--text-ter); display: inline-flex; align-items: center;
+      gap: 5px; white-space: nowrap; margin-right: 2px;
+    }
+    .sync-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--positive); flex-shrink: 0; }
+    .section-export {
+      font-size: 11px; color: var(--text-sec); background: transparent;
+      border: 1px solid var(--border); border-radius: 7px; padding: 4px 10px;
+      cursor: pointer; font-family: inherit; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s;
+    }
+    .section-export:hover { color: var(--accent); border-color: var(--border-accent); }
+    .section-export svg { width: 12px; height: 12px; }
 
     /* ── CARDS ── */
     .card {
@@ -306,8 +325,8 @@
     }
     .nw-row { display: flex; align-items: center; gap: 12px; margin: 8px 0 4px; }
     .nw-amount {
-      font-size: 48px; font-weight: 800; letter-spacing: -2.5px;
-      line-height: 1; color: var(--text);
+      font-size: clamp(32px, 7vw, 48px); font-weight: 800; letter-spacing: -2.5px;
+      line-height: 1; color: var(--text); word-break: break-word;
     }
     .nw-delta {
       display: inline-flex; align-items: center; gap: 4px;
@@ -497,8 +516,21 @@
     .chart-stat .cs-value { font-size: 15px; font-weight: 800; }
 
     /* ── PRIVACY ── */
+    /* Money/derived figures across all pages blur in privacy mode so nothing
+       sensitive is exposed over-the-shoulder or in a screenshot. */
     .private { transition: filter 0.25s ease; }
-    .privacy-mode .private { filter: blur(8px); user-select: none; pointer-events: none; }
+    .privacy-mode .private,
+    .privacy-mode .lab-stat-value,
+    .privacy-mode .new-amt,
+    .privacy-mode .slider-vals .delta,
+    .privacy-mode .slider-meta,
+    .privacy-mode .story-big,
+    .privacy-mode .story-row .amt,
+    .privacy-mode .story-body,
+    .privacy-mode .nb-text,
+    .privacy-mode .practice-card p {
+      filter: blur(8px); user-select: none; pointer-events: none;
+    }
 
     /* ── EMPTY STATE ── */
     .empty-state {
@@ -608,12 +640,69 @@
     .invest-toggle button { background: transparent; border: none; color: var(--text-sec); font-family: inherit;
       font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 7px; cursor: pointer; }
     .invest-toggle button.active { background: var(--accent); color: #00201c; }
+    .hours-basis { margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--text-ter); display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+    .hours-input { width: 44px; background: var(--surface3); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: inherit; font-size: 11px; font-weight: 700;
+      padding: 2px 4px; text-align: center; }
+    .hours-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .hours-assumed { color: var(--warning); font-weight: 600; }
 
     .lang-toggle { display: inline-flex; gap: 2px; background: var(--surface2); border: 1px solid var(--border);
       border-radius: 10px; padding: 3px; margin-left: 4px; }
     .lang-toggle button { background: transparent; border: none; color: var(--text-sec); font-family: inherit;
       font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 7px; cursor: pointer; letter-spacing: 0.02em; }
     .lang-toggle button.active { background: var(--accent); color: #00201c; }
+
+    /* ═══════════ ACCESSIBILITY ═══════════ */
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+    .nav-item:focus-visible, .lab-range:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ═══════════ RESPONSIVE ═══════════ */
+    /* Tablet: dense two-column Overview rows stack */
+    @media (max-width: 1000px) {
+      .row-2-1, .row-3-2 { grid-template-columns: 1fr; }
+      main { padding: 22px 18px; }
+    }
+    /* Phone: sidebar becomes a top bar; document scrolls instead of <main> */
+    @media (max-width: 760px) {
+      body { display: block; height: auto; min-height: 100vh; overflow: visible; }
+      #dashboard { flex-direction: column; height: auto; }
+      aside {
+        width: 100%; height: auto; position: sticky; top: 0; z-index: 40;
+        flex-direction: row; align-items: center; gap: 6px;
+        padding: 9px 12px; border-right: none; border-bottom: 1px solid var(--border);
+        overflow: visible;
+      }
+      .logo { margin-bottom: 0; padding: 0 2px 0 0; flex-shrink: 0; }
+      .logo-text { display: none; }
+      .nav-section { display: none; }
+      nav { flex-direction: row; flex: 1; gap: 4px; justify-content: center; }
+      .nav-item { padding: 9px 11px; }
+      .nav-item span { display: none; }          /* icons-only nav on phone; topbar H1 names the page */
+      .nav-item svg { width: 18px; height: 18px; }
+      .sidebar-footer { border-top: none; margin: 0; padding: 0; flex-shrink: 0; display: flex; }
+      .user-info { display: none; }
+      .user-chip { padding: 6px; gap: 0; background: transparent; border: none; }
+      #sign-out-btn { display: none; }
+      main { height: auto; min-height: 0; overflow: visible; padding: 16px 13px; gap: 14px; }
+      .topbar { flex-wrap: wrap; gap: 10px; }
+      .topbar-right { flex-wrap: wrap; gap: 6px; }
+      .lab-summary { grid-template-columns: repeat(2, 1fr); }
+      .lab-intro h2 { font-size: 19px; }
+    }
+    @media (max-width: 420px) {
+      .lab-summary { grid-template-columns: 1fr 1fr; }
+      .topbar-left h1 { font-size: 18px; }
+      .month-picker { padding: 6px 9px; font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -703,12 +792,15 @@
     </nav>
 
     <div class="sidebar-footer">
-      <div class="user-chip" id="user-chip" onclick="handleSignOut()">
+      <div class="user-chip" id="user-chip">
         <div class="user-avatar" id="user-avatar">?</div>
         <div class="user-info">
           <div class="user-name" id="user-name">Loading…</div>
           <div class="user-plan">✦ Pro</div>
         </div>
+        <button class="logout-btn" id="logout-btn" onclick="handleSignOut()" data-i18n-title="nav.logout" data-i18n-aria="nav.logout" title="Log out" aria-label="Log out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
       </div>
       <div id="sign-out-btn"></div>
     </div>
@@ -724,30 +816,31 @@
         <p id="today-label"></p>
       </div>
       <div class="topbar-right">
-        <div class="month-picker">
-          <button class="month-nav-btn" id="prev-month-btn" onclick="navigateMonth(-1)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+        <div class="month-picker" id="month-picker">
+          <button class="month-nav-btn" id="prev-month-btn" onclick="navigateMonth(-1)" data-i18n-title="ui.prevmonth" data-i18n-aria="ui.prevmonth" title="Previous month" aria-label="Previous month">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15,18 9,12 15,6"/></svg>
           </button>
           <span id="month-label">May 2026</span>
-          <button class="month-nav-btn" id="next-month-btn" onclick="navigateMonth(1)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg>
+          <button class="month-nav-btn" id="next-month-btn" onclick="navigateMonth(1)" data-i18n-title="ui.nextmonth" data-i18n-aria="ui.nextmonth" title="Next month" aria-label="Next month">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9,18 15,12 9,6"/></svg>
           </button>
         </div>
-        <button class="eye-btn" onclick="toggleTheme()" title="Toggle light / dark" id="theme-btn">
+        <button class="eye-btn" onclick="toggleTheme()" data-i18n-title="ui.theme" data-i18n-aria="ui.theme" title="Toggle light / dark" aria-label="Toggle light / dark" id="theme-btn">
           <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
           </svg>
         </button>
-        <button class="eye-btn" onclick="togglePrivacy()" title="Toggle privacy">
-          <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button class="eye-btn" onclick="togglePrivacy()" data-i18n-title="ui.privacy" data-i18n-aria="ui.privacy" title="Toggle privacy" aria-label="Toggle privacy">
+          <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
           </svg>
         </button>
-        <button class="refresh-btn" onclick="refreshData()" title="Refresh">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        <span class="sync-status" id="sync-status" role="status"></span>
+        <button class="refresh-btn" onclick="refreshData()" data-i18n-title="ui.refresh" data-i18n-aria="ui.refresh" title="Refresh" aria-label="Refresh data">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23,4 23,10 17,10"/><polyline points="1,20 1,14 7,14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
         </button>
-        <div class="lang-toggle" role="group" aria-label="Language">
+        <div class="lang-toggle" role="group" data-i18n-aria="ui.language" aria-label="Language">
           <button type="button" data-lang-btn="en" onclick="applyLang('en')">EN</button>
           <button type="button" data-lang-btn="pt-BR" onclick="applyLang('pt-BR')">PT</button>
         </div>
@@ -765,7 +858,7 @@
         <span class="nw-delta" id="nw-delta">↑ —</span>
       </div>
       <div class="nw-chart-wrap">
-        <canvas id="nw-chart"></canvas>
+        <canvas id="nw-chart" role="img" data-i18n-aria="aria.nwchart" aria-label="Net worth trend, last 6 months"></canvas>
       </div>
     </div>
 
@@ -774,7 +867,7 @@
       <div class="card">
         <div class="card-label" data-i18n="ov.cashflow">Cash Flow</div>
         <div class="cf-chart-wrap">
-          <canvas id="wf-chart"></canvas>
+          <canvas id="wf-chart" role="img" data-i18n-aria="aria.cfchart" aria-label="Cash flow breakdown this month"></canvas>
         </div>
       </div>
       <div class="card">
@@ -898,7 +991,13 @@
     <div class="card" id="s-history">
       <div class="section-header">
         <span data-i18n="ov.recenttx">Recent Transactions</span>
-        <span class="badge" id="tx-count-label">—</span>
+        <span style="display:flex;align-items:center;gap:10px;">
+          <span class="badge" id="tx-count-label">—</span>
+          <button class="section-export" onclick="exportCSV()" data-i18n-aria="export.csv" aria-label="Export CSV">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="export.csv">Export CSV</span>
+          </button>
+        </span>
       </div>
       <div class="tx-list" id="tx-list">
         <div class="empty-state">
@@ -928,9 +1027,22 @@
 // ═══════════════════════════════════════════════════════════════════
 // CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════
+// CK_TOKEN is a CloudKit Web Services API token. By Apple's design it is a
+// PUBLIC, client-side credential: it only permits access to a user's OWN private
+// database AFTER they authenticate with Sign in with Apple — it grants nothing on
+// its own. It is not a secret and is safe to ship in the page.
 const CK_TOKEN     = 'decd9dac90e4b52e2a5efb90b7962426bba6ecbcc11623da612452a7e1f1ee56';
 const CK_CONTAINER = 'iCloud.com.thothi.ucm';
 const CK_ENV       = 'production';
+
+// ═══════════════════════════════════════════════════════════════════
+// FEATURE FLAGS  (EngReadMe §XV — gate, never comment out; document the unblock)
+// ═══════════════════════════════════════════════════════════════════
+const FEATURE_FLAGS = {
+  // Unblock when the CD_AppSettings premium field is confirmed for web reads and
+  // mapped in mapSettings(). Until then every signed-in user is treated as premium.
+  enforcePaywall: false,
+};
 
 // ═══════════════════════════════════════════════════════════════════
 // GLOBAL STATE
@@ -938,7 +1050,10 @@ const CK_ENV       = 'production';
 let state = {
   settings: null, transactions: [], goals: [], allocations: [],
   categories: [], recurring: [], bankAccounts: [], loaded: false,
+  lastSync: null, isDemo: false,
 };
+
+const SUPPORT_EMAIL = 'developer@thothi.com';
 
 let currentMonth  = { year: new Date().getFullYear(), month: new Date().getMonth() };
 let chartRange    = 3;
@@ -954,7 +1069,16 @@ let insightAction = null;
 let LANG = 'en';
 const I18N = {
   en: {
-    'nav.pages': 'Pages', 'nav.overview': 'Overview', 'nav.suggestions': 'Suggestions', 'nav.forecast': 'Forecast',
+    'nav.pages': 'Pages', 'nav.overview': 'Overview', 'nav.suggestions': 'Suggestions', 'nav.forecast': 'Forecast', 'nav.logout': 'Log out',
+    'ui.theme': 'Toggle light / dark theme', 'ui.privacy': 'Toggle privacy blur', 'ui.refresh': 'Refresh data',
+    'ui.prevmonth': 'Previous month', 'ui.nextmonth': 'Next month', 'ui.language': 'Language',
+    'aria.nwchart': 'Net worth trend, last 6 months', 'aria.cfchart': 'Cash flow breakdown this month',
+    'aria.fcchart': 'Projected savings over the next 12 months', 'aria.slider': '{name} monthly budget',
+    'sync.justnow': 'Updated just now', 'sync.min': 'Updated {n} min ago', 'sync.hour': 'Updated {n} h ago', 'sync.demo': 'Demo data',
+    'export.csv': 'Export CSV', 'support.contact': 'Contact support', 'toast.demo': 'Demo mode — sample data',
+    'nd.error.title': 'Something went wrong', 'nd.error.body': "We couldn't load your data this time. Please try again — if it keeps happening, get in touch and we'll help.",
+    'nd.empty.title': 'No data found in iCloud', 'nd.empty.body': "You're signed in, but we haven't found any ucm data yet.<br><br><strong>To fix this:</strong><br>1. Open ucm on your iPhone<br>2. Settings → make sure iCloud sync is on<br>3. Wait a moment, then refresh here",
+    'nd.tryagain': 'Try again', 'nd.viewdemo': 'View demo',
     'ov.networth': 'Net Worth', 'ov.thismonth': 'This Month', 'ov.income': 'Income', 'ov.expenses': 'Expenses',
     'ov.saved': 'Saved', 'ov.health': 'Health Score', 'ov.cashflow': 'Cash Flow', 'ov.loading': 'Loading',
     'ov.spending': 'Spending', 'ov.nextmove': 'Your next move', 'ov.analysing': 'Analysing your data…',
@@ -992,6 +1116,7 @@ const I18N = {
     'fc.invested': 'Invested at {r}% / yr', 'fc.investedbody': 'if you invest the {amt} you free each year:', 'fc.inyears': 'In {n} years',
     'fc.hours.kicker': 'In hours of your life', 'fc.hours.body': "At your real wage of {wage}/hr, that's about <b>{days} working days</b> bought back every year — money you no longer have to earn.",
     'fc.hours.nodata': 'Set your income in the app to see this saving measured in hours of your life — the most honest price there is.',
+    'fc.hours.basis': 'Based on working', 'fc.hours.perweek': 'h / week', 'fc.hours.default': 'default — set yours', 'fc.hours.aria': 'Hours worked per week',
     'fc.goal.kicker': 'Toward {name}', 'fc.goal.body': 'Your trims <b>alone</b> — without touching what you already save — cover the {remaining} left on <b>{name}</b> in {months} months.',
     'fc.goal.nodata.kicker': 'Toward your goals', 'fc.goal.nodata': "Add a savings goal in the app and we'll show how much sooner these cuts get you there.",
     'fc.honest.eyebrow': 'The honest trade',
@@ -1025,7 +1150,16 @@ const I18N = {
     'ins.solid.b': 'Nothing urgent this week. Keep logging and let the habits compound.',
   },
   'pt-BR': {
-    'nav.pages': 'Páginas', 'nav.overview': 'Visão geral', 'nav.suggestions': 'Sugestões', 'nav.forecast': 'Projeção',
+    'nav.pages': 'Páginas', 'nav.overview': 'Visão geral', 'nav.suggestions': 'Sugestões', 'nav.forecast': 'Projeção', 'nav.logout': 'Sair',
+    'ui.theme': 'Alternar tema claro / escuro', 'ui.privacy': 'Alternar privacidade', 'ui.refresh': 'Atualizar dados',
+    'ui.prevmonth': 'Mês anterior', 'ui.nextmonth': 'Próximo mês', 'ui.language': 'Idioma',
+    'aria.nwchart': 'Tendência de patrimônio, últimos 6 meses', 'aria.cfchart': 'Composição do fluxo de caixa deste mês',
+    'aria.fcchart': 'Economia projetada nos próximos 12 meses', 'aria.slider': 'Orçamento mensal de {name}',
+    'sync.justnow': 'Atualizado agora', 'sync.min': 'Atualizado há {n} min', 'sync.hour': 'Atualizado há {n} h', 'sync.demo': 'Dados de demonstração',
+    'export.csv': 'Exportar CSV', 'support.contact': 'Falar com o suporte', 'toast.demo': 'Modo demonstração — dados fictícios',
+    'nd.error.title': 'Algo deu errado', 'nd.error.body': 'Não conseguimos carregar seus dados desta vez. Tente novamente — se continuar, fale com a gente que ajudamos.',
+    'nd.empty.title': 'Nenhum dado no iCloud', 'nd.empty.body': 'Você entrou, mas ainda não encontramos dados do ucm.<br><br><strong>Como resolver:</strong><br>1. Abra o ucm no seu iPhone<br>2. Ajustes → ative a sincronização do iCloud<br>3. Aguarde um momento e atualize aqui',
+    'nd.tryagain': 'Tentar de novo', 'nd.viewdemo': 'Ver demonstração',
     'ov.networth': 'Patrimônio', 'ov.thismonth': 'Este mês', 'ov.income': 'Receitas', 'ov.expenses': 'Despesas',
     'ov.saved': 'Guardado', 'ov.health': 'Saúde financeira', 'ov.cashflow': 'Fluxo de caixa', 'ov.loading': 'Carregando',
     'ov.spending': 'Gastos', 'ov.nextmove': 'Seu próximo passo', 'ov.analysing': 'Analisando seus dados…',
@@ -1063,6 +1197,7 @@ const I18N = {
     'fc.invested': 'Investido a {r}% / ano', 'fc.investedbody': 'se você investir os {amt} que libera por ano:', 'fc.inyears': 'Em {n} anos',
     'fc.hours.kicker': 'Em horas da sua vida', 'fc.hours.body': 'Com seu salário real de {wage}/h, são cerca de <b>{days} dias de trabalho</b> recuperados todo ano — dinheiro que você não precisa mais ganhar.',
     'fc.hours.nodata': 'Informe sua renda no app para ver essa economia medida em horas da sua vida — o preço mais honesto que existe.',
+    'fc.hours.basis': 'Considerando', 'fc.hours.perweek': 'h / semana', 'fc.hours.default': 'padrão — defina a sua', 'fc.hours.aria': 'Horas trabalhadas por semana',
     'fc.goal.kicker': 'Rumo a {name}', 'fc.goal.body': 'Só os seus cortes <b>sozinhos</b> — sem mexer no que você já guarda — cobrem os {remaining} que faltam para <b>{name}</b> em {months} meses.',
     'fc.goal.nodata.kicker': 'Rumo às suas metas', 'fc.goal.nodata': 'Adicione uma meta no app e mostraremos quanto mais rápido esses cortes te levam até lá.',
     'fc.honest.eyebrow': 'A troca honesta',
@@ -1106,6 +1241,8 @@ function applyLang(lang) {
   document.documentElement.lang = lang;
   _fmtCache && Object.keys(_fmtCache).forEach(k => delete _fmtCache[k]);
   document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   document.querySelectorAll('[data-lang-btn]').forEach(b => b.classList.toggle('active', b.dataset.langBtn === lang));
   try { localStorage.setItem('ucm.dash.lang', lang); } catch (e) {}
   if (state.loaded) {
@@ -1115,6 +1252,7 @@ function applyLang(lang) {
   }
   const titleEl = document.getElementById('page-title');
   if (titleEl) titleEl.textContent = t('nav.' + currentPage);
+  updateSyncLabel();
 }
 function toggleLang() { applyLang(LANG === 'en' ? 'pt-BR' : 'en'); }
 function initLang() {
@@ -1178,7 +1316,9 @@ function onSignedOut() {
 }
 
 function handleSignOut() {
-  document.getElementById('sign-out-btn').querySelector('a, button')?.click();
+  const ckBtn = document.getElementById('sign-out-btn').querySelector('a, button');
+  if (ckBtn) ckBtn.click();   // real CloudKit session
+  else onSignedOut();         // demo mode / no active session — just return to auth
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1243,11 +1383,15 @@ function loadDemo() {
     { id:'rec2', name:'Netflix', amount:55, frequency:'monthly', startDate: day(90), categoryName:'Assinaturas' },
   ];
   state.loaded = true;
+  state.isDemo = true;
+  state.lastSync = null;
 
   showDashboard();
   try {
     renderAll();
-    showToast('Modo demonstração — dados fictícios', 4000);
+    updateSyncLabel();
+    routeFromHash();
+    showToast(t('toast.demo'), 4000);
   } catch(e) {
     console.error('renderAll failed:', e);
     document.querySelector('main').insertAdjacentHTML('afterbegin',
@@ -1336,13 +1480,7 @@ async function loadDashboard() {
 
     state.settings    = settingsRecs[0] ? mapSettings(settingsRecs[0]) : defaultSettings();
     const allMapped = txRecs.map(mapTransaction);
-    const withSplit = allMapped.filter(t => t.splitParentID != null).length;
-    const tooOld    = allMapped.filter(t => t.splitParentID == null && t.date < twelveMonthsAgo).length;
-    console.log(`Transactions: total=${allMapped.length} filtered_split=${withSplit} filtered_old=${tooOld}`);
-    if (allMapped.length > 0) {
-      const sample = allMapped[0];
-      console.log('Sample tx:', { date: sample.date, type: sample.type, amount: sample.amount, splitParentID: sample.splitParentID, rawDate: txRecs[0]?.fields?.CD_date?.value });
-    }
+    // Note: financial values are deliberately not logged (EngReadMe §XVI — no PII in logs).
     state.transactions = allMapped
       .filter(t => t.splitParentID == null && t.date >= twelveMonthsAgo)
       .sort((a, b) => b.date - a.date);
@@ -1359,8 +1497,12 @@ async function loadDashboard() {
       return;
     }
 
+    state.isDemo = false;
+    state.lastSync = new Date();
     showDashboard();
     renderAll();
+    updateSyncLabel();
+    routeFromHash();
 
   } catch (err) {
     console.error('Dashboard load failed:', err);
@@ -1378,19 +1520,19 @@ function showNoDataState(reason) {
   const el = document.createElement('div');
   el.id = 'no-data-overlay';
   el.style.cssText = `position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(8,15,13,0.92);backdrop-filter:blur(24px);`;
+  const subject = encodeURIComponent('ucm dashboard — need help');
   el.innerHTML = `
     <div style="background:var(--surface);border:1px solid var(--border-accent);border-radius:24px;padding:40px 36px;max-width:420px;width:100%;display:flex;flex-direction:column;align-items:center;gap:16px;box-shadow:0 32px 80px rgba(0,0,0,0.5);text-align:center;">
       <div style="font-size:40px">${isError ? '⚠️' : '☁️'}</div>
-      <div style="font-size:20px;font-weight:800;letter-spacing:-0.5px">${isError ? 'Something went wrong' : 'No data found in iCloud'}</div>
+      <div style="font-size:20px;font-weight:800;letter-spacing:-0.5px">${isError ? t('nd.error.title') : t('nd.empty.title')}</div>
       <div style="font-size:14px;color:var(--text-sec);line-height:1.6">
-        ${isError
-          ? 'There was an error loading your data. Check the browser console for details, then try again.'
-          : 'We signed you in successfully, but found no ucm data in your iCloud account.<br><br><strong>To fix this:</strong><br>1. Open ucm on your iPhone<br>2. Go to Settings → make sure iCloud sync is enabled<br>3. Wait a few minutes, then refresh here'}
+        ${isError ? t('nd.error.body') : t('nd.empty.body')}
       </div>
       <div style="display:flex;gap:12px;width:100%;margin-top:8px;flex-wrap:wrap;">
-        <button onclick="refreshData()" style="flex:1;padding:12px;border-radius:12px;border:none;background:var(--accent-mid);color:#000;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">Try Again</button>
-        <button onclick="document.getElementById('no-data-overlay').remove();loadDemo();" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text-sec);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">View Demo</button>
+        <button onclick="refreshData()" style="flex:1;padding:12px;border-radius:12px;border:none;background:var(--accent-mid);color:#000;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">${t('nd.tryagain')}</button>
+        <button onclick="document.getElementById('no-data-overlay').remove();loadDemo();" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text-sec);font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">${t('nd.viewdemo')}</button>
       </div>
+      <a href="mailto:${SUPPORT_EMAIL}?subject=${subject}" style="font-size:12px;color:var(--accent);text-decoration:none;font-weight:600;margin-top:2px;">${t('support.contact')} →</a>
       <div id="no-data-debug" style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px;"></div>
     </div>`;
   document.body.appendChild(el);
@@ -1401,6 +1543,34 @@ async function refreshData() {
   if (overlay) overlay.remove();
   showLoading();
   await loadDashboard();
+}
+
+// Data portability (Playbook Law #10: the user who can leave easily stays longest).
+function exportCSV() {
+  const txs = state.transactions || [];
+  if (!txs.length) { showToast(t('export.csv') + ' — 0', 2000); return; }
+  const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const header = ['Date', 'Type', 'Category', 'Amount', 'Note'];
+  const rows = txs.map(tx => [
+    tx.date instanceof Date && !isNaN(tx.date) ? tx.date.toISOString().slice(0, 10) : '',
+    tx.type || '', tx.categoryName || '', tx.amount ?? 0, tx.note || '',
+  ]);
+  const csv = [header, ...rows].map(r => r.map(esc).join(',')).join('\r\n');
+  try {
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `ucm-transactions-${stamp}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error('CSV export failed:', err);
+    showToast('Export failed', 2500);   // inform, never fail silently (EngReadMe §V)
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1474,11 +1644,12 @@ function mapBankAccount(r) {
 }
 
 function mapSettings(r) {
-  console.log('CD_AppSettings fields:', JSON.stringify(r.fields));
   return {
     currencyCode:    f(r, 'CD_currencyCode', 'USD'),
     monthlyIncome:   f(r, 'CD_declaredMonthlyIncome', 0),
-    isPremium:       true, // TODO: temporarily bypassed — see console for correct field name
+    // Paywall enforcement is gated behind a feature flag (EngReadMe §XV) rather than
+    // a silent bypass. While off, every signed-in user is treated as premium.
+    isPremium:       FEATURE_FLAGS.enforcePaywall ? (f(r, 'CD_isPremium', 0) !== 0) : true,
     startingBalance: f(r, 'CD_startingBalance', 0),
     showIncomeGreen: f(r, 'CD_showIncomeGreen', 1) !== 0,
   };
@@ -1541,12 +1712,26 @@ function computeRunwayMonths(txs, settings) {
   return balance / avgExpenses;
 }
 
+// The iOS CloudKit schema does not store a weekly-hours figure, so on web we
+// cannot derive a *true* real hourly wage. Rather than fabricate precision
+// (EngReadMe §IV: explicit over implicit), we expose the assumption as an
+// editable input on the Forecast hours card and flag when it's the default.
+const DEFAULT_WEEKLY_HOURS = 40;
+const WEEKS_PER_MONTH      = 4.33;
+
+function getWeeklyHours() {
+  let stored = NaN;
+  try { stored = parseFloat(localStorage.getItem('ucm.weeklyHours')); } catch (e) {}
+  const assumed = !(stored > 0);
+  return { hours: assumed ? DEFAULT_WEEKLY_HOURS : stored, assumed };
+}
+
 function computeRealWage(txs, settings) {
   const income = settings.monthlyIncome > 0 ? settings.monthlyIncome : computeAvgIncome(txs);
-  const weeklyHours = parseFloat(localStorage.getItem('ucm.weeklyHours') || '40');
-  if (income <= 0 || weeklyHours <= 0) return null;
-  const hourlyWage = income / (weeklyHours * 4.33);
-  return { hourlyWage, hoursPerHundred: 100 / hourlyWage };
+  const { hours, assumed } = getWeeklyHours();
+  if (income <= 0 || hours <= 0) return null;
+  const hourlyWage = income / (hours * WEEKS_PER_MONTH);
+  return { hourlyWage, hoursPerHundred: 100 / hourlyWage, weeklyHours: hours, assumed };
 }
 
 function computeHealthScore(txs, recurring, settings) {
@@ -1698,9 +1883,9 @@ function computeInsight(txs, goals, recurring, settings, allocations) {
 // ═══════════════════════════════════════════════════════════════════
 const _fmtCache = {};
 function fmt(amount, currencyCode = 'USD', compact = false) {
-  const key = `${currencyCode}-${compact}`;
+  const key = `${LANG}-${currencyCode}-${compact}`;
   if (!_fmtCache[key]) {
-    _fmtCache[key] = new Intl.NumberFormat(navigator.language || 'en', {
+    _fmtCache[key] = new Intl.NumberFormat(dateLoc(), {
       style: 'currency', currency: currencyCode,
       maximumFractionDigits: compact ? 0 : 2,
       notation: compact ? 'compact' : 'standard',
@@ -1726,21 +1911,45 @@ function setChartRange(months, btn) {
   if (state.loaded) renderTrendChart(state.transactions, months, state.settings.currencyCode);
 }
 
+const EYE_OPEN = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+const EYE_OFF  = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+
+function applyPrivacy(hidden) {
+  privacyHidden = hidden;
+  document.body.classList.toggle('privacy-mode', hidden);
+  const icon = document.getElementById('eye-icon');
+  if (icon) icon.innerHTML = hidden ? EYE_OFF : EYE_OPEN;
+}
+
 function togglePrivacy() {
-  privacyHidden = !privacyHidden;
-  document.body.classList.toggle('privacy-mode', privacyHidden);
-  const EYE_OPEN = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
-  const EYE_OFF  = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
-  document.getElementById('eye-icon').innerHTML = privacyHidden ? EYE_OFF : EYE_OPEN;
+  applyPrivacy(!privacyHidden);
+  try { localStorage.setItem('ucm.privacyMode', privacyHidden ? '1' : '0'); } catch (e) {}
+}
+
+function initPrivacy() {
+  let stored = '0';
+  try { stored = localStorage.getItem('ucm.privacyMode') || '0'; } catch (e) {}
+  applyPrivacy(stored === '1');
+}
+
+// Data freshness — read-only iCloud data; show the user how current it is.
+function updateSyncLabel() {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  if (state.isDemo) { el.style.display = ''; el.textContent = t('sync.demo'); return; }
+  if (!state.lastSync) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  const mins = Math.floor((new Date() - state.lastSync) / 60000);
+  if (mins < 1)        el.textContent = t('sync.justnow');
+  else if (mins < 60)  el.textContent = tt('sync.min', { n: mins });
+  else                 el.textContent = tt('sync.hour', { n: Math.floor(mins / 60) });
 }
 
 function scrollToSection(id) {
+  // Insight CTAs only target Overview sections — make sure we're on that page first.
+  if (currentPage !== 'overview') showPage('overview');
   const el = document.getElementById(id);
-  const mainEl = document.querySelector('main');
-  if (el && mainEl) {
-    const top = el.getBoundingClientRect().top - mainEl.getBoundingClientRect().top + mainEl.scrollTop - 24;
-    mainEl.scrollTo({ top, behavior: 'smooth' });
-  }
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });   // works whether <main> or window is the scroller
 }
 
 function handleInsightAction() {
@@ -2302,10 +2511,26 @@ function showPage(page) {
   });
   const titleEl = document.getElementById('page-title');
   if (titleEl) titleEl.textContent = t('nav.' + page) || PAGE_TITLES[page] || 'Dashboard';
+  // The month picker only affects Overview; Suggestions/Forecast use trailing
+  // averages / next-12-months, so hide it elsewhere to avoid a dead control.
+  const mp = document.getElementById('month-picker');
+  if (mp) mp.style.display = (page === 'overview') ? '' : 'none';
   document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });   // mobile: document is the scroller
+
+  // Keep the URL in sync so refresh/bookmark/share lands on this page (EngReadMe §XII).
+  if (location.hash.slice(1) !== page) {
+    try { history.replaceState(null, '', '#' + page); } catch (e) {}
+  }
 
   if (page === 'suggestions' && state.loaded) renderSuggestions();
   if (page === 'forecast' && state.loaded) renderForecast();
+}
+
+const ROUTES = ['overview', 'suggestions', 'forecast'];
+function routeFromHash() {
+  const p = location.hash.slice(1);
+  showPage(ROUTES.includes(p) ? p : 'overview');
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2399,7 +2624,7 @@ function renderForecast() {
         </span>
       </div>
       <input type="range" class="lab-range" min="0" max="${r.max}" step="10" value="${Math.round(r.current)}"
-        oninput="fcTweak('${escAttr(r.name)}', this.value)">
+        aria-label="${tt('aria.slider', { name: r.name })}" oninput="fcTweak('${escAttr(r.name)}', this.value)">
     </div>`;
   }).join('');
 
@@ -2421,7 +2646,7 @@ function renderForecast() {
         <div class="chart-header" style="margin-bottom:6px">
           <h3 style="font-size:13px;font-weight:700">${t('fc.projtitle')}</h3>
         </div>
-        <div class="fc-chart-wrap"><canvas id="fc-chart"></canvas></div>
+        <div class="fc-chart-wrap"><canvas id="fc-chart" role="img" aria-label="${t('aria.fcchart')}"></canvas></div>
       </div>
       <div class="card">
         <div class="section-header"><span>${t('fc.whatif')}</span>
@@ -2502,14 +2727,20 @@ function renderForecastStory(fs) {
 
   // 2) Life-hours (Real Hourly Wage)
   const rw = computeRealWage(state.transactions, state.settings);
+  const WORK_DAY_HOURS = 8;
   const hoursCard = rw ? (() => {
     const hrs = fs.annualSaving / rw.hourlyWage;
-    const days = hrs / 8;
+    const days = hrs / WORK_DAY_HOURS;
     return `<div class="story-card">
       <div class="story-icon">⏳</div>
       <div class="story-kicker">${t('fc.hours.kicker')}</div>
-      <div class="story-big">${Math.round(hrs)} ${t('unit.hrs')}</div>
+      <div class="story-big private">${Math.round(hrs)} ${t('unit.hrs')}</div>
       <div class="story-body">${tt('fc.hours.body', { wage: fmt(rw.hourlyWage, currency, true), days: days.toFixed(1) })}</div>
+      <div class="hours-basis">
+        ${t('fc.hours.basis')}
+        <input type="number" class="hours-input" min="1" max="100" step="1" value="${rw.weeklyHours}"
+          aria-label="${t('fc.hours.aria')}" onchange="setWeeklyHours(this.value)"> ${t('fc.hours.perweek')}${rw.assumed ? ` · <span class="hours-assumed">${t('fc.hours.default')}</span>` : ''}
+      </div>
     </div>`;
   })() : `<div class="story-card"><div class="story-icon">⏳</div><div class="story-kicker">${t('fc.hours.kicker')}</div>
       <div class="story-body" style="margin-top:8px">${t('fc.hours.nodata')}</div></div>`;
@@ -2582,6 +2813,12 @@ function fcTweak(name, value) {
 function setInvestRate(r) {
   investRate = r;
   document.querySelectorAll('#fc-invest button').forEach(b => b.classList.toggle('active', Math.abs(parseInt(b.textContent) / 100 - r) < 0.001));
+  renderForecastStory(forecastState());
+}
+
+function setWeeklyHours(value) {
+  const h = Math.max(1, Math.min(100, parseFloat(value) || DEFAULT_WEEKLY_HOURS));
+  try { localStorage.setItem('ucm.weeklyHours', String(h)); } catch (e) {}
   renderForecastStory(forecastState());
 }
 
@@ -2680,7 +2917,7 @@ function renderSuggestions() {
         </span>
       </div>
       <input type="range" class="lab-range" min="0" max="${r.max}" step="10" value="${Math.round(r.current)}"
-        oninput="setTweak('${escAttr(r.name)}', this.value)">
+        aria-label="${tt('aria.slider', { name: r.name })}" oninput="setTweak('${escAttr(r.name)}', this.value)">
       <div class="slider-meta"><span>${t('sg.now')}: ${fmt(r.baseline, currency, true)}</span><span>${fmt(r.max, currency, true)}</span></div>
     </div>`;
   }).join('');
@@ -2799,6 +3036,12 @@ function renderPractices(rows, currency) {
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initLang();
+  initPrivacy();
+  setInterval(updateSyncLabel, 60000);   // keep the "updated N min ago" label fresh
+  window.addEventListener('hashchange', () => {
+    const p = location.hash.slice(1);
+    if (state.loaded && ROUTES.includes(p) && p !== currentPage) showPage(p);
+  });
   initCloudKit();
 });
 </script>
