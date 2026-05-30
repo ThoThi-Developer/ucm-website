@@ -1040,7 +1040,10 @@
 // its own. It is not a secret and is safe to ship in the page.
 const CK_TOKEN     = 'decd9dac90e4b52e2a5efb90b7962426bba6ecbcc11623da612452a7e1f1ee56';
 const CK_CONTAINER = 'iCloud.com.thothi.ucm';
-const CK_ENV       = 'production';
+// Reads Production by default. Append ?env=development to point at the CloudKit
+// Development environment — useful when an account's data was written by a
+// TestFlight/Xcode build (which syncs to Development, not Production).
+const CK_ENV       = (new URLSearchParams(location.search).get('env') === 'development') ? 'development' : 'production';
 
 // ═══════════════════════════════════════════════════════════════════
 // FEATURE FLAGS  (EngReadMe §XV — gate, never comment out; document the unblock)
