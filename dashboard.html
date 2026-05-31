@@ -1205,11 +1205,11 @@ const I18N = {
     // Forecast
     'fc.title': 'Your year, reimagined',
     'fc.intro': 'This is the same plan from Suggestions, projected forward. Ask "what if?" — drag a category and watch a full year of your money respond. Every dollar you don\'t spend is a dollar that can work for you.',
-    'fc.ysave': 'Saved / year', 'fc.rate0': 'Current savings rate', 'fc.rate1': 'New savings rate', 'fc.in12': 'In 12 months',
-    'fc.projtitle': 'Projected savings — next 12 months', 'fc.whatif': 'What if…?', 'fc.becomes': 'What that money becomes',
+    'fc.ysave': 'Saved / year', 'fc.msave': 'Saved / month', 'fc.rate0': 'Current savings rate', 'fc.rate1': 'New savings rate', 'fc.in12': 'In 12 months',
+    'fc.projtitle': 'Extra saved from your changes — 12 months', 'fc.whatif': 'What if…?', 'fc.becomes': 'What that money becomes',
     'fc.empty.t': 'Nothing to forecast yet', 'fc.empty.s': 'Add a budget or some transactions in the app to project your year.',
     'fc.hint': 'Drag a category in <b>What if…?</b> above — your future takes shape here.',
-    'chart.current': 'Current path', 'chart.plan': 'Your plan',
+    'chart.current': 'Current path', 'chart.plan': 'Your plan', 'chart.extra': 'Extra saved',
     'fc.invested': 'Invested at {r}% / yr', 'fc.investedbody': 'if you invest the {amt} you free each year:', 'fc.inyears': 'In {n} years',
     'fc.hours.kicker': 'In hours of your life', 'fc.hours.body': "At your real wage of {wage}/hr, that's about <b>{days} working days</b> bought back every year — money you no longer have to earn.",
     'fc.hours.nodata': 'Set your income in the app to see this saving measured in hours of your life — the most honest price there is.',
@@ -1295,11 +1295,11 @@ const I18N = {
     // Forecast
     'fc.title': 'Seu ano, reimaginado',
     'fc.intro': 'É o mesmo plano das Sugestões, projetado para frente. Pergunte "e se?" — arraste uma categoria e veja um ano inteiro do seu dinheiro responder. Cada real que você não gasta é um real que pode trabalhar por você.',
-    'fc.ysave': 'Economia / ano', 'fc.rate0': 'Taxa de poupança atual', 'fc.rate1': 'Nova taxa de poupança', 'fc.in12': 'Em 12 meses',
-    'fc.projtitle': 'Economia projetada — próximos 12 meses', 'fc.whatif': 'E se…?', 'fc.becomes': 'No que esse dinheiro se transforma',
+    'fc.ysave': 'Economia / ano', 'fc.msave': 'Economia / mês', 'fc.rate0': 'Taxa de poupança atual', 'fc.rate1': 'Nova taxa de poupança', 'fc.in12': 'Em 12 meses',
+    'fc.projtitle': 'Economia extra com suas mudanças — 12 meses', 'fc.whatif': 'E se…?', 'fc.becomes': 'No que esse dinheiro se transforma',
     'fc.empty.t': 'Nada para projetar ainda', 'fc.empty.s': 'Adicione um orçamento ou algumas transações no app para projetar seu ano.',
     'fc.hint': 'Arraste uma categoria em <b>E se…?</b> acima — seu futuro toma forma aqui.',
-    'chart.current': 'Caminho atual', 'chart.plan': 'Seu plano',
+    'chart.current': 'Caminho atual', 'chart.plan': 'Seu plano', 'chart.extra': 'Economia extra',
     'fc.invested': 'Investido a {r}% / ano', 'fc.investedbody': 'se você investir os {amt} que libera por ano:', 'fc.inyears': 'Em {n} anos',
     'fc.hours.kicker': 'Em horas da sua vida', 'fc.hours.body': 'Com seu salário real de {wage}/h, são cerca de <b>{days} dias de trabalho</b> recuperados todo ano — dinheiro que você não precisa mais ganhar.',
     'fc.hours.nodata': 'Informe sua renda no app para ver essa economia medida em horas da sua vida — o preço mais honesto que existe.',
@@ -2959,10 +2959,10 @@ function renderForecast() {
     </div>
 
     <div class="lab-summary">
+      <div class="lab-stat"><span class="lab-stat-label">${t('fc.msave')}</span><span class="lab-stat-value" id="fc-msave" style="color:var(--accent)">${fmt(fs.t.monthlyDelta, currency)}</span></div>
       <div class="lab-stat"><span class="lab-stat-label">${t('fc.ysave')}</span><span class="lab-stat-value big" id="fc-ysave" style="color:var(--accent)">${fmt(fs.annualSaving, currency)}</span></div>
       <div class="lab-stat"><span class="lab-stat-label">${t('fc.rate0')}</span><span class="lab-stat-value" id="fc-rate0">${fs.income > 0 ? Math.round(fs.savingsCurrent / fs.income * 100) : 0}%</span></div>
       <div class="lab-stat"><span class="lab-stat-label">${t('fc.rate1')}</span><span class="lab-stat-value" id="fc-rate1" style="color:var(--accent)">${fs.income > 0 ? Math.round(fs.savingsNew / fs.income * 100) : 0}%</span></div>
-      <div class="lab-stat"><span class="lab-stat-label">${t('fc.in12')}</span><span class="lab-stat-value" id="fc-12" style="color:var(--accent)">${fmt(fs.savingsNew * 12, currency)}</span></div>
     </div>
 
     <div class="lab-grid">
@@ -2996,8 +2996,11 @@ function buildForecastChart(fs) {
   const ctx = document.getElementById('fc-chart');
   if (!ctx) return;
   const labels = next12Labels();
-  const current = labels.map((_, i) => fs.savingsCurrent * (i + 1));
-  const plan    = labels.map((_, i) => fs.savingsNew * (i + 1));
+  // Cumulative EXTRA money freed by the cuts: monthly delta × months elapsed.
+  // Ends at exactly annualSaving (= monthlyDelta × 12) so the chart, the
+  // "Saved / year" stat, and the compounding story all show the same number.
+  const monthly = Math.max(fs.t.monthlyDelta, 0);
+  const extra   = labels.map((_, i) => monthly * (i + 1));
   const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2DD4BF';
   const tc = themeColors();
 
@@ -3007,23 +3010,20 @@ function buildForecastChart(fs) {
     data: {
       labels,
       datasets: [
-        { label: t('chart.current'), data: current, borderColor: tc.track,
-          borderWidth: 2, borderDash: [5,4], pointRadius: 0, tension: 0.3, fill: false },
-        { label: t('chart.plan'), data: plan, borderColor: accent, borderWidth: 2.5,
-          pointRadius: 0, tension: 0.3, fill: '-1', backgroundColor: 'rgba(45,212,191,0.12)' },
+        { label: t('chart.extra'), data: extra, borderColor: accent, borderWidth: 2.5,
+          pointRadius: 0, tension: 0.3, fill: true, backgroundColor: 'rgba(45,212,191,0.12)' },
       ],
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: true, position: 'top', align: 'end',
-          labels: { color: tc.legend, boxWidth: 10, boxHeight: 10, usePointStyle: true, font: { size: 11 } } },
-        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmt(c.parsed.y, currency)}` } },
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${t('chart.extra')}: ${fmt(c.parsed.y, currency)}` } },
       },
       scales: {
         x: { grid: { color: tc.grid }, ticks: { color: tc.tick, font: { size: 10 } } },
-        y: { grid: { color: tc.grid }, ticks: { color: tc.tick, font: { size: 10 },
+        y: { grid: { color: tc.grid }, beginAtZero: true, ticks: { color: tc.tick, font: { size: 10 },
           callback: v => fmt(v, currency, true) } },
       },
     },
@@ -3124,12 +3124,12 @@ function fcTweak(name, value) {
     if (dl) { dl.textContent = deltaLabel(delta, currency); dl.className = 'delta ' + (delta >= 0 ? 'save' : 'over'); }
   }
   // summary
+  setText('fc-msave', fmt(fs.t.monthlyDelta, currency));
   setText('fc-ysave', fmt(fs.annualSaving, currency));
   setText('fc-rate0', (fs.income > 0 ? Math.round(fs.savingsCurrent / fs.income * 100) : 0) + '%');
   setText('fc-rate1', (fs.income > 0 ? Math.round(fs.savingsNew / fs.income * 100) : 0) + '%');
-  setText('fc-12',    fmt(fs.savingsNew * 12, currency));
-  // chart
-  if (fcChart) { fcChart.data.datasets[1].data = next12Labels().map((_, i) => fs.savingsNew * (i + 1)); fcChart.update('none'); }
+  // chart — cumulative extra saved (monthly delta × months), matches Saved / year
+  if (fcChart) { fcChart.data.datasets[0].data = next12Labels().map((_, i) => Math.max(fs.t.monthlyDelta, 0) * (i + 1)); fcChart.update('none'); }
   // story
   renderForecastStory(fs);
 }
