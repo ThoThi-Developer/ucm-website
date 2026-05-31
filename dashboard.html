@@ -1488,6 +1488,7 @@ function onSignedIn(userIdentity) {
 }
 
 function onSignedOut() {
+  clearTimeout(signOutTimer);   // CloudKit completed the sign-out — cancel the hard-wipe fallback
   state = { settings: null, transactions: [], goals: [], allocations: [],
             categories: [], recurring: [], bankAccounts: [], loaded: false, lastSync: null, isDemo: false };
   // Drop any page deep-link so we return cleanly to the sign-in splash, not #forecast.
@@ -1507,6 +1508,14 @@ function clearCloudKitSession() {
     KEEP.forEach(k => { const v = localStorage.getItem(k); if (v != null) saved[k] = v; });
     localStorage.clear();
     Object.entries(saved).forEach(([k, v]) => localStorage.setItem(k, v));
+  } catch (e) {}
+  // Best-effort: expire any non-httpOnly cookies for this origin too — CloudKit's web
+  // auth token can persist as a cookie, which a localStorage clear alone won't remove.
+  try {
+    document.cookie.split(';').forEach(c => {
+      const name = c.split('=')[0].trim();
+      if (name) document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+    });
   } catch (e) {}
   location.replace(location.origin + location.pathname);
 }
@@ -1528,10 +1537,25 @@ function ensureSignInAffordance() {
   }, 1800);
 }
 
+let signOutTimer = null;
 function handleSignOut() {
-  const ckBtn = document.getElementById('sign-out-btn').querySelector('a, button');
-  if (ckBtn) ckBtn.click();   // ask CloudKit to end the session…
-  clearCloudKitSession();      // …then wipe the persisted token + reload so a new user can sign in
+  const holder = document.getElementById('sign-out-btn');
+  const ckBtn  = holder && holder.querySelector('a, button');
+  if (ckBtn) {
+    // Let CloudKit end the session server-side. This is ASYNC — it clears the
+    // session/token, then whenUserSignsOut() → onSignedOut() shows the sign-in
+    // splash. We must NOT reload here: a synchronous location.replace() aborts
+    // the in-flight sign-out request, leaving the session valid so setUpAuth()
+    // silently re-signs-in the same user on reload (the "sign-out doesn't work" bug).
+    ckBtn.click();
+    // Safety net: if CloudKit never fires the callback (popup blocked, network), force
+    // a hard session wipe + reload so the user is never stuck appearing signed in.
+    clearTimeout(signOutTimer);
+    signOutTimer = setTimeout(clearCloudKitSession, 3000);
+    return;
+  }
+  // CloudKit's sign-out button never rendered — fall straight back to the hard wipe.
+  clearCloudKitSession();
 }
 
 // ═══════════════════════════════════════════════════════════════════
