@@ -3400,8 +3400,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const p = location.hash.slice(1);
     if (state.loaded && ROUTES.includes(p) && p !== currentPage) showPage(p);
   });
-  if (new URLSearchParams(location.search).has('diag')) renderDiag();
-  initCloudKit();
+  const params = new URLSearchParams(location.search);
+  if (params.has('diag')) renderDiag();
+  // ?demo loads sample data without Sign in with Apple — for previewing the UI.
+  if (params.has('demo')) loadDemo();
+  else initCloudKit();
 });
 </script>
 </body>
