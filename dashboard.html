@@ -1667,8 +1667,13 @@ const db = () => CloudKit.getDefaultContainer().privateCloudDatabase;
 
 async function fetchAll(query) {
   let records = [];
+  // SwiftData / NSPersistentCloudKitContainer stores every record in a CUSTOM private
+  // zone ("com.apple.coredata.cloudkit.zone"), NOT the default zone. A performQuery
+  // without zoneID only searches the default zone and returns 0 records for every real
+  // user — the "No data found in iCloud" bug. Scope the query to the custom zone.
+  const q = { ...query, zoneID: { zoneName: 'com.apple.coredata.cloudkit.zone' } };
   try {
-    let response = await db().performQuery(query);
+    let response = await db().performQuery(q);
     if (response.hasErrors) {
       const err = response.errors[0];
       const reason = err?.reason || err?.serverErrorCode || err?.code || JSON.stringify(err);
@@ -1679,7 +1684,7 @@ async function fetchAll(query) {
     }
     records.push(...response.records);
     while (response.moreComing) {
-      response = await db().performQuery({ ...query, cursor: response.continuationMarker });
+      response = await db().performQuery({ ...q, cursor: response.continuationMarker });
       if (response.hasErrors) break;
       records.push(...response.records);
     }
