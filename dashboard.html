@@ -1175,7 +1175,7 @@ const I18N = {
     'aria.nwchart': 'Net worth trend, last 6 months', 'aria.cfchart': 'Cash flow breakdown this month',
     'aria.fcchart': 'Projected savings over the next 12 months', 'aria.slider': '{name} monthly budget',
     'sync.justnow': 'Updated just now', 'sync.min': 'Updated {n} min ago', 'sync.hour': 'Updated {n} h ago', 'sync.demo': 'Demo data',
-    'export.csv': 'Export CSV', 'support.contact': 'Contact support', 'toast.demo': 'Demo mode — sample data',
+    'export.csv': 'Export CSV', 'support.contact': 'Contact support', 'toast.demo': 'Demo mode — sample data', 'demo.label': 'Demo Mode',
     'nd.error.title': 'Something went wrong', 'nd.error.body': "We couldn't load your data this time. Please try again — if it keeps happening, get in touch and we'll help.",
     'nd.empty.title': 'No data found in iCloud', 'nd.empty.body': "You're signed in, but this Apple ID's iCloud has no ucm data.<br><br><strong>Most often this means:</strong><br>1. You signed in with a <strong>different Apple ID</strong> than your iPhone uses for iCloud — they must match<br>2. Or ucm hasn't finished syncing to iCloud yet<br><br>Check Settings → your name on your iPhone for the right Apple ID, then refresh.",
     'nd.tryagain': 'Try again', 'nd.viewdemo': 'View demo', 'auth.retry': 'Reload to sign in',
@@ -1267,7 +1267,7 @@ const I18N = {
     'aria.nwchart': 'Tendência de patrimônio, últimos 6 meses', 'aria.cfchart': 'Composição do fluxo de caixa deste mês',
     'aria.fcchart': 'Economia projetada nos próximos 12 meses', 'aria.slider': 'Orçamento mensal de {name}',
     'sync.justnow': 'Atualizado agora', 'sync.min': 'Atualizado há {n} min', 'sync.hour': 'Atualizado há {n} h', 'sync.demo': 'Dados de demonstração',
-    'export.csv': 'Exportar CSV', 'support.contact': 'Falar com o suporte', 'toast.demo': 'Modo demonstração — dados fictícios',
+    'export.csv': 'Exportar CSV', 'support.contact': 'Falar com o suporte', 'toast.demo': 'Modo demonstração — dados fictícios', 'demo.label': 'Modo demonstração',
     'nd.error.title': 'Algo deu errado', 'nd.error.body': 'Não conseguimos carregar seus dados desta vez. Tente novamente — se continuar, fale com a gente que ajudamos.',
     'nd.empty.title': 'Nenhum dado no iCloud', 'nd.empty.body': 'Você entrou, mas o iCloud deste Apple ID não tem dados do ucm.<br><br><strong>Na maioria das vezes isso significa:</strong><br>1. Você entrou com um <strong>Apple ID diferente</strong> do que seu iPhone usa no iCloud — eles precisam ser o mesmo<br>2. Ou o ucm ainda não terminou de sincronizar com o iCloud<br><br>Verifique Ajustes → seu nome no iPhone para o Apple ID correto e atualize.',
     'nd.tryagain': 'Tentar de novo', 'nd.viewdemo': 'Ver demonstração', 'auth.retry': 'Recarregar para entrar',
@@ -1578,8 +1578,8 @@ function handleSignOut() {
 // DEMO MODE
 // ═══════════════════════════════════════════════════════════════════
 function loadDemo() {
-  document.getElementById('user-avatar').textContent = 'T';
-  document.getElementById('user-name').textContent = 'Thomas (Demo)';
+  document.getElementById('user-avatar').textContent = '✨';
+  document.getElementById('user-name').textContent = t('demo.label');
 
   const now = new Date();
   const mo  = (offset) => { const d = new Date(now); d.setMonth(d.getMonth() + offset); return d; };
