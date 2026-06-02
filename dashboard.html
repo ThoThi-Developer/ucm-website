@@ -1209,7 +1209,7 @@ const I18N = {
     'fc.projtitle': 'Extra saved from your changes — 12 months', 'fc.whatif': 'What if…?', 'fc.becomes': 'What that money becomes',
     'fc.empty.t': 'Nothing to forecast yet', 'fc.empty.s': 'Add a budget or some transactions in the app to project your year.',
     'fc.hint': 'Drag a category in <b>What if…?</b> above — your future takes shape here.',
-    'chart.current': 'Current path', 'chart.plan': 'Your plan', 'chart.extra': 'Extra saved',
+    'chart.current': 'Current path', 'chart.plan': 'Your plan', 'chart.extra': 'Extra saved', 'chart.savingsrate': 'Savings Rate %', 'chart.savingsrate.tip': 'Savings rate: {v}%',
     'fc.invested': 'Invested at {r}% / yr', 'fc.investedbody': 'if you invest the {amt} you free each year:', 'fc.inyears': 'In {n} years',
     'fc.hours.kicker': 'In hours of your life', 'fc.hours.body': "At your real wage of {wage}/hr, that's about <b>{days} working days</b> bought back every year — money you no longer have to earn.",
     'fc.hours.nodata': 'Set your income in the app to see this saving measured in hours of your life — the most honest price there is.',
@@ -1299,7 +1299,7 @@ const I18N = {
     'fc.projtitle': 'Economia extra com suas mudanças — 12 meses', 'fc.whatif': 'E se…?', 'fc.becomes': 'No que esse dinheiro se transforma',
     'fc.empty.t': 'Nada para projetar ainda', 'fc.empty.s': 'Adicione um orçamento ou algumas transações no app para projetar seu ano.',
     'fc.hint': 'Arraste uma categoria em <b>E se…?</b> acima — seu futuro toma forma aqui.',
-    'chart.current': 'Caminho atual', 'chart.plan': 'Seu plano', 'chart.extra': 'Economia extra',
+    'chart.current': 'Caminho atual', 'chart.plan': 'Seu plano', 'chart.extra': 'Economia extra', 'chart.savingsrate': 'Taxa de poupança %', 'chart.savingsrate.tip': 'Taxa de poupança: {v}%',
     'fc.invested': 'Investido a {r}% / ano', 'fc.investedbody': 'se você investir os {amt} que libera por ano:', 'fc.inyears': 'Em {n} anos',
     'fc.hours.kicker': 'Em horas da sua vida', 'fc.hours.body': 'Com seu salário real de {wage}/h, são cerca de <b>{days} dias de trabalho</b> recuperados todo ano — dinheiro que você não precisa mais ganhar.',
     'fc.hours.nodata': 'Informe sua renda no app para ver essa economia medida em horas da sua vida — o preço mais honesto que existe.',
@@ -2370,7 +2370,7 @@ function renderSpending(allocations, txs, year, month, currency, categories) {
   const summaryEl = document.getElementById('spend-summary');
 
   if (allocations.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">📊</div><div class="es-title">No budget set</div><div class="es-sub">Create a budget in the app to track spending here</div></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">📊</div><div class="es-title">${t('es.nobudget.t')}</div><div class="es-sub">${t('es.nobudget.s')}</div></div>`;
     summaryEl.textContent = '—';
     return;
   }
@@ -2632,7 +2632,7 @@ function renderTransactions(txs, currency, settings) {
   document.getElementById('tx-count-label').textContent = tt('tx.count', { n: txs.length });
 
   if (txs.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="es-icon">💸</div><div class="es-title">No transactions this month</div><div class="es-sub">Transactions you log in the app appear here</div></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="es-icon">💸</div><div class="es-title">${t('es.notx.t')}</div><div class="es-sub">${t('es.notx.s')}</div></div>`;
     return;
   }
 
@@ -2686,12 +2686,12 @@ function renderTrendChart(txs, months, currency) {
           borderWidth: 1, borderRadius: 4, yAxisID: 'y',
         },
         {
-          type: 'bar', label: 'Expenses', data: expenses,
+          type: 'bar', label: t('ov.expenses'), data: expenses,
           backgroundColor: 'rgba(248,113,113,0.5)', borderColor: 'rgba(248,113,113,0.8)',
           borderWidth: 1, borderRadius: 4, yAxisID: 'y',
         },
         {
-          type: 'line', label: 'Savings Rate %', data: rates,
+          type: 'line', label: t('chart.savingsrate'), data: rates,
           borderColor: 'rgba(45,212,191,0.9)', backgroundColor: 'rgba(45,212,191,0.1)',
           borderWidth: 2, pointRadius: 3, pointBackgroundColor: 'var(--accent)',
           tension: 0.4, fill: false, yAxisID: 'y2',
@@ -2708,7 +2708,7 @@ function renderTrendChart(txs, months, currency) {
           titleColor: 'rgba(255,255,255,0.9)', bodyColor: 'rgba(255,255,255,0.6)',
           callbacks: {
             label: ctx => {
-              if (ctx.datasetIndex === 2) return ` Savings rate: ${ctx.parsed.y.toFixed(1)}%`;
+              if (ctx.datasetIndex === 2) return ' ' + tt('chart.savingsrate.tip', { v: ctx.parsed.y.toFixed(1) });
               return ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y, currency, true)}`;
             }
           }
