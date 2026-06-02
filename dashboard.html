@@ -498,7 +498,9 @@
     .tx-amount { font-size: 13px; font-weight: 700; }
     .tx-date   { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
     .positive { color: var(--positive); }
-    .negative { color: var(--text); }
+    .negative { color: var(--negative); }
+    /* Neutral mode (showIncomeGreen off): both amounts use plain text colour, distinguished by +/- sign — mirrors the iOS app. */
+    .tx-amount.neutral { color: var(--text); }
 
     /* ── TREND CHART ── */
     .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
@@ -2646,8 +2648,14 @@ function renderTransactions(txs, currency, settings) {
                      t.date.toDateString() === yesterday ? 'Yesterday' :
                      t.date.toLocaleDateString(dateLoc(), { month: 'short', day: 'numeric' });
     const emoji = catEmoji[t.categoryName] || (isIncome ? '💰' : '💸');
-    const amountClass = isIncome ? 'positive' : 'negative';
-    const sign = isIncome ? '+' : '−';
+    // Mirror the iOS app's amount styling (PremiumTxRow):
+    //  • colour mode (showIncomeGreen): expense red, income green
+    //  • neutral mode: both plain text, distinguished by the +/- sign
+    const colourMode  = settings.showIncomeGreen !== false;
+    const amountClass = colourMode ? (isIncome ? 'positive' : 'negative') : 'neutral';
+    // colour mode: expense '−', income no sign (colour carries the meaning).
+    // neutral mode: explicit +/- on both. Mirrors PremiumTxRow.amountText.
+    const sign = isIncome ? (colourMode ? '' : '+') : '−';
     return `
       <div class="tx-row">
         <div class="tx-icon">${emoji}</div>
