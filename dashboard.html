@@ -496,6 +496,16 @@
     .tx-cat  { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
     .tx-right { text-align: right; flex-shrink: 0; }
     .tx-amount { font-size: 13px; font-weight: 700; }
+    .tx-month-divider { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-ter); padding: 14px 0 6px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+    .tx-month-divider:first-child { padding-top: 2px; }
+    .tx-more { display: flex; gap: 10px; justify-content: center; padding: 16px 0 4px; }
+    .tx-more-btn { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--accent);
+      background: var(--accent-pale); border: 1px solid var(--border-accent); border-radius: 10px;
+      padding: 8px 16px; cursor: pointer; transition: background 0.15s ease; }
+    .tx-more-btn:hover { background: var(--accent); color: #fff; }
+    .tx-more-btn.ghost { color: var(--text-sec); background: transparent; border-color: var(--border); }
+    .tx-more-btn.ghost:hover { color: var(--text); border-color: var(--text-ter); background: transparent; }
     .tx-date   { font-size: 11px; color: var(--text-sec); margin-top: 1px; }
     .positive { color: var(--positive); }
     .negative { color: var(--negative); }
@@ -1231,6 +1241,8 @@ const I18N = {
     'gv.saving': 'Saving {amt}/mo → reach by {date}', 'gv.setincome': 'Set income to calculate ETA',
     'gv.simulate': 'Simulate: save more', 'gv.active': '{n} active',
     'ins.open': 'Open ucm App', 'ins.month': 'month', 'ins.months': 'months', 'ins.sooner': '{n} {unit} sooner', 'tx.count': '{n} transactions',
+    'tx.today': 'Today', 'tx.yesterday': 'Yesterday', 'tx.income': 'Income', 'tx.card': 'Card',
+    'tx.showmore': 'Show {n} more', 'tx.showall': 'Show all {n}',
     'ins.cta.impact': 'See the impact', 'ins.cta.plan': 'Build your plan', 'ins.cta.forecast': 'See your Forecast',
     'ins.sub.h': 'Cancel {name} — unused for 60+ days',
     'ins.sub.b': 'That frees up <strong class="goal-link">{annual}/year</strong>. Applied to your {emoji} <strong>{name}</strong> goal, you\'d reach it <strong class="goal-link">{sooner}</strong>.',
@@ -1321,6 +1333,8 @@ const I18N = {
     'gv.saving': 'Guardando {amt}/mês → alcança em {date}', 'gv.setincome': 'Informe a renda para calcular a previsão',
     'gv.simulate': 'Simular: guardar mais', 'gv.active': '{n} ativas',
     'ins.open': 'Abrir o app ucm', 'ins.month': 'mês', 'ins.months': 'meses', 'ins.sooner': '{n} {unit} antes', 'tx.count': '{n} transações',
+    'tx.today': 'Hoje', 'tx.yesterday': 'Ontem', 'tx.income': 'Receita', 'tx.card': 'Cartão',
+    'tx.showmore': 'Ver mais {n}', 'tx.showall': 'Ver todas as {n}',
     'ins.cta.impact': 'Ver o impacto', 'ins.cta.plan': 'Montar seu plano', 'ins.cta.forecast': 'Ver sua Projeção',
     'ins.sub.h': 'Cancele {name} — sem uso há 60+ dias',
     'ins.sub.b': 'Isso libera <strong class="goal-link">{annual}/ano</strong>. Aplicado à sua meta {emoji} <strong>{name}</strong>, você a alcançaria <strong class="goal-link">{sooner}</strong>.',
@@ -1596,7 +1610,7 @@ function loadDemo() {
     monthlyIncome: 8500, monthlyIncomeGoal: 9000, savingsRateGoal: 0.25,
     hoursPerWeek: 40, showIncomeGreen: true,
   };
-  state.transactions = txns;
+  state.transactions = txns.sort((a, b) => b.date - a.date);   // newest-first, matching the real load path
   state.goals = [
     { id:'g1', name:'Reserva de emergência', emoji:'🛡️', targetAmount:30000, currentAmount:18500, deadline: mo(8),  isCompleted:false },
     { id:'g2', name:'Viagem Europa',         emoji:'✈️', targetAmount:15000, currentAmount:4200,  deadline: mo(14), isCompleted:false },
@@ -1704,9 +1718,6 @@ async function fetchRecord(recordType, limit = 1) {
 
 async function loadDashboard() {
   try {
-    const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
-
     const [settingsRecs, txRecs, goalRecs, allocRecs, catRecs, recurRecs, bankRecs] =
       await Promise.all([
         fetchRecord('CD_AppSettings'),
@@ -1730,8 +1741,10 @@ async function loadDashboard() {
     state.settings    = settingsRecs[0] ? mapSettings(settingsRecs[0]) : defaultSettings();
     const allMapped = txRecs.map(mapTransaction);
     // Note: financial values are deliberately not logged (EngReadMe §XVI — no PII in logs).
+    // Keep the FULL history (no 12-month cap) so the user can see everything; each
+    // section re-filters to its own window. Drop only split children.
     state.transactions = allMapped
-      .filter(t => t.splitParentID == null && t.date >= twelveMonthsAgo)
+      .filter(t => t.splitParentID == null)
       .sort((a, b) => b.date - a.date);
     state.goals        = goalRecs.map(mapGoal).filter(g => !g.isCompleted);
     state.allocations  = allocRecs.map(mapAllocation).filter(a => a.budgetedAmount > 0);
@@ -2629,8 +2642,23 @@ function renderInsightCard(insight) {
 // ═══════════════════════════════════════════════════════════════════
 // RENDER — TRANSACTIONS
 // ═══════════════════════════════════════════════════════════════════
+const TX_PAGE_STEP = 25;     // how many rows to reveal per "show more"
+let txPageSize = TX_PAGE_STEP;
+let _txAll = [];             // full sorted list, kept for pagination + CSV
+
+function showMoreTransactions() {
+  txPageSize += TX_PAGE_STEP;
+  renderTransactions(_txAll, state.settings.currencyCode, state.settings);
+}
+function showAllTransactions() {
+  txPageSize = _txAll.length;
+  renderTransactions(_txAll, state.settings.currencyCode, state.settings);
+}
+
 function renderTransactions(txs, currency, settings) {
   const container = document.getElementById('tx-list');
+  // Always newest-first at the display layer, regardless of caller ordering.
+  _txAll = txs = [...txs].sort((a, b) => b.date - a.date);
   document.getElementById('tx-count-label').textContent = tt('tx.count', { n: txs.length });
 
   if (txs.length === 0) {
@@ -2641,27 +2669,38 @@ function renderTransactions(txs, currency, settings) {
   const catEmoji = Object.fromEntries(state.categories.map(c => [c.name, c.emoji]));
   const today     = new Date().toDateString();
   const yesterday = new Date(Date.now() - 86400000).toDateString();
+  const colourMode = settings.showIncomeGreen !== false;
 
-  container.innerHTML = txs.map(t => {
+  const shown = txs.slice(0, txPageSize);
+  let lastMonthKey = null;
+
+  const rows = shown.map(t => {
     const isIncome = t.type === 'income';
-    const dateStr  = t.date.toDateString() === today ? 'Today' :
-                     t.date.toDateString() === yesterday ? 'Yesterday' :
+    // Month divider so a long, all-history list stays scannable.
+    const mKey = `${t.date.getFullYear()}-${t.date.getMonth()}`;
+    let divider = '';
+    if (mKey !== lastMonthKey) {
+      lastMonthKey = mKey;
+      divider = `<div class="tx-month-divider">${t.date.toLocaleDateString(dateLoc(), { month: 'long', year: 'numeric' })}</div>`;
+    }
+    const dateStr  = t.date.toDateString() === today ? t('tx.today') :
+                     t.date.toDateString() === yesterday ? t('tx.yesterday') :
                      t.date.toLocaleDateString(dateLoc(), { month: 'short', day: 'numeric' });
     const emoji = catEmoji[t.categoryName] || (isIncome ? '💰' : '💸');
     // Mirror the iOS app's amount styling (PremiumTxRow):
     //  • colour mode (showIncomeGreen): expense red, income green
     //  • neutral mode: both plain text, distinguished by the +/- sign
-    const colourMode  = settings.showIncomeGreen !== false;
     const amountClass = colourMode ? (isIncome ? 'positive' : 'negative') : 'neutral';
     // colour mode: expense '−', income no sign (colour carries the meaning).
     // neutral mode: explicit +/- on both. Mirrors PremiumTxRow.amountText.
     const sign = isIncome ? (colourMode ? '' : '+') : '−';
-    return `
+    const name = t.note || t.categoryName || (isIncome ? t('tx.income') : t('tx.expense'));
+    return `${divider}
       <div class="tx-row">
         <div class="tx-icon">${emoji}</div>
         <div class="tx-info">
-          <div class="tx-name">${t.note || t.categoryName || (isIncome ? 'Income' : 'Expense')}</div>
-          <div class="tx-cat">${t.categoryName || ''}${t.isCardPayment ? ' · Card' : ''}</div>
+          <div class="tx-name">${name}</div>
+          <div class="tx-cat">${t.categoryName || ''}${t.isCardPayment ? ' · ' + t('tx.card') : ''}</div>
         </div>
         <div class="tx-right">
           <div class="tx-amount private ${amountClass}">${sign}${fmt(t.amount, currency)}</div>
@@ -2669,6 +2708,15 @@ function renderTransactions(txs, currency, settings) {
         </div>
       </div>`;
   }).join('');
+
+  const remaining = txs.length - shown.length;
+  const more = remaining > 0
+    ? `<div class="tx-more">
+         <button class="tx-more-btn" onclick="showMoreTransactions()">${tt('tx.showmore', { n: Math.min(remaining, TX_PAGE_STEP) })}</button>
+         <button class="tx-more-btn ghost" onclick="showAllTransactions()">${tt('tx.showall', { n: txs.length })}</button>
+       </div>`
+    : '';
+  container.innerHTML = rows + more;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2801,8 +2849,9 @@ function renderAll() {
   // Section 5: Calendar Heatmap
   renderCalendarHeatmap(txs);
 
-  // Section 6: Transactions
-  renderTransactions(txs.filter(t => inMonth(t, year, month)).slice(0, 20), currency, settings);
+  // Section 6: Transactions — full history (all months), paginated client-side.
+  txPageSize = TX_PAGE_STEP;   // reset paging each full render
+  renderTransactions(txs, currency, settings);
 }
 
 // Portfolio-style KPI tiles: saved this month, change vs last month, saved YTD.
