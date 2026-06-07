@@ -16,19 +16,32 @@
       --surface2:     #142420;
       --surface3:     #1A2D29;
       --border:       rgba(255,255,255,0.07);
-      --border-accent:rgba(45,212,191,0.2);
+      --border-accent:var(--accent-a20);
       --accent:       #2DD4BF;
       --accent-mid:   #14B8A6;
       --accent-deep:  #0D9488;
-      --accent-pale:  rgba(45,212,191,0.10);
+      --accent-pale:  var(--accent-a10);
       --text:         rgba(255,255,255,0.92);
-      --text-sec:     rgba(255,255,255,0.48);
-      --text-ter:     rgba(255,255,255,0.24);
+      --text-sec:     rgba(255,255,255,0.60); /* WCAG AA: ~6.5:1 on surface */
+      --text-ter:     rgba(255,255,255,0.46); /* WCAG AA: ~4.6:1 (was 0.24 = fail) */
       --positive:     #34D399;
       --negative:     #F87171;
       --warning:      #FBBF24;
       --purple:       #A78BFA;
       --sidebar-w:    200px;
+      /* Radius scale — use these instead of hardcoded px so corners stay consistent. */
+      --radius-sm:    8px;
+      --radius:       12px;
+      --radius-lg:    16px;
+      --radius-xl:    20px;
+      --radius-pill:  999px;
+      /* Accent-alpha scale — theme-adaptive (see light overrides below). */
+      --accent-a07:   rgba(45,212,191,0.07);
+      --accent-a10:   rgba(45,212,191,0.10);
+      --accent-a12:   rgba(45,212,191,0.12);
+      --accent-a20:   rgba(45,212,191,0.20);
+      --accent-a40:   rgba(45,212,191,0.40);
+      --accent-a50:   rgba(45,212,191,0.50);
     }
 
     [data-theme="light"] {
@@ -43,12 +56,19 @@
       --accent-deep:  #0F766E;
       --accent-pale:  rgba(13,148,136,0.09);
       --text:         #0B201B;
-      --text-sec:     rgba(11,32,27,0.60);
-      --text-ter:     rgba(11,32,27,0.36);
+      --text-sec:     rgba(11,32,27,0.72); /* WCAG AA on light surfaces incl. hero gradient */
+      --text-ter:     rgba(11,32,27,0.66); /* WCAG AA: ~4.6:1 on white (was 0.36 = fail) */
       --positive:     #059669;
       --negative:     #DC2626;
       --warning:      #D97706;
       --purple:       #7C3AED;
+      /* Accent-alpha scale adapts to the light accent so teal tints don't stay dark. */
+      --accent-a07:   rgba(13,148,136,0.07);
+      --accent-a10:   rgba(13,148,136,0.10);
+      --accent-a12:   rgba(13,148,136,0.12);
+      --accent-a20:   rgba(13,148,136,0.20);
+      --accent-a40:   rgba(13,148,136,0.40);
+      --accent-a50:   rgba(13,148,136,0.50);
     }
 
     body {
@@ -61,6 +81,25 @@
       font-variant-numeric: tabular-nums;
     }
 
+    /* Visually-hidden but available to screen readers (chart data fallbacks, etc.) */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute; left: 8px; top: -48px; z-index: 200;
+      background: var(--accent); color: #00201c; font-weight: 700; font-size: 13px;
+      padding: 10px 16px; border-radius: 9px; transition: top 0.15s; text-decoration: none;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* Page-switch choreography (disabled under prefers-reduced-motion globally). */
+    @keyframes pageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .page-anim { animation: pageIn 0.34s cubic-bezier(0.22,1,0.36,1) both; }
+    /* Highlight pulse when a Suggestion lands on the Forecast lab. */
+    @keyframes hlPulse { 0% { box-shadow: 0 0 0 0 var(--accent-pale); } 35% { box-shadow: 0 0 0 8px var(--accent-pale); } 100% { box-shadow: 0 0 0 0 rgba(45,212,191,0); } }
+    .hl-pulse { animation: hlPulse 1.6s ease; border-radius: 10px; }
+
     /* ── AUTH ── */
     #auth-screen {
       position: fixed; inset: 0; z-index: 100;
@@ -71,8 +110,8 @@
          "Sign in with Apple" button is white and would vanish on a light card. */
       --bg: #080F0D; --surface: #0E1A17; --surface2: #142420; --surface3: #1A2D29;
       --border: rgba(255,255,255,0.07); --border-accent: rgba(45,212,191,0.2);
-      --text: rgba(255,255,255,0.92); --text-sec: rgba(255,255,255,0.48);
-      --text-ter: rgba(255,255,255,0.24); --accent: #2DD4BF;
+      --text: rgba(255,255,255,0.92); --text-sec: rgba(255,255,255,0.60);
+      --text-ter: rgba(255,255,255,0.46); --accent: #2DD4BF;
       color: var(--text);
     }
     .auth-card {
@@ -131,7 +170,7 @@
     .paywall-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--accent-pale); border: 1px solid var(--border-accent);
-      border-radius: 99px; padding: 6px 16px;
+      border-radius: var(--radius-pill); padding: 6px 16px;
       font-size: 12px; font-weight: 600; color: var(--accent);
     }
     .paywall-cta { display: flex; flex-direction: column; gap: 10px; width: 100%; }
@@ -203,7 +242,7 @@
     }
     .nav-item {
       display: flex; align-items: center; gap: 9px;
-      padding: 9px 8px; border-radius: 9px;
+      padding: 11px 10px; min-height: 44px; box-sizing: border-box; border-radius: 9px;
       font-size: 13px; font-weight: 500; color: var(--text-sec);
       cursor: pointer; transition: all 0.15s; text-decoration: none;
     }
@@ -220,7 +259,7 @@
       background: var(--accent-pale); border: 1px solid var(--border-accent);
     }
     .logout-btn {
-      flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px;
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       background: transparent; border: 1px solid var(--border);
       color: var(--text-sec); cursor: pointer; transition: all 0.15s;
@@ -246,7 +285,7 @@
     }
     main::-webkit-scrollbar { width: 4px; }
     main::-webkit-scrollbar-track { background: transparent; }
-    main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+    main::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-pill); }
 
     /* ── TOPBAR ── */
     .topbar { display: flex; align-items: center; justify-content: space-between; }
@@ -264,22 +303,22 @@
       background: transparent; border: none;
       color: var(--text-sec); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      padding: 2px; border-radius: 4px; transition: color 0.15s;
+      width: 40px; height: 40px; padding: 0; border-radius: 8px; transition: color 0.15s;
     }
     .month-nav-btn:hover { color: var(--text); }
-    .month-nav-btn svg { width: 13px; height: 13px; }
+    .month-nav-btn svg { width: 14px; height: 14px; }
     .month-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     .refresh-btn {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 7px; cursor: pointer;
-      color: var(--text-sec); display: flex; align-items: center;
+      border-radius: 8px; width: 44px; height: 44px; padding: 0; cursor: pointer;
+      color: var(--text-sec); display: flex; align-items: center; justify-content: center;
       transition: color 0.15s, background 0.15s;
     }
     .refresh-btn:hover { color: var(--text); background: var(--surface2); }
-    .refresh-btn svg { width: 13px; height: 13px; }
+    .refresh-btn svg { width: 15px; height: 15px; }
     .eye-btn {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; width: 32px; height: 32px;
+      border-radius: 8px; width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; color: var(--text-sec);
       transition: color 0.15s, background 0.15s; padding: 0;
@@ -320,30 +359,52 @@
     .section-header a { font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 600; }
     .section-header .badge { font-size: 11px; color: var(--text-sec); }
 
-    /* ── NET WORTH HERO ── */
+    /* ── NET WORTH HERO (signature) ── */
     #s-overview {
-      background: linear-gradient(135deg, var(--surface) 0%, rgba(13,148,136,0.15) 100%);
+      background: radial-gradient(130% 150% at 0% 0%, rgba(13,148,136,0.20) 0%, var(--surface) 56%);
       border: 1px solid var(--border-accent);
-      border-radius: 16px; padding: 24px;
+      border-radius: 20px; padding: 26px 26px 22px; position: relative; overflow: hidden;
     }
+    .nw-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    .nw-eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
     .nw-label {
-      font-size: 10px; font-weight: 600; color: var(--text-sec);
-      text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 11px; font-weight: 700; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.14em; margin: 0;
     }
-    .nw-row { display: flex; align-items: center; gap: 12px; margin: 8px 0 4px; }
+    .nw-live {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+    }
+    .nw-live::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+      box-shadow: 0 0 0 0 rgba(45,212,191,0.5); animation: nwpulse 2.4s infinite;
+    }
+    @keyframes nwpulse { 0%{box-shadow:0 0 0 0 rgba(45,212,191,.5)} 70%{box-shadow:0 0 0 7px rgba(45,212,191,0)} 100%{box-shadow:0 0 0 0 rgba(45,212,191,0)} }
+    .nw-row { display: flex; align-items: center; gap: 12px; margin: 0; }
     .nw-amount {
-      font-size: clamp(32px, 7vw, 48px); font-weight: 800; letter-spacing: -2.5px;
-      line-height: 1; color: var(--text); word-break: break-word;
+      font-size: clamp(38px, 7vw, 58px); font-weight: 800; letter-spacing: -2.5px;
+      line-height: 0.95; color: var(--text); word-break: break-word;
     }
+    .nw-amount .nw-cents { font-size: 0.52em; font-weight: 600; color: var(--text-ter); letter-spacing: 0; }
     .nw-delta {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 4px 10px; border-radius: 99px;
-      font-size: 12px; font-weight: 700;
-      background: rgba(52,211,153,0.12); color: var(--positive);
-      border: 1px solid rgba(52,211,153,0.2);
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: var(--radius-pill);
+      font-size: 12.5px; font-weight: 700;
+      background: rgba(52,211,153,0.14); color: var(--positive);
+      border: 1px solid rgba(52,211,153,0.28); margin-top: 12px; white-space: nowrap;
     }
+    .nw-delta .nw-delta-sub { color: var(--text-sec); font-weight: 500; }
     .nw-delta.neg { background: rgba(248,113,113,0.12); color: var(--negative); border-color: rgba(248,113,113,0.2); }
-    .nw-chart-wrap { height: 120px; margin-top: 14px; }
+    .nw-trajectory { text-align: right; font-size: 12px; color: var(--text-sec); line-height: 1.45; max-width: 190px; flex-shrink: 0; }
+    .nw-trajectory b { display: block; font-size: 16px; font-weight: 700; color: var(--accent); margin-bottom: 1px; }
+    .nw-chart-wrap { height: 168px; margin-top: 18px; position: relative; }
+    .nw-stats { display: flex; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px; }
+    .nw-stat { flex: 1; text-align: center; position: relative; }
+    .nw-stat + .nw-stat::before { content: ''; position: absolute; left: 0; top: 2px; bottom: 2px; width: 1px; background: var(--border); }
+    .nw-stat-v { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+    .nw-stat-v.pos { color: var(--positive); }
+    .nw-stat-v.neg { color: var(--negative); }
+    .nw-stat-k { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-ter); margin-top: 4px; }
 
     /* ── TWO-COL ROWS ── */
     .row-2-1 { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; }
@@ -380,15 +441,15 @@
     }
     .bar-track {
       height: 6px; background: var(--border);
-      border-radius: 999px; overflow: visible; position: relative;
+      border-radius: var(--radius-pill); overflow: visible; position: relative;
     }
     .bar-fill {
-      height: 100%; border-radius: 999px;
+      height: 100%; border-radius: var(--radius-pill);
       transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
     }
     .bar-budget {
       position: absolute; top: 0; left: 0;
-      height: 100%; border-radius: 999px;
+      height: 100%; border-radius: var(--radius-pill);
       background: rgba(255,255,255,0.06);
     }
 
@@ -414,7 +475,7 @@
       display: inline-flex; align-items: center; gap: 6px;
       background: var(--accent); color: #000;
       font-size: 12px; font-weight: 700;
-      padding: 8px 14px; border-radius: 9px; border: none;
+      padding: 11px 16px; min-height: 44px; box-sizing: border-box; border-radius: 9px; border: none;
       cursor: pointer; width: fit-content;
       font-family: 'Outfit', sans-serif; transition: opacity 0.15s;
     }
@@ -431,10 +492,10 @@
     .goal-emoji { font-size: 20px; }
     .goal-name { font-size: 13px; font-weight: 700; flex: 1; }
     .goal-pct-label { font-size: 13px; font-weight: 800; color: var(--accent); }
-    .goal-bar-wrap { position: relative; height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: 6px; }
+    .goal-bar-wrap { position: relative; height: 8px; background: var(--border); border-radius: var(--radius-pill); overflow: hidden; margin-bottom: 6px; }
     .goal-bar-fill {
       height: 100%;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       transition: width 0.9s cubic-bezier(0.4,0,0.2,1);
     }
     .goal-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sec); }
@@ -445,7 +506,7 @@
     input[type=range] {
       -webkit-appearance: none;
       width: 100%; height: 4px;
-      background: var(--border); border-radius: 99px; outline: none;
+      background: var(--border); border-radius: var(--radius-pill); outline: none;
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -617,7 +678,7 @@
     .slider-vals .delta.save { color: var(--positive); }
     .slider-vals .delta.over { color: var(--negative); }
     input[type=range].lab-range { -webkit-appearance: none; appearance: none; width: 100%; height: 6px;
-      border-radius: 999px; background: var(--surface3); outline: none; cursor: pointer; }
+      border-radius: var(--radius-pill); background: var(--surface3); outline: none; cursor: pointer; }
     input[type=range].lab-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none;
       width: 18px; height: 18px; border-radius: 50%; background: var(--accent);
       border: 3px solid var(--bg); box-shadow: 0 1px 4px rgba(0,0,0,0.4); cursor: pointer; }
@@ -661,7 +722,7 @@
     .spend-share { font-size: 11px; font-weight: 600; color: var(--text-ter); margin-left: 6px; }
     /* Privacy trust chip + disclaimer footer */
     .trust-chip { display: inline-flex; align-items: center; gap: 5px; margin-top: 7px; font-size: 11px;
-      color: var(--text-sec); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; cursor: default; }
+      color: var(--text-sec); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: var(--radius-pill); cursor: default; }
     .dash-footer { display: flex; align-items: center; gap: 8px; justify-content: center; text-align: center;
       max-width: 620px; margin: 30px auto 10px; padding: 0 16px; font-size: 12px; color: var(--text-ter); line-height: 1.5; }
     .footer-lock { font-size: 13px; flex-shrink: 0; }
@@ -711,7 +772,7 @@
     .lang-toggle { display: inline-flex; gap: 2px; background: var(--surface2); border: 1px solid var(--border);
       border-radius: 10px; padding: 3px; margin-left: 4px; }
     .lang-toggle button { background: transparent; border: none; color: var(--text-sec); font-family: inherit;
-      font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 7px; cursor: pointer; letter-spacing: 0.02em; }
+      font-size: 11px; font-weight: 700; padding: 9px 11px; min-height: 40px; border-radius: 7px; cursor: pointer; letter-spacing: 0.02em; }
     .lang-toggle button.active { background: var(--accent); color: #00201c; }
 
     /* ═══════════ ACCESSIBILITY ═══════════ */
@@ -757,11 +818,17 @@
       .topbar-right { flex-wrap: wrap; gap: 6px; }
       .lab-summary { grid-template-columns: repeat(2, 1fr); }
       .lab-intro h2 { font-size: 19px; }
+      /* Net-worth hero: stack head so the headline gets full width and the
+         trajectory sits below the delta chip instead of squeezing the amount. */
+      .nw-head { flex-direction: column; gap: 6px; }
+      .nw-trajectory { text-align: left; max-width: none; display: flex; align-items: baseline; gap: 6px; }
+      .nw-trajectory b { display: inline; font-size: 14px; }
     }
     @media (max-width: 420px) {
       .lab-summary { grid-template-columns: 1fr 1fr; }
       .topbar-left h1 { font-size: 18px; }
       .month-picker { padding: 6px 9px; font-size: 12px; }
+      .nw-amount { font-size: 34px; letter-spacing: -1.5px; }
     }
   </style>
 </head>
@@ -828,6 +895,8 @@
 <!-- ── Dashboard ── -->
 <div id="dashboard" style="display:none; width:100%;">
 
+  <a href="#main-content" class="skip-link" data-i18n="a11y.skip">Skip to content</a>
+
   <!-- Sidebar -->
   <aside>
     <div class="logo">
@@ -867,7 +936,7 @@
   </aside>
 
   <!-- Main Content -->
-  <main>
+  <main id="main-content">
 
     <!-- Topbar -->
     <div class="topbar">
@@ -913,16 +982,26 @@
     <!-- ═══════════════ PAGE: OVERVIEW ═══════════════ -->
     <div class="page" id="page-overview">
 
-    <!-- Section 1: Net Worth Hero -->
+    <!-- Section 1: Net Worth Hero (signature) -->
     <div id="s-overview">
-      <div class="nw-label" data-i18n="ov.networth">Net Worth</div>
-      <div class="nw-row">
-        <div class="nw-amount private" id="nw-amount">—</div>
-        <span class="nw-delta" id="nw-delta">↑ —</span>
+      <div class="nw-head">
+        <div>
+          <div class="nw-eyebrow">
+            <h2 class="nw-label" data-i18n="ov.networth">Net Worth</h2>
+            <span class="nw-live" data-i18n="ov.live">Live</span>
+          </div>
+          <div class="nw-row">
+            <div class="nw-amount private" id="nw-amount">—</div>
+          </div>
+          <span class="nw-delta private" id="nw-delta">↑ —</span>
+        </div>
+        <div class="nw-trajectory private" id="nw-trajectory" style="display:none"></div>
       </div>
       <div class="nw-chart-wrap">
         <canvas id="nw-chart" role="img" data-i18n-aria="aria.nwchart" aria-label="Net worth trend, last 6 months"></canvas>
+        <table class="sr-only" id="nw-chart-data"></table>
       </div>
+      <div class="nw-stats" id="nw-stats"></div>
     </div>
 
     <!-- KPI tiles -->
@@ -947,13 +1026,14 @@
     <!-- Section 2: Cash Flow + Month Summary -->
     <div class="row-2-1" id="s-cashflow">
       <div class="card">
-        <div class="card-label" data-i18n="ov.cashflow">Cash Flow</div>
+        <div class="card-label" role="heading" aria-level="2" data-i18n="ov.cashflow">Cash Flow</div>
         <div class="cf-chart-wrap">
           <canvas id="wf-chart" role="img" data-i18n-aria="aria.cfchart" aria-label="Cash flow breakdown this month"></canvas>
+          <table class="sr-only" id="wf-chart-data"></table>
         </div>
       </div>
       <div class="card">
-        <div class="card-label" data-i18n="ov.thismonth">This Month</div>
+        <div class="card-label" role="heading" aria-level="2" data-i18n="ov.thismonth">This Month</div>
         <div class="cf-summary">
           <div class="cf-row">
             <div class="cf-row-label"><div class="cf-dot" style="background:var(--positive)"></div><span data-i18n="ov.income">Income</span></div>
@@ -970,7 +1050,7 @@
         </div>
         <div style="margin-top:16px; padding-top:14px; border-top: 1px solid var(--border);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <span data-i18n="ov.health" style="font-size:11px; font-weight:600; color:var(--text-sec); text-transform:uppercase; letter-spacing:0.06em;">Health Score</span>
+            <span data-i18n="ov.health" role="heading" aria-level="3" style="font-size:11px; font-weight:600; color:var(--text-sec); text-transform:uppercase; letter-spacing:0.06em;">Health Score</span>
           </div>
           <div class="score-card" style="padding:0; gap:6px; align-items:flex-start; flex-direction:row; flex-wrap:wrap;">
             <div class="ring-wrap" style="width:70px;height:70px;">
@@ -998,7 +1078,7 @@
     <div class="row-3-2" id="s-spending">
       <div class="card">
         <div class="section-header">
-          <span data-i18n="ov.spending">Spending</span>
+          <span role="heading" aria-level="2" data-i18n="ov.spending">Spending</span>
           <span class="badge private" id="spend-summary">—</span>
         </div>
         <div class="spend-donut-wrap" id="spend-donut-wrap" style="display:none">
@@ -1010,6 +1090,7 @@
             </div>
           </div>
           <div class="spend-donut-legend" id="spend-donut-legend"></div>
+          <table class="sr-only" id="spend-donut-data"></table>
         </div>
         <div id="spend-bars">
           <div class="empty-state">
@@ -1035,7 +1116,7 @@
     <!-- Section 4: Goals with Velocity -->
     <div class="card" id="s-goals">
       <div class="section-header">
-        <span data-i18n="ov.goals">Goals</span>
+        <span role="heading" aria-level="2" data-i18n="ov.goals">Goals</span>
         <span class="badge" id="goals-badge">—</span>
       </div>
       <div id="goals-list">
@@ -1050,7 +1131,7 @@
     <!-- Section 5: Spending Calendar Heatmap -->
     <div class="card" id="s-calendar">
       <div class="section-header">
-        <span data-i18n="ov.calendar">Spending Calendar</span>
+        <span role="heading" aria-level="2" data-i18n="ov.calendar">Spending Calendar</span>
         <span class="badge" data-i18n="ov.last90">Last 90 days</span>
       </div>
       <div class="calendar-wrap">
@@ -1082,7 +1163,7 @@
     <!-- Section 6: History -->
     <div class="card" id="s-history">
       <div class="section-header">
-        <span data-i18n="ov.recenttx">Recent Transactions</span>
+        <span role="heading" aria-level="2" data-i18n="ov.recenttx">Recent Transactions</span>
         <span style="display:flex;align-items:center;gap:10px;">
           <span class="badge" id="tx-count-label">—</span>
           <button class="section-export" onclick="exportCSV()" data-i18n-aria="export.csv" aria-label="Export CSV">
@@ -1179,7 +1260,11 @@ const I18N = {
     'nd.error.title': 'Something went wrong', 'nd.error.body': "We couldn't load your data this time. Please try again — if it keeps happening, get in touch and we'll help.",
     'nd.empty.title': 'No data found in iCloud', 'nd.empty.body': "You're signed in, but this Apple ID's iCloud has no ucm data.<br><br><strong>Most often this means:</strong><br>1. You signed in with a <strong>different Apple ID</strong> than your iPhone uses for iCloud — they must match<br>2. Or ucm hasn't finished syncing to iCloud yet<br><br>Check Settings → your name on your iPhone for the right Apple ID, then refresh.",
     'nd.tryagain': 'Try again', 'nd.viewdemo': 'View demo', 'auth.retry': 'Reload to sign in',
-    'ov.networth': 'Net Worth', 'ov.thismonth': 'This Month', 'ov.income': 'Income', 'ov.expenses': 'Expenses',
+    'ov.networth': 'Net Worth', 'ov.live': 'Live',
+    'nw.stat.growth': '6-mo growth', 'nw.stat.avg': 'avg / month', 'nw.stat.best': 'best month',
+    'nw.traj': 'on track by {date} at this pace', 'nw.milestone': '⚑ Passed {amt}', 'nw.milestone.hidden': '⚑ Milestone',
+    'a11y.skip': 'Skip to content',
+    'ov.thismonth': 'This Month', 'ov.income': 'Income', 'ov.expenses': 'Expenses',
     'ov.saved': 'Saved', 'ov.health': 'Health Score', 'ov.cashflow': 'Cash Flow', 'ov.loading': 'Loading',
     'ov.spending': 'Spending', 'ov.nextmove': 'Your next move', 'ov.analysing': 'Analysing your data…',
     'ov.goals': 'Goals', 'ov.calendar': 'Spending Calendar', 'ov.last90': 'Last 90 days', 'ov.recenttx': 'Recent Transactions',
@@ -1204,7 +1289,7 @@ const I18N = {
     'sg.moves': 'Suggested moves', 'sg.adv.potential': 'Potential savings / year',
     'sg.adv.none.t': 'Your spending is lean', 'sg.adv.none.s': "Nothing obvious to trim — your wants are already in check. Use the Forecast lab to model what-ifs.",
     'sg.cut.over': 'Over budget by {amt}/mo', 'sg.cut.share': '{pct}% of your wants spend',
-    'sg.cut.trim': 'Trim to {amt}/mo', 'sg.apply': 'Model in Forecast →', 'sg.impact': '+{amt}/yr',
+    'sg.cut.trim': 'Trim to {amt}/mo', 'sg.apply': 'Model in Forecast →', 'sg.impact': '+{amt}/yr', 'sg.applied': '✓ Modelled in your Forecast',
     'pr.503020': 'The 50 / 30 / 20 rule', 'pr.needs': 'Needs', 'pr.wants': 'Wants', 'pr.save': 'Save',
     'pr.verdict.strong': "You're saving <b>{p}%</b> — above the 20% target. Strong.",
     'pr.verdict.mid': "You're saving <b>{p}%</b>. Nudging toward 20% would compound fast.",
@@ -1271,7 +1356,11 @@ const I18N = {
     'nd.error.title': 'Algo deu errado', 'nd.error.body': 'Não conseguimos carregar seus dados desta vez. Tente novamente — se continuar, fale com a gente que ajudamos.',
     'nd.empty.title': 'Nenhum dado no iCloud', 'nd.empty.body': 'Você entrou, mas o iCloud deste Apple ID não tem dados do ucm.<br><br><strong>Na maioria das vezes isso significa:</strong><br>1. Você entrou com um <strong>Apple ID diferente</strong> do que seu iPhone usa no iCloud — eles precisam ser o mesmo<br>2. Ou o ucm ainda não terminou de sincronizar com o iCloud<br><br>Verifique Ajustes → seu nome no iPhone para o Apple ID correto e atualize.',
     'nd.tryagain': 'Tentar de novo', 'nd.viewdemo': 'Ver demonstração', 'auth.retry': 'Recarregar para entrar',
-    'ov.networth': 'Patrimônio', 'ov.thismonth': 'Este mês', 'ov.income': 'Receitas', 'ov.expenses': 'Despesas',
+    'ov.networth': 'Patrimônio', 'ov.live': 'Ao vivo',
+    'nw.stat.growth': 'alta 6 meses', 'nw.stat.avg': 'média / mês', 'nw.stat.best': 'melhor mês',
+    'nw.traj': 'no ritmo até {date}', 'nw.milestone': '⚑ Passou de {amt}', 'nw.milestone.hidden': '⚑ Marco',
+    'a11y.skip': 'Pular para o conteúdo',
+    'ov.thismonth': 'Este mês', 'ov.income': 'Receitas', 'ov.expenses': 'Despesas',
     'ov.saved': 'Guardado', 'ov.health': 'Saúde financeira', 'ov.cashflow': 'Fluxo de caixa', 'ov.loading': 'Carregando',
     'ov.spending': 'Gastos', 'ov.nextmove': 'Seu próximo passo', 'ov.analysing': 'Analisando seus dados…',
     'ov.goals': 'Metas', 'ov.calendar': 'Calendário de gastos', 'ov.last90': 'Últimos 90 dias', 'ov.recenttx': 'Transações recentes',
@@ -1296,7 +1385,7 @@ const I18N = {
     'sg.moves': 'Ações sugeridas', 'sg.adv.potential': 'Economia potencial / ano',
     'sg.adv.none.t': 'Seus gastos estão enxutos', 'sg.adv.none.s': 'Nada óbvio para cortar — seus supérfluos já estão sob controle. Use o laboratório da Projeção para simular cenários.',
     'sg.cut.over': 'Acima do orçamento em {amt}/mês', 'sg.cut.share': '{pct}% dos seus supérfluos',
-    'sg.cut.trim': 'Reduzir para {amt}/mês', 'sg.apply': 'Simular na Projeção →', 'sg.impact': '+{amt}/ano',
+    'sg.cut.trim': 'Reduzir para {amt}/mês', 'sg.apply': 'Simular na Projeção →', 'sg.impact': '+{amt}/ano', 'sg.applied': '✓ Simulado na sua Projeção',
     'pr.503020': 'A regra 50 / 30 / 20', 'pr.needs': 'Essenciais', 'pr.wants': 'Supérfluos', 'pr.save': 'Poupar',
     'pr.verdict.strong': 'Você está poupando <b>{p}%</b> — acima da meta de 20%. Excelente.',
     'pr.verdict.mid': 'Você está poupando <b>{p}%</b>. Chegar perto de 20% faria diferença rápido.',
@@ -2181,6 +2270,10 @@ function applyPrivacy(hidden) {
   document.body.classList.toggle('privacy-mode', hidden);
   const icon = document.getElementById('eye-icon');
   if (icon) icon.innerHTML = hidden ? EYE_OFF : EYE_OPEN;
+  // Canvas-drawn figures (the net-worth milestone label, the waterfall's money
+  // axis) can't be reached by CSS blur, so redraw them for the new privacy state.
+  if (nwChart) { try { nwChart.update('none'); } catch (e) {} }
+  if (wfChart) { try { wfChart.update('none'); } catch (e) {} }
 }
 
 function togglePrivacy() {
@@ -2219,8 +2312,59 @@ function handleInsightAction() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// RENDER — NET WORTH
+// RENDER — NET WORTH (signature hero)
 // ═══════════════════════════════════════════════════════════════════
+
+// Format a currency amount but split off the fraction so it can be styled
+// smaller. Locale-safe: PT-BR uses "," as the decimal separator, so we rely
+// on Intl parts rather than splitting on ".".
+function splitCurrency(amount, currency) {
+  try {
+    const parts = new Intl.NumberFormat(dateLoc(), {
+      style: 'currency', currency, minimumFractionDigits: 2, maximumFractionDigits: 2,
+    }).formatToParts(amount);
+    let main = '', frac = '';
+    for (const p of parts) {
+      if (p.type === 'decimal' || p.type === 'fraction') frac += p.value;
+      else main += p.value;
+    }
+    return frac ? `${main}<span class="nw-cents">${frac}</span>` : main;
+  } catch (e) { return fmt(amount, currency); }
+}
+
+// Count-up only on the first paint after data loads — re-renders (theme toggle,
+// month navigation) snap to the value so numbers don't re-animate constantly.
+let firstPaintDone = false;
+function countUp(el, target, render) {
+  if (!el) return;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || firstPaintDone) { el.innerHTML = render(target); return; }
+  const dur = 750, from = 0;
+  const ease = p => 1 - Math.pow(1 - p, 3);
+  let start = null, done = false;
+  el.innerHTML = render(from);           // paint immediately so there's never a gap
+  const finish = () => { if (done) return; done = true; el.innerHTML = render(target); };
+  function step(ts) {
+    if (done) return;
+    if (start === null) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    el.innerHTML = render(from + (target - from) * ease(p));
+    if (p < 1) requestAnimationFrame(step); else finish();
+  }
+  requestAnimationFrame(step);
+  // Guarantee the final value even if rAF is throttled (backgrounded tab / headless).
+  setTimeout(finish, dur + 300);
+}
+
+// Populate a visually-hidden data table so screen readers can read the numbers
+// behind a <canvas> chart. `rows` is an array of [label, value] pairs.
+function fillChartTable(id, caption, rows) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const body = rows.map(([k, v]) => `<tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('');
+  el.innerHTML = `<caption>${caption}</caption><tbody>${body}</tbody>`;
+}
+
 function renderNetWorth(txs, bankAccounts, settings, currency) {
   const now = new Date();
   const labels = [];
@@ -2234,53 +2378,177 @@ function renderNetWorth(txs, bankAccounts, settings, currency) {
     dataPoints.push(nw);
   }
 
-  const current = dataPoints[dataPoints.length - 1];
-  const prev    = dataPoints[dataPoints.length - 2] ?? current;
+  const n       = dataPoints.length;
+  const current = dataPoints[n - 1];
+  const prev    = dataPoints[n - 2] ?? current;
+  const first   = dataPoints[0];
   const delta   = current - prev;
 
-  document.getElementById('nw-amount').textContent = fmt(current, currency);
-  const deltaEl = document.getElementById('nw-delta');
-  deltaEl.textContent = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency, true)} ${t('ov.thismonthdelta')}`;
-  deltaEl.className = 'nw-delta' + (delta < 0 ? ' neg' : '');
+  // ── Headline amount (de-emphasised cents), counting up on first paint ──
+  countUp(document.getElementById('nw-amount'), current, v => splitCurrency(v, currency));
 
-  const ctx = document.getElementById('nw-chart').getContext('2d');
+  // ── Delta chip with % ──
+  const deltaEl = document.getElementById('nw-delta');
+  const pctMo = prev !== 0 ? (delta / Math.abs(prev) * 100) : 0;
+  const pctTxt = Math.abs(pctMo) >= 0.1 ? ` · ${pctMo >= 0 ? '+' : '−'}${Math.abs(pctMo).toFixed(1)}%` : '';
+  deltaEl.className = 'nw-delta private' + (delta < 0 ? ' neg' : '');
+  deltaEl.innerHTML = `${delta >= 0 ? '↑' : '↓'} ${fmt(Math.abs(delta), currency, true)} <span class="nw-delta-sub">${t('ov.thismonthdelta')}${pctTxt}</span>`;
+
+  // ── Stats strip: 6-mo growth · avg/month · best month ──
+  const totalGrowth = first !== 0 ? (current - first) / Math.abs(first) * 100 : 0;
+  const avgChange   = (current - first) / Math.max(n - 1, 1);
+  let bestIdx = n > 1 ? 1 : 0, bestDelta = -Infinity;
+  for (let i = 1; i < n; i++) { const dch = dataPoints[i] - dataPoints[i - 1]; if (dch > bestDelta) { bestDelta = dch; bestIdx = i; } }
+  const statsEl = document.getElementById('nw-stats');
+  if (statsEl) {
+    statsEl.innerHTML = `
+      <div class="nw-stat"><div class="nw-stat-v ${totalGrowth >= 0 ? 'pos' : 'neg'}">${totalGrowth >= 0 ? '+' : '−'}${Math.abs(Math.round(totalGrowth))}%</div><div class="nw-stat-k">${t('nw.stat.growth')}</div></div>
+      <div class="nw-stat"><div class="nw-stat-v private">${fmt(avgChange, currency, true)}</div><div class="nw-stat-k">${t('nw.stat.avg')}</div></div>
+      <div class="nw-stat"><div class="nw-stat-v">${labels[bestIdx] || '—'}</div><div class="nw-stat-k">${t('nw.stat.best')}</div></div>`;
+  }
+
+  // ── Forward projection: avg of the last (up to) 3 monthly changes ──
+  const recentDeltas = [];
+  for (let i = Math.max(1, n - 3); i < n; i++) recentDeltas.push(dataPoints[i] - dataPoints[i - 1]);
+  const projStep = recentDeltas.length ? recentDeltas.reduce((s, v) => s + v, 0) / recentDeltas.length : 0;
+  const PROJ_N = 2;
+  const projLabels = [];
+  for (let i = 1; i <= PROJ_N; i++) projLabels.push(new Date(now.getFullYear(), now.getMonth() + i, 1).toLocaleDateString(dateLoc(), { month: 'short' }));
+  const allLabels = [...labels, ...projLabels];
+  const mainData  = [...dataPoints, ...Array(PROJ_N).fill(null)];
+  const projData  = Array(n - 1).fill(null); projData.push(current);
+  let pv = current;
+  for (let i = 0; i < PROJ_N; i++) { pv += projStep; projData.push(pv); }
+
+  // ── Trajectory headline: next R$10k milestone at current pace ──
+  const trajEl = document.getElementById('nw-trajectory');
+  if (trajEl) {
+    let shown = false;
+    if (projStep > 0 && current > 0) {
+      const target = (Math.floor(current / 10000) + 1) * 10000;
+      const monthsToTarget = Math.ceil((target - current) / projStep);
+      if (monthsToTarget > 0 && monthsToTarget <= 18) {
+        const td = new Date(now.getFullYear(), now.getMonth() + monthsToTarget, 1);
+        trajEl.innerHTML = `<b>${fmt(target, currency, true)}</b>${tt('nw.traj', { date: td.toLocaleDateString(dateLoc(), { month: 'short' }) })}`;
+        trajEl.style.display = ''; shown = true;
+      }
+    }
+    if (!shown) trajEl.style.display = 'none';
+  }
+
+  // ── Chart ──
+  const canvas = document.getElementById('nw-chart');
+  const ctx = canvas.getContext('2d');
   if (nwChart) nwChart.destroy();
 
-  const grad = ctx.createLinearGradient(0, 0, 0, 120);
-  grad.addColorStop(0, 'rgba(45,212,191,0.3)');
-  grad.addColorStop(1, 'rgba(45,212,191,0)');
+  const grad = ctx.createLinearGradient(0, 0, 0, 168);
+  grad.addColorStop(0,   'rgba(45,212,191,0.34)');
+  grad.addColorStop(0.6, 'rgba(45,212,191,0.08)');
+  grad.addColorStop(1,   'rgba(45,212,191,0)');
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Soft glow on the actual line only.
+  const glowPlugin = {
+    id: 'nwGlow',
+    beforeDatasetDraw(chart, args) {
+      if (args.index !== 0) return;
+      const { ctx } = chart;
+      ctx.save(); ctx.shadowColor = 'rgba(45,212,191,0.55)'; ctx.shadowBlur = 11;
+    },
+    afterDatasetDraw(chart, args) { if (args.index === 0) chart.ctx.restore(); },
+  };
+
+  // Milestone marker: where net worth last crossed a round R$10k inside the window.
+  const milestonePlugin = {
+    id: 'nwMilestone',
+    afterDatasetsDraw(chart) {
+      try {
+        const xs = chart.scales.x, ys = chart.scales.y;
+        // find the most recent crossing of a multiple of 10k between two actual points
+        let cx = null, cy = null, mVal = null;
+        for (let i = n - 1; i >= 1; i--) {
+          const a = dataPoints[i - 1], b = dataPoints[i];
+          const lo = Math.min(a, b), hi = Math.max(a, b);
+          const m = Math.floor(hi / 10000) * 10000;
+          if (m > lo && m <= hi && m > 0) {
+            const f = (m - a) / (b - a);
+            cx = xs.getPixelForValue(i - 1) + f * (xs.getPixelForValue(i) - xs.getPixelForValue(i - 1));
+            cy = ys.getPixelForValue(m); mVal = m; break;
+          }
+        }
+        if (cx == null) return;
+        const c = chart.ctx;
+        // connector down + dot
+        c.save();
+        c.strokeStyle = 'rgba(45,212,191,0.35)'; c.lineWidth = 1;
+        c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx, cy + 26); c.stroke();
+        c.fillStyle = '#2DD4BF'; c.beginPath(); c.arc(cx, cy, 3.5, 0, Math.PI * 2); c.fill();
+        // label pill below
+        const label = (typeof privacyHidden !== 'undefined' && privacyHidden)
+          ? t('nw.milestone.hidden')
+          : tt('nw.milestone', { amt: fmt(mVal, currency, true) });
+        c.font = '700 9.5px Outfit, sans-serif';
+        const tw = c.measureText(label).width, pad = 7, h = 17;
+        let lx = cx, ly = cy + 28;
+        lx = Math.max(chart.chartArea.left + tw / 2 + pad, Math.min(lx, chart.chartArea.right - tw / 2 - pad));
+        const rx = lx - tw / 2 - pad, rw = tw + pad * 2;
+        c.fillStyle = 'rgba(45,212,191,0.10)'; c.strokeStyle = 'rgba(45,212,191,0.25)';
+        if (c.roundRect) { c.beginPath(); c.roundRect(rx, ly, rw, h, 7); c.fill(); c.stroke(); }
+        else { c.fillRect(rx, ly, rw, h); c.strokeRect(rx, ly, rw, h); }
+        c.fillStyle = '#2DD4BF'; c.textAlign = 'center'; c.textBaseline = 'middle';
+        c.fillText(label, lx, ly + h / 2 + 0.5);
+        c.restore();
+      } catch (e) { /* never let chrome break the chart */ }
+    },
+  };
 
   nwChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels,
-      datasets: [{
-        data: dataPoints,
-        borderColor: 'rgba(45,212,191,0.9)',
-        backgroundColor: grad,
-        borderWidth: 2,
-        pointRadius: 0,
-        tension: 0.4,
-        fill: true,
-      }]
+      labels: allLabels,
+      datasets: [
+        {
+          data: mainData,
+          borderColor: 'rgba(45,212,191,0.95)', backgroundColor: grad,
+          borderWidth: 3, tension: 0.4, fill: true, spanGaps: false,
+          pointRadius: c => c.dataIndex === n - 1 ? 4.5 : 0,
+          pointHoverRadius: 5, pointBackgroundColor: '#fff',
+          pointBorderColor: '#2DD4BF', pointBorderWidth: 2.5,
+        },
+        {
+          data: projData,
+          borderColor: 'rgba(45,212,191,0.5)', borderDash: [2, 6],
+          borderWidth: 2, tension: 0.4, fill: false, spanGaps: true,
+          pointRadius: 0, pointHoverRadius: 0,
+        },
+      ],
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { bottom: 22 } }, // room for the milestone label
+      animation: reduceMotion ? false : { duration: 900 },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#0E1A17',
-          borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1,
-          titleColor: 'rgba(255,255,255,0.9)', bodyColor: 'rgba(255,255,255,0.6)',
-          callbacks: { label: ctx => ` ${fmt(ctx.parsed.y, currency)}` }
-        }
+          backgroundColor: '#142420', borderColor: 'rgba(45,212,191,0.30)', borderWidth: 1,
+          padding: 10, displayColors: false, cornerRadius: 10,
+          titleColor: 'rgba(255,255,255,0.6)', bodyColor: '#fff',
+          titleFont: { family: 'Outfit', size: 10, weight: '700' },
+          bodyFont: { family: 'Outfit', size: 14, weight: '700' },
+          filter: item => item.parsed.y != null,
+          callbacks: { title: items => items[0].label, label: c => fmt(c.parsed.y, currency) },
+        },
       },
       scales: {
         x: { grid: { display: false }, ticks: { color: themeColors().tick, font: { family: 'Outfit', size: 10 } } },
-        y: { display: false },
-      }
-    }
+        y: { display: false, grace: '10%' },
+      },
+    },
+    plugins: [glowPlugin, milestonePlugin],
   });
+
+  fillChartTable('nw-chart-data', t('aria.nwchart'), labels.map((l, i) => [l, fmt(dataPoints[i], currency)]));
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2334,14 +2602,25 @@ function renderWaterfall(txs, year, month, currency) {
   }
   document.getElementById('wf-chart').style.display = '';
 
+  // Left→right gradient per bar for a touch of depth, consistent with the hero.
+  const barGradient = (c) => {
+    const base = colors[c.dataIndex];
+    const area = c.chart.chartArea;
+    if (!area || !base) return base;
+    const g = c.chart.ctx.createLinearGradient(area.left, 0, area.right, 0);
+    g.addColorStop(0, base.replace(/0?\.\d+\)$/, '0.5)'));
+    g.addColorStop(1, base.replace(/0?\.\d+\)$/, '0.92)'));
+    return g;
+  };
+
   wfChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels,
       datasets: [{
         data,
-        backgroundColor: colors,
-        borderRadius: 4,
+        backgroundColor: barGradient,
+        borderRadius: 6,
         borderSkipped: false,
       }]
     },
@@ -2351,13 +2630,15 @@ function renderWaterfall(txs, year, month, currency) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#0E1A17',
-          borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1,
-          titleColor: 'rgba(255,255,255,0.9)', bodyColor: 'rgba(255,255,255,0.6)',
+          backgroundColor: '#142420',
+          borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1, padding: 9, cornerRadius: 10, displayColors: false,
+          titleColor: 'rgba(255,255,255,0.6)', bodyColor: '#fff',
+          titleFont: { family: 'Outfit', size: 10, weight: '700' },
+          bodyFont: { family: 'Outfit', size: 13, weight: '700' },
           callbacks: {
             label: ctx => {
               const [start, end] = ctx.raw;
-              return ` ${fmt(Math.abs(end - start), currency, true)}`;
+              return fmt(Math.abs(end - start), currency, true);
             }
           }
         }
@@ -2366,7 +2647,8 @@ function renderWaterfall(txs, year, month, currency) {
         x: {
           grid: { color: themeColors().grid },
           ticks: { color: themeColors().tick, font: { family: 'Outfit', size: 10 },
-                   callback: v => fmt(v, currency, true) },
+                   // Hide absolute amounts in privacy mode (canvas ticks can't be CSS-blurred).
+                   callback: v => privacyHidden ? '•••' : fmt(v, currency, true) },
         },
         y: {
           grid: { display: false },
@@ -2375,6 +2657,9 @@ function renderWaterfall(txs, year, month, currency) {
       }
     }
   });
+
+  fillChartTable('wf-chart-data', t('aria.cfchart'),
+    labels.map((l, i) => [l, fmt(Math.abs(data[i][1] - data[i][0]), currency, true)]));
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2478,17 +2763,37 @@ function buildSpendingDonut(cats, totalSpent, currency) {
   }
 
   if (spendDonutChart) spendDonutChart.destroy();
+  const surface = getComputedStyle(document.documentElement).getPropertyValue('--surface').trim() || '#0E1A17';
+  // Subtle depth so the ring lifts off the card, matching the hero's glow language.
+  const donutDepth = {
+    id: 'donutDepth',
+    beforeDatasetDraw(chart) { const { ctx } = chart; ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.35)'; ctx.shadowBlur = 12; ctx.shadowOffsetY = 2; },
+    afterDatasetDraw(chart) { chart.ctx.restore(); },
+  };
   spendDonutChart = new Chart(ctx, {
     type: 'doughnut',
-    data: { labels: segs.map(s => s.label), datasets: [{ data: segs.map(s => s.value), backgroundColor: colors, borderWidth: 0, hoverOffset: 6 }] },
+    data: { labels: segs.map(s => s.label), datasets: [{
+      data: segs.map(s => s.value), backgroundColor: colors,
+      borderColor: surface, borderWidth: 3, borderRadius: 5, spacing: 1, hoverOffset: 8,
+    }] },
     options: {
-      responsive: true, maintainAspectRatio: false, cutout: '70%',
+      responsive: true, maintainAspectRatio: false, cutout: '72%',
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: c => `${c.label}: ${fmt(c.parsed, currency, true)} (${totalSpent > 0 ? Math.round(c.parsed / totalSpent * 100) : 0}%)` } },
+        tooltip: {
+          backgroundColor: '#142420', borderColor: 'rgba(45,212,191,0.3)', borderWidth: 1,
+          padding: 9, cornerRadius: 10,
+          titleColor: 'rgba(255,255,255,0.6)', bodyColor: '#fff',
+          bodyFont: { family: 'Outfit', size: 13, weight: '700' },
+          callbacks: { label: c => `${c.label}: ${fmt(c.parsed, currency, true)} (${totalSpent > 0 ? Math.round(c.parsed / totalSpent * 100) : 0}%)` },
+        },
       },
     },
+    plugins: [donutDepth],
   });
+
+  fillChartTable('spend-donut-data', t('aria.spenddonut'),
+    segs.map(s => [s.label, `${fmt(s.value, currency, true)} (${totalSpent > 0 ? Math.round(s.value / totalSpent * 100) : 0}%)`]));
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -2852,6 +3157,7 @@ function renderAll() {
   // Section 6: Transactions — full history (all months), paginated client-side.
   txPageSize = TX_PAGE_STEP;   // reset paging each full render
   renderTransactions(txs, currency, settings);
+  firstPaintDone = true; // subsequent re-renders snap; only the first paint counts up
 }
 
 // Portfolio-style KPI tiles: saved this month, change vs last month, saved YTD.
@@ -2868,15 +3174,22 @@ function renderKPIs(txs, year, month, currency, monthData) {
     el.textContent = txt;
     if (color) el.style.color = color;
   };
+  // Numeric tiles count up on first paint; text subs are set directly.
+  const setNum = (id, target, render, color) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (color) el.style.color = color;
+    countUp(el, target, render);
+  };
 
-  set('kpi-saved-mo', fmt(monthData.net, currency), monthData.net >= 0 ? pos : neg);
+  setNum('kpi-saved-mo', monthData.net, v => fmt(v, currency), monthData.net >= 0 ? pos : neg);
   const rate = monthData.income > 0 ? Math.round(monthData.net / monthData.income * 100) : 0;
   set('kpi-saved-mo-sub', monthData.income > 0 ? tt('kpi.rate', { p: rate }) : '');
 
   const delta = monthData.net - lastData.net;
-  set('kpi-vslast', (delta >= 0 ? '+' : '−') + fmt(Math.abs(delta), currency, true), delta >= 0 ? pos : neg);
+  setNum('kpi-vslast', delta, v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v), currency, true), delta >= 0 ? pos : neg);
 
-  set('kpi-ytd', fmt(ytd, currency), ytd >= 0 ? pos : neg);
+  setNum('kpi-ytd', ytd, v => fmt(v, currency), ytd >= 0 ? pos : neg);
   set('kpi-ytd-sub', tt('kpi.ytdsub', { y: year }));
 }
 
@@ -2892,6 +3205,9 @@ function showPage(page) {
     const el = document.getElementById('page-' + p);
     if (el) el.style.display = (p === page) ? '' : 'none';
   });
+  // Re-trigger the fade/slide-in on the page that just became visible.
+  const shown = document.getElementById('page-' + page);
+  if (shown) { shown.classList.remove('page-anim'); void shown.offsetWidth; shown.classList.add('page-anim'); }
   document.querySelectorAll('.nav-item').forEach(n => {
     n.classList.toggle('active', n.dataset.page === page);
   });
@@ -3363,6 +3679,12 @@ function renderSuggestions() {
 function applyCutToForecast(name, target) {
   applyTweak(name, target);
   showPage('forecast');
+  // Make the cause→effect visible: confirm the handoff and pulse the annual-saving
+  // figure the cut just moved, so the user sees where their action landed.
+  showToast(t('sg.applied'), 2600);
+  // renderForecast() runs synchronously inside showPage(), so #fc-ysave exists now.
+  const el = document.getElementById('fc-ysave');
+  if (el) { el.classList.remove('hl-pulse'); void el.offsetWidth; el.classList.add('hl-pulse'); }
 }
 
 function cssId(name)  { return name.replace(/[^a-zA-Z0-9]/g, '_'); }
