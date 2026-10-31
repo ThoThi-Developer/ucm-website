@@ -438,9 +438,9 @@ section { padding: 100px 40px; }
 .pricing { background: var(--surface); text-align: center; }
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  max-width: 1060px;
+  max-width: 720px;
   margin: 60px auto 0;
   align-items: start;
 }
@@ -1048,9 +1048,9 @@ footer {
       <div class="detail-item"><div class="detail-icon">📥</div><div class="detail-name" data-i18n="det3.name">Bank CSV Import</div><div class="detail-desc" data-i18n="det3.desc">Import months of history from most bank exports in seconds — auto-detects columns, shows a preview before importing.</div></div>
       <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name" data-i18n="det4.name">Split Transactions</div><div class="detail-desc" data-i18n="det4.desc">Divide any transaction across multiple categories with a live tracker.</div></div>
       <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name" data-i18n="det5.name">Recurring Transactions</div><div class="detail-desc" data-i18n="det5.desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name" data-i18n="det6.name">Subscription Audit</div><div class="detail-desc" data-i18n="det6.desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name" data-i18n="det6.name">Subscription Audit</div><div class="detail-desc" data-i18n="det6.desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through. And when a charge no longer matches its price, ucm tells you.</div></div>
       <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name" data-i18n="det7.name">Receipt Scanner</div><div class="detail-desc" data-i18n="det7.desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
-      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name" data-i18n="det8.name">Credit Card Tracking</div><div class="detail-desc" data-i18n="det8.desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment.</div></div>
+      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name" data-i18n="det8.name">Credit Card Tracking</div><div class="detail-desc" data-i18n="det8.desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment, and check any statement against your bank in one number.</div></div>
       <div class="detail-item"><div class="detail-icon">🎯</div><div class="detail-name" data-i18n="det9.name">Savings Goals</div><div class="detail-desc" data-i18n="det9.desc">Set targets with deadlines and watch progress rings fill up.</div></div>
       <div class="detail-item"><div class="detail-icon">🧭</div><div class="detail-name" data-i18n="det10.name">Insights Coach</div><div class="detail-desc" data-i18n="det10.desc">Health Score, Weekly Move, Real Hourly Wage, Runway, plus the full detailed dashboard.</div></div>
       <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name" data-i18n="det11.name">Monthly Review</div><div class="detail-desc" data-i18n="det11.desc">A shareable financial report — income, expenses, biggest categories.</div></div>
@@ -1061,6 +1061,8 @@ footer {
       <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name" data-i18n="det16.name">Face ID / Touch ID</div><div class="detail-desc" data-i18n="det16.desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
       <div class="detail-item"><div class="detail-icon">☁️</div><div class="detail-name" data-i18n="det17.name">iCloud Sync</div><div class="detail-desc" data-i18n="det17.desc">Seamless sync across iPhone and iPad — no account needed.</div></div>
       <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name" data-i18n="det18.name">CSV Export</div><div class="detail-desc" data-i18n="det18.desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
+      <div class="detail-item"><div class="detail-icon">🚗</div><div class="detail-name" data-i18n="det20.name">Car Mileage</div><div class="detail-desc" data-i18n="det20.desc">Log odometer readings or import them from a spreadsheet, and see what every kilometre really costs you.</div></div>
+      <div class="detail-item"><div class="detail-icon">📖</div><div class="detail-name" data-i18n="det21.name">iPhone Duo &amp; iPad</div><div class="detail-desc" data-i18n="det21.desc">Two columns around the fold on the open iPhone Duo; on iPad, a sidebar that's always there and two columns in landscape.</div></div>
     </div>
   </div>
 </section>
@@ -1122,7 +1124,7 @@ footer {
         <div class="carousel-card-icon">📱</div>
         <span class="carousel-tier free" data-i18n="tier.free">Free</span>
         <h3 class="carousel-card-title" data-i18n="car6.title">Home Screen Widget</h3>
-        <p class="carousel-card-desc" data-i18n="car6.desc">See your balance and budget status without opening the app. Available in small, medium, and large for your home screen and lock screen.</p>
+        <p class="carousel-card-desc" data-i18n="car6.desc">See your balance and budget status without opening the app. Available in small and medium on your Home Screen, and in three sizes on your Lock Screen.</p>
       </div>
 
       <!-- 7. Smart Notifications -->
@@ -1130,7 +1132,7 @@ footer {
         <div class="carousel-card-icon">🔔</div>
         <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
         <h3 class="carousel-card-title" data-i18n="car7.title">Smart Notifications</h3>
-        <p class="carousel-card-desc" data-i18n="car7.desc">Weekly spending recap every Monday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.</p>
+        <p class="carousel-card-desc" data-i18n="car7.desc">Weekly spending recap every Sunday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.</p>
       </div>
 
       <!-- 8. Insights Coach -->
@@ -1178,7 +1180,7 @@ footer {
         <div class="carousel-card-icon">🕵️</div>
         <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
         <h3 class="carousel-card-title" data-i18n="car12.title">Subscription Audit</h3>
-        <p class="carousel-card-desc" data-i18n="car12.desc">Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide.</p>
+        <p class="carousel-card-desc" data-i18n="car12.desc">Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide. And when a charge no longer matches its price, ucm tells you.</p>
       </div>
 
       <!-- 13. Discretionary Income -->
@@ -1209,8 +1211,8 @@ footer {
       <div class="carousel-card">
         <div class="carousel-card-icon">📈</div>
         <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car16.title">Net Worth Tracking</h3>
-        <p class="carousel-card-desc" data-i18n="car16.desc">Log assets and liabilities. Watch your net worth grow month by month with a clean historical chart that shows exactly where you started.</p>
+        <h3 class="carousel-card-title" data-i18n="car16.title">Net Worth Over Time</h3>
+        <p class="carousel-card-desc" data-i18n="car16.desc">ucm records your balance at the end of every month and charts it — so you can see whether you're actually getting ahead, and where you started.</p>
       </div>
 
       <!-- 17. Split Transactions -->
@@ -1324,30 +1326,8 @@ footer {
         </div>
 
         <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" id="proCta" data-i18n="price.pro_cta">Get Pro — $4.99</a>
-        <p class="compare-note" data-i18n="price.compare">YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.</p>
       </div>
 
-      <!-- UCM CONNECT — COMING SOON -->
-      <div class="pricing-card future reveal reveal-delay-2">
-        <div class="pricing-badge future-badge" data-i18n="price.fut_badge">Coming soon</div>
-        <p class="pricing-plan" style="color:var(--text-secondary)" data-i18n="price.fut_plan">ucm Connect</p>
-        <p class="pricing-tagline" data-i18n="price.fut_tagline">In development — an optional cloud service with bank connections and automatic transaction import. Coming later.</p>
-        <div class="pricing-price free-price" style="font-size:32px;color:var(--text-tertiary)" data-i18n="price.fut_price">Coming soon</div>
-        <p class="pricing-period" style="margin-bottom:28px" data-i18n="price.fut_period">price TBD</p>
-
-        <div class="pricing-features">
-          <p class="pricing-section-label" data-i18n="price.fut_label">Planned features</p>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f1">Automatic bank transaction import</span></div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f2">Real-time balance sync</span></div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f3">Smart auto-categorisation</span></div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f4">Multi-currency accounts</span></div>
-          <div class="pricing-feature"><span style="color:var(--text-tertiary);flex-shrink:0">◦</span> <span data-i18n="price.fut_f5">Everything in Pro included</span></div>
-        </div>
-
-        <div style="width:100%;padding:14px;border:1px dashed var(--border);border-radius:14px;text-align:center;font-size:14px;color:var(--text-tertiary);font-weight:600" data-i18n="price.fut_waitlist">
-          Join the waitlist — coming in 2026
-        </div>
-      </div>
 
     </div>
   </div>
@@ -1361,7 +1341,7 @@ footer {
     <div class="faq-list reveal reveal-delay-1">
       <details class="faq-item">
         <summary data-i18n="faq.q1">Is it really a one-time purchase?</summary>
-        <div class="faq-answer" data-i18n="faq.a1">Yes. Pay once and own the app forever — that includes the Pro features built into the app. (A separate optional cloud service, ucm Connect, may be offered later.)</div>
+        <div class="faq-answer" data-i18n="faq.a1">Yes. Pay once and own the app forever — that includes the Pro features built into the app.</div>
       </details>
       <details class="faq-item">
         <summary data-i18n="faq.q2">What happens if you stop developing the app?</summary>
@@ -1396,7 +1376,7 @@ footer {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Is it really a one-time purchase?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pay once and own the app forever — that includes the Pro features built into the app. (A separate optional cloud service, ucm Connect, may be offered later.)"}},
+    {"@type":"Question","name":"Is it really a one-time purchase?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pay once and own the app forever — that includes the Pro features built into the app."}},
     {"@type":"Question","name":"What happens if you stop developing the app?","acceptedAnswer":{"@type":"Answer","text":"The app keeps working. ucm runs entirely on your device — your data lives in your own iCloud, not our servers."}},
     {"@type":"Question","name":"Why is it so cheap?","acceptedAnswer":{"@type":"Answer","text":"There's no server to pay for and no investors to satisfy. ucm is a one-time price — you're paying for software, not renting it."}},
     {"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — refunds are handled by Apple through the standard App Store process, typically within 14 days of purchase."}},
@@ -1544,7 +1524,7 @@ const TRANSLATIONS = {
     "faq.label": "FAQ",
     "faq.title": "Questions, answered.",
     "faq.q1": "Is it really a one-time purchase?",
-    "faq.a1": "Yes. Pay once and own the app forever — that includes the Pro features built into the app. (A separate optional cloud service, ucm Connect, may be offered later.)",
+    "faq.a1": "Yes. Pay once and own the app forever — that includes the Pro features built into the app.",
     "faq.q2": "What happens if you stop developing the app?",
     "faq.a2": "The app keeps working. ucm runs entirely on your device — your data lives in your own iCloud, not our servers, so nothing depends on us staying online.",
     "faq.q3": "Why is it so cheap?",
@@ -1588,9 +1568,9 @@ const TRANSLATIONS = {
     "det3.name": "Bank CSV Import", "det3.desc": "Import months of history from most bank exports in seconds — auto-detects columns, shows a preview before importing.",
     "det4.name": "Split Transactions", "det4.desc": "Divide any transaction across multiple categories with a live tracker.",
     "det5.name": "Recurring Transactions", "det5.desc": "Log rent, subscriptions, and bills once — ucm repeats them for you.",
-    "det6.name": "Subscription Audit", "det6.desc": "See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through.",
+    "det6.name": "Subscription Audit", "det6.desc": "See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through. And when a charge no longer matches its price, ucm tells you.",
     "det7.name": "Receipt Scanner", "det7.desc": "On-device scanning reads your receipts and pre-fills every field. Completely private.",
-    "det8.name": "Credit Card Tracking", "det8.desc": "Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment.",
+    "det8.name": "Credit Card Tracking", "det8.desc": "Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment, and check any statement against your bank in one number.",
     "det9.name": "Savings Goals", "det9.desc": "Set targets with deadlines and watch progress rings fill up.",
     "det10.name": "Insights Coach", "det10.desc": "Health Score, Weekly Move, Real Hourly Wage, Runway, plus the full detailed dashboard.",
     "det11.name": "Monthly Review", "det11.desc": "A shareable financial report — income, expenses, biggest categories.",
@@ -1601,6 +1581,8 @@ const TRANSLATIONS = {
     "det16.name": "Face ID / Touch ID", "det16.desc": "Lock the app with biometrics. Auto-locks when you leave.",
     "det17.name": "iCloud Sync", "det17.desc": "Seamless sync across iPhone and iPad — no account needed.",
     "det18.name": "CSV Export", "det18.desc": "Export your full history in standard or QuickBooks-compatible format.",
+    "det20.name": "Car Mileage", "det20.desc": "Log odometer readings or import them from a spreadsheet, and see what every kilometre really costs you.",
+    "det21.name": "iPhone Duo &amp; iPad", "det21.desc": "Two columns around the fold on the open iPhone Duo; on iPad, a sidebar that's always there and two columns in landscape.",
 
     "tutorial.label": "Tutorial",
     "tutorial.title": "Every feature,<br>explained.",
@@ -1611,18 +1593,18 @@ const TRANSLATIONS = {
     "car3.title": "Budget Rollover", "car3.desc": "Unspent budget rolls forward automatically every month, so an underspent month gives you more room in the next one.",
     "car4.title": "Bank CSV Import", "car4.desc": "Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.",
     "car5.title": "Transaction History", "car5.desc": "Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.",
-    "car6.title": "Home Screen Widget", "car6.desc": "See your balance and budget status without opening the app. Available in small, medium, and large for your home screen and lock screen.",
-    "car7.title": "Smart Notifications", "car7.desc": "Weekly spending recap every Monday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.",
+    "car6.title": "Home Screen Widget", "car6.desc": "See your balance and budget status without opening the app. Available in small and medium on your Home Screen, and in three sizes on your Lock Screen.",
+    "car7.title": "Smart Notifications", "car7.desc": "Weekly spending recap every Sunday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.",
     "car8.title": "Insights Coach", "car8.desc": "A Health Score from 0–100, a single prescriptive Weekly Move, plus Runway and the full detailed dashboard. A budget app that tells you what to do next.",
     "car85.title": "Real Hourly Wage", "car85.desc": "From <em>Your Money or Your Life</em>. Every expense converted into hours of your life. One of the most behavior-shifting metrics in personal finance.",
     "car9.title": "Monthly Review", "car9.desc": "A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.",
     "car10.title": "Savings Goals", "car10.desc": "Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.",
     "car11.title": "Recurring Transactions", "car11.desc": "Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.",
-    "car12.title": "Subscription Audit", "car12.desc": "Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide.",
+    "car12.title": "Subscription Audit", "car12.desc": "Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide. And when a charge no longer matches its price, ucm tells you.",
     "car13.title": "Discretionary Income", "car13.desc": "After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.",
     "car14.title": "Receipt Scanning", "car14.desc": "Point your camera at a receipt. On-device vision reads the vendor, amount, and date and pre-fills the entry form for you to review. Completely private, never uploaded.",
     "car15.title": "Credit Card Tracking", "car15.desc": "Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment to help you stay ahead of due dates.",
-    "car16.title": "Net Worth Tracking", "car16.desc": "Log assets and liabilities. Watch your net worth grow month by month with a clean historical chart that shows exactly where you started.",
+    "car16.title": "Net Worth Over Time", "car16.desc": "ucm records your balance at the end of every month and charts it — so you can see whether you're actually getting ahead, and where you started.",
     "car17.title": "Split Transactions", "car17.desc": "One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.",
     "car18.title": "Milestones &amp; Achievements", "car18.desc": "Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.",
 
@@ -1661,14 +1643,7 @@ const TRANSLATIONS = {
     "price.pro_f15": "All future updates included",
     "price.pro_currency": "$",
     "price.currency_disclaimer": "One-time price, billed once by the App Store in your local currency.",
-    "price.pro_cta": "Get Pro — $4.99",
-    "price.compare": "YNAB charges <strong>$109/year</strong>. Copilot charges <strong>$95/year</strong>. ucm Pro is $4.99. Once.",
-    "price.fut_badge": "Coming soon", "price.fut_plan": "ucm Connect",
-    "price.fut_tagline": "In development — an optional cloud service with bank connections and automatic transaction import. Coming later.",
-    "price.fut_price": "Coming soon", "price.fut_period": "price TBD",
-    "price.fut_label": "Planned features",
-    "price.fut_f1": "Automatic bank transaction import", "price.fut_f2": "Real-time balance sync", "price.fut_f3": "Smart auto-categorisation", "price.fut_f4": "Multi-currency accounts", "price.fut_f5": "Everything in Pro included",
-    "price.fut_waitlist": "Join the waitlist — coming in 2026",
+    "price.pro_cta": "Get Pro — $4.99", 
 
     "dl.title": "Start managing<br>your money today.",
     "dl.sub": "Join people who finally feel in control of their finances — without the stress, the subscription, or the spreadsheet.",
@@ -1742,7 +1717,7 @@ const TRANSLATIONS = {
     "faq.label": "Dúvidas",
     "faq.title": "Suas perguntas, respondidas.",
     "faq.q1": "É realmente compra única?",
-    "faq.a1": "Sim. Pague uma vez e o app é seu pra sempre — incluindo os recursos Pro do app. (Um serviço de nuvem opcional separado, o ucm Connect, pode ser oferecido depois.)",
+    "faq.a1": "Sim. Pague uma vez e o app é seu pra sempre — incluindo os recursos Pro do app.",
     "faq.q2": "E se vocês pararem de desenvolver o app?",
     "faq.a2": "O app continua funcionando. O ucm roda inteiramente no seu aparelho — seus dados ficam no seu próprio iCloud, não nos nossos servidores. Nada depende de a gente estar online.",
     "faq.q3": "Por que é tão barato?",
@@ -1786,9 +1761,9 @@ const TRANSLATIONS = {
     "det3.name": "Importação CSV de Banco", "det3.desc": "Importe meses de histórico da maioria dos extratos bancários em segundos — detecta colunas automaticamente e mostra prévia antes de importar.",
     "det4.name": "Divisão de Transações", "det4.desc": "Divida qualquer transação entre múltiplas categorias com rastreador ao vivo.",
     "det5.name": "Transações Recorrentes", "det5.desc": "Registre aluguel, assinaturas e contas uma vez — o ucm repete para você.",
-    "det6.name": "Auditoria de Assinaturas", "det6.desc": "Veja toda despesa recorrente com totais mensais e anuais. Marca cobranças não vistas há mais de 60 dias para nada passar despercebido.",
+    "det6.name": "Auditoria de Assinaturas", "det6.desc": "Veja toda despesa recorrente com totais mensais e anuais. Marca cobranças não vistas há mais de 60 dias para nada passar despercebido. E quando uma cobrança não bate mais com o preço, o ucm avisa.",
     "det7.name": "Leitor de Recibos", "det7.desc": "Leitura no dispositivo identifica seus recibos e pré-preenche todos os campos. Totalmente privado.",
-    "det8.name": "Controle de Cartões", "det8.desc": "Acompanhe múltiplos cartões, vencimentos e saldos. Receba um lembrete 5 dias antes de cada pagamento.",
+    "det8.name": "Controle de Cartões", "det8.desc": "Acompanhe múltiplos cartões, vencimentos e saldos. Receba um lembrete 5 dias antes de cada pagamento e confira qualquer fatura com o banco em um número.",
     "det9.name": "Metas de Poupança", "det9.desc": "Defina metas com prazos e veja os anéis de progresso se preencherem.",
     "det10.name": "Coach de Insights", "det10.desc": "Score de Saúde, Jogada da semana, Salário Real por hora, Reserva, e o painel detalhado completo.",
     "det11.name": "Revisão Mensal", "det11.desc": "Um relatório financeiro compartilhável — renda, despesas, principais categorias.",
@@ -1799,6 +1774,8 @@ const TRANSLATIONS = {
     "det16.name": "Face ID / Touch ID", "det16.desc": "Bloqueie o app com biometria. Bloqueia automaticamente quando você sai.",
     "det17.name": "Sincronização iCloud", "det17.desc": "Sincronização perfeita entre iPhone e iPad — sem conta necessária.",
     "det18.name": "Exportação CSV", "det18.desc": "Exporte seu histórico completo em formato padrão ou compatível com QuickBooks.",
+    "det20.name": "Quilometragem do Carro", "det20.desc": "Registre o hodômetro ou importe de uma planilha, e veja quanto cada quilômetro realmente custa.",
+    "det21.name": "iPhone Duo e iPad", "det21.desc": "Duas colunas na dobra do iPhone Duo aberto; no iPad, uma barra lateral sempre visível e duas colunas na horizontal.",
 
     "tutorial.label": "Tutorial",
     "tutorial.title": "Cada recurso,<br>explicado.",
@@ -1809,18 +1786,18 @@ const TRANSLATIONS = {
     "car3.title": "Acúmulo de Saldo", "car3.desc": "O orçamento não gasto é transferido automaticamente todo mês, dando mais folga no mês seguinte.",
     "car4.title": "Importação CSV de Banco", "car4.desc": "Exporte um extrato do seu banco e importe em segundos. O ucm detecta colunas automaticamente, mostra uma prévia e deixa você escolher quais linhas manter.",
     "car5.title": "Histórico de Transações", "car5.desc": "Busque, filtre por categoria ou intervalo de datas e exclua em massa. Seu histórico financeiro completo a um toque.",
-    "car6.title": "Widget na Tela Inicial", "car6.desc": "Veja seu saldo e o status do orçamento sem abrir o app. Disponível em tamanho pequeno, médio e grande para tela inicial e tela de bloqueio.",
-    "car7.title": "Notificações Inteligentes", "car7.desc": "Resumo semanal de gastos toda segunda, check-in de orçamento no dia 15 e lembretes de vencimento de cartão — tudo feito com seus dados reais.",
+    "car6.title": "Widget na Tela Inicial", "car6.desc": "Veja seu saldo e o status do orçamento sem abrir o app. Disponível em tamanho pequeno e médio na Tela Inicial, e em três tamanhos na Tela Bloqueada.",
+    "car7.title": "Notificações Inteligentes", "car7.desc": "Resumo semanal de gastos todo domingo, check-in de orçamento no dia 15 e lembretes de vencimento de cartão — tudo feito com seus dados reais.",
     "car8.title": "Coach de Insights", "car8.desc": "Um Score de Saúde de 0–100, uma Jogada da semana prescritiva, mais Reserva e o painel detalhado completo. Um app de orçamento que te diz o que fazer a seguir.",
     "car85.title": "Salário Real por hora", "car85.desc": "Do livro <em>Sua Vida ou Seu Dinheiro</em>. Cada despesa convertida em horas da sua vida. Uma das métricas que mais mudam comportamento em finanças pessoais.",
     "car9.title": "Revisão Mensal", "car9.desc": "Um relatório lindo com renda, despesas, principais categorias e sua taxa de poupança. Toque em compartilhar e envie para qualquer lugar.",
     "car10.title": "Metas de Poupança", "car10.desc": "Crie metas com valor e prazo. Adicione ou retire fundos a qualquer momento. Um anel de progresso se preenche conforme você avança — motivação visível.",
     "car11.title": "Transações Recorrentes", "car11.desc": "Configure aluguel, Netflix, academia ou qualquer conta regular uma vez. O ucm gera o lançamento todo mês — nada escapa.",
-    "car12.title": "Auditoria de Assinaturas", "car12.desc": "Toda cobrança recorrente, totais mensais e anuais em uma só tela. Marca automaticamente qualquer cobrança não vista há mais de 60 dias para assinaturas esquecidas não se esconderem.",
+    "car12.title": "Auditoria de Assinaturas", "car12.desc": "Toda cobrança recorrente, totais mensais e anuais em uma só tela. Marca automaticamente qualquer cobrança não vista há mais de 60 dias para assinaturas esquecidas não se esconderem. E quando uma cobrança não bate mais com o preço, o ucm avisa.",
     "car13.title": "Renda Disponível", "car13.desc": "Após contas, orçamentos e contribuições para poupança — veja exatamente o que está livre para gastar. Sem adivinhação. Sem surpresas no meio do mês.",
     "car14.title": "Leitura de Recibos", "car14.desc": "Aponte sua câmera para um recibo. A leitura no dispositivo identifica estabelecimento, valor e data e pré-preenche o lançamento para você revisar. Totalmente privado, nunca enviado.",
     "car15.title": "Controle de Cartões", "car15.desc": "Acompanhe múltiplos cartões, saldos atuais e vencimentos. Receba um lembrete 5 dias antes de cada pagamento para ajudar você a não perder os vencimentos.",
-    "car16.title": "Patrimônio Líquido", "car16.desc": "Registre ativos e passivos. Veja seu patrimônio líquido crescer mês a mês com um gráfico histórico limpo que mostra exatamente onde você começou.",
+    "car16.title": "Patrimônio ao Longo do Tempo", "car16.desc": "O ucm registra seu saldo no fim de cada mês e mostra num gráfico — para você ver se está realmente avançando, e de onde começou.",
     "car17.title": "Divisão de Transações", "car17.desc": "Um jantar, três categorias. Divida qualquer despesa entre várias contas com um rastreador de saldo ao vivo que confirma que tudo soma zero.",
     "car18.title": "Conquistas e Marcos", "car18.desc": "Ganhe marcos ao bater metas de poupança, criar sequências sem gastos e atingir objetivos financeiros. Hábitos gamificados que realmente permanecem a longo prazo.",
 
@@ -1859,14 +1836,7 @@ const TRANSLATIONS = {
     "price.pro_f15": "Todas as atualizações futuras incluídas",
     "price.pro_currency": "US$",
     "price.currency_disclaimer": "Preço único, cobrado uma vez pela App Store na sua moeda local.",
-    "price.pro_cta": "Comprar Pro — R$29,90",
-    "price.compare": "YNAB cobra <strong>US$109/ano</strong>. Copilot cobra <strong>US$95/ano</strong>. ucm Pro é US$4.99. Uma vez.",
-    "price.fut_badge": "Em breve", "price.fut_plan": "ucm Connect",
-    "price.fut_tagline": "Em desenvolvimento — um serviço de nuvem opcional com conexão bancária e importação automática de transações. Em breve.",
-    "price.fut_price": "Em breve", "price.fut_period": "preço a definir",
-    "price.fut_label": "Recursos planejados",
-    "price.fut_f1": "Importação automática de transações bancárias", "price.fut_f2": "Sincronização de saldo em tempo real", "price.fut_f3": "Categorização automática inteligente", "price.fut_f4": "Contas em múltiplas moedas", "price.fut_f5": "Tudo do Pro incluído",
-    "price.fut_waitlist": "Entre na lista de espera — em 2026",
+    "price.pro_cta": "Comprar Pro — R$29,90", 
 
     "dl.title": "Comece a gerenciar<br>seu dinheiro hoje.",
     "dl.sub": "Junte-se a quem finalmente sente que controla as próprias finanças — sem o estresse, a assinatura ou a planilha.",
