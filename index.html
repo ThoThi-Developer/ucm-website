@@ -44,7 +44,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 
 body {
   font-family: 'Outfit', sans-serif;
@@ -451,9 +451,10 @@ section { padding: 100px 40px; }
   gap: 24px;
   max-width: 720px;
   margin: 60px auto 0;
-  align-items: start;
+  align-items: stretch;
 }
 .pricing-card {
+  display: flex; flex-direction: column;
   background: var(--bg); border-radius: 24px;
   border: 1px solid var(--border);
   padding: 40px 36px;
@@ -473,7 +474,7 @@ section { padding: 100px 40px; }
 }
 .pricing-card.future:hover { transform: none; }
 .pricing-badge {
-  display: inline-block;
+  display: inline-block; align-self: flex-start;
   background: var(--accent); color: #050F0E;
   font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
   padding: 5px 14px; border-radius: 50px; margin-bottom: 24px;
@@ -490,12 +491,15 @@ section { padding: 100px 40px; }
 .pricing-price.free-price { font-size: 48px; color: var(--text-secondary); }
 .pricing-period { font-size: 14px; color: var(--text-secondary); margin-top: 6px; margin-bottom: 10px; font-weight: 500; }
 .pricing-forever { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 28px; }
-.pricing-features { text-align: left; margin-bottom: 28px; }
+.pricing-features { text-align: left; margin-bottom: 28px; flex: 1; }
 .pricing-feature { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); }
 .pricing-feature-check { color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 .pricing-feature-x { color: var(--text-tertiary); flex-shrink: 0; margin-top: 1px; }
 .pricing-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 .pricing-section-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 14px; margin-top: 4px; }
+.pricing-compare { text-align: center; margin-top: 32px; font-size: 15px; }
+.pricing-compare a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.pricing-compare a:hover { text-decoration: underline; }
 .compare-note { margin-top: 16px; font-size: 13px; color: var(--text-tertiary); text-align: center; }
 .compare-note strong { color: var(--negative); }
 
@@ -919,10 +923,12 @@ footer {
       <div class="detail-item"><div class="detail-icon">🔁</div><div class="detail-name" data-i18n="det5.name">Recurring Transactions</div><div class="detail-desc" data-i18n="det5.desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
       <div class="detail-item"><div class="detail-icon">🕵️</div><div class="detail-name" data-i18n="det6.name">Subscription Audit</div><div class="detail-desc" data-i18n="det6.desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through. And when a charge no longer matches its price, ucm tells you.</div></div>
       <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name" data-i18n="det14.name">Discretionary Income</div><div class="detail-desc" data-i18n="det14.desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
+      <div class="detail-item"><div class="detail-icon">⚖️</div><div class="detail-name" data-i18n="det22.name">50/30/20 Guardrails</div><div class="detail-desc" data-i18n="det22.desc">See whether your spending follows the 50/30/20 rule: needs, wants and savings, measured against your income.</div></div>
       <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name" data-i18n="det7.name">Receipt Scanner</div><div class="detail-desc" data-i18n="det7.desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
       <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name" data-i18n="det8.name">Credit Card Tracking</div><div class="detail-desc" data-i18n="det8.desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment, and check any statement against your bank in one number.</div></div>
       <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name" data-i18n="car16.title">Net Worth Over Time</div><div class="detail-desc" data-i18n="car16.desc">ucm records your balance at the end of every month and charts it — so you can see whether you're actually getting ahead, and where you started.</div></div>
       <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name" data-i18n="det4.name">Split Transactions</div><div class="detail-desc" data-i18n="det4.desc">Divide any transaction across multiple categories with a live tracker.</div></div>
+      <div class="detail-item"><div class="detail-icon">🏷️</div><div class="detail-name" data-i18n="det23.name">Unlimited Categories</div><div class="detail-desc" data-i18n="det23.desc">Free covers up to 17 expense and 7 income categories, built-in ones included. Pro lets you add as many as you need.</div></div>
       <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name" data-i18n="det15.name">Milestones &amp; Achievements</div><div class="detail-desc" data-i18n="det15.desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
       <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name" data-i18n="det18.name">CSV Export</div><div class="detail-desc" data-i18n="det18.desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
     </div>
@@ -967,16 +973,11 @@ footer {
         <p class="pricing-forever" style="color:var(--text-tertiary)" data-i18n="price.free_disclaimer">No credit card · No account</p>
 
         <div class="pricing-features">
-          <p class="pricing-section-label" data-i18n="price.free_label">Included</p>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f1">Expense &amp; income tracking</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f2">Monthly budgets per category</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f3">Budget rollover savings</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f4">Full transaction history</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f5">Search, filter &amp; bulk delete</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f6">Import from bank CSV</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f7">Home screen &amp; lock screen widget</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f8">iCloud sync across devices</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f9">No account. No tracking. No ads.</span></div>
+          <p class="pricing-section-label" data-i18n="price.free_label">Highlights</p>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f1">Quick entry, budgets &amp; rollover</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f2">Bank CSV import &amp; full history</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f3">Widgets, iCloud sync &amp; Face ID</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.free_f4">No account. No tracking. No ads.</span></div>
         </div>
 
         <a href="https://apps.apple.com/app/id6765532626" class="btn-secondary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" data-i18n="price.free_cta">Download Free</a>
@@ -993,28 +994,17 @@ footer {
 
         <div class="pricing-features">
           <p class="pricing-section-label" data-i18n="price.pro_label">Everything in Free, plus</p>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f1"><strong style="color:var(--text-primary)">Smart notifications</strong> — weekly recap, mid-month check-in</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f2"><strong style="color:var(--text-primary)">Insights Coach</strong> — Health Score, Weekly Move, Real Hourly Wage</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f3"><strong style="color:var(--text-primary)">Monthly review reports</strong> — shareable</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f4"><strong style="color:var(--text-primary)">Savings goals</strong> with progress rings</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f5"><strong style="color:var(--text-primary)">Recurring transactions</strong> auto-generated</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f6"><strong style="color:var(--text-primary)">Subscription audit</strong> — catch forgotten charges</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f7"><strong style="color:var(--text-primary)">Discretionary income</strong> — see what's truly free to spend</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f8"><strong style="color:var(--text-primary)">Receipt scanning</strong> — point, scan, done</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f9"><strong style="color:var(--text-primary)">Credit card tracking</strong> &amp; due date alerts</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f10"><strong style="color:var(--text-primary)">Net worth tracking</strong> month by month</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f11"><strong style="color:var(--text-primary)">Split transactions</strong> across categories</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f12"><strong style="color:var(--text-primary)">Milestones &amp; achievements</strong> — gamified financial habits</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f13"><strong style="color:var(--text-primary)">50/30/20 guardrails</strong></span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f14"><strong style="color:var(--text-primary)">CSV export</strong> for Excel, Numbers, QuickBooks</span></div>
-          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f15">All future updates included</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f1"><strong style="color:var(--text-primary)">Insights Coach</strong> — Health Score, Weekly Move, Real Hourly Wage</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f2"><strong style="color:var(--text-primary)">Smart notifications</strong> &amp; monthly review</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f3"><strong style="color:var(--text-primary)">Savings goals</strong>, recurring &amp; subscription audit</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f4"><strong style="color:var(--text-primary)">Receipt scanner</strong>, credit cards &amp; net worth</span></div>
+          <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f5">All future updates included</span></div>
         </div>
 
         <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" id="proCta" data-i18n="price.pro_cta">Get Pro — $4.99</a>
       </div>
-
-
     </div>
+    <p class="pricing-compare reveal"><a href="#all-features" data-i18n="price.compare">Compare every feature in Free and Pro ↑</a></p>
   </div>
 </section>
 
@@ -1266,6 +1256,8 @@ const TRANSLATIONS = {
     "det11.name": "Monthly Review", "det11.desc": "A shareable financial report — income, expenses, biggest categories.",
     "det12.name": "Smart Notifications", "det12.desc": "Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.",
     "det13.name": "Budget History", "det13.desc": "Compare spending month by month. See where you improved, where you overspent, and how your habits are evolving.",
+    "det22.name": "50/30/20 Guardrails", "det22.desc": "See whether your spending follows the 50/30/20 rule: needs, wants and savings, measured against your income.",
+    "det23.name": "Unlimited Categories", "det23.desc": "Free covers up to 17 expense and 7 income categories, built-in ones included. Pro lets you add as many as you need.",
     "det14.name": "Discretionary Income", "det14.desc": "After bills and budgets, see exactly what's truly free to spend — no guesswork.",
     "det15.name": "Milestones &amp; Achievements", "det15.desc": "Gamified financial habits — earn milestones as you hit savings targets and spending streaks.",
     "det16.name": "Face ID / Touch ID", "det16.desc": "Lock the app with biometrics. Auto-locks when you leave.",
@@ -1304,28 +1296,19 @@ const TRANSLATIONS = {
     "price.free_badge": "Free", "price.free_plan": "Free",
     "price.free_tagline": "Everything you need to start taking control of your money — no card required.",
     "price.free_period": "always free", "price.free_disclaimer": "No credit card · No account",
-    "price.free_label": "Included",
-    "price.free_f1": "Expense &amp; income tracking", "price.free_f2": "Monthly budgets per category", "price.free_f3": "Budget rollover savings", "price.free_f4": "Full transaction history", "price.free_f5": "Search, filter &amp; bulk delete", "price.free_f6": "Import from bank CSV", "price.free_f7": "Home screen &amp; lock screen widget", "price.free_f8": "iCloud sync across devices", "price.free_f9": "No account. No tracking. No ads.",
+    "price.free_label": "Highlights",
+    "price.free_f1": "Quick entry, budgets &amp; rollover", "price.free_f2": "Bank CSV import &amp; full history", "price.free_f3": "Widgets, iCloud sync &amp; Face ID", "price.free_f4": "No account. No tracking. No ads.",
     "price.free_cta": "Download Free",
     "price.pro_badge": "Most popular", "price.pro_plan": "Pro",
     "price.pro_tagline": "The full picture. Every feature. One payment — yours for life.",
     "price.pro_period": "one-time · no subscription", "price.pro_forever": "Pay once. Yours forever. ✓",
     "price.pro_label": "Everything in Free, plus",
-    "price.pro_f1": "<strong style=\"color:var(--text-primary)\">Smart notifications</strong> — weekly recap, mid-month check-in",
-    "price.pro_f2": "<strong style=\"color:var(--text-primary)\">Insights Coach</strong> — Health Score, Weekly Move, Real Hourly Wage",
-    "price.pro_f3": "<strong style=\"color:var(--text-primary)\">Monthly review reports</strong> — shareable",
-    "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Savings goals</strong> with progress rings",
-    "price.pro_f5": "<strong style=\"color:var(--text-primary)\">Recurring transactions</strong> auto-generated",
-    "price.pro_f6": "<strong style=\"color:var(--text-primary)\">Subscription audit</strong> — catch forgotten charges",
-    "price.pro_f7": "<strong style=\"color:var(--text-primary)\">Discretionary income</strong> — see what's truly free to spend",
-    "price.pro_f8": "<strong style=\"color:var(--text-primary)\">Receipt scanning</strong> — point, scan, done",
-    "price.pro_f9": "<strong style=\"color:var(--text-primary)\">Credit card tracking</strong> &amp; due date alerts",
-    "price.pro_f10": "<strong style=\"color:var(--text-primary)\">Net worth tracking</strong> month by month",
-    "price.pro_f11": "<strong style=\"color:var(--text-primary)\">Split transactions</strong> across categories",
-    "price.pro_f12": "<strong style=\"color:var(--text-primary)\">Milestones &amp; achievements</strong> — gamified financial habits",
-    "price.pro_f13": "<strong style=\"color:var(--text-primary)\">50/30/20 guardrails</strong>",
-    "price.pro_f14": "<strong style=\"color:var(--text-primary)\">CSV export</strong> for Excel, Numbers, QuickBooks",
-    "price.pro_f15": "All future updates included",
+    "price.pro_f1": "<strong style=\"color:var(--text-primary)\">Insights Coach</strong> — Health Score, Weekly Move, Real Hourly Wage",
+    "price.pro_f2": "<strong style=\"color:var(--text-primary)\">Smart notifications</strong> &amp; monthly review",
+    "price.pro_f3": "<strong style=\"color:var(--text-primary)\">Savings goals</strong>, recurring &amp; subscription audit",
+    "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Receipt scanner</strong>, credit cards &amp; net worth",
+    "price.pro_f5": "All future updates included",
+    "price.compare": "Compare every feature in Free and Pro ↑",
     "price.pro_currency": "$",
     "price.currency_disclaimer": "One-time price, billed once by the App Store in your local currency.",
     "price.pro_cta": "Get Pro — $4.99", 
@@ -1444,6 +1427,8 @@ const TRANSLATIONS = {
     "det11.name": "Revisão Mensal", "det11.desc": "Um relatório financeiro compartilhável — renda, despesas, principais categorias.",
     "det12.name": "Notificações Inteligentes", "det12.desc": "Alertas de limite de orçamento, resumo semanal de gastos, check-in no meio do mês e lembretes de vencimento de cartão — tudo personalizado com seus dados.",
     "det13.name": "Histórico de Orçamento", "det13.desc": "Compare gastos mês a mês. Veja onde melhorou, onde gastou demais e como seus hábitos estão evoluindo.",
+    "det22.name": "Regra 50/30/20", "det22.desc": "Veja se seus gastos seguem a regra 50/30/20: necessidades, desejos e poupança, medidos pela sua renda.",
+    "det23.name": "Categorias Ilimitadas", "det23.desc": "O Grátis vai até 17 categorias de despesa e 7 de receita, incluindo as prontas. No Pro, crie quantas precisar.",
     "det14.name": "Renda Disponível", "det14.desc": "Após contas e orçamentos, veja exatamente o que está livre para gastar — sem adivinhação.",
     "det15.name": "Conquistas e Marcos", "det15.desc": "Hábitos financeiros gamificados — ganhe marcos ao bater metas de poupança e sequências de gastos.",
     "det16.name": "Face ID / Touch ID", "det16.desc": "Bloqueie o app com biometria. Bloqueia automaticamente quando você sai.",
@@ -1482,28 +1467,19 @@ const TRANSLATIONS = {
     "price.free_badge": "Grátis", "price.free_plan": "Grátis",
     "price.free_tagline": "Tudo que você precisa para começar a controlar seu dinheiro — sem cartão de crédito.",
     "price.free_period": "sempre grátis", "price.free_disclaimer": "Sem cartão · Sem conta",
-    "price.free_label": "Incluído",
-    "price.free_f1": "Controle de receitas e despesas", "price.free_f2": "Orçamentos mensais por categoria", "price.free_f3": "Acúmulo do saldo de orçamento", "price.free_f4": "Histórico completo de transações", "price.free_f5": "Busca, filtro e exclusão em massa", "price.free_f6": "Importação de CSV de banco", "price.free_f7": "Widget de tela inicial e bloqueio", "price.free_f8": "Sincronização iCloud entre dispositivos", "price.free_f9": "Sem conta. Sem rastreamento. Sem anúncios.",
+    "price.free_label": "Destaques",
+    "price.free_f1": "Registro rápido, orçamentos e acúmulo", "price.free_f2": "Importação de CSV do banco e histórico completo", "price.free_f3": "Widgets, sincronização iCloud e Face ID", "price.free_f4": "Sem conta. Sem rastreamento. Sem anúncios.",
     "price.free_cta": "Baixar Grátis",
     "price.pro_badge": "Mais popular", "price.pro_plan": "Pro",
     "price.pro_tagline": "O panorama completo. Todos os recursos. Um pagamento — seu para sempre.",
     "price.pro_period": "pagamento único · sem assinatura", "price.pro_forever": "Pague uma vez. Seu para sempre. ✓",
     "price.pro_label": "Tudo do Grátis, mais",
-    "price.pro_f1": "<strong style=\"color:var(--text-primary)\">Notificações inteligentes</strong> — resumo semanal, check-in no meio do mês",
-    "price.pro_f2": "<strong style=\"color:var(--text-primary)\">Coach de Insights</strong> — Score de Saúde, Jogada da semana, Salário Real por hora",
-    "price.pro_f3": "<strong style=\"color:var(--text-primary)\">Relatórios mensais</strong> — compartilháveis",
-    "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Metas de poupança</strong> com anéis de progresso",
-    "price.pro_f5": "<strong style=\"color:var(--text-primary)\">Transações recorrentes</strong> geradas automaticamente",
-    "price.pro_f6": "<strong style=\"color:var(--text-primary)\">Auditoria de assinaturas</strong> — pegue cobranças esquecidas",
-    "price.pro_f7": "<strong style=\"color:var(--text-primary)\">Renda disponível</strong> — veja o que está realmente livre para gastar",
-    "price.pro_f8": "<strong style=\"color:var(--text-primary)\">Leitura de recibos</strong> — aponte, escaneie, pronto",
-    "price.pro_f9": "<strong style=\"color:var(--text-primary)\">Controle de cartões</strong> e alertas de vencimento",
-    "price.pro_f10": "<strong style=\"color:var(--text-primary)\">Patrimônio líquido</strong> mês a mês",
-    "price.pro_f11": "<strong style=\"color:var(--text-primary)\">Divisão de transações</strong> entre categorias",
-    "price.pro_f12": "<strong style=\"color:var(--text-primary)\">Conquistas e marcos</strong> — hábitos financeiros gamificados",
-    "price.pro_f13": "<strong style=\"color:var(--text-primary)\">Diretrizes 50/30/20</strong>",
-    "price.pro_f14": "<strong style=\"color:var(--text-primary)\">Exportação CSV</strong> para Excel, Numbers, QuickBooks",
-    "price.pro_f15": "Todas as atualizações futuras incluídas",
+    "price.pro_f1": "<strong style=\"color:var(--text-primary)\">Coach de Insights</strong> — Score de Saúde, Jogada da semana, Salário Real por hora",
+    "price.pro_f2": "<strong style=\"color:var(--text-primary)\">Notificações inteligentes</strong> e revisão mensal",
+    "price.pro_f3": "<strong style=\"color:var(--text-primary)\">Metas de poupança</strong>, recorrentes e auditoria de assinaturas",
+    "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Leitor de recibos</strong>, cartões e patrimônio",
+    "price.pro_f5": "Todas as atualizações futuras incluídas",
+    "price.compare": "Compare todos os recursos do Grátis e do Pro ↑",
     "price.pro_currency": "US$",
     "price.currency_disclaimer": "Preço único, cobrado uma vez pela App Store na sua moeda local.",
     "price.pro_cta": "Comprar Pro — R$29,90", 
