@@ -1001,7 +1001,7 @@ footer {
           <div class="pricing-feature"><span class="pricing-feature-check">✓</span> <span data-i18n="price.pro_f5">All future updates included</span></div>
         </div>
 
-        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" id="proCta" data-i18n="price.pro_cta">Get Pro — $4.99</a>
+        <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" style="width:100%;justify-content:center;display:flex" target="_blank" rel="noopener" id="proCta">Get Pro — $4.99</a>
       </div>
     </div>
     <p class="pricing-compare reveal"><a href="#all-features" data-i18n="price.compare">Compare every feature in Free and Pro ↑</a></p>
@@ -1309,9 +1309,8 @@ const TRANSLATIONS = {
     "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Receipt scanner</strong>, credit cards &amp; net worth",
     "price.pro_f5": "All future updates included",
     "price.compare": "Compare every feature in Free and Pro ↑",
-    "price.pro_currency": "$",
     "price.currency_disclaimer": "One-time price, billed once by the App Store in your local currency.",
-    "price.pro_cta": "Get Pro — $4.99", 
+    "price.pro_cta": "Get Pro — {price}", 
 
     "dl.title": "Start managing<br>your money today.",
     "dl.sub": "Join people who finally feel in control of their finances — without the stress, the subscription, or the spreadsheet.",
@@ -1480,9 +1479,8 @@ const TRANSLATIONS = {
     "price.pro_f4": "<strong style=\"color:var(--text-primary)\">Leitor de recibos</strong>, cartões e patrimônio",
     "price.pro_f5": "Todas as atualizações futuras incluídas",
     "price.compare": "Compare todos os recursos do Grátis e do Pro ↑",
-    "price.pro_currency": "US$",
     "price.currency_disclaimer": "Preço único, cobrado uma vez pela App Store na sua moeda local.",
-    "price.pro_cta": "Comprar Pro — R$29,90", 
+    "price.pro_cta": "Comprar Pro — {price}", 
 
     "dl.title": "Comece a gerenciar<br>seu dinheiro hoje.",
     "dl.sub": "Junte-se a quem finalmente sente que controla as próprias finanças — sem o estresse, a assinatura ou a planilha.",
@@ -1495,6 +1493,38 @@ const TRANSLATIONS = {
     "foot.terms": "Termos de Uso", "foot.made": "Um app da <b>ThoThi</b>", "other.all": "Todos os nossos apps em thothi.app ›"
   }
 };
+
+// ─── Localized App Store price ───────────────────────────────────────────
+// One source of truth: the price follows the visitor's country (the App Store
+// charges by storefront); the language only changes the words around it.
+// Prices are fixed per-region tiers set in App Store Connect, so a small
+// confirmed map is safe. Unknown regions fall back to USD; the disclaimer
+// under the pricing title covers the rest.
+const PRICES = {
+  BR: { sym: 'R$',  whole: '29', cents: ',90', label: 'R$29,90' },
+  CA: { sym: 'CA$', whole: '6',  cents: '.99', label: 'CA$6.99' },
+  US: { sym: '$',   whole: '4',  cents: '.99', label: '$4.99' }
+};
+function detectRegion() {
+  try {
+    const langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en-US'];
+    for (const loc of langs) {
+      const r = (window.Intl && Intl.Locale) ? new Intl.Locale(loc).region : loc.split('-')[1];
+      if (r) return r.toUpperCase();
+    }
+    // Bare "pt" with no country: this site's Portuguese is Brazilian.
+    if ((langs[0] || '').toLowerCase().startsWith('pt')) return 'BR';
+  } catch (e) {}
+  return 'US';
+}
+const PRICE = PRICES[detectRegion()] || PRICES.US;
+function renderPrice(lang) {
+  const el = document.getElementById('proPrice');
+  if (el) el.innerHTML = '<sup>' + PRICE.sym + '</sup>' + PRICE.whole + '<span class="pp-cents">' + PRICE.cents + '</span>';
+  const cta = document.getElementById('proCta');
+  const tpl = (TRANSLATIONS[lang] && TRANSLATIONS[lang]['price.pro_cta']) || 'Get Pro — {price}';
+  if (cta) cta.textContent = tpl.replace('{price}', PRICE.label);
+}
 
 function applyLang(lang) {
   if (!TRANSLATIONS[lang]) return;
@@ -1511,6 +1541,7 @@ function applyLang(lang) {
   document.querySelectorAll('[data-lang-btn]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.langBtn === lang);
   });
+  renderPrice(lang);
   try { localStorage.setItem('ucm.site.lang', lang); } catch (e) {}
 }
 
@@ -1527,33 +1558,6 @@ function applyLang(lang) {
   });
 })();
 
-// ─── Localized App Store price ───────────────────────────────────────────
-// App Store prices are fixed per-region tiers set in App Store Connect — they
-// don't drift with exchange rates — so a small confirmed map is safe and
-// correct. Unknown regions fall back to USD; the disclaimer covers the rest.
-(function () {
-  var PRICES = {
-    BR: { display: '<sup>R$</sup>29<span class="pp-cents">,90</span>', cta: 'Get Pro — R$29,90' },
-    CA: { display: '<sup>CA$</sup>6<span class="pp-cents">.99</span>', cta: 'Get Pro — CA$6.99' },
-    US: { display: '<sup>$</sup>4<span class="pp-cents">.99</span>',  cta: 'Get Pro — $4.99' }
-  };
-  function detectRegion() {
-    try {
-      var loc = navigator.language || 'en-US';
-      if (window.Intl && Intl.Locale) {
-        var r = new Intl.Locale(loc).region;
-        if (r) return r.toUpperCase();
-      }
-      return (loc.split('-')[1] || 'US').toUpperCase();
-    } catch (e) { return 'US'; }
-  }
-  var region = detectRegion();
-  var p = PRICES[region] || PRICES.US;
-  var el = document.getElementById('proPrice');
-  if (el) el.innerHTML = p.display;
-  var cta = document.getElementById('proCta');
-  if (cta) cta.textContent = p.cta;
-})();
 
 
 // Intersection Observer for scroll animations
