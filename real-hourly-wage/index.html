@@ -129,6 +129,13 @@
     text-align: center; font-size: 14px; color: var(--text-tertiary);
   }
   footer a { color: var(--text-secondary); text-decoration: none; }
+  /* ThoThi layer — same structure on ucm, ShowTracker and MatchMotors */
+  .thothi-base { display: flex; align-items: center; justify-content: center; gap: 10px 20px; flex-wrap: wrap; margin-top: 18px; }
+  .thothi-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px 6px 10px; border-radius: 980px; border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.7) !important; font-size: 13px; font-weight: 500; transition: border-color .2s, color .2s; }
+  .thothi-badge:hover { color: #fff !important; border-color: rgba(255,255,255,.34); }
+  .thothi-badge img { width: 20px; height: auto; display: block; }
+  .thothi-badge b { color: #fff; font-weight: 700; }
+  .thothi-copy { font-size: 13px; color: rgba(255,255,255,.45); margin: 0; }
 </style>
 </head>
 <body>
@@ -222,6 +229,13 @@
 <footer>
   <div class="wrap">
     <a href="/" data-i18n="rhw.footer_back">← Back to ucm</a>
+    <div class="thothi-base">
+      <a class="thothi-badge" href="https://thothi.app" aria-label="ThoThi Technologies — thothi.app">
+        <img src="/thothi/mark.svg" alt="" width="20" height="18">
+        <span data-i18n="rhw.made">A <b>ThoThi</b> app</span>
+      </a>
+      <p class="thothi-copy">© <span data-year>2026</span> <span data-i18n="rhw.copy">ThoThi Technologies. All rights reserved.</span></p>
+    </div>
   </div>
 </footer>
 
@@ -283,7 +297,8 @@ const RHW_T = {
     "rhw.cta_h2": "See what your time is worth.",
     "rhw.cta_p": "Download ucm and get your real hourly wage in minutes.",
     "rhw.cta_btn": "Download on the App Store",
-    "rhw.footer_back": "← Back to ucm"
+    "rhw.footer_back": "← Back to ucm",
+    "rhw.made": "A <b>ThoThi</b> app", "rhw.copy": "ThoThi Technologies. All rights reserved."
   },
   "pt-BR": {
     "rhw.nav_cta": "Baixar o app",
@@ -329,7 +344,8 @@ const RHW_T = {
     "rhw.cta_h2": "Veja quanto vale o seu tempo.",
     "rhw.cta_p": "Baixe o ucm e descubra seu salário real por hora em minutos.",
     "rhw.cta_btn": "Baixar na App Store",
-    "rhw.footer_back": "← Voltar para o ucm"
+    "rhw.footer_back": "← Voltar para o ucm",
+    "rhw.made": "Um app da <b>ThoThi</b>", "rhw.copy": "ThoThi Technologies. Todos os direitos reservados."
   }
 };
 function rhwApplyLang(lang) {
@@ -352,6 +368,7 @@ function rhwApplyLang(lang) {
     else if ((navigator.language || '').toLowerCase().startsWith('pt')) initial = 'pt-BR';
   } catch (e) {}
   rhwApplyLang(initial);
+  document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
   document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
     btn.addEventListener('click', function () { rhwApplyLang(btn.dataset.langBtn); });
   });

@@ -111,6 +111,19 @@
 
     [data-lang] { display: none; }
     [data-lang].active { display: block; }
+    span[data-lang].active { display: inline; }
+
+    /* ThoThi layer — same structure on ucm, ShowTracker and MatchMotors */
+    .legal-nav { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 20px; font-size: 0.9rem; }
+    .legal-nav a { color: #888; }
+    .legal-nav a:hover { color: #2DD4BF; }
+    .thothi-base { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .thothi-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px 6px 10px; border-radius: 980px; border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.7); font-size: 13px; font-weight: 500; text-decoration: none; transition: border-color .2s, color .2s; }
+    .thothi-badge:hover { color: #fff; border-color: rgba(255,255,255,.34); text-decoration: none; }
+    .thothi-badge img { width: 20px; height: auto; display: block; }
+    .thothi-badge b { color: #fff; font-weight: 700; }
+    .thothi-copy { font-size: 13px; color: rgba(255,255,255,.45); margin: 0; }
+    @media (max-width: 560px) { .thothi-base { flex-direction: column; align-items: flex-start; } }
   </style>
 </head>
 <body>
@@ -230,6 +243,10 @@
           Questions about this privacy policy?<br />
           Email us at <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>
         </p>
+        <p>
+          ucm is published by <strong>ThoThi Technologies</strong>, Langley, British Columbia, Canada
+          (<a href="https://thothi.app">thothi.app</a>).
+        </p>
       </section>
 
     </div>
@@ -336,6 +353,10 @@
           Dúvidas sobre esta política de privacidade?<br />
           Envie um e-mail para <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>
         </p>
+        <p>
+          O ucm é publicado pela <strong>ThoThi Technologies</strong>, Langley, Colúmbia Britânica, Canadá
+          (<a href="https://thothi.app">thothi.app</a>).
+        </p>
       </section>
 
     </div>
@@ -343,7 +364,18 @@
   </main>
 
   <footer>
-    <p>© 2026 ucm. <span data-lang="en" class="active">All rights reserved.</span><span data-lang="pt-BR">Todos os direitos reservados.</span></p>
+    <nav class="legal-nav" aria-label="ucm">
+      <a href="/">ucm</a>
+      <a href="/privacy"><span data-lang="en" class="active">Privacy Policy</span><span data-lang="pt-BR">Política de Privacidade</span></a>
+      <a href="/terms"><span data-lang="en" class="active">Terms of Use</span><span data-lang="pt-BR">Termos de Uso</span></a>
+    </nav>
+    <div class="thothi-base">
+      <a class="thothi-badge" href="https://thothi.app" aria-label="ThoThi Technologies — thothi.app">
+        <img src="/thothi/mark.svg" alt="" width="20" height="18">
+        <span data-lang="en" class="active">A <b>ThoThi</b> app</span><span data-lang="pt-BR">Um app da <b>ThoThi</b></span>
+      </a>
+      <p class="thothi-copy">© <span data-year>2026</span> ThoThi Technologies. <span data-lang="en" class="active">All rights reserved.</span><span data-lang="pt-BR">Todos os direitos reservados.</span></p>
+    </div>
   </footer>
 
   <script>
@@ -373,6 +405,7 @@
         }
       } catch (e) {}
       setLang(initial);
+      document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
 
       buttons.forEach(btn => {
         btn.addEventListener('click', () => setLang(btn.dataset.setLang));

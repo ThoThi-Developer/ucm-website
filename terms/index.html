@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Use — ucm</title>
+  <meta name="description" content="Terms of use for the ucm app and website, published by ThoThi Technologies." />
+  <link rel="canonical" href="https://ucm.thothi.app/terms" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #050F0E;
+      color: #e8e8e8;
+      line-height: 1.7;
+      padding: 0 20px 60px;
+    }
+
+    header {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 0 40px;
+      border-bottom: 1px solid #1a2e2b;
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      gap: 4px;
+      background: #0C1A18;
+      border: 1px solid #1a2e2b;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+
+    .lang-toggle button {
+      background: transparent;
+      color: #888;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+
+    .lang-toggle button.active {
+      background: #2DD4BF;
+      color: #050F0E;
+    }
+
+    .lang-toggle button:not(.active):hover {
+      color: #e8e8e8;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding-top: 40px;
+    }
+
+    section { margin-bottom: 40px; }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    p { color: #b0b0b0; margin-bottom: 12px; }
+
+    ul { color: #b0b0b0; padding-left: 20px; margin-bottom: 12px; }
+
+    .highlight {
+      background: #0C1A18;
+      border: 1px solid #1a2e2b;
+      border-left: 3px solid #2DD4BF;
+      border-radius: 8px;
+      padding: 16px 20px;
+      color: #e8e8e8;
+      font-size: 0.95rem;
+      margin: 24px 0;
+    }
+
+    footer {
+      max-width: 680px;
+      margin: 60px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1a2e2b;
+      color: #555;
+      font-size: 0.82rem;
+    }
+
+    a { color: #2DD4BF; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    [data-lang] { display: none; }
+    [data-lang].active { display: block; }
+    span[data-lang].active { display: inline; }
+
+    /* ThoThi layer — same structure on ucm, ShowTracker and MatchMotors */
+    .legal-nav { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 20px; font-size: 0.9rem; }
+    .legal-nav a { color: #888; }
+    .legal-nav a:hover { color: #2DD4BF; }
+    .thothi-base { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .thothi-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px 6px 10px; border-radius: 980px; border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.7); font-size: 13px; font-weight: 500; text-decoration: none; transition: border-color .2s, color .2s; }
+    .thothi-badge:hover { color: #fff; border-color: rgba(255,255,255,.34); text-decoration: none; }
+    .thothi-badge img { width: 20px; height: auto; display: block; }
+    .thothi-badge b { color: #fff; font-weight: 700; }
+    .thothi-copy { font-size: 13px; color: rgba(255,255,255,.45); margin: 0; }
+    @media (max-width: 560px) { .thothi-base { flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" class="active">English</button>
+      <button type="button" data-set-lang="pt-BR">Português</button>
+    </div>
+
+    <div data-lang="en" class="active">
+      <h1>Terms of Use</h1>
+      <p>Last updated: November 2026</p>
+    </div>
+    <div data-lang="pt-BR">
+      <h1>Termos de Uso</h1>
+      <p>Última atualização: novembro de 2026</p>
+    </div>
+  </header>
+
+  <main>
+
+    <div data-lang="en" class="active">
+
+      <div class="highlight">
+        <strong>Short version:</strong> ucm is a personal budgeting tool. Your data stays on your devices,
+        Pro is a one-time purchase handled by Apple, and ucm is not financial advice.
+      </div>
+
+      <section>
+        <h2>1. Who we are</h2>
+        <p>These terms cover the ucm app and this website (ucm.thothi.app). ucm is published by
+          <strong>ThoThi Technologies</strong>, a registered business in Langley, British Columbia, Canada
+          (<a href="https://thothi.app">thothi.app</a>). By using ucm, you agree to these terms.</p>
+      </section>
+
+      <section>
+        <h2>2. Licence</h2>
+        <p>ucm is licensed, not sold. Your use of the app is governed by Apple's
+          <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Licensed Application End User Licence Agreement</a>,
+          together with these terms. If the two conflict, Apple's agreement applies.</p>
+      </section>
+
+      <section>
+        <h2>3. Free and Pro</h2>
+        <p>ucm is free to download. Pro is a one-time in-app purchase that unlocks additional features. It is not a
+          subscription and does not renew. Purchases, prices in your local currency and refunds are handled by Apple
+          through the App Store.</p>
+      </section>
+
+      <section>
+        <h2>4. Your data</h2>
+        <p>Your financial data is stored on your device and, if you choose, in your own iCloud account. We have no
+          server that receives it. You are responsible for keeping your device and iCloud account secure. See the
+          <a href="/privacy">Privacy Policy</a> for details.</p>
+      </section>
+
+      <section>
+        <h2>5. Not financial advice</h2>
+        <p>ucm helps you organise and understand your own numbers. Its scores, insights, projections and
+          calculations are for personal information only and are not financial, tax, legal or investment advice.
+          Check important decisions with a qualified professional.</p>
+      </section>
+
+      <section>
+        <h2>6. Fair use</h2>
+        <p>Don't copy, modify, reverse engineer or resell the app, or use it in a way that breaks the law. The ucm name,
+          logo, app and website content belong to ThoThi Technologies.</p>
+      </section>
+
+      <section>
+        <h2>7. No warranty and limitation of liability</h2>
+        <p>We work hard to keep ucm accurate and reliable, but it is provided "as is", without warranties of any kind,
+          to the extent permitted by law. ThoThi Technologies is not liable for indirect or consequential loss, or for
+          decisions made based on the app. Nothing in these terms limits rights you have under the consumer protection
+          laws of the place where you live.</p>
+      </section>
+
+      <section>
+        <h2>8. Governing law</h2>
+        <p>These terms are governed by the laws of the Province of British Columbia and the federal laws of Canada that
+          apply there.</p>
+      </section>
+
+      <section>
+        <h2>9. Changes and contact</h2>
+        <p>If we change these terms, we will update the date above. Questions? Email
+          <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>.</p>
+      </section>
+
+    </div>
+
+    <div data-lang="pt-BR">
+
+      <div class="highlight">
+        <strong>Resumo:</strong> o ucm é uma ferramenta de orçamento pessoal. Seus dados ficam nos seus dispositivos,
+        o Pro é uma compra única feita pela Apple e o ucm não é aconselhamento financeiro.
+      </div>
+
+      <section>
+        <h2>1. Quem somos</h2>
+        <p>Estes termos se aplicam ao app ucm e a este site (ucm.thothi.app). O ucm é publicado pela
+          <strong>ThoThi Technologies</strong>, empresa registrada em Langley, Colúmbia Britânica, Canadá
+          (<a href="https://thothi.app">thothi.app</a>). Ao usar o ucm, você concorda com estes termos.</p>
+      </section>
+
+      <section>
+        <h2>2. Licença</h2>
+        <p>O ucm é licenciado, não vendido. O uso do app é regido pelo
+          <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Contrato de Licença de Usuário Final de Aplicativos Licenciados</a>
+          da Apple, junto com estes termos. Em caso de conflito, prevalece o contrato da Apple.</p>
+      </section>
+
+      <section>
+        <h2>3. Grátis e Pro</h2>
+        <p>O ucm é gratuito para baixar. O Pro é uma compra única dentro do app que libera recursos adicionais. Não é
+          assinatura e não se renova. Compras, preços na sua moeda local e reembolsos são feitos pela Apple, na App Store.</p>
+      </section>
+
+      <section>
+        <h2>4. Seus dados</h2>
+        <p>Seus dados financeiros ficam no seu aparelho e, se você quiser, na sua própria conta do iCloud. Não temos
+          servidor que os receba. Você é responsável por manter seu aparelho e sua conta do iCloud seguros. Veja a
+          <a href="/privacy">Política de Privacidade</a> para mais detalhes.</p>
+      </section>
+
+      <section>
+        <h2>5. Não é aconselhamento financeiro</h2>
+        <p>O ucm ajuda você a organizar e entender seus próprios números. Notas, análises, projeções e cálculos servem
+          apenas como informação pessoal e não são aconselhamento financeiro, tributário, jurídico ou de investimentos.
+          Confirme decisões importantes com um profissional qualificado.</p>
+      </section>
+
+      <section>
+        <h2>6. Uso justo</h2>
+        <p>Não copie, modifique, faça engenharia reversa nem revenda o app, nem o use de forma ilegal. O nome, o logotipo,
+          o app e o conteúdo do site do ucm pertencem à ThoThi Technologies.</p>
+      </section>
+
+      <section>
+        <h2>7. Sem garantias e limitação de responsabilidade</h2>
+        <p>Trabalhamos para manter o ucm correto e confiável, mas ele é fornecido "no estado em que se encontra", sem
+          garantias de qualquer tipo, na medida permitida por lei. A ThoThi Technologies não se responsabiliza por perdas
+          indiretas ou consequentes, nem por decisões tomadas com base no app. Nada nestes termos limita os direitos que
+          você tem pelas leis de defesa do consumidor do lugar onde mora.</p>
+      </section>
+
+      <section>
+        <h2>8. Lei aplicável</h2>
+        <p>Estes termos são regidos pelas leis da Província da Colúmbia Britânica e pelas leis federais do Canadá
+          aplicáveis nela.</p>
+      </section>
+
+      <section>
+        <h2>9. Alterações e contato</h2>
+        <p>Se alterarmos estes termos, atualizaremos a data acima. Dúvidas? Escreva para
+          <a href="mailto:developer@thothi.com.br">developer@thothi.com.br</a>.</p>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <nav class="legal-nav" aria-label="ucm">
+      <a href="/">ucm</a>
+      <a href="/privacy"><span data-lang="en" class="active">Privacy Policy</span><span data-lang="pt-BR">Política de Privacidade</span></a>
+      <a href="/terms"><span data-lang="en" class="active">Terms of Use</span><span data-lang="pt-BR">Termos de Uso</span></a>
+    </nav>
+    <div class="thothi-base">
+      <a class="thothi-badge" href="https://thothi.app" aria-label="ThoThi Technologies — thothi.app">
+        <img src="/thothi/mark.svg" alt="" width="20" height="18">
+        <span data-lang="en" class="active">A <b>ThoThi</b> app</span><span data-lang="pt-BR">Um app da <b>ThoThi</b></span>
+      </a>
+      <p class="thothi-copy">© <span data-year>2026</span> ThoThi Technologies. <span data-lang="en" class="active">All rights reserved.</span><span data-lang="pt-BR">Todos os direitos reservados.</span></p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const buttons = document.querySelectorAll('[data-set-lang]');
+      const blocks  = document.querySelectorAll('[data-lang]');
+
+      function setLang(lang) {
+        document.documentElement.lang = lang;
+        buttons.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.setLang === lang);
+        });
+        blocks.forEach(el => {
+          el.classList.toggle('active', el.dataset.lang === lang);
+        });
+        try { localStorage.setItem('ucm.privacy.lang', lang); } catch (e) {}
+      }
+
+      // Initial language: stored preference → browser language → English
+      let initial = 'en';
+      try {
+        const stored = localStorage.getItem('ucm.privacy.lang');
+        if (stored === 'en' || stored === 'pt-BR') {
+          initial = stored;
+        } else if ((navigator.language || '').toLowerCase().startsWith('pt')) {
+          initial = 'pt-BR';
+        }
+      } catch (e) {}
+      setLang(initial);
+      document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.dataset.setLang));
+      });
+    })();
+  </script>
+
+</body>
+</html>
