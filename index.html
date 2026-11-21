@@ -393,6 +393,15 @@ section { padding: 100px 40px; }
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; margin-bottom: 14px;
 }
+.plan-head { display: flex; align-items: baseline; gap: 12px; margin: 56px 0 16px; }
+.plan-name { font-size: 22px; font-weight: 800; letter-spacing: -.5px; color: var(--text-primary); }
+.plan-head.pro .plan-name { color: #FBBF24; }
+.plan-note { font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+.plan-head + .details-grid { margin-top: 0; }
+#all-features .detail-item { display: grid; grid-template-columns: 42px 1fr; column-gap: 14px; row-gap: 4px; align-items: start; align-content: start; padding: 22px 22px 24px; }
+#all-features .detail-icon { grid-row: span 2; margin-bottom: 0; }
+#all-features .detail-name { margin: 2px 0 0; }
+@media (max-width: 540px) { #all-features .detail-item { padding: 16px 18px 18px; } .plan-head { margin: 40px 0 12px; } }
 .detail-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
 .detail-desc { font-size: 13px; font-weight: 400; color: var(--text-secondary); line-height: 1.55; }
 
@@ -563,84 +572,6 @@ footer {
 .thothi-copy { font-size: 13px; color: rgba(255,255,255,.45); }
 @media (max-width: 640px) { .thothi-base { flex-direction: column; text-align: center; } }
 
-/* ── FEATURE CAROUSEL ── */
-.carousel-outer {
-  position: relative;
-  margin: 52px -40px 0;
-  padding: 0 40px;
-}
-.carousel-track {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 12px 0 28px;
-  cursor: grab;
-}
-.carousel-track:active { cursor: grabbing; }
-.carousel-track::-webkit-scrollbar { display: none; }
-.carousel-card {
-  flex: 0 0 272px;
-  scroll-snap-align: start;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px 24px 24px;
-  transition: border-color .2s, transform .2s;
-}
-.carousel-card:hover { border-color: rgba(45,212,191,0.4); transform: translateY(-3px); }
-.carousel-card-icon { font-size: 34px; line-height: 1; margin-bottom: 14px; }
-.carousel-tier {
-  display: inline-block;
-  font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 50px; margin-bottom: 12px;
-}
-.carousel-tier.free {
-  background: rgba(255,255,255,0.06); color: var(--text-tertiary);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.carousel-tier.pro {
-  background: rgba(251,191,36,0.12); color: #FBBF24;
-  border: 1px solid rgba(251,191,36,0.25);
-}
-.carousel-card-title {
-  font-size: 17px; font-weight: 800; color: var(--text-primary);
-  letter-spacing: -0.4px; margin-bottom: 8px;
-}
-.carousel-card-desc {
-  font-size: 13px; color: var(--text-secondary); line-height: 1.65;
-}
-.carousel-nav {
-  display: flex; justify-content: center; align-items: center;
-  gap: 16px; margin-top: 8px;
-}
-.carousel-btn {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text-secondary); font-size: 20px; line-height: 1;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background .2s, border-color .2s, color .2s; flex-shrink: 0;
-}
-.carousel-btn:hover { background: var(--surface-alt); border-color: var(--accent); color: var(--accent); }
-.carousel-dots { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
-.carousel-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--text-tertiary); border: none; cursor: pointer;
-  padding: 0; transition: background .25s, width .25s, border-radius .25s;
-}
-.carousel-dot.active { background: var(--accent); width: 20px; border-radius: 3px; }
-@media (max-width: 900px) {
-  .carousel-outer { margin: 40px -20px 0; padding: 0 20px; }
-}
-@media (max-width: 540px) {
-  .carousel-card { flex: 0 0 240px; }
-  .carousel-outer { margin: 32px -16px 0; padding: 0 16px; }
-}
-
 /* ── ANIMATIONS ── */
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -691,7 +622,6 @@ footer {
 }
 
 @media (max-width: 640px) {
-  .tutorial-grid { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 540px) {
@@ -727,7 +657,6 @@ footer {
   </a>
   <div class="nav-links">
     <a href="#features" data-i18n="nav.features">Features</a>
-    <a href="#tutorial" data-i18n="nav.tutorial">Tutorial</a>
     <a href="#privacy" data-i18n="nav.privacy">Privacy</a>
     <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
     <a href="#faq" data-i18n="nav.faq">FAQ</a>
@@ -751,9 +680,9 @@ footer {
     <div class="hero-text">
       <img src="uploads/AppIcon.png" alt="ucm" class="hero-app-icon reveal">
       <div class="hero-badge reveal" data-i18n="hero.badge">Now available on the App Store</div>
-      <h1 class="hero-title reveal reveal-delay-1"><span class="accent">ucm</span></h1>
-      <p class="hero-tagline reveal reveal-delay-2" data-i18n="hero.tagline">U Can Manage.</p>
-      <p class="hero-desc reveal reveal-delay-3" data-i18n="hero.desc">The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.</p>
+      <p class="hero-title reveal reveal-delay-1"><span class="accent">ucm</span></p>
+      <h1 class="hero-tagline reveal reveal-delay-2" data-i18n="hero.tagline">Budgeting that feels effortless.</h1>
+      <p class="hero-desc reveal reveal-delay-3" data-i18n="hero.desc">ucm — U Can Manage — is the iOS personal finance app with no subscription, no account and no tracking. Just your money, beautifully organized.</p>
       <p class="hero-diff reveal reveal-delay-3" data-i18n="hero.diff" style="margin-top:16px;font-size:18px;color:var(--accent);font-weight:700;letter-spacing:0.1px;line-height:1.45">See what you spend in hours of your life — not just dollars.</p>
       <div class="hero-actions reveal reveal-delay-4">
         <a href="https://apps.apple.com/app/id6765532626" class="btn-primary" target="_blank" rel="noopener">
@@ -924,7 +853,7 @@ footer {
     </div>
 
     <!-- Feature 3.5: Real Hourly Wage (the philosophical differentiator) -->
-    <div class="feature-row">
+    <div class="feature-row reverse">
       <div class="reveal">
         <p class="feature-eyebrow" data-i18n="feat35.eyebrow">Real Hourly Wage</p>
         <h3 class="feature-title" data-i18n="feat35.title">Every $100 is hours of your life.</h3>
@@ -956,312 +885,46 @@ footer {
       </div>
     </div>
 
-    <!-- Feature 4: Where money went -->
-    <div class="feature-row reverse">
-      <div class="reveal">
-        <p class="feature-eyebrow" data-i18n="feat4.eyebrow">Monthly Review</p>
-        <h3 class="feature-title" data-i18n="feat4.title">Know exactly where your money went.</h3>
-        <p class="feature-desc" data-i18n="feat4.desc">A beautifully designed monthly financial report — income, expenses, biggest categories, savings rate. All in one screen, ready to share.</p>
-        <div class="feature-pills">
-          <span class="pill" data-i18n="feat4.pill1">Donut chart</span>
-          <span class="pill" data-i18n="feat4.pill2">Top categories</span>
-          <span class="pill" data-i18n="feat4.pill3">Shareable report</span>
-        </div>
-      </div>
-      <div class="feature-phone reveal reveal-delay-1">
-        <div class="phone-frame">
-          <div class="phone-notch"></div>
-          <div class="phone-screen"><img src="uploads/MONTHLY_REVIEW.PNG" alt="Spending chart"></div>
-          <div class="phone-glow"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature 5: Goals -->
-    <div class="feature-row">
-      <div class="reveal">
-        <p class="feature-eyebrow" data-i18n="feat5.eyebrow">Savings Goals</p>
-        <h3 class="feature-title" data-i18n="feat5.title">Watch your goals come to life.</h3>
-        <p class="feature-desc" data-i18n="feat5.desc">Create goals with targets and deadlines. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
-        <div class="feature-pills">
-          <span class="pill" data-i18n="feat5.pill1">Progress rings</span>
-          <span class="pill" data-i18n="feat5.pill2">Target dates</span>
-          <span class="pill" data-i18n="feat5.pill3">Flexible contributions</span>
-        </div>
-      </div>
-      <div class="feature-phone reveal reveal-delay-1">
-        <div class="phone-frame">
-          <div class="phone-notch"></div>
-          <div class="phone-screen"><img src="uploads/IMG_1512.PNG" alt="Goals screen"></div>
-          <div class="phone-glow"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature 6: Receipt Scanner -->
-    <div class="feature-row reverse">
-      <div class="reveal">
-        <p class="feature-eyebrow" data-i18n="feat6.eyebrow">Receipt Scanner</p>
-        <h3 class="feature-title" data-i18n="feat6.title">Point. Scan. Done.</h3>
-        <p class="feature-desc" data-i18n="feat6.desc">Point your camera at a receipt. On-device scanning reads the vendor, amount, and date and pre-fills the entry for you to review and save. Completely private.</p>
-        <div class="feature-pills">
-          <span class="pill" data-i18n="feat6.pill1">On-device</span>
-          <span class="pill" data-i18n="feat6.pill2">Auto category</span>
-          <span class="pill" data-i18n="feat6.pill3">Instant entry</span>
-        </div>
-      </div>
-      <div class="feature-phone reveal reveal-delay-1">
-        <div class="phone-frame">
-          <div class="phone-notch"></div>
-          <div class="phone-screen"><img src="uploads/IMG_1510.png" alt="Receipt Scanner"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature 7: Split & Recurring -->
-    <div class="feature-row">
-      <div class="reveal">
-        <p class="feature-eyebrow" data-i18n="feat7.eyebrow">Split &amp; Recurring</p>
-        <h3 class="feature-title" data-i18n="feat7.title">One night out. Three categories. Zero hassle.</h3>
-        <p class="feature-desc" data-i18n="feat7.desc">Split any transaction across multiple categories with a live balance tracker. And for rent, Netflix, gym — set up recurring transactions once and ucm handles the rest every month.</p>
-        <div class="feature-pills">
-          <span class="pill" data-i18n="feat7.pill1">Split transactions</span>
-          <span class="pill" data-i18n="feat7.pill2">Live balance</span>
-          <span class="pill" data-i18n="feat7.pill3">Recurring entries</span>
-        </div>
-      </div>
-      <div class="feature-phone reveal reveal-delay-1">
-        <div style="width:260px">
-          <div class="feature-card-demo">
-            <div class="demo-card-title" data-i18n="feat7.demo_title">Split Transaction</div>
-            <div style="font-size:22px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;margin-bottom:16px">$142.00 <span style="font-size:14px;color:var(--text-tertiary);font-weight:400" data-i18n="feat7.demo_label">dinner</span></div>
-            <div class="demo-row">
-              <div class="demo-row-left"><div class="demo-icon">🍽️</div><div><div class="demo-label" data-i18n="feat7.demo_cat1">Dining Out</div></div></div>
-              <div class="demo-amount neg">-$80.00</div>
-            </div>
-            <div class="demo-row">
-              <div class="demo-row-left"><div class="demo-icon">🎉</div><div><div class="demo-label" data-i18n="feat7.demo_cat2">Entertainment</div></div></div>
-              <div class="demo-amount neg">-$42.00</div>
-            </div>
-            <div class="demo-row" style="border-bottom:none">
-              <div class="demo-row-left"><div class="demo-icon">🎁</div><div><div class="demo-label" data-i18n="feat7.demo_cat3">Gifts</div></div></div>
-              <div class="demo-amount neg">-$20.00</div>
-            </div>
-            <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);border-radius:10px;padding:10px 14px">
-              <span style="font-size:13px;font-weight:600;color:var(--positive)" data-i18n="feat7.demo_balanced">✓ Balanced</span>
-              <span style="font-size:13px;font-weight:700;color:var(--positive)" data-i18n="feat7.demo_left">$0.00 left</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- DETAILS GRID -->
-<section class="details">
+<!-- ALL FEATURES — one grid, grouped by plan (replaces the old details grid + tutorial carousel) -->
+<section class="details" id="all-features">
   <div class="section-inner">
     <div class="reveal"><p class="section-label" data-i18n="details.label">Everything it does</p></div>
     <h2 class="section-title reveal" data-i18n="details.title">Every feature.<br>Built for real life.</h2>
-    <div class="details-grid reveal" style="margin-top:52px">
-      <div class="detail-item"><div class="detail-icon">💰</div><div class="detail-name" data-i18n="det1.name">Smart Budget Tracking</div><div class="detail-desc" data-i18n="det1.desc">Log income and expenses instantly with a beautiful quick-entry UI.</div></div>
+
+    <div class="plan-head reveal"><span class="plan-name" data-i18n="price.free_plan">Free</span><span class="plan-note" data-i18n="price.free_period">always free</span></div>
+    <div class="details-grid reveal">
+      <div class="detail-item"><div class="detail-icon">⚡️</div><div class="detail-name" data-i18n="car1.title">Quick Entry</div><div class="detail-desc" data-i18n="car1.desc">Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.</div></div>
+      <div class="detail-item"><div class="detail-icon">📊</div><div class="detail-name" data-i18n="car2.title">Monthly Budgets</div><div class="detail-desc" data-i18n="car2.desc">Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.</div></div>
       <div class="detail-item"><div class="detail-icon">🔄</div><div class="detail-name" data-i18n="det2.name">Rollover Budgets</div><div class="detail-desc" data-i18n="det2.desc">Unspent budget carries forward month to month automatically.</div></div>
       <div class="detail-item"><div class="detail-icon">📥</div><div class="detail-name" data-i18n="det3.name">Bank CSV Import</div><div class="detail-desc" data-i18n="det3.desc">Import months of history from most bank exports in seconds — auto-detects columns, shows a preview before importing.</div></div>
-      <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name" data-i18n="det4.name">Split Transactions</div><div class="detail-desc" data-i18n="det4.desc">Divide any transaction across multiple categories with a live tracker.</div></div>
-      <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name" data-i18n="det5.name">Recurring Transactions</div><div class="detail-desc" data-i18n="det5.desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name" data-i18n="det6.name">Subscription Audit</div><div class="detail-desc" data-i18n="det6.desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through. And when a charge no longer matches its price, ucm tells you.</div></div>
-      <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name" data-i18n="det7.name">Receipt Scanner</div><div class="detail-desc" data-i18n="det7.desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
-      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name" data-i18n="det8.name">Credit Card Tracking</div><div class="detail-desc" data-i18n="det8.desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment, and check any statement against your bank in one number.</div></div>
-      <div class="detail-item"><div class="detail-icon">🎯</div><div class="detail-name" data-i18n="det9.name">Savings Goals</div><div class="detail-desc" data-i18n="det9.desc">Set targets with deadlines and watch progress rings fill up.</div></div>
-      <div class="detail-item"><div class="detail-icon">🧭</div><div class="detail-name" data-i18n="det10.name">Insights Coach</div><div class="detail-desc" data-i18n="det10.desc">Health Score, Weekly Move, Real Hourly Wage, Runway, plus the full detailed dashboard.</div></div>
-      <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name" data-i18n="det11.name">Monthly Review</div><div class="detail-desc" data-i18n="det11.desc">A shareable financial report — income, expenses, biggest categories.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name" data-i18n="det12.name">Smart Notifications</div><div class="detail-desc" data-i18n="det12.desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔍</div><div class="detail-name" data-i18n="car5.title">Transaction History</div><div class="detail-desc" data-i18n="car5.desc">Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.</div></div>
+      <div class="detail-item"><div class="detail-icon">📱</div><div class="detail-name" data-i18n="car6.title">Home Screen Widget</div><div class="detail-desc" data-i18n="car6.desc">See your balance and budget status without opening the app. Available in small and medium on your Home Screen, and in three sizes on your Lock Screen.</div></div>
       <div class="detail-item"><div class="detail-icon">📅</div><div class="detail-name" data-i18n="det13.name">Budget History</div><div class="detail-desc" data-i18n="det13.desc">Compare spending month by month. See where you improved, where you overspent, and how your habits are evolving.</div></div>
-      <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name" data-i18n="det14.name">Discretionary Income</div><div class="detail-desc" data-i18n="det14.desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
-      <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name" data-i18n="det15.name">Milestones &amp; Achievements</div><div class="detail-desc" data-i18n="det15.desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
-      <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name" data-i18n="det16.name">Face ID / Touch ID</div><div class="detail-desc" data-i18n="det16.desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
       <div class="detail-item"><div class="detail-icon">☁️</div><div class="detail-name" data-i18n="det17.name">iCloud Sync</div><div class="detail-desc" data-i18n="det17.desc">Seamless sync across iPhone and iPad — no account needed.</div></div>
-      <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name" data-i18n="det18.name">CSV Export</div><div class="detail-desc" data-i18n="det18.desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔒</div><div class="detail-name" data-i18n="det16.name">Face ID / Touch ID</div><div class="detail-desc" data-i18n="det16.desc">Lock the app with biometrics. Auto-locks when you leave.</div></div>
       <div class="detail-item"><div class="detail-icon">🚗</div><div class="detail-name" data-i18n="det20.name">Car Mileage</div><div class="detail-desc" data-i18n="det20.desc">Log odometer readings or import them from a spreadsheet, and see what every kilometre really costs you.</div></div>
       <div class="detail-item"><div class="detail-icon">📖</div><div class="detail-name" data-i18n="det21.name">iPhone Duo &amp; iPad</div><div class="detail-desc" data-i18n="det21.desc">Two columns around the fold on the open iPhone Duo; on iPad, a sidebar that's always there and two columns in landscape.</div></div>
     </div>
-  </div>
-</section>
 
-<!-- TUTORIAL -->
-<section style="background:var(--bg);padding:100px 40px;overflow:hidden" id="tutorial">
-  <div class="section-inner">
-    <div class="reveal"><p class="section-label" style="text-align:center" data-i18n="tutorial.label">Tutorial</p></div>
-    <h2 class="section-title reveal" style="text-align:center" data-i18n="tutorial.title">Every feature,<br>explained.</h2>
-    <p class="section-sub reveal" style="margin:0 auto;text-align:center;max-width:520px" data-i18n="tutorial.sub">Swipe through all 18 features — free and Pro — to see exactly what ucm can do for you.</p>
-  </div>
-
-  <!-- Carousel track — bleeds past section-inner -->
-  <div class="carousel-outer reveal">
-    <div class="carousel-track" id="featureCarousel">
-
-      <!-- 1. Quick Entry -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">⚡️</div>
-        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
-        <h3 class="carousel-card-title" data-i18n="car1.title">Quick Entry</h3>
-        <p class="carousel-card-desc" data-i18n="car1.desc">Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.</p>
-      </div>
-
-      <!-- 2. Monthly Budgets -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🎯</div>
-        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
-        <h3 class="carousel-card-title" data-i18n="car2.title">Monthly Budgets</h3>
-        <p class="carousel-card-desc" data-i18n="car2.desc">Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.</p>
-      </div>
-
-      <!-- 3. Budget Rollover -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">💰</div>
-        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
-        <h3 class="carousel-card-title" data-i18n="car3.title">Budget Rollover</h3>
-        <p class="carousel-card-desc" data-i18n="car3.desc">Unspent budget rolls forward automatically every month, so an underspent month gives you more room in the next one.</p>
-      </div>
-
-      <!-- 4. Bank CSV Import -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">📥</div>
-        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
-        <h3 class="carousel-card-title" data-i18n="car4.title">Bank CSV Import</h3>
-        <p class="carousel-card-desc" data-i18n="car4.desc">Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.</p>
-      </div>
-
-      <!-- 5. Transaction History -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🔍</div>
-        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
-        <h3 class="carousel-card-title" data-i18n="car5.title">Transaction History</h3>
-        <p class="carousel-card-desc" data-i18n="car5.desc">Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.</p>
-      </div>
-
-      <!-- 6. Widget -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">📱</div>
-        <span class="carousel-tier free" data-i18n="tier.free">Free</span>
-        <h3 class="carousel-card-title" data-i18n="car6.title">Home Screen Widget</h3>
-        <p class="carousel-card-desc" data-i18n="car6.desc">See your balance and budget status without opening the app. Available in small and medium on your Home Screen, and in three sizes on your Lock Screen.</p>
-      </div>
-
-      <!-- 7. Smart Notifications -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🔔</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car7.title">Smart Notifications</h3>
-        <p class="carousel-card-desc" data-i18n="car7.desc">Weekly spending recap every Sunday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.</p>
-      </div>
-
-      <!-- 8. Insights Coach -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🧭</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car8.title">Insights Coach</h3>
-        <p class="carousel-card-desc" data-i18n="car8.desc">A Health Score from 0–100, a single prescriptive Weekly Move, plus Runway and the full detailed dashboard. A budget app that tells you what to do next.</p>
-      </div>
-
-      <!-- 8.5. Real Hourly Wage -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">⏳</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car85.title">Real Hourly Wage</h3>
-        <p class="carousel-card-desc" data-i18n="car85.desc">From <em>Your Money or Your Life</em>. Every expense converted into hours of your life. One of the most behavior-shifting metrics in personal finance.</p>
-      </div>
-
-      <!-- 9. Monthly Review -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">📋</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car9.title">Monthly Review</h3>
-        <p class="carousel-card-desc" data-i18n="car9.desc">A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.</p>
-      </div>
-
-      <!-- 10. Savings Goals -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🏆</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car10.title">Savings Goals</h3>
-        <p class="carousel-card-desc" data-i18n="car10.desc">Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.</p>
-      </div>
-
-      <!-- 11. Recurring Transactions -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🔁</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car11.title">Recurring Transactions</h3>
-        <p class="carousel-card-desc" data-i18n="car11.desc">Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.</p>
-      </div>
-
-      <!-- 12. Subscription Audit -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🕵️</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car12.title">Subscription Audit</h3>
-        <p class="carousel-card-desc" data-i18n="car12.desc">Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide. And when a charge no longer matches its price, ucm tells you.</p>
-      </div>
-
-      <!-- 13. Discretionary Income -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">💡</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car13.title">Discretionary Income</h3>
-        <p class="carousel-card-desc" data-i18n="car13.desc">After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.</p>
-      </div>
-
-      <!-- 14. Receipt Scanning -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🧾</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car14.title">Receipt Scanning</h3>
-        <p class="carousel-card-desc" data-i18n="car14.desc">Point your camera at a receipt. On-device vision reads the vendor, amount, and date and pre-fills the entry form for you to review. Completely private, never uploaded.</p>
-      </div>
-
-      <!-- 15. Credit Card Tracking -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">💳</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car15.title">Credit Card Tracking</h3>
-        <p class="carousel-card-desc" data-i18n="car15.desc">Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment to help you stay ahead of due dates.</p>
-      </div>
-
-      <!-- 16. Net Worth -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">📈</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car16.title">Net Worth Over Time</h3>
-        <p class="carousel-card-desc" data-i18n="car16.desc">ucm records your balance at the end of every month and charts it — so you can see whether you're actually getting ahead, and where you started.</p>
-      </div>
-
-      <!-- 17. Split Transactions -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">✂️</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car17.title">Split Transactions</h3>
-        <p class="carousel-card-desc" data-i18n="car17.desc">One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.</p>
-      </div>
-
-      <!-- 18. Milestones -->
-      <div class="carousel-card">
-        <div class="carousel-card-icon">🎖️</div>
-        <span class="carousel-tier pro" data-i18n="tier.pro">Pro</span>
-        <h3 class="carousel-card-title" data-i18n="car18.title">Milestones &amp; Achievements</h3>
-        <p class="carousel-card-desc" data-i18n="car18.desc">Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.</p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Nav: prev · dots · next -->
-  <div class="section-inner">
-    <div class="carousel-nav reveal">
-      <button class="carousel-btn" id="carouselPrev" aria-label="Previous feature">‹</button>
-      <div class="carousel-dots" id="carouselDots"></div>
-      <button class="carousel-btn" id="carouselNext" aria-label="Next feature">›</button>
+    <div class="plan-head pro reveal"><span class="plan-name" data-i18n="price.pro_plan">Pro</span><span class="plan-note" data-i18n="price.pro_period">one-time · no subscription</span></div>
+    <div class="details-grid reveal">
+      <div class="detail-item"><div class="detail-icon">🧭</div><div class="detail-name" data-i18n="det10.name">Insights Coach</div><div class="detail-desc" data-i18n="det10.desc">Health Score, Weekly Move, Real Hourly Wage, Runway, plus the full detailed dashboard.</div></div>
+      <div class="detail-item"><div class="detail-icon">⏳</div><div class="detail-name" data-i18n="car85.title">Real Hourly Wage</div><div class="detail-desc" data-i18n="car85.desc">From <em>Your Money or Your Life</em>. Every expense converted into hours of your life. One of the most behavior-shifting metrics in personal finance.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔔</div><div class="detail-name" data-i18n="det12.name">Smart Notifications</div><div class="detail-desc" data-i18n="det12.desc">Budget threshold alerts, weekly spending recap, mid-month check-in, and card due reminders — all personalised to your data.</div></div>
+      <div class="detail-item"><div class="detail-icon">📋</div><div class="detail-name" data-i18n="det11.name">Monthly Review</div><div class="detail-desc" data-i18n="det11.desc">A shareable financial report — income, expenses, biggest categories.</div></div>
+      <div class="detail-item"><div class="detail-icon">🎯</div><div class="detail-name" data-i18n="det9.name">Savings Goals</div><div class="detail-desc" data-i18n="det9.desc">Set targets with deadlines and watch progress rings fill up.</div></div>
+      <div class="detail-item"><div class="detail-icon">🔁</div><div class="detail-name" data-i18n="det5.name">Recurring Transactions</div><div class="detail-desc" data-i18n="det5.desc">Log rent, subscriptions, and bills once — ucm repeats them for you.</div></div>
+      <div class="detail-item"><div class="detail-icon">🕵️</div><div class="detail-name" data-i18n="det6.name">Subscription Audit</div><div class="detail-desc" data-i18n="det6.desc">See every recurring expense with monthly and annual totals. Flags charges not seen in 60+ days so nothing slips through. And when a charge no longer matches its price, ucm tells you.</div></div>
+      <div class="detail-item"><div class="detail-icon">💡</div><div class="detail-name" data-i18n="det14.name">Discretionary Income</div><div class="detail-desc" data-i18n="det14.desc">After bills and budgets, see exactly what's truly free to spend — no guesswork.</div></div>
+      <div class="detail-item"><div class="detail-icon">📸</div><div class="detail-name" data-i18n="det7.name">Receipt Scanner</div><div class="detail-desc" data-i18n="det7.desc">On-device scanning reads your receipts and pre-fills every field. Completely private.</div></div>
+      <div class="detail-item"><div class="detail-icon">💳</div><div class="detail-name" data-i18n="det8.name">Credit Card Tracking</div><div class="detail-desc" data-i18n="det8.desc">Track multiple cards, due dates, and balances. Get a reminder 5 days before each payment, and check any statement against your bank in one number.</div></div>
+      <div class="detail-item"><div class="detail-icon">📈</div><div class="detail-name" data-i18n="car16.title">Net Worth Over Time</div><div class="detail-desc" data-i18n="car16.desc">ucm records your balance at the end of every month and charts it — so you can see whether you're actually getting ahead, and where you started.</div></div>
+      <div class="detail-item"><div class="detail-icon">✂️</div><div class="detail-name" data-i18n="det4.name">Split Transactions</div><div class="detail-desc" data-i18n="det4.desc">Divide any transaction across multiple categories with a live tracker.</div></div>
+      <div class="detail-item"><div class="detail-icon">🏆</div><div class="detail-name" data-i18n="det15.name">Milestones &amp; Achievements</div><div class="detail-desc" data-i18n="det15.desc">Gamified financial habits — earn milestones as you hit savings targets and spending streaks.</div></div>
+      <div class="detail-item"><div class="detail-icon">📤</div><div class="detail-name" data-i18n="det18.name">CSV Export</div><div class="detail-desc" data-i18n="det18.desc">Export your full history in standard or QuickBooks-compatible format.</div></div>
     </div>
   </div>
 </section>
@@ -1485,7 +1148,6 @@ footer {
       <a href="/terms" data-i18n="foot.terms">Terms of Use</a>
       <a href="mailto:developer@thothi.com.br" data-i18n="foot.support">Support</a>
       <a href="#features" data-i18n="foot.features">Features</a>
-      <a href="#tutorial" data-i18n="foot.tutorial">Tutorial</a>
       <a href="#pricing" data-i18n="foot.pricing">Pricing</a>
     </div>
   </div>
@@ -1502,11 +1164,11 @@ footer {
 // ─── i18n ────────────────────────────────────────────────────────────────
 const TRANSLATIONS = {
   en: {
-    "nav.features": "Features", "nav.tutorial": "Tutorial", "nav.privacy": "Privacy", "nav.pricing": "Pricing", "nav.faq": "FAQ", "nav.download": "Download",
+    "nav.features": "Features","nav.privacy": "Privacy", "nav.pricing": "Pricing", "nav.faq": "FAQ", "nav.download": "Download",
 
     "hero.badge": "Now available on the App Store",
-    "hero.tagline": "U Can Manage.",
-    "hero.desc": "The iOS personal finance app that makes budgeting feel effortless. No subscription. No account. No tracking. Just your money, beautifully organized.",
+    "hero.tagline": "Budgeting that feels effortless.",
+    "hero.desc": "ucm — U Can Manage — is the iOS personal finance app with no subscription, no account and no tracking. Just your money, beautifully organized.",
     "hero.cta_download": "Download on the App Store",
     "hero.cta_features": "See features →",
     "hero.stat1_val": "$0/mo", "hero.stat1_label": "No subscription",
@@ -1577,32 +1239,21 @@ const TRANSLATIONS = {
     "faq.q7": "Is there an Android version?",
     "faq.a7": "Not yet — ucm is built iOS-first to take full advantage of the platform. An Android version is being considered for the future.",
 
-    "feat4.eyebrow": "Monthly Review",
-    "feat4.title": "Know exactly where your money went.",
-    "feat4.desc": "A beautifully designed monthly financial report — income, expenses, biggest categories, savings rate. All in one screen, ready to share.",
-    "feat4.pill1": "Donut chart", "feat4.pill2": "Top categories", "feat4.pill3": "Shareable report",
 
-    "feat5.eyebrow": "Savings Goals",
-    "feat5.title": "Watch your goals come to life.",
-    "feat5.desc": "Create goals with targets and deadlines. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.",
-    "feat5.pill1": "Progress rings", "feat5.pill2": "Target dates", "feat5.pill3": "Flexible contributions",
 
-    "feat6.eyebrow": "Receipt Scanner",
-    "feat6.title": "Point. Scan. Done.",
-    "feat6.desc": "Point your camera at a receipt. On-device scanning reads the vendor, amount, and date and pre-fills the entry for you to review and save. Completely private.",
-    "feat6.pill1": "On-device", "feat6.pill2": "Auto category", "feat6.pill3": "Instant entry",
 
-    "feat7.eyebrow": "Split &amp; Recurring",
-    "feat7.title": "One night out. Three categories. Zero hassle.",
-    "feat7.desc": "Split any transaction across multiple categories with a live balance tracker. And for rent, Netflix, gym — set up recurring transactions once and ucm handles the rest every month.",
-    "feat7.pill1": "Split transactions", "feat7.pill2": "Live balance", "feat7.pill3": "Recurring entries",
-    "feat7.demo_title": "Split Transaction", "feat7.demo_label": "dinner",
-    "feat7.demo_cat1": "Dining Out", "feat7.demo_cat2": "Entertainment", "feat7.demo_cat3": "Gifts",
-    "feat7.demo_balanced": "✓ Balanced", "feat7.demo_left": "$0.00 left",
+
+
+
+
+
+
+
+
 
     "details.label": "Everything it does",
     "details.title": "Every feature.<br>Built for real life.",
-    "det1.name": "Smart Budget Tracking", "det1.desc": "Log income and expenses instantly with a beautiful quick-entry UI.",
+
     "det2.name": "Rollover Budgets", "det2.desc": "Unspent budget carries forward month to month automatically.",
     "det3.name": "Bank CSV Import", "det3.desc": "Import months of history from most bank exports in seconds — auto-detects columns, shows a preview before importing.",
     "det4.name": "Split Transactions", "det4.desc": "Divide any transaction across multiple categories with a live tracker.",
@@ -1623,29 +1274,24 @@ const TRANSLATIONS = {
     "det20.name": "Car Mileage", "det20.desc": "Log odometer readings or import them from a spreadsheet, and see what every kilometre really costs you.",
     "det21.name": "iPhone Duo &amp; iPad", "det21.desc": "Two columns around the fold on the open iPhone Duo; on iPad, a sidebar that's always there and two columns in landscape.",
 
-    "tutorial.label": "Tutorial",
-    "tutorial.title": "Every feature,<br>explained.",
-    "tutorial.sub": "Swipe through all 18 features — free and Pro — to see exactly what ucm can do for you.",
-    "tier.free": "Free", "tier.pro": "Pro",
+
+
     "car1.title": "Quick Entry", "car1.desc": "Full-screen entry with a custom numpad and category chips. Logging a transaction takes under 5 seconds — faster than opening your wallet.",
     "car2.title": "Monthly Budgets", "car2.desc": "Set a spending limit per category every month. Watch your progress in real time and know exactly when you're close to the edge.",
-    "car3.title": "Budget Rollover", "car3.desc": "Unspent budget rolls forward automatically every month, so an underspent month gives you more room in the next one.",
-    "car4.title": "Bank CSV Import", "car4.desc": "Export a statement from your bank and import it in seconds. ucm auto-detects columns, shows a preview, and lets you pick which rows to keep.",
+
+
     "car5.title": "Transaction History", "car5.desc": "Search, filter by category or date range, and bulk-delete entries. Your complete financial history is always a tap away.",
     "car6.title": "Home Screen Widget", "car6.desc": "See your balance and budget status without opening the app. Available in small and medium on your Home Screen, and in three sizes on your Lock Screen.",
-    "car7.title": "Smart Notifications", "car7.desc": "Weekly spending recap every Sunday, mid-month budget check-in on the 15th, and credit card due-date reminders — all built from your real data.",
-    "car8.title": "Insights Coach", "car8.desc": "A Health Score from 0–100, a single prescriptive Weekly Move, plus Runway and the full detailed dashboard. A budget app that tells you what to do next.",
+
+
     "car85.title": "Real Hourly Wage", "car85.desc": "From <em>Your Money or Your Life</em>. Every expense converted into hours of your life. One of the most behavior-shifting metrics in personal finance.",
-    "car9.title": "Monthly Review", "car9.desc": "A beautifully designed report with income, expenses, top categories, and your savings rate. Tap share and send it anywhere.",
-    "car10.title": "Savings Goals", "car10.desc": "Create goals with a target amount and deadline. Contribute or withdraw any time. A progress ring fills up as you get closer — motivation you can see.",
-    "car11.title": "Recurring Transactions", "car11.desc": "Set up rent, Netflix, gym, or any regular bill once. ucm auto-generates the entry every month — nothing falls through the cracks.",
-    "car12.title": "Subscription Audit", "car12.desc": "Every recurring charge, monthly and annual totals in one view. Automatically flags anything not seen in 60+ days so forgotten subscriptions can't hide. And when a charge no longer matches its price, ucm tells you.",
-    "car13.title": "Discretionary Income", "car13.desc": "After bills, budgets, and savings contributions — see exactly what's truly free to spend. No guesswork. No unpleasant surprises mid-month.",
-    "car14.title": "Receipt Scanning", "car14.desc": "Point your camera at a receipt. On-device vision reads the vendor, amount, and date and pre-fills the entry form for you to review. Completely private, never uploaded.",
-    "car15.title": "Credit Card Tracking", "car15.desc": "Track multiple cards, current balances, and due dates. Get a reminder 5 days before each payment to help you stay ahead of due dates.",
+
+
+
+
+
     "car16.title": "Net Worth Over Time", "car16.desc": "ucm records your balance at the end of every month and charts it — so you can see whether you're actually getting ahead, and where you started.",
-    "car17.title": "Split Transactions", "car17.desc": "One dinner, three categories. Divide any expense across multiple buckets with a live balance tracker that confirms everything adds up to zero.",
-    "car18.title": "Milestones &amp; Achievements", "car18.desc": "Earn milestones as you hit savings targets, build no-spend streaks, and reach financial goals. Gamified habits that actually stick long-term.",
+
 
     "priv.label": "Privacy Promise",
     "priv.title": "Your data never<br>leaves your control.",
@@ -1688,7 +1334,7 @@ const TRANSLATIONS = {
     "dl.sub": "Join people who finally feel in control of their finances — without the stress, the subscription, or the spreadsheet.",
     "dl.badge_small": "Download on the", "dl.badge_big": "App Store",
 
-    "foot.privacy": "Privacy Policy", "foot.support": "Support", "foot.features": "Features", "foot.tutorial": "Tutorial", "foot.pricing": "Pricing",
+    "foot.privacy": "Privacy Policy", "foot.support": "Support", "foot.features": "Features","foot.pricing": "Pricing",
     "other.eyebrow": "More from ThoThi", "other.title": "Our other apps",
     "other.st_desc": "Always know what's next — a private TV & movie tracker.",
     "foot.copy": "ThoThi Technologies. All rights reserved.",
@@ -1696,11 +1342,11 @@ const TRANSLATIONS = {
   },
 
   "pt-BR": {
-    "nav.features": "Recursos", "nav.tutorial": "Tutorial", "nav.privacy": "Privacidade", "nav.pricing": "Planos", "nav.faq": "Dúvidas", "nav.download": "Baixar",
+    "nav.features": "Recursos","nav.privacy": "Privacidade", "nav.pricing": "Planos", "nav.faq": "Dúvidas", "nav.download": "Baixar",
 
     "hero.badge": "Já disponível na App Store",
-    "hero.tagline": "Você Consegue Gerenciar.",
-    "hero.desc": "O aplicativo iOS de finanças pessoais que torna o orçamento simples. Sem assinatura. Sem conta. Sem rastreamento. Apenas o seu dinheiro, organizado com clareza.",
+    "hero.tagline": "Orçamento sem esforço.",
+    "hero.desc": "O ucm — Você Consegue Gerenciar — é o app de finanças pessoais para iOS sem assinatura, sem conta e sem rastreamento. Apenas o seu dinheiro, organizado com clareza.",
     "hero.cta_download": "Baixar na App Store",
     "hero.cta_features": "Ver recursos →",
     "hero.stat1_val": "Grátis", "hero.stat1_label": "Sem assinatura",
@@ -1771,32 +1417,21 @@ const TRANSLATIONS = {
     "faq.q7": "Tem versão para Android?",
     "faq.a7": "Ainda não — o ucm foi feito iOS-first para aproveitar todos os recursos da plataforma. Uma versão Android está sendo considerada para o futuro.",
 
-    "feat4.eyebrow": "Revisão Mensal",
-    "feat4.title": "Saiba exatamente para onde foi seu dinheiro.",
-    "feat4.desc": "Um relatório financeiro mensal lindo — renda, despesas, principais categorias, taxa de poupança. Tudo em uma tela, pronto para compartilhar.",
-    "feat4.pill1": "Gráfico de rosca", "feat4.pill2": "Principais categorias", "feat4.pill3": "Relatório compartilhável",
 
-    "feat5.eyebrow": "Metas de Poupança",
-    "feat5.title": "Veja suas metas ganharem vida.",
-    "feat5.desc": "Crie metas com valores e prazos. Adicione ou retire fundos a qualquer momento. Um anel de progresso se preenche conforme você avança — motivação visível.",
-    "feat5.pill1": "Anéis de progresso", "feat5.pill2": "Datas-alvo", "feat5.pill3": "Contribuições flexíveis",
 
-    "feat6.eyebrow": "Leitura de Recibos",
-    "feat6.title": "Aponte. Escaneie. Pronto.",
-    "feat6.desc": "Aponte sua câmera para um recibo. A leitura no próprio dispositivo identifica estabelecimento, valor e data e pré-preenche o lançamento para você revisar e salvar. Totalmente privado.",
-    "feat6.pill1": "No dispositivo", "feat6.pill2": "Categoria automática", "feat6.pill3": "Lançamento instantâneo",
 
-    "feat7.eyebrow": "Divisão e Recorrência",
-    "feat7.title": "Uma noite. Três categorias. Zero trabalho.",
-    "feat7.desc": "Divida qualquer transação entre várias categorias com um rastreador de saldo ao vivo. E para aluguel, Netflix, academia — configure uma recorrência uma vez e o ucm cuida do resto todo mês.",
-    "feat7.pill1": "Divisão de transações", "feat7.pill2": "Saldo ao vivo", "feat7.pill3": "Lançamentos recorrentes",
-    "feat7.demo_title": "Divisão de Transação", "feat7.demo_label": "jantar",
-    "feat7.demo_cat1": "Alimentação fora", "feat7.demo_cat2": "Lazer", "feat7.demo_cat3": "Presentes",
-    "feat7.demo_balanced": "✓ Equilibrado", "feat7.demo_left": "Sobra $0,00",
+
+
+
+
+
+
+
+
 
     "details.label": "Tudo que ele faz",
     "details.title": "Cada recurso.<br>Feito para a vida real.",
-    "det1.name": "Controle Inteligente de Gastos", "det1.desc": "Registre receitas e despesas instantaneamente com uma interface de lançamento rápido.",
+
     "det2.name": "Orçamento Acumulativo", "det2.desc": "O saldo não gasto é transferido automaticamente para o mês seguinte.",
     "det3.name": "Importação CSV de Banco", "det3.desc": "Importe meses de histórico da maioria dos extratos bancários em segundos — detecta colunas automaticamente e mostra prévia antes de importar.",
     "det4.name": "Divisão de Transações", "det4.desc": "Divida qualquer transação entre múltiplas categorias com rastreador ao vivo.",
@@ -1817,29 +1452,24 @@ const TRANSLATIONS = {
     "det20.name": "Quilometragem do Carro", "det20.desc": "Registre o hodômetro ou importe de uma planilha, e veja quanto cada quilômetro realmente custa.",
     "det21.name": "iPhone Duo e iPad", "det21.desc": "Duas colunas na dobra do iPhone Duo aberto; no iPad, uma barra lateral sempre visível e duas colunas na horizontal.",
 
-    "tutorial.label": "Tutorial",
-    "tutorial.title": "Cada recurso,<br>explicado.",
-    "tutorial.sub": "Deslize pelos 18 recursos — gratuitos e Pro — e veja exatamente o que o ucm faz por você.",
-    "tier.free": "Grátis", "tier.pro": "Pro",
+
+
     "car1.title": "Lançamento Rápido", "car1.desc": "Tela cheia com teclado numérico próprio e chips de categoria. Registrar uma transação leva menos de 5 segundos — mais rápido que abrir a carteira.",
     "car2.title": "Orçamentos Mensais", "car2.desc": "Defina um limite de gasto por categoria todo mês. Acompanhe o progresso em tempo real e saiba exatamente quando está perto do limite.",
-    "car3.title": "Acúmulo de Saldo", "car3.desc": "O orçamento não gasto é transferido automaticamente todo mês, dando mais folga no mês seguinte.",
-    "car4.title": "Importação CSV de Banco", "car4.desc": "Exporte um extrato do seu banco e importe em segundos. O ucm detecta colunas automaticamente, mostra uma prévia e deixa você escolher quais linhas manter.",
+
+
     "car5.title": "Histórico de Transações", "car5.desc": "Busque, filtre por categoria ou intervalo de datas e exclua em massa. Seu histórico financeiro completo a um toque.",
     "car6.title": "Widget na Tela Inicial", "car6.desc": "Veja seu saldo e o status do orçamento sem abrir o app. Disponível em tamanho pequeno e médio na Tela Inicial, e em três tamanhos na Tela Bloqueada.",
-    "car7.title": "Notificações Inteligentes", "car7.desc": "Resumo semanal de gastos todo domingo, check-in de orçamento no dia 15 e lembretes de vencimento de cartão — tudo feito com seus dados reais.",
-    "car8.title": "Coach de Insights", "car8.desc": "Um Score de Saúde de 0–100, uma Jogada da semana prescritiva, mais Reserva e o painel detalhado completo. Um app de orçamento que te diz o que fazer a seguir.",
+
+
     "car85.title": "Salário Real por hora", "car85.desc": "Do livro <em>Sua Vida ou Seu Dinheiro</em>. Cada despesa convertida em horas da sua vida. Uma das métricas que mais mudam comportamento em finanças pessoais.",
-    "car9.title": "Revisão Mensal", "car9.desc": "Um relatório lindo com renda, despesas, principais categorias e sua taxa de poupança. Toque em compartilhar e envie para qualquer lugar.",
-    "car10.title": "Metas de Poupança", "car10.desc": "Crie metas com valor e prazo. Adicione ou retire fundos a qualquer momento. Um anel de progresso se preenche conforme você avança — motivação visível.",
-    "car11.title": "Transações Recorrentes", "car11.desc": "Configure aluguel, Netflix, academia ou qualquer conta regular uma vez. O ucm gera o lançamento todo mês — nada escapa.",
-    "car12.title": "Auditoria de Assinaturas", "car12.desc": "Toda cobrança recorrente, totais mensais e anuais em uma só tela. Marca automaticamente qualquer cobrança não vista há mais de 60 dias para assinaturas esquecidas não se esconderem. E quando uma cobrança não bate mais com o preço, o ucm avisa.",
-    "car13.title": "Renda Disponível", "car13.desc": "Após contas, orçamentos e contribuições para poupança — veja exatamente o que está livre para gastar. Sem adivinhação. Sem surpresas no meio do mês.",
-    "car14.title": "Leitura de Recibos", "car14.desc": "Aponte sua câmera para um recibo. A leitura no dispositivo identifica estabelecimento, valor e data e pré-preenche o lançamento para você revisar. Totalmente privado, nunca enviado.",
-    "car15.title": "Controle de Cartões", "car15.desc": "Acompanhe múltiplos cartões, saldos atuais e vencimentos. Receba um lembrete 5 dias antes de cada pagamento para ajudar você a não perder os vencimentos.",
+
+
+
+
+
     "car16.title": "Patrimônio ao Longo do Tempo", "car16.desc": "O ucm registra seu saldo no fim de cada mês e mostra num gráfico — para você ver se está realmente avançando, e de onde começou.",
-    "car17.title": "Divisão de Transações", "car17.desc": "Um jantar, três categorias. Divida qualquer despesa entre várias contas com um rastreador de saldo ao vivo que confirma que tudo soma zero.",
-    "car18.title": "Conquistas e Marcos", "car18.desc": "Ganhe marcos ao bater metas de poupança, criar sequências sem gastos e atingir objetivos financeiros. Hábitos gamificados que realmente permanecem a longo prazo.",
+
 
     "priv.label": "Promessa de Privacidade",
     "priv.title": "Seus dados nunca<br>saem do seu controle.",
@@ -1882,7 +1512,7 @@ const TRANSLATIONS = {
     "dl.sub": "Junte-se a quem finalmente sente que controla as próprias finanças — sem o estresse, a assinatura ou a planilha.",
     "dl.badge_small": "Baixe na", "dl.badge_big": "App Store",
 
-    "foot.privacy": "Política de Privacidade", "foot.support": "Suporte", "foot.features": "Recursos", "foot.tutorial": "Tutorial", "foot.pricing": "Planos",
+    "foot.privacy": "Política de Privacidade", "foot.support": "Suporte", "foot.features": "Recursos","foot.pricing": "Planos",
     "other.eyebrow": "Mais da ThoThi", "other.title": "Nossos outros apps",
     "other.st_desc": "Sempre saiba o que vem a seguir — um app privado para séries e filmes.",
     "foot.copy": "ThoThi Technologies. Todos os direitos reservados.",
@@ -1949,66 +1579,6 @@ function applyLang(lang) {
   if (cta) cta.textContent = p.cta;
 })();
 
-// ─── Feature carousel ────────────────────────────────────────────────────
-(function () {
-  const track = document.getElementById('featureCarousel');
-  const dotsEl = document.getElementById('carouselDots');
-  const prevBtn = document.getElementById('carouselPrev');
-  const nextBtn = document.getElementById('carouselNext');
-  if (!track) return;
-
-  const cards = Array.from(track.querySelectorAll('.carousel-card'));
-  const total = cards.length;
-
-  // Build dots
-  cards.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'Feature ' + (i + 1));
-    dot.addEventListener('click', () => scrollTo(i));
-    dotsEl.appendChild(dot);
-  });
-
-  function cardStep() { return cards[0].offsetWidth + 20; }
-
-  function scrollTo(i) {
-    track.scrollTo({ left: i * cardStep(), behavior: 'smooth' });
-  }
-
-  function syncDots() {
-    const maxScroll = track.scrollWidth - track.clientWidth;
-    const atEnd = track.scrollLeft >= maxScroll - 4;
-    const idx = atEnd ? total - 1 : Math.round(track.scrollLeft / cardStep());
-    dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-    prevBtn.style.opacity = track.scrollLeft < 4 ? '0.3' : '1';
-    nextBtn.style.opacity = atEnd ? '0.3' : '1';
-    prevBtn.disabled = track.scrollLeft < 4;
-    nextBtn.disabled = atEnd;
-  }
-
-  track.addEventListener('scroll', syncDots, { passive: true });
-  prevBtn.addEventListener('click', () => track.scrollBy({ left: -cardStep(), behavior: 'smooth' }));
-  nextBtn.addEventListener('click', () => track.scrollBy({ left: cardStep(), behavior: 'smooth' }));
-  // Run once on load so buttons reflect initial state
-  setTimeout(syncDots, 100);
-
-  // Keyboard: left/right arrows when carousel is focused
-  track.setAttribute('tabindex', '0');
-  track.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); track.scrollBy({ left: -cardStep(), behavior: 'smooth' }); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: cardStep(), behavior: 'smooth' }); }
-  });
-
-  // Mouse drag
-  let isDragging = false, dragStartX = 0, dragScrollLeft = 0;
-  track.addEventListener('mousedown', e => { isDragging = true; dragStartX = e.pageX - track.offsetLeft; dragScrollLeft = track.scrollLeft; track.style.cursor = 'grabbing'; });
-  window.addEventListener('mouseup', () => { isDragging = false; track.style.cursor = 'grab'; });
-  track.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    e.preventDefault();
-    track.scrollLeft = dragScrollLeft - (e.pageX - track.offsetLeft - dragStartX);
-  });
-})();
 
 // Intersection Observer for scroll animations
 const observer = new IntersectionObserver((entries) => {
